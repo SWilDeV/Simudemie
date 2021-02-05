@@ -66,7 +66,7 @@ public class main_window_test extends javax.swing.JFrame {
         setTitle("Simudémie");
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Hello guys ! Petite ébauche");
+        jLabel1.setText("Petite ébauche");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 

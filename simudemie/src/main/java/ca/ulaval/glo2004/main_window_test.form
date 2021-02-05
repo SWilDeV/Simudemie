@@ -136,7 +136,7 @@
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Hello guys ! Petite &#xe9;bauche"/>
+        <Property name="text" type="java.lang.String" value="Petite &#xe9;bauche"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
