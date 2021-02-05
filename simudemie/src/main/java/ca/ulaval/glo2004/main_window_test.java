@@ -63,6 +63,7 @@ public class main_window_test extends javax.swing.JFrame {
         jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Simudémie");
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Hello guys ! Petite ébauche");
@@ -79,7 +80,7 @@ public class main_window_test extends javax.swing.JFrame {
 
         jCheckBox1.setText("Autre option");
 
-        jButton4.setText("Activer mode Simulation");
+        jButton4.setText("Passer en mode Simulation");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
