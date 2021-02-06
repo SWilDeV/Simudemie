@@ -186,16 +186,20 @@
                       </Group>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jRadioButton3" alignment="0" pref="161" max="32767" attributes="0"/>
+                              <Component id="jRadioButton3" alignment="0" max="32767" attributes="0"/>
                               <Component id="jRadioButton2" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jButton2" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButton1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButton3" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -215,7 +219,11 @@
                   <Component id="jRadioButton3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jButton2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="256" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+                  <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="129" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -249,6 +257,16 @@
         <Component class="javax.swing.JButton" name="jButton2">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cr&#xe9;er mesure sanitaire"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButton1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Retirer des mesures sanitaires"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButton3">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Exporter Image"/>
           </Properties>
         </Component>
       </SubComponents>
