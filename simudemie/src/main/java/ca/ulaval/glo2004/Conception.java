@@ -255,7 +255,7 @@ public class Conception extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new main_window_Simulation().setVisible(true);
+                new Conception().setVisible(true);
             }
         });
     }
