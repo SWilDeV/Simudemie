@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca.ulaval.glo2004;
+package ca.ulaval.glo2004.domain;
 
 import java.awt.Color;
 import java.util.List;
@@ -25,7 +25,7 @@ public class Country {
     }
     
     public Population getPopulation(){
-        
+        throw new UnsupportedOperationException("Not supported");
     }
     
     public void setPopulation(){
@@ -37,7 +37,7 @@ public class Country {
     }
     
     public GeometricForm getShape(){
-        
+        throw new UnsupportedOperationException("Not supported");
     }
     
     public void removeRegion(){
@@ -49,10 +49,10 @@ public class Country {
     }
     
     public Color getColor(){
-        
+        throw new UnsupportedOperationException("Not supported");
     }
     
-    public Color setColor(){
+    public void setColor(){
         
     }
     

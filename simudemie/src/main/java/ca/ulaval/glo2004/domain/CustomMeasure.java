@@ -3,17 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca.ulaval.glo2004;
-
-import java.awt.Point;
+package ca.ulaval.glo2004.domain;
 
 /**
  *
- * @author charl
+ * @author melanietremblay
  */
-public class IrregularForm extends GeometricForm{
+public class CustomMeasure extends HealthMesure {
     
-    public IrregularForm(){
-        
+    //à déterminer
+    public CustomMeasure() {
+        super(0);
     }
 }

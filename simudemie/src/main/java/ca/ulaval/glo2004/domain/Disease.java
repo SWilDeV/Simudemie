@@ -1,4 +1,4 @@
-package ca.ulaval.glo2004;
+package ca.ulaval.glo2004.domain;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

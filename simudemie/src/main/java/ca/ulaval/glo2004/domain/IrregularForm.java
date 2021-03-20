@@ -3,27 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca.ulaval.glo2004;
+package ca.ulaval.glo2004.domain;
 
 import java.awt.Point;
-import java.util.List;
 
 /**
  *
  * @author charl
  */
-public class GeometricForm {
+public class IrregularForm extends GeometricForm{
     
-    protected List<RegularForm> Pointslist;
-    
-    public GeometricForm(){
+    public IrregularForm(){
         
     }
-    
-    public List getPoints(){
-        return Pointslist;
-    }
-    
-    
-    
 }
