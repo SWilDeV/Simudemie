@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca.ulaval.glo2004;
+package ca.ulaval.glo2004.domain;
 
 /**
  *
- * @author melanietremblay
+ * @author charl
  */
-public class CustomMeasure extends HealthMesure {
+public class RegularForm {
     
-    //à déterminer
+    public RegularForm(){
+        
+    }
 }

@@ -3,9 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca.ulaval.glo2004;
-
-import java.util.LinkedList;
+package ca.ulaval.glo2004.domain;
 import java.util.List;
 
 /**
@@ -15,7 +13,7 @@ import java.util.List;
 public class World {
     
     //TODO:
-    private List<Links> linkList;
+    private List<Link> linkList;
     private List<Country> countryList;
     
     public void addCountry(){
@@ -27,7 +25,7 @@ public class World {
     }
     
     public Country findCountryByPosition(int x, int y){
-        
+        throw new UnsupportedOperationException("Not supported");
     }
     
     public void removeCountry(){
@@ -35,11 +33,11 @@ public class World {
     }
     
     public List getCountries(){
-        
+        throw new UnsupportedOperationException("Not supported");
     }
     
     public List getLinks(){
-        
+        throw new UnsupportedOperationException("Not supported");
     }
     
     public void getInfos(Country country){
