@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author charl
  */
-public class GeometricForm {
+public abstract class GeometricForm {
     
     protected List<RegularForm> Pointslist;
     

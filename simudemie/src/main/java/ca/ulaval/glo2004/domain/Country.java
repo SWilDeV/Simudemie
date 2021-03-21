@@ -21,7 +21,7 @@ public class Country {
     
     
     public Country(){
-        
+        shape = new RegularForm();
     }
     
     public Population getPopulation(){
@@ -37,7 +37,7 @@ public class Country {
     }
     
     public GeometricForm getShape(){
-        throw new UnsupportedOperationException("Not supported");
+        return shape;
     }
     
     public void removeRegion(){

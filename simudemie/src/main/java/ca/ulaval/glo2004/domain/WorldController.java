@@ -5,20 +5,33 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.awt.Graphics;
+import java.util.List;
+
 /**
  *
  * @author Abergel Clement
  */
 public class WorldController {
     
-    private World world;
+    private World world = new World();
+    private Simulation simulation = new Simulation();
+    private WorldDrawer worldDrawer;
+    
+    public List<Country> GetCountries() {
+        return world.getCountries();
+    }
     
     public WorldController() {
-        
+        worldDrawer = new WorldDrawer(this);
+    }
+    
+    public void Draw(Graphics g) {
+        worldDrawer.draw(g);
     }
     
     public void AddCountry(Country country) {
-        
+        world.addCountry(country);
     }
     
     public void AddRegion(Region region) {
@@ -38,7 +51,11 @@ public class WorldController {
     }
     
     public void StartSimulation() {
-        
+        if(!simulation.IsRunning()) {
+            simulation.Simulate(); 
+        } else {
+            simulation.PausePlay();
+        }
     }
     
     public void StopSimlation() {

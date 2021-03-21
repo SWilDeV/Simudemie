@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package ca.ulaval.glo2004.domain;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,15 +14,14 @@ import java.util.List;
 public class World {
     
     //TODO:
-    private List<Link> linkList;
-    private List<Country> countryList;
+    private List<Link> linkList = new ArrayList<Link>();
+    private List<Country> countryList = new ArrayList<Country>();
     
-    public void addCountry(){
-        
+    public void addCountry(Country country){
+         countryList.add(country);
     }
     
     public void addlink(){
-        
     }
     
     public Country findCountryByPosition(int x, int y){
@@ -33,7 +33,7 @@ public class World {
     }
     
     public List getCountries(){
-        throw new UnsupportedOperationException("Not supported");
+        return countryList;
     }
     
     public List getLinks(){

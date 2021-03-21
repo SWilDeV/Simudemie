@@ -5,17 +5,34 @@
  */
 package ca.ulaval.glo2004;
 
+import ca.ulaval.glo2004.domain.Country;
+import ca.ulaval.glo2004.domain.WorldController;
+import ca.ulaval.glo2004.ui.DrawingPanel;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.LayoutManager;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author charl
  */
 public class main_window_Simulation extends javax.swing.JFrame {
-
+    
+    private Country country1 = new Country();
+    public DrawingPanel drawingPanel;
+    public WorldController worldController = new WorldController();
+    
     /**
      * Creates new form main_window_test
      */
     public main_window_Simulation() {
         initComponents();
+        drawingPanel = new DrawingPanel(this, jPanel2);
+        drawingPanel.setVisible(true);
+        jPanel2.add(drawingPanel);
+        jPanel2.setLayout(new FlowLayout());
     }
 
     /**
@@ -171,8 +188,18 @@ public class main_window_Simulation extends javax.swing.JFrame {
         jButton6.setText("Redo");
 
         jButton7.setText("Reculer d'une journée");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setText("Pause/Reprendre");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jButton9.setText("Avancer d'une journée");
 
@@ -261,10 +288,23 @@ public class main_window_Simulation extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // Button pause/reprendre
+        worldController.StartSimulation();
+        worldController.AddCountry(country1);
+        drawingPanel.repaint();
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

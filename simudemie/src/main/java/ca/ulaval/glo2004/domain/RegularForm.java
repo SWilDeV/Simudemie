@@ -9,9 +9,10 @@ package ca.ulaval.glo2004.domain;
  *
  * @author charl
  */
-public class RegularForm {
+public class RegularForm extends GeometricForm {
     
     public RegularForm(){
-        
+        super();
     }
+
 }

@@ -39,7 +39,8 @@ public class Simulation {
     }
     
     public void Simulate() {
-        
+        this.SetRunning(true);
+        System.out.println("J'ai demarer");
     }
     
     public void previousDay() {
@@ -47,6 +48,7 @@ public class Simulation {
     }
     
     public void PausePlay() {
-        
+        this.SetRunning(false);
+        System.out.println("Arret");
     }
 }

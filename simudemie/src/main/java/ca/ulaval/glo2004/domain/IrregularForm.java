@@ -14,6 +14,6 @@ import java.awt.Point;
 public class IrregularForm extends GeometricForm{
     
     public IrregularForm(){
-        
+        super();
     }
 }

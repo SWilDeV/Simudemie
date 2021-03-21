@@ -18,7 +18,7 @@ public class Region {
         
     }
     
-    public double getPercentagePop(){
+    public double getPercentagePop() {
         throw new UnsupportedOperationException("Not supported");
     }
     
