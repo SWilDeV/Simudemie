@@ -5,26 +5,33 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.awt.Color;
+import java.util.Objects;
+
 /**
  *
  * @author Sean
  */
-enum linkType{
-    AERIEN,
-    TERRESTRE,
-    MARITIME
-}
 
 public class Link {
 //    Attributs
-   private linkType linkType;
+   public enum LinkType { AERIEN, TERRESTRE, MARITIME }   
+    
+   private final LinkType linkType;
    private Country country1;
    private Country country2;
    private double travelRate;
    private boolean isOpen;
    
+   private static final Color landColor = Color.BLUE;
+   private static final Color airColor = Color.pink;
+   private static final Color maritimeColor = Color.GREEN;
+   
 //   methodes
-   public Link(){
+   public Link(Country first, Country second, LinkType type){
+       this.setCountry1(first);
+       this.setCountry2(second);
+       linkType = type;
    }
    
    public Country getCountry1(){
@@ -58,20 +65,42 @@ public class Link {
        isOpen = open;
    }
    
-   public linkType GetLinkType() {
+   public LinkType GetLinkType() {
        return linkType;
    }
    
-//   public void getEnumType(){
-//       switch (linkType){
-//           case AERIEN:
-//               break;
-//               
-//           case TERRESTRE:
-//               break;
-//               
-//           case MARITIME:
-//               break;
-//       }
-//   }
+   public Color GetColor() {
+       if(linkType == LinkType.TERRESTRE) {
+           return landColor;
+       } else if(linkType == LinkType.MARITIME) {
+           return maritimeColor;
+       }
+       
+       return airColor;
+   }
+   
+    @Override
+    public boolean equals(Object other) {       
+        if(other == null || !(other instanceof Link)){
+            return false;
+        }
+        
+        if(other == this) {
+            return true;
+        }
+        
+        Link link = (Link)other;
+        return linkType == link.GetLinkType() &&
+               country1 == link.getCountry1() &&
+               country2 == link.getCountry2();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.linkType);
+        hash = 79 * hash + Objects.hashCode(this.country1);
+        hash = 79 * hash + Objects.hashCode(this.country2);
+        return hash;
+    }
 }

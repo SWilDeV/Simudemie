@@ -6,18 +6,18 @@
 package ca.ulaval.glo2004;
 
 import ca.ulaval.glo2004.domain.Country;
+import ca.ulaval.glo2004.domain.Link;
+import ca.ulaval.glo2004.domain.Link.LinkType;
 import ca.ulaval.glo2004.domain.RegularForm;
+import ca.ulaval.glo2004.domain.Utility;
 import ca.ulaval.glo2004.domain.WorldController;
 import ca.ulaval.glo2004.ui.DrawingPanel;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.LayoutManager;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 /**
  *
@@ -27,7 +27,11 @@ public class main_window_Simulation extends javax.swing.JFrame {
 
     public DrawingPanel drawingPanel;
     public WorldController worldController = new WorldController();
-    public List<Point> countryPts = new ArrayList<Point>();
+    
+    public List<Point> countryPts = new ArrayList<>();
+    public Country countrySelected = null;
+    public enum Mode {Create, Select};
+    public Mode mode = Mode.Create;
     
     /**
      * Creates new form main_window_test
@@ -67,7 +71,6 @@ public class main_window_Simulation extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
@@ -176,21 +179,15 @@ public class main_window_Simulation extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Mode: Simulation");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 666, Short.MAX_VALUE)
-                .addComponent(jLabel3))
+            .addGap(0, 798, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel3))
+            .addGap(0, 415, Short.MAX_VALUE)
         );
 
         jButton5.setText("Undo");
@@ -247,24 +244,25 @@ public class main_window_Simulation extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton9)
+                                .addGap(38, 38, 38)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jButton5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton9)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -308,26 +306,62 @@ public class main_window_Simulation extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
     
     private void jPanel2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MousePressed
-        countryPts.add(new Point(evt.getX(), evt.getY()));
         
-        if(countryPts.size() == 2) {
+        if(evt.getButton() == MouseEvent.BUTTON3) {
+            if(mode == Mode.Select) {
+                mode = Mode.Create;
+            } else {
+                mode = Mode.Select;
+            }
             
-            final Point pt1 = new Point((int)countryPts.get(1).getX(), (int)countryPts.get(0).getY());
-            final Point pt4 = new Point((int)countryPts.get(0).getX(), (int)countryPts.get(1).getY());
-            
-            List<Point> points = new ArrayList<Point>() {{
-            add(countryPts.get(0));
-            add(pt1);
-            add(countryPts.get(1));
-            add(pt4);
-            }};
-            
-            RegularForm form = new RegularForm(points);
-            Country country = new Country(form);
-            worldController.AddCountry(country);
-            drawingPanel.repaint();
+            System.out.println("mode: " + mode);
+            countrySelected = null;
+        }
         
-            countryPts.clear();
+        if(mode == Mode.Select && evt.getButton() == MouseEvent.BUTTON1) {
+            Point mousePoint = evt.getPoint();
+            
+            List<Country> countries = worldController.GetCountries();
+            boolean found = false;
+            for(Country country: countries) {                
+                if (Utility.IsInRectangle(country.getShape().GetPoints(), mousePoint)) {                    
+                    if(countrySelected != null) {
+                        worldController.AddLink(countrySelected.GetId(), country.GetId(), LinkType.TERRESTRE);
+                        drawingPanel.repaint();
+                    } else {
+                        countrySelected = country;
+                        found = true;
+                    }
+                    
+                    break;
+                }
+            }
+            
+            if(!found) {
+                countrySelected = null;
+            }
+        } else if(mode == Mode.Create && evt.getButton() == MouseEvent.BUTTON1) {
+            countryPts.add(evt.getPoint());
+            
+            if(countryPts.size() == 2) {
+
+                final Point pt1 = new Point((int)countryPts.get(1).getX(), (int)countryPts.get(0).getY());
+                final Point pt3 = new Point((int)countryPts.get(0).getX(), (int)countryPts.get(1).getY());
+
+                List<Point> points = new ArrayList<Point>() {{
+                add(countryPts.get(0));
+                add(pt1);
+                add(countryPts.get(1));
+                add(pt3);
+                }};
+
+                RegularForm form = new RegularForm(points);
+                Country country = new Country(form);
+                worldController.AddCountry(country);
+                drawingPanel.repaint();
+
+                countryPts.clear();
+            }
         }
     }//GEN-LAST:event_jPanel2MousePressed
     
@@ -387,7 +421,6 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;

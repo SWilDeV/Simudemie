@@ -16,10 +16,10 @@ import javax.swing.border.BevelBorder;
  *
  * @author Abergel Clement
  */
-public class DrawingPanel extends JPanel implements Serializable {
+public class DrawingPanel extends JPanel {
     
-    public Dimension initialDimension;
     private JPanel parentPanel;
+    public Dimension initialDimension;
     private main_window_Simulation mainWindow;
     
     public DrawingPanel(){
@@ -29,10 +29,10 @@ public class DrawingPanel extends JPanel implements Serializable {
         this.mainWindow = mainWindow;
         this.parentPanel = parentPanel;
         setBorder(new javax.swing.border.BevelBorder(BevelBorder.LOWERED));
-        int width = (int) (java.awt.Toolkit.getDefaultToolkit().getScreenSize().width);
+        //int width = (int) (java.awt.Toolkit.getDefaultToolkit().getScreenSize().width);
         setPreferredSize(new Dimension(parentPanel.getWidth(),parentPanel.getHeight()));
-        setVisible(true);
-        int height = (int)(width*0.5);
+        //setVisible(true);
+        //int height = (int)(width*0.5);
         initialDimension = new Dimension(parentPanel.getWidth(),parentPanel.getHeight());
     }
     

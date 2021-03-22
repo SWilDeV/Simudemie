@@ -6,6 +6,7 @@
 package ca.ulaval.glo2004.domain;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -20,44 +21,67 @@ public class World {
          countryList.add(country);
     }
     
-    public void addRegion(Country country, Region region) {
-        if(countryList.contains(country)) {
-            int index = countryList.indexOf(country);
-            countryList.get(index).addRegion(region);
+    public void addRegion(UUID countryId, Region region) {
+        Country country = FindCountryByUUID(countryId);
+        if(country != null) {
+            country.addRegion(region);
         }
     }
     
-    public void addlink(Link link) {
-        linkList.add(link); //TODO: Verifier si le pays est deja lier.
+    public void addlink(UUID firstCountryId, UUID secondCountryId, Link.LinkType type) {
+        //TODO: Aranger le tout!
+        //Link link = new Link(FindCountryByUUID(firstCountryId), FindCountryByUUID(secondCountryId), type);
+        boolean alreadyLink = false; //En fonction de la reponse de reponse du teams.
+        for(Link link: linkList) {
+            UUID countryId1 = link.getCountry1().GetId();
+            UUID countryId2 = link.getCountry2().GetId();
+            if((countryId1 == firstCountryId && countryId2 == secondCountryId) || (countryId1 == secondCountryId && countryId2 == firstCountryId)) {
+                alreadyLink = true;
+                break;
+            }
+        }
+        
+        if(!alreadyLink) {
+            Link link = new Link(FindCountryByUUID(firstCountryId), FindCountryByUUID(secondCountryId), type);
+            linkList.add(link); //TODO: Verifier si le pays est deja lier.
+            System.out.println("Pays lier: " + link.getCountry1().GetId() + " | " + link.getCountry2().GetId());
+        }
     }
     
     public Country findCountryByPosition(int x, int y){
         throw new UnsupportedOperationException("Not supported");
     }
     
-//    public Country FindCountryByUUID(UUID id) {
-//        for(Country country: countryList) {
-//            if(country.GetId() == id) {
-//                return country; //DTO du pays
-//            }
-//        }
-//        
-//        return null; //Cree une exception ici.
-//    }
+    private Country FindCountryByUUID(UUID id) {
+        for(Country country: countryList) {
+            if(country.GetId() == id) {
+                return country;
+            }
+        }
+        
+        return null; //Cree une exception ici.
+    }
     
-    public void removeCountry(Country country){
-        countryList.remove(country);
+    public void removeCountry(UUID countryId){
+        Country country = FindCountryByUUID(countryId);
+        if(country != null) {
+            countryList.remove(country);
+        }
     }
     
     public List getCountries(){
-        return new ArrayList<>(countryList);
+        return new ArrayList<>(countryList); //Peut etre un retour comme celui-ci dans le controller.
     }
     
     public List getLinks(){
-        throw new UnsupportedOperationException("Not supported");
+        return new ArrayList<>(linkList); //Peut etre un retour comme celui-ci dans le controller.
     }
     
-    public void getInfos(Country country){
+    public void getInfos(UUID countryId){
         //Return le pays en DTO ?
+        Country country = FindCountryByUUID(countryId);
+        if(country != null) {
+            //Do something...
+        }
     }
 }

@@ -8,6 +8,7 @@ package ca.ulaval.glo2004.domain;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -80,6 +81,13 @@ public class Country {
         
         Country country = (Country)other;
         return id == country.GetId();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + Objects.hashCode(this.id);
+        return hash;
     }
     
 }

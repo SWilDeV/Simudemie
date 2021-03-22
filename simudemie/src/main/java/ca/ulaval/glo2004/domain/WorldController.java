@@ -5,8 +5,10 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import ca.ulaval.glo2004.domain.Link.LinkType;
 import java.awt.Graphics;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -22,6 +24,10 @@ public class WorldController {
         return world.getCountries();
     }
     
+    public List<Link> GetLinks() {
+        return world.getLinks();
+    }
+    
     public WorldController() {
         worldDrawer = new WorldDrawer(this);
     }
@@ -34,12 +40,20 @@ public class WorldController {
         world.addCountry(country);
     }
     
-    public void AddRegion(Country country, Region region) {
-        world.addRegion(country, region);
+    public void RemoveCountry(UUID countryId) {
+        world.removeCountry(countryId);
     }
     
-    public void AddLink(Link link) {
-        world.addlink(link);
+    public void AddRegion(UUID countryId, Region region) {
+        world.addRegion(countryId, region);
+    }
+    
+    public void AddLink(UUID firstCountryId, UUID secondCountryId, LinkType type) {
+        if(firstCountryId != secondCountryId) {
+            world.addlink(firstCountryId, secondCountryId, type);
+        } else {
+            System.out.println("Impossible de link le meme pays!");
+        }
     }
     
     public void AddHealthMesure(HealthMesure mesure) {
@@ -82,7 +96,7 @@ public class WorldController {
         
     }
     
-    public void DisplayInfo() { //Maybe rename: DisplayCountryInfo ?
-        
+    public void GetCountryInfo(UUID countryId) { //Maybe rename: DisplayCountryInfo ?
+        world.getInfos(countryId);
     }
 }
