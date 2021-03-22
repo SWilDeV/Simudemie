@@ -46,7 +46,7 @@ public class DrawingPanel extends JPanel implements Serializable {
     {
         if (mainWindow != null){
             super.paintComponent(g);
-            mainWindow.worldController.Draw(g);
+            mainWindow.Draw(g);
         }
     }
 }

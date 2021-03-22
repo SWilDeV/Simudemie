@@ -17,7 +17,7 @@ enum linkType{
 
 public class Link {
 //    Attributs
-   private linkType link;
+   private linkType linkType;
    private Country country1;
    private Country country2;
    private double travelRate;
@@ -58,16 +58,20 @@ public class Link {
        isOpen = open;
    }
    
-   public void getEnumType(){
-       switch (link){
-           case AERIEN:
-               break;
-               
-           case TERRESTRE:
-               break;
-               
-           case MARITIME:
-               break;
-       }
+   public linkType GetLinkType() {
+       return linkType;
    }
+   
+//   public void getEnumType(){
+//       switch (linkType){
+//           case AERIEN:
+//               break;
+//               
+//           case TERRESTRE:
+//               break;
+//               
+//           case MARITIME:
+//               break;
+//       }
+//   }
 }

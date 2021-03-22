@@ -6,11 +6,16 @@
 package ca.ulaval.glo2004;
 
 import ca.ulaval.glo2004.domain.Country;
+import ca.ulaval.glo2004.domain.RegularForm;
 import ca.ulaval.glo2004.domain.WorldController;
 import ca.ulaval.glo2004.ui.DrawingPanel;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.LayoutManager;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -19,10 +24,10 @@ import javax.swing.SwingUtilities;
  * @author charl
  */
 public class main_window_Simulation extends javax.swing.JFrame {
-    
-    private Country country1 = new Country();
+
     public DrawingPanel drawingPanel;
     public WorldController worldController = new WorldController();
+    public List<Point> countryPts = new ArrayList<Point>();
     
     /**
      * Creates new form main_window_test
@@ -165,6 +170,11 @@ public class main_window_Simulation extends javax.swing.JFrame {
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel2MousePressed(evt);
+            }
+        });
 
         jLabel3.setText("Mode: Simulation");
 
@@ -295,10 +305,35 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // Button pause/reprendre
         worldController.StartSimulation();
-        worldController.AddCountry(country1);
-        drawingPanel.repaint();
     }//GEN-LAST:event_jButton8ActionPerformed
-
+    
+    private void jPanel2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MousePressed
+        countryPts.add(new Point(evt.getX(), evt.getY()));
+        
+        if(countryPts.size() == 2) {
+            
+            final Point pt1 = new Point((int)countryPts.get(1).getX(), (int)countryPts.get(0).getY());
+            final Point pt4 = new Point((int)countryPts.get(0).getX(), (int)countryPts.get(1).getY());
+            
+            List<Point> points = new ArrayList<Point>() {{
+            add(countryPts.get(0));
+            add(pt1);
+            add(countryPts.get(1));
+            add(pt4);
+            }};
+            
+            RegularForm form = new RegularForm(points);
+            Country country = new Country(form);
+            worldController.AddCountry(country);
+            drawingPanel.repaint();
+        
+            countryPts.clear();
+        }
+    }//GEN-LAST:event_jPanel2MousePressed
+    
+    public void Draw(Graphics g){
+        worldController.Draw(g);
+    }
     
     /**
      * @param args the command line arguments

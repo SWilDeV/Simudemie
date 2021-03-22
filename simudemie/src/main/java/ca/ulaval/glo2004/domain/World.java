@@ -13,7 +13,6 @@ import java.util.List;
  */
 public class World {
     
-    //TODO:
     private List<Link> linkList = new ArrayList<Link>();
     private List<Country> countryList = new ArrayList<Country>();
     
@@ -21,19 +20,37 @@ public class World {
          countryList.add(country);
     }
     
-    public void addlink(){
+    public void addRegion(Country country, Region region) {
+        if(countryList.contains(country)) {
+            int index = countryList.indexOf(country);
+            countryList.get(index).addRegion(region);
+        }
+    }
+    
+    public void addlink(Link link) {
+        linkList.add(link); //TODO: Verifier si le pays est deja lier.
     }
     
     public Country findCountryByPosition(int x, int y){
         throw new UnsupportedOperationException("Not supported");
     }
     
-    public void removeCountry(){
-        
+//    public Country FindCountryByUUID(UUID id) {
+//        for(Country country: countryList) {
+//            if(country.GetId() == id) {
+//                return country; //DTO du pays
+//            }
+//        }
+//        
+//        return null; //Cree une exception ici.
+//    }
+    
+    public void removeCountry(Country country){
+        countryList.remove(country);
     }
     
     public List getCountries(){
-        return countryList;
+        return new ArrayList<>(countryList);
     }
     
     public List getLinks(){
@@ -41,6 +58,6 @@ public class World {
     }
     
     public void getInfos(Country country){
-        
+        //Return le pays en DTO ?
     }
 }

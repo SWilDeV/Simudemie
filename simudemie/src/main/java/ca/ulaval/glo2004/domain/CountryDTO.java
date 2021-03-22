@@ -5,16 +5,18 @@
  */
 package ca.ulaval.glo2004.domain;
 
-import java.awt.Point;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
- * @author charl
+ * @author Abergel Clement
  */
-public class IrregularForm extends GeometricForm{
+public class CountryDTO {
+    public List<Region> Regions;
+    public Population Population;
+    // public final UUID Id;
     
-    public IrregularForm(List<Point> points){
-        super(points);
+    public CountryDTO(Country country) {
     }
 }

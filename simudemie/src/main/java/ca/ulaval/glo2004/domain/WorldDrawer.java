@@ -5,10 +5,10 @@
  */
 package ca.ulaval.glo2004.domain;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Polygon;
 import java.util.List;
-import java.util.Random;
 
 
 /**
@@ -28,22 +28,30 @@ public class WorldDrawer {
         //initialDimension = p_intialDimension;
     }
     
-    public void draw(Graphics g){
-        drawRegular(g);
-        drawIrregular(g);
-    }
-    
-    public void drawRegular(Graphics g) {
+    public void draw(Graphics g) { //J'ai mis tout ici car on peux cree un pays regulier ou irregulier de la meme facons. - Clement
         List<Country> countries = controller.GetCountries();
         for(Country country : countries) {
             GeometricForm form = country.getShape();
+            int size = form.GetPoints().size();
+            int[] pointsX = new int[size];
+            int[] pointsY = new int[size];
             
-            Random rand = new Random();
-            float x = (float) (rand.nextFloat()* 180.0);
-            float y = (float) (rand.nextFloat() * 180.0);
-            g.setColor(new Color((int)x,(int)y,57));
-            g.fillRect((int)x, (int)y, 200, 200); // FOR SQUARE
+            for(int i = 0; i < size; i++) {
+                Point pt = form.GetPoint(i);
+                pointsX[i] = (int)pt.getX();
+                pointsY[i] = (int)pt.getY();
+            }
+            
+            Polygon poly = new Polygon(pointsX, pointsY, size);
+            g.setColor(Color.red);
+            g.fillPolygon(poly);
+            g.setColor(Color.black); //Petite bordure :)
+            g.drawPolygon(poly);
         }
+    }
+    
+    public void drawRegular(Graphics g) {
+        
     }
     
     public void drawIrregular(Graphics g) {

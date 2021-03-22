@@ -5,6 +5,8 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,14 +15,17 @@ import java.util.List;
  */
 public abstract class GeometricForm {
     
-    protected List<RegularForm> Pointslist;
+    protected List<Point> points;
     
-    public GeometricForm(){
-        
+    public GeometricForm(List<Point> points){
+        this.points = points;      
     }
     
-    public List getPoints(){
-        //return Pointslist; //Sans doute passer la liste en new List<RegularForm>(Pointslist);
-        throw new UnsupportedOperationException("Not supported");
-    } 
+    public List<Point> GetPoints(){
+        return new ArrayList<>(points);
+    }
+    
+    public Point GetPoint(int index) {
+        return new Point(points.get(index));
+    }
 }

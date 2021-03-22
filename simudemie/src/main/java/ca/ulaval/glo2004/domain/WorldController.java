@@ -34,12 +34,12 @@ public class WorldController {
         world.addCountry(country);
     }
     
-    public void AddRegion(Region region) {
-        
+    public void AddRegion(Country country, Region region) {
+        world.addRegion(country, region);
     }
     
     public void AddLink(Link link) {
-        
+        world.addlink(link);
     }
     
     public void AddHealthMesure(HealthMesure mesure) {
