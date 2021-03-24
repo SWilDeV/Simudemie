@@ -6,13 +6,11 @@
 package ca.ulaval.glo2004;
 
 import ca.ulaval.glo2004.domain.Country;
-import ca.ulaval.glo2004.domain.Link;
 import ca.ulaval.glo2004.domain.Link.LinkType;
 import ca.ulaval.glo2004.domain.RegularForm;
 import ca.ulaval.glo2004.domain.Utility;
 import ca.ulaval.glo2004.domain.WorldController;
 import ca.ulaval.glo2004.ui.DrawingPanel;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -32,16 +30,17 @@ public class main_window_Simulation extends javax.swing.JFrame {
     public Country countrySelected = null;
     public enum Mode {Create, Select};
     public Mode mode = Mode.Create;
+    private int test = 0;
     
     /**
      * Creates new form main_window_test
      */
     public main_window_Simulation() {
         initComponents();
-        drawingPanel = new DrawingPanel(this, jPanel2);
-        drawingPanel.setVisible(true);
-        jPanel2.add(drawingPanel);
-        jPanel2.setLayout(new FlowLayout());
+
+        drawingPanel = new DrawingPanel(this, jPanelConceptionDraw);
+        jPanelConceptionDraw.add(drawingPanel);
+//        jPanelConceptionDraw.setLayout(new FlowLayout());
     }
 
     /**
@@ -60,29 +59,81 @@ public class main_window_Simulation extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
-        jLabel1 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        jButton10 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jPanelContainer = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
+        jPanelUndoRedoButtons = new javax.swing.JPanel();
+        jBtnUndo = new javax.swing.JButton();
+        jBtnRedo = new javax.swing.JButton();
+        jPanelMainButtons = new javax.swing.JPanel();
+        jBtnReset = new javax.swing.JButton();
+        jBtnPause = new javax.swing.JButton();
+        jBtnPlay = new javax.swing.JButton();
+        jLayeredPane = new javax.swing.JLayeredPane();
+        jPanelConception = new javax.swing.JPanel();
+        jPanelConceptionDraw = new javax.swing.JPanel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jPanelConceptionTool = new javax.swing.JPanel();
+        jPanelConceptionTitle = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        jPanelConceptionContainer = new javax.swing.JPanel();
+        jPanelCountry = new javax.swing.JPanel();
+        jButtonRemoveCountry = new javax.swing.JButton();
+        jButtonEditCountry = new javax.swing.JButton();
+        jButtonCreateCountry = new javax.swing.JButton();
+        jPanelRegion = new javax.swing.JPanel();
+        jButtonAddRegion = new javax.swing.JButton();
+        jButtonRemoveRegion = new javax.swing.JButton();
+        jButtonEditRegion = new javax.swing.JButton();
+        jPanelLink = new javax.swing.JPanel();
+        jButtonAddLink = new javax.swing.JButton();
+        jButtonRemoveLink = new javax.swing.JButton();
+        jComboBoxLinkType = new javax.swing.JComboBox<>();
+        jButtonSwitchSimulation = new javax.swing.JButton();
+        jPanelSimulation = new javax.swing.JPanel();
+        jPanelSimulationDraw = new javax.swing.JPanel();
+        jSeparator3 = new javax.swing.JSeparator();
+        jPanelSimulationTool = new javax.swing.JPanel();
+        jPanelSimulationTitle = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        jSeparator4 = new javax.swing.JSeparator();
+        jPanelSimulationContainer = new javax.swing.JPanel();
+        jPanelDeseaseParams = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jPanelMortalityRate = new javax.swing.JPanel();
+        jLabelTitleMortalityRate = new javax.swing.JLabel();
+        jTextFieldMortalityRate = new javax.swing.JTextField();
+        jPanelReproductionRate = new javax.swing.JPanel();
+        jLabelTitleReproductionRate = new javax.swing.JLabel();
+        jTextFieldReproductionRate = new javax.swing.JTextField();
+        jPanelCuredRate = new javax.swing.JPanel();
+        jLabelTitleCuredRate = new javax.swing.JLabel();
+        jTextFieldCuredRate = new javax.swing.JTextField();
+        jPanelTransmissionRate = new javax.swing.JPanel();
+        jLabelTitleTransmissionRate = new javax.swing.JLabel();
+        jTextFieldTransmissionRate = new javax.swing.JTextField();
+        jButtonApplyDisease = new javax.swing.JButton();
+        jButtonSwitchConception = new javax.swing.JButton();
+        jPanelOverview = new javax.swing.JPanel();
+        jPanelCase = new javax.swing.JPanel();
+        jLabelTitleCase = new javax.swing.JLabel();
+        jLabelCase = new javax.swing.JLabel();
+        jPanelDead = new javax.swing.JPanel();
+        jLabelTitleDead = new javax.swing.JLabel();
+        jLabelDead = new javax.swing.JLabel();
+        jPanelCured = new javax.swing.JPanel();
+        jLabelTitleCured = new javax.swing.JLabel();
+        jLabelCured = new javax.swing.JLabel();
+        jPanelDayElapsed = new javax.swing.JPanel();
+        jLabelTitleDayElapsed = new javax.swing.JLabel();
+        jLabelDayElapsed = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
@@ -93,220 +144,562 @@ public class main_window_Simulation extends javax.swing.JFrame {
         jRadioButtonMenuItem1.setSelected(true);
         jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
 
+        jFormattedTextField1.setText("jFormattedTextField1");
+
+        jButton10.setText("jButton10");
+
+        jLabel3.setText("jLabel3");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(73, 73, 73)
+                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(320, 320, 320)
+                        .addComponent(jButton10))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(277, 277, 277)
+                        .addComponent(jLabel3)))
+                .addContainerGap(430, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(124, 124, 124)
+                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                .addComponent(jButton10)
+                .addGap(96, 96, 96))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Simudémie");
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Petite ébauche");
+        jPanelContainer.setLayout(new javax.swing.BoxLayout(jPanelContainer, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jRadioButton1.setText("Fermer frontière aériennes");
+        jPanelUndoRedoButtons.setLayout(new java.awt.GridBagLayout());
 
-        jRadioButton2.setText("Fermer frontière terrestres");
-
-        jRadioButton3.setText("Fermer frontière maritimes");
-
-        jLabel2.setText("Mesures ....");
-
-        jButton4.setText("Passer en mode Conception");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        jBtnUndo.setText("Undo");
+        jBtnUndo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                jBtnUndoActionPerformed(evt);
             }
         });
+        jPanelUndoRedoButtons.add(jBtnUndo, new java.awt.GridBagConstraints());
 
-        jButton2.setText("Créer mesure sanitaire");
+        jBtnRedo.setText("Redo");
+        jBtnRedo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnRedoActionPerformed(evt);
+            }
+        });
+        jPanelUndoRedoButtons.add(jBtnRedo, new java.awt.GridBagConstraints());
 
-        jButton1.setText("Retirer des mesures sanitaires");
+        jPanelMainButtons.setMinimumSize(new java.awt.Dimension(200, 25));
+        jPanelMainButtons.setLayout(new java.awt.GridBagLayout());
 
-        jButton3.setText("Exporter Image");
+        jBtnReset.setText("Reset");
+        jPanelMainButtons.add(jBtnReset, new java.awt.GridBagConstraints());
+
+        jBtnPause.setText("Pause");
+        jBtnPause.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnPauseActionPerformed(evt);
+            }
+        });
+        jPanelMainButtons.add(jBtnPause, new java.awt.GridBagConstraints());
+
+        jBtnPlay.setText("Play");
+        jBtnPlay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnPlayActionPerformed(evt);
+            }
+        });
+        jPanelMainButtons.add(jBtnPlay, new java.awt.GridBagConstraints());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(10, 10, 10))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jRadioButton1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jRadioButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1)
-                    .addComponent(jButton3))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 1120, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(0, 355, Short.MAX_VALUE)
+                    .addComponent(jPanelUndoRedoButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(58, 58, 58)
+                    .addComponent(jPanelMainButtons, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 355, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addComponent(jButton4)
-                .addGap(42, 42, 42)
-                .addComponent(jLabel2)
-                .addGap(6, 6, 6)
-                .addComponent(jRadioButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton3)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addGap(75, 75, 75)
-                .addComponent(jButton3)
-                .addContainerGap(129, Short.MAX_VALUE))
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanelUndoRedoButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanelMainButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
+        jPanelContainer.add(jPanel1);
+
+        jLayeredPane.setLayout(new java.awt.CardLayout());
+
+        jPanelConceptionDraw.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelConceptionDraw.setMinimumSize(new java.awt.Dimension(100, 10));
+        jPanelConceptionDraw.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jPanelConceptionDrawMouseMoved(evt);
+            }
+        });
+        jPanelConceptionDraw.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                jPanel2MousePressed(evt);
+                jPanelConceptionDrawMousePressed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 798, Short.MAX_VALUE)
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jPanelConceptionTool.setMaximumSize(new java.awt.Dimension(500, 2147483647));
+        jPanelConceptionTool.setMinimumSize(new java.awt.Dimension(200, 465));
+        jPanelConceptionTool.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Conception");
+
+        javax.swing.GroupLayout jPanelConceptionTitleLayout = new javax.swing.GroupLayout(jPanelConceptionTitle);
+        jPanelConceptionTitle.setLayout(jPanelConceptionTitleLayout);
+        jPanelConceptionTitleLayout.setHorizontalGroup(
+            jPanelConceptionTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelConceptionTitleLayout.createSequentialGroup()
+                .addGap(126, 126, 126)
+                .addComponent(jLabel1)
+                .addContainerGap(126, Short.MAX_VALUE))
+            .addComponent(jSeparator2)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 415, Short.MAX_VALUE)
+        jPanelConceptionTitleLayout.setVerticalGroup(
+            jPanelConceptionTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelConceptionTitleLayout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jButton5.setText("Undo");
+        jPanelConceptionTool.add(jPanelConceptionTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 340, 30));
 
-        jButton6.setText("Redo");
+        jPanelConceptionContainer.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
 
-        jButton7.setText("Reculer d'une journée");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        jPanelCountry.setBackground(new java.awt.Color(230, 230, 230));
+        jPanelCountry.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButtonRemoveCountry.setText("Supprimer le pays");
+        jPanelCountry.add(jButtonRemoveCountry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 320, -1));
+
+        jButtonEditCountry.setText("Editer le pays");
+        jPanelCountry.add(jButtonEditCountry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 320, -1));
+
+        jButtonCreateCountry.setText("Cree un pays");
+        jPanelCountry.add(jButtonCreateCountry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 320, -1));
+
+        jPanelConceptionContainer.add(jPanelCountry);
+
+        jPanelRegion.setBackground(new java.awt.Color(230, 230, 230));
+        jPanelRegion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButtonAddRegion.setText("Ajouter region");
+        jPanelRegion.add(jButtonAddRegion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 320, -1));
+
+        jButtonRemoveRegion.setText("Supprimer la region");
+        jPanelRegion.add(jButtonRemoveRegion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 320, -1));
+
+        jButtonEditRegion.setText("Editer la region");
+        jPanelRegion.add(jButtonEditRegion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 320, -1));
+
+        jPanelConceptionContainer.add(jPanelRegion);
+
+        jPanelLink.setBackground(new java.awt.Color(230, 230, 230));
+        jPanelLink.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButtonAddLink.setText("Ajouter un lien");
+        jPanelLink.add(jButtonAddLink, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 160, -1));
+
+        jButtonRemoveLink.setText("Supprimer un lien");
+        jPanelLink.add(jButtonRemoveLink, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 320, -1));
+
+        jComboBoxLinkType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Terrestre", "Maritime", "Aerien" }));
+        jPanelLink.add(jComboBoxLinkType, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 140, -1));
+
+        jPanelConceptionContainer.add(jPanelLink);
+
+        jPanelConceptionTool.add(jPanelConceptionContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 340, 360));
+
+        jButtonSwitchSimulation.setText("Passer en simulation");
+        jButtonSwitchSimulation.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonSwitchSimulation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                jButtonSwitchSimulationActionPerformed(evt);
             }
         });
+        jPanelConceptionTool.add(jButtonSwitchSimulation, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 440, 340, -1));
 
-        jButton8.setText("Pause/Reprendre");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+        javax.swing.GroupLayout jPanelConceptionLayout = new javax.swing.GroupLayout(jPanelConception);
+        jPanelConception.setLayout(jPanelConceptionLayout);
+        jPanelConceptionLayout.setHorizontalGroup(
+            jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelConceptionLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(jPanelConceptionDraw, javax.swing.GroupLayout.PREFERRED_SIZE, 713, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelConceptionTool, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
+        );
+        jPanelConceptionLayout.setVerticalGroup(
+            jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelConceptionLayout.createSequentialGroup()
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConceptionLayout.createSequentialGroup()
+                .addGroup(jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanelConceptionLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanelConceptionDraw, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanelConceptionLayout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jPanelConceptionTool, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        jLayeredPane.add(jPanelConception, "card2");
+
+        jPanelSimulation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanelSimulationDraw.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelSimulationDraw.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jPanelSimulationDrawMouseMoved(evt);
             }
         });
+        jPanelSimulationDraw.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanelSimulationDrawMousePressed(evt);
+            }
+        });
+        jPanelSimulation.add(jPanelSimulationDraw, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 760, 460));
 
-        jButton9.setText("Avancer d'une journée");
+        jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jSeparator3.setMinimumSize(new java.awt.Dimension(50, 50));
+        jPanelSimulation.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 30, 10, 460));
+
+        jPanelSimulationTool.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Simulation");
+
+        javax.swing.GroupLayout jPanelSimulationTitleLayout = new javax.swing.GroupLayout(jPanelSimulationTitle);
+        jPanelSimulationTitle.setLayout(jPanelSimulationTitleLayout);
+        jPanelSimulationTitleLayout.setHorizontalGroup(
+            jPanelSimulationTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelSimulationTitleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelSimulationTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelSimulationTitleLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanelSimulationTitleLayout.setVerticalGroup(
+            jPanelSimulationTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelSimulationTitleLayout.createSequentialGroup()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanelSimulationTool.add(jPanelSimulationTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 260, 30));
+
+        jPanelSimulationContainer.setLayout(new java.awt.GridLayout(0, 1));
+
+        jPanelDeseaseParams.setBackground(new java.awt.Color(230, 230, 230));
+        jPanelDeseaseParams.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
+
+        jLabel9.setText("Parametre de la maladie");
+        jPanelDeseaseParams.add(jLabel9);
+
+        jPanelMortalityRate.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabelTitleMortalityRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelTitleMortalityRate.setText("Taux mortalite");
+        jPanelMortalityRate.add(jLabelTitleMortalityRate);
+
+        jTextFieldMortalityRate.setText("0%");
+        jPanelMortalityRate.add(jTextFieldMortalityRate);
+
+        jPanelDeseaseParams.add(jPanelMortalityRate);
+
+        jPanelReproductionRate.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabelTitleReproductionRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelTitleReproductionRate.setText("Taux reproduction");
+        jPanelReproductionRate.add(jLabelTitleReproductionRate);
+
+        jTextFieldReproductionRate.setText("0%");
+        jPanelReproductionRate.add(jTextFieldReproductionRate);
+
+        jPanelDeseaseParams.add(jPanelReproductionRate);
+
+        jPanelCuredRate.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabelTitleCuredRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelTitleCuredRate.setText("Taux guerison");
+        jPanelCuredRate.add(jLabelTitleCuredRate);
+
+        jTextFieldCuredRate.setText("0%");
+        jPanelCuredRate.add(jTextFieldCuredRate);
+
+        jPanelDeseaseParams.add(jPanelCuredRate);
+
+        jPanelTransmissionRate.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabelTitleTransmissionRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelTitleTransmissionRate.setText("Taux transmission");
+        jPanelTransmissionRate.add(jLabelTitleTransmissionRate);
+
+        jTextFieldTransmissionRate.setText("0%");
+        jPanelTransmissionRate.add(jTextFieldTransmissionRate);
+
+        jPanelDeseaseParams.add(jPanelTransmissionRate);
+
+        jButtonApplyDisease.setText("Appliquer");
+        jPanelDeseaseParams.add(jButtonApplyDisease);
+
+        jPanelSimulationContainer.add(jPanelDeseaseParams);
+
+        jPanelSimulationTool.add(jPanelSimulationContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 250, 180));
+
+        jButtonSwitchConception.setText("Passer en conception");
+        jButtonSwitchConception.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSwitchConceptionActionPerformed(evt);
+            }
+        });
+        jPanelSimulationTool.add(jButtonSwitchConception, new org.netbeans.lib.awtextra.AbsoluteConstraints(-1, 430, 270, -1));
+
+        jPanelSimulation.add(jPanelSimulationTool, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 30, 270, 460));
+
+        jPanelOverview.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
+
+        jPanelCase.setPreferredSize(new java.awt.Dimension(700, 30));
+
+        jLabelTitleCase.setText("Cas:");
+
+        jLabelCase.setText("1000");
+
+        javax.swing.GroupLayout jPanelCaseLayout = new javax.swing.GroupLayout(jPanelCase);
+        jPanelCase.setLayout(jPanelCaseLayout);
+        jPanelCaseLayout.setHorizontalGroup(
+            jPanelCaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelCaseLayout.createSequentialGroup()
+                .addComponent(jLabelTitleCase)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelCase, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanelCaseLayout.setVerticalGroup(
+            jPanelCaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelCaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabelTitleCase, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabelCase, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanelOverview.add(jPanelCase);
+
+        jPanelDead.setPreferredSize(new java.awt.Dimension(700, 30));
+
+        jLabelTitleDead.setText("Mort:");
+
+        jLabelDead.setText("1000");
+
+        javax.swing.GroupLayout jPanelDeadLayout = new javax.swing.GroupLayout(jPanelDead);
+        jPanelDead.setLayout(jPanelDeadLayout);
+        jPanelDeadLayout.setHorizontalGroup(
+            jPanelDeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDeadLayout.createSequentialGroup()
+                .addComponent(jLabelTitleDead)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelDead, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanelDeadLayout.setVerticalGroup(
+            jPanelDeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabelTitleDead, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabelDead, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanelOverview.add(jPanelDead);
+
+        jPanelCured.setPreferredSize(new java.awt.Dimension(700, 30));
+
+        jLabelTitleCured.setText("Guerie:");
+
+        jLabelCured.setText("1000");
+
+        javax.swing.GroupLayout jPanelCuredLayout = new javax.swing.GroupLayout(jPanelCured);
+        jPanelCured.setLayout(jPanelCuredLayout);
+        jPanelCuredLayout.setHorizontalGroup(
+            jPanelCuredLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelCuredLayout.createSequentialGroup()
+                .addComponent(jLabelTitleCured)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelCured, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanelCuredLayout.setVerticalGroup(
+            jPanelCuredLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelCuredLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabelTitleCured, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabelCured, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanelOverview.add(jPanelCured);
+
+        jPanelDayElapsed.setPreferredSize(new java.awt.Dimension(700, 30));
+
+        jLabelTitleDayElapsed.setText("Jour:");
+
+        jLabelDayElapsed.setText("1000");
+
+        javax.swing.GroupLayout jPanelDayElapsedLayout = new javax.swing.GroupLayout(jPanelDayElapsed);
+        jPanelDayElapsed.setLayout(jPanelDayElapsedLayout);
+        jPanelDayElapsedLayout.setHorizontalGroup(
+            jPanelDayElapsedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDayElapsedLayout.createSequentialGroup()
+                .addComponent(jLabelTitleDayElapsed)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelDayElapsed, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanelDayElapsedLayout.setVerticalGroup(
+            jPanelDayElapsedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDayElapsedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabelTitleDayElapsed, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabelDayElapsed, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanelOverview.add(jPanelDayElapsed);
+
+        jPanelSimulation.add(jPanelOverview, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 380, 30));
+
+        jLayeredPane.add(jPanelSimulation, "card3");
+
+        jPanelContainer.add(jLayeredPane);
+
+        getContentPane().add(jPanelContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 1120, 560));
 
         jMenu3.setText("File");
-
-        jMenuItem3.setText("Charger Fichier");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem3);
-
-        jMenuItem4.setText("Sauvegarder Fichier");
-        jMenu3.add(jMenuItem4);
-
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Edit");
         jMenuBar1.add(jMenu4);
 
-        jMenu5.setText("Menu");
-
-        jMenuItem2.setText("sous-menu");
-        jMenu5.add(jMenuItem2);
-
-        jMenuBar1.add(jMenu5);
-
         setJMenuBar(jMenuBar1);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jButton5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton9)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6)
-                    .addComponent(jButton7)
-                    .addComponent(jButton8)
-                    .addComponent(jButton9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // Button pause/reprendre
-        worldController.StartSimulation();
-    }//GEN-LAST:event_jButton8ActionPerformed
-    
-    private void jPanel2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MousePressed
+    private void jButtonSwitchConceptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSwitchConceptionActionPerformed
+        countrySelected = null;
+        countryPts.clear();
         
+        jLayeredPane.removeAll();
+        jLayeredPane.add(jPanelConception);
+        jLayeredPane.repaint();
+        jLayeredPane.revalidate();
+        
+        jPanelSimulationDraw.remove(drawingPanel);
+        jPanelConceptionDraw.remove(drawingPanel);
+        drawingPanel = new DrawingPanel(this, jPanelConceptionDraw);
+        jPanelConceptionDraw.add(drawingPanel);
+    }//GEN-LAST:event_jButtonSwitchConceptionActionPerformed
+
+    private void jButtonSwitchSimulationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSwitchSimulationActionPerformed
+        countrySelected = null;
+        countryPts.clear();
+        
+        jLayeredPane.removeAll();
+        jLayeredPane.add(jPanelSimulation);
+        jLayeredPane.repaint();
+        jLayeredPane.revalidate();
+        
+        jPanelConceptionDraw.remove(drawingPanel);
+        jPanelSimulationDraw.remove(drawingPanel);
+        drawingPanel = new DrawingPanel(this, jPanelSimulationDraw);
+        jPanelSimulationDraw.add(drawingPanel);
+    }//GEN-LAST:event_jButtonSwitchSimulationActionPerformed
+
+    private void jPanelConceptionDrawMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelConceptionDrawMousePressed
+        LogiqueQuiNeDoitPasEtreIciNormalement(evt);
+    }//GEN-LAST:event_jPanelConceptionDrawMousePressed
+
+    private void jPanelSimulationDrawMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelSimulationDrawMousePressed
+        LogiqueQuiNeDoitPasEtreIciNormalement(evt);
+    }//GEN-LAST:event_jPanelSimulationDrawMousePressed
+
+    private void jPanelConceptionDrawMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelConceptionDrawMouseMoved
+        LogiqueDeOnHoverQuiNeDoitPasEtreLa(evt);
+    }//GEN-LAST:event_jPanelConceptionDrawMouseMoved
+
+    private void jPanelSimulationDrawMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelSimulationDrawMouseMoved
+        LogiqueDeOnHoverQuiNeDoitPasEtreLa(evt);
+    }//GEN-LAST:event_jPanelSimulationDrawMouseMoved
+
+    private void jBtnPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPlayActionPerformed
+       worldController.StartSimulation();
+    }//GEN-LAST:event_jBtnPlayActionPerformed
+
+    private void jBtnPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPauseActionPerformed
+        worldController.StopSimlation();
+    }//GEN-LAST:event_jBtnPauseActionPerformed
+
+    private void jBtnRedoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRedoActionPerformed
+        worldController.Redo();
+    }//GEN-LAST:event_jBtnRedoActionPerformed
+
+    private void jBtnUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUndoActionPerformed
+       worldController.Undo();
+    }//GEN-LAST:event_jBtnUndoActionPerformed
+        
+    public void Draw(Graphics g){
+        worldController.Draw(g);
+    }
+    
+    public void LogiqueDeOnHoverQuiNeDoitPasEtreLa(java.awt.event.MouseEvent evt) {
+        if(mode == Mode.Select) {
+            Point mousePoint = evt.getPoint();
+            List<Country> countries = worldController.GetCountries();
+            for(Country country: countries) {
+                if(Utility.IsInRectangle(country.getShape().GetPoints(), mousePoint)) {
+                    //On hover ?
+                }
+            }
+        }
+    }
+    
+    public void LogiqueQuiNeDoitPasEtreIciNormalement(java.awt.event.MouseEvent evt) {
         if(evt.getButton() == MouseEvent.BUTTON3) {
             if(mode == Mode.Select) {
                 mode = Mode.Create;
@@ -363,10 +756,6 @@ public class main_window_Simulation extends javax.swing.JFrame {
                 countryPts.clear();
             }
         }
-    }//GEN-LAST:event_jPanel2MousePressed
-    
-    public void Draw(Graphics g){
-        worldController.Draw(g);
     }
     
     /**
@@ -410,32 +799,84 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
+    private javax.swing.JButton jBtnPause;
+    private javax.swing.JButton jBtnPlay;
+    private javax.swing.JButton jBtnRedo;
+    private javax.swing.JButton jBtnReset;
+    private javax.swing.JButton jBtnUndo;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButtonAddLink;
+    private javax.swing.JButton jButtonAddRegion;
+    private javax.swing.JButton jButtonApplyDisease;
+    private javax.swing.JButton jButtonCreateCountry;
+    private javax.swing.JButton jButtonEditCountry;
+    private javax.swing.JButton jButtonEditRegion;
+    private javax.swing.JButton jButtonRemoveCountry;
+    private javax.swing.JButton jButtonRemoveLink;
+    private javax.swing.JButton jButtonRemoveRegion;
+    private javax.swing.JButton jButtonSwitchConception;
+    private javax.swing.JButton jButtonSwitchSimulation;
+    private javax.swing.JComboBox<String> jComboBoxLinkType;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelCase;
+    private javax.swing.JLabel jLabelCured;
+    private javax.swing.JLabel jLabelDayElapsed;
+    private javax.swing.JLabel jLabelDead;
+    private javax.swing.JLabel jLabelTitleCase;
+    private javax.swing.JLabel jLabelTitleCured;
+    private javax.swing.JLabel jLabelTitleCuredRate;
+    private javax.swing.JLabel jLabelTitleDayElapsed;
+    private javax.swing.JLabel jLabelTitleDead;
+    private javax.swing.JLabel jLabelTitleMortalityRate;
+    private javax.swing.JLabel jLabelTitleReproductionRate;
+    private javax.swing.JLabel jLabelTitleTransmissionRate;
+    private javax.swing.JLayeredPane jLayeredPane;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanelCase;
+    private javax.swing.JPanel jPanelConception;
+    private javax.swing.JPanel jPanelConceptionContainer;
+    private javax.swing.JPanel jPanelConceptionDraw;
+    private javax.swing.JPanel jPanelConceptionTitle;
+    private javax.swing.JPanel jPanelConceptionTool;
+    private javax.swing.JPanel jPanelContainer;
+    private javax.swing.JPanel jPanelCountry;
+    private javax.swing.JPanel jPanelCured;
+    private javax.swing.JPanel jPanelCuredRate;
+    private javax.swing.JPanel jPanelDayElapsed;
+    private javax.swing.JPanel jPanelDead;
+    private javax.swing.JPanel jPanelDeseaseParams;
+    private javax.swing.JPanel jPanelLink;
+    private javax.swing.JPanel jPanelMainButtons;
+    private javax.swing.JPanel jPanelMortalityRate;
+    private javax.swing.JPanel jPanelOverview;
+    private javax.swing.JPanel jPanelRegion;
+    private javax.swing.JPanel jPanelReproductionRate;
+    private javax.swing.JPanel jPanelSimulation;
+    private javax.swing.JPanel jPanelSimulationContainer;
+    private javax.swing.JPanel jPanelSimulationDraw;
+    private javax.swing.JPanel jPanelSimulationTitle;
+    private javax.swing.JPanel jPanelSimulationTool;
+    private javax.swing.JPanel jPanelTransmissionRate;
+    private javax.swing.JPanel jPanelUndoRedoButtons;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JTextField jTextFieldCuredRate;
+    private javax.swing.JTextField jTextFieldMortalityRate;
+    private javax.swing.JTextField jTextFieldReproductionRate;
+    private javax.swing.JTextField jTextFieldTransmissionRate;
     // End of variables declaration//GEN-END:variables
 }

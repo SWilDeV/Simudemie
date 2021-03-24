@@ -8,7 +8,6 @@ package ca.ulaval.glo2004.ui;
 import ca.ulaval.glo2004.main_window_Simulation;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.io.Serializable;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
@@ -18,7 +17,6 @@ import javax.swing.border.BevelBorder;
  */
 public class DrawingPanel extends JPanel {
     
-    private JPanel parentPanel;
     public Dimension initialDimension;
     private main_window_Simulation mainWindow;
     
@@ -27,20 +25,18 @@ public class DrawingPanel extends JPanel {
     
     public DrawingPanel(main_window_Simulation mainWindow, JPanel parentPanel) {
         this.mainWindow = mainWindow;
-        this.parentPanel = parentPanel;
+        setVisible(true);
         setBorder(new javax.swing.border.BevelBorder(BevelBorder.LOWERED));
-        //int width = (int) (java.awt.Toolkit.getDefaultToolkit().getScreenSize().width);
-        setPreferredSize(new Dimension(parentPanel.getWidth(),parentPanel.getHeight()));
-        //setVisible(true);
-        //int height = (int)(width*0.5);
         initialDimension = new Dimension(parentPanel.getWidth(),parentPanel.getHeight());
+        setPreferredSize(initialDimension);
     }
     
-    @Override public Dimension getPreferredSize()
+    @Override
+    public Dimension getPreferredSize()
     {
-        return new Dimension(parentPanel.getWidth(),parentPanel.getHeight());
+        return new Dimension(initialDimension);
     }
-//    
+
     @Override
     protected void paintComponent(Graphics g)
     {

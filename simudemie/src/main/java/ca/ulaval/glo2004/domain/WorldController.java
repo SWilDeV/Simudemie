@@ -7,6 +7,7 @@ package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.Link.LinkType;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,6 +35,10 @@ public class WorldController {
     
     public void Draw(Graphics g) {
         worldDrawer.draw(g);
+    }
+    
+    public void DrawCountryInfo(Graphics g, Point mousePosition, Country country) {
+        worldDrawer.drawCountryInfos(g, mousePosition, country);
     }
     
     public void AddCountry(Country country) {
@@ -67,13 +72,13 @@ public class WorldController {
     public void StartSimulation() {
         if(!simulation.IsRunning()) {
             simulation.Simulate(); 
-        } else {
-            simulation.PausePlay();
         }
     }
     
     public void StopSimlation() {
-        
+        if(simulation.IsRunning()) {
+            simulation.PausePlay();
+        }
     }
     
     public void Save() {

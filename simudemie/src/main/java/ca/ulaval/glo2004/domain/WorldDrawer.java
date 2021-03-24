@@ -37,6 +37,15 @@ public class WorldDrawer {
         drawLinks(g);
     }
     
+    public void drawCountryInfos(Graphics g, Point mousePosition, Country country) {
+        g.setColor(Color.WHITE);
+        g.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), 20, 20);
+        g.setColor(Color.BLACK);
+        g.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), 20, 20);
+        Point center = country.getShape().GetCenter();
+        g.drawString("France", (int)mousePosition.getX(), (int)mousePosition.getY());
+    }
+    
     private void drawCountries(Graphics g) {
         List<Country> countries = controller.GetCountries();
         for(Country country : countries) {
@@ -87,7 +96,6 @@ public class WorldDrawer {
     }
     
     public void drawIrregular(Graphics g) {
-        
     }
     
     public void region(Graphics g){
