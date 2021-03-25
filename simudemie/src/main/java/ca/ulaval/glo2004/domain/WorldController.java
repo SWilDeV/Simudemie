@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -17,16 +18,25 @@ import java.util.UUID;
  */
 public class WorldController {
     
-    private World world = new World();
-    private Simulation simulation = new Simulation();
-    private WorldDrawer worldDrawer;
+    private final World world = new World();
+    private final Simulation simulation = new Simulation();
+    private final WorldDrawer worldDrawer;
     
-    public List<Country> GetCountries() {
-        return world.getCountries();
+    public List<CountryDTO> GetCountries() {
+        return (List<CountryDTO>) world.getCountries().stream().map(e -> new CountryDTO((Country) e)).collect(Collectors.toList());
     }
     
-    public List<Link> GetLinks() {
-        return world.getLinks();
+    public List<LinkDTO> GetLinks() {
+        return (List<LinkDTO>) world.getLinks().stream().map(e -> new LinkDTO((Link) e)).collect(Collectors.toList());
+    }
+    
+    public CountryDTO FindCountryByPosition(Point position) {
+        Country country = world.findCountryByPosition(position);
+        if(country != null) {
+            return new CountryDTO(country);
+        }
+        
+        return null;
     }
     
     public WorldController() {
@@ -46,20 +56,35 @@ public class WorldController {
         world.addCountry(country);
     }
     
+    public void UpdateCountry() {
+        
+    }
+    
     public void RemoveCountry(UUID countryId) {
         world.removeCountry(countryId);
     }
     
-    public void AddRegion(UUID countryId, Region region) {
+    public void AddRegion(UUID countryId, Region region) { // Un region ID ?
         world.addRegion(countryId, region);
+    }
+    
+    public void UpdateRegion() {
+        
+    }
+    
+    public void RemoveRegion(UUID countryId) {
+        
     }
     
     public void AddLink(UUID firstCountryId, UUID secondCountryId, LinkType type) {
         if(firstCountryId != secondCountryId) {
-            world.addlink(firstCountryId, secondCountryId, type);
+            world.Addlink(firstCountryId, secondCountryId, type);
         } else {
             System.out.println("Impossible de link le meme pays!");
         }
+    }
+    
+    public void RemoveLink() {
     }
     
     public void AddHealthMesure(HealthMesure mesure) {

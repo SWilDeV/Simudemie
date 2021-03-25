@@ -9,7 +9,7 @@ package ca.ulaval.glo2004.domain;
  *
  * @author Sean
  */
-public class Population {
+public class Population { //TODO: Faire un DTO de population :)
     //    Attributs
     private int totalPopulation;
     private int infectedPopulation;

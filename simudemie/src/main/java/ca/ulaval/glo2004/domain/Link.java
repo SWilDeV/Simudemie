@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class Link {
 //    Attributs
-   public enum LinkType { AERIEN, TERRESTRE, MARITIME }   
+   public enum LinkType { AERIEN, TERRESTRE, MARITIME }; 
     
    private final LinkType linkType;
    private Country country1;
@@ -69,14 +69,22 @@ public class Link {
        return linkType;
    }
    
-   public Color GetColor() {
-       if(linkType == LinkType.TERRESTRE) {
+   public static Color GetColor(LinkType type) {
+       if(type == LinkType.TERRESTRE) {
            return landColor;
-       } else if(linkType == LinkType.MARITIME) {
+       } else if(type == LinkType.MARITIME) {
            return maritimeColor;
        }
        
        return airColor;
+   }
+   
+   public static int GetDrawOffset(LinkType type) {
+       if(type == LinkType.MARITIME) {
+           return 20;
+       }
+       
+       return 0;
    }
    
     @Override
@@ -91,8 +99,10 @@ public class Link {
         
         Link link = (Link)other;
         return linkType == link.GetLinkType() &&
-               country1 == link.getCountry1() &&
-               country2 == link.getCountry2();
+               (country1 == link.getCountry1() &&
+               country2 == link.getCountry2()) ||
+               (country1 == link.getCountry2() &&
+               country2 == link.getCountry1());
     }
 
     @Override

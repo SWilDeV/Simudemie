@@ -34,6 +34,10 @@ public class Country {
         return id;
     }
     
+    public List<Region> GetRegions() {
+        return regions;
+    }
+    
     public Population getPopulation(){
         return population; //TODO : DTO
     }

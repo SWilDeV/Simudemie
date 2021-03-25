@@ -6,6 +6,7 @@
 package ca.ulaval.glo2004;
 
 import ca.ulaval.glo2004.domain.Country;
+import ca.ulaval.glo2004.domain.CountryDTO;
 import ca.ulaval.glo2004.domain.Link.LinkType;
 import ca.ulaval.glo2004.domain.RegularForm;
 import ca.ulaval.glo2004.domain.Utility;
@@ -27,9 +28,9 @@ public class main_window_Simulation extends javax.swing.JFrame {
     public WorldController worldController = new WorldController();
     
     public List<Point> countryPts = new ArrayList<>();
-    public Country countrySelected = null;
-    public enum Mode {Create, Select};
-    public Mode mode = Mode.Create;
+    public CountryDTO countrySelected = null;
+    public enum Mode {Idle, Create, Select};
+    public Mode mode = Mode.Idle;
     private int test = 0;
     
     /**
@@ -309,6 +310,11 @@ public class main_window_Simulation extends javax.swing.JFrame {
         jPanelCountry.add(jButtonEditCountry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 320, -1));
 
         jButtonCreateCountry.setText("Cree un pays");
+        jButtonCreateCountry.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCreateCountryActionPerformed(evt);
+            }
+        });
         jPanelCountry.add(jButtonCreateCountry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 320, -1));
 
         jPanelConceptionContainer.add(jPanelCountry);
@@ -331,6 +337,11 @@ public class main_window_Simulation extends javax.swing.JFrame {
         jPanelLink.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButtonAddLink.setText("Ajouter un lien");
+        jButtonAddLink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddLinkActionPerformed(evt);
+            }
+        });
         jPanelLink.add(jButtonAddLink, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 160, -1));
 
         jButtonRemoveLink.setText("Supprimer un lien");
@@ -682,17 +693,27 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private void jBtnUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUndoActionPerformed
        worldController.Undo();
     }//GEN-LAST:event_jBtnUndoActionPerformed
+
+    private void jButtonAddLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddLinkActionPerformed
+        mode = Mode.Select;
+        countrySelected = null;
+    }//GEN-LAST:event_jButtonAddLinkActionPerformed
+
+    private void jButtonCreateCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateCountryActionPerformed
+        mode = Mode.Create;
+        countrySelected = null;
+    }//GEN-LAST:event_jButtonCreateCountryActionPerformed
         
     public void Draw(Graphics g){
         worldController.Draw(g);
     }
     
     public void LogiqueDeOnHoverQuiNeDoitPasEtreLa(java.awt.event.MouseEvent evt) {
-        if(mode == Mode.Select) {
+        if(mode == Mode.Idle) {
             Point mousePoint = evt.getPoint();
-            List<Country> countries = worldController.GetCountries();
-            for(Country country: countries) {
-                if(Utility.IsInRectangle(country.getShape().GetPoints(), mousePoint)) {
+            List<CountryDTO> countries = worldController.GetCountries();
+            for(CountryDTO country: countries) {
+                if(Utility.IsInRectangle(country.Shape.GetPoints(), mousePoint)) {
                     //On hover ?
                 }
             }
@@ -700,26 +721,29 @@ public class main_window_Simulation extends javax.swing.JFrame {
     }
     
     public void LogiqueQuiNeDoitPasEtreIciNormalement(java.awt.event.MouseEvent evt) {
-        if(evt.getButton() == MouseEvent.BUTTON3) {
-            if(mode == Mode.Select) {
-                mode = Mode.Create;
-            } else {
-                mode = Mode.Select;
-            }
-            
-            System.out.println("mode: " + mode);
-            countrySelected = null;
-        }
+//        if(evt.getButton() == MouseEvent.BUTTON3) {
+//            if(mode == Mode.Select) {
+//                mode = Mode.Create;
+//            } else {
+//                mode = Mode.Select;
+//            }
+//            
+//            System.out.println("mode: " + mode);
+//            countrySelected = null;
+//        }
         
         if(mode == Mode.Select && evt.getButton() == MouseEvent.BUTTON1) {
             Point mousePoint = evt.getPoint();
             
-            List<Country> countries = worldController.GetCountries();
+            List<CountryDTO> countries = worldController.GetCountries();
             boolean found = false;
-            for(Country country: countries) {                
-                if (Utility.IsInRectangle(country.getShape().GetPoints(), mousePoint)) {                    
+            for(CountryDTO country: countries) {                
+                if (Utility.IsInRectangle(country.Shape.GetPoints(), mousePoint)) {                    
                     if(countrySelected != null) {
-                        worldController.AddLink(countrySelected.GetId(), country.GetId(), LinkType.TERRESTRE);
+                        int linkIndex = jComboBoxLinkType.getSelectedIndex();
+                        worldController.AddLink(countrySelected.Id, country.Id, LinkType.values()[linkIndex]);
+                        mode = Mode.Idle;
+                        countrySelected = null;
                         drawingPanel.repaint();
                     } else {
                         countrySelected = country;
@@ -741,6 +765,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
                 drawingPanel.repaint();
 
                 countryPts.clear();
+                mode = Mode.Idle;
             }
         }
     }

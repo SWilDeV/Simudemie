@@ -5,6 +5,7 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,8 +16,20 @@ import java.util.UUID;
 public class CountryDTO {
     public List<Region> Regions;
     public Population Population;
-    // public final UUID Id;
+    public GeometricForm Shape;
+    public final UUID Id;
     
     public CountryDTO(Country country) {
+        Regions = new ArrayList<>(country.GetRegions());
+        Population = country.getPopulation();
+        
+        GeometricForm countryShape = country.getShape();
+        if(countryShape instanceof RegularForm) {
+            Shape = new RegularForm(countryShape.GetPoints());
+        } else {
+            Shape = new IrregularForm(countryShape.GetPoints());
+        }
+        
+        Id = country.GetId();
     }
 }
