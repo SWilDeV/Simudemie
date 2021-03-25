@@ -736,21 +736,8 @@ public class main_window_Simulation extends javax.swing.JFrame {
         } else if(mode == Mode.Create && evt.getButton() == MouseEvent.BUTTON1) {
             countryPts.add(evt.getPoint());
             
-            if(countryPts.size() == 2) {
-
-                final Point pt1 = new Point((int)countryPts.get(1).getX(), (int)countryPts.get(0).getY());
-                final Point pt3 = new Point((int)countryPts.get(0).getX(), (int)countryPts.get(1).getY());
-
-                List<Point> points = new ArrayList<Point>() {{
-                add(countryPts.get(0));
-                add(pt1);
-                add(countryPts.get(1));
-                add(pt3);
-                }};
-
-                RegularForm form = new RegularForm(points);
-                Country country = new Country(form);
-                worldController.AddCountry(country);
+            if(countryPts.size() == 2) { // Un peux bete de faire ca, mais on trouvera une solution
+                worldController.AddCountry(countryPts);
                 drawingPanel.repaint();
 
                 countryPts.clear();

@@ -41,7 +41,8 @@ public class WorldController {
         worldDrawer.drawCountryInfos(g, mousePosition, country);
     }
     
-    public void AddCountry(Country country) {
+    public void AddCountry(List<Point> points) {
+        Country country = CountryFactory.CreateCountry(points);
         world.addCountry(country);
     }
     
