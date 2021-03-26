@@ -7,6 +7,8 @@ package ca.ulaval.glo2004;
 
 import ca.ulaval.glo2004.domain.Country;
 import ca.ulaval.glo2004.domain.CountryDTO;
+import ca.ulaval.glo2004.domain.CustomMeasure;
+import ca.ulaval.glo2004.domain.HealthMesureDTO;
 import ca.ulaval.glo2004.domain.Link.LinkType;
 import ca.ulaval.glo2004.domain.RegularForm;
 import ca.ulaval.glo2004.domain.Utility;
@@ -17,6 +19,8 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 
 /**
  *
@@ -118,7 +122,21 @@ public class main_window_Simulation extends javax.swing.JFrame {
         jLabelTitleTransmissionRate = new javax.swing.JLabel();
         jTextFieldTransmissionRate = new javax.swing.JTextField();
         jButtonApplyDisease = new javax.swing.JButton();
+        jPanelMesureParams = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jPanelAdhesionRate1 = new javax.swing.JPanel();
+        jLabelTitleMesureName = new javax.swing.JLabel();
+        jTextFieldMesureName = new javax.swing.JTextField();
+        jPanelAdhesionRate = new javax.swing.JPanel();
+        jLabelTitleAdhesionRate = new javax.swing.JLabel();
+        jTextFieldAdhesionRate = new javax.swing.JTextField();
+        jPanelReproductionRate1 = new javax.swing.JPanel();
+        jLabelActive = new javax.swing.JLabel();
+        jCheckBoxActive = new javax.swing.JCheckBox();
+        jButtonApplyMesure = new javax.swing.JButton();
         jButtonSwitchConception = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
         jPanelOverview = new javax.swing.JPanel();
         jPanelCase = new javax.swing.JPanel();
         jLabelTitleCase = new javax.swing.JLabel();
@@ -233,11 +251,11 @@ public class main_window_Simulation extends javax.swing.JFrame {
             .addGap(0, 1120, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(0, 355, Short.MAX_VALUE)
+                    .addGap(0, 359, Short.MAX_VALUE)
                     .addComponent(jPanelUndoRedoButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(58, 58, 58)
                     .addComponent(jPanelMainButtons, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 355, Short.MAX_VALUE)))
+                    .addGap(0, 359, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -494,12 +512,64 @@ public class main_window_Simulation extends javax.swing.JFrame {
 
         jPanelDeseaseParams.add(jPanelTransmissionRate);
 
-        jButtonApplyDisease.setText("Appliquer");
+        jButtonApplyDisease.setText("Appliquer (maladie)");
+        jButtonApplyDisease.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonApplyDiseaseActionPerformed(evt);
+            }
+        });
         jPanelDeseaseParams.add(jButtonApplyDisease);
 
         jPanelSimulationContainer.add(jPanelDeseaseParams);
 
-        jPanelSimulationTool.add(jPanelSimulationContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 250, 180));
+        jPanelMesureParams.setBackground(new java.awt.Color(230, 230, 230));
+        jPanelMesureParams.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
+
+        jLabel11.setText("Parametre des mesures");
+        jPanelMesureParams.add(jLabel11);
+
+        jPanelAdhesionRate1.setLayout(new java.awt.GridLayout());
+
+        jLabelTitleMesureName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelTitleMesureName.setText("Nom de la mesure");
+        jPanelAdhesionRate1.add(jLabelTitleMesureName);
+
+        jTextFieldMesureName.setText("Mesure X");
+        jPanelAdhesionRate1.add(jTextFieldMesureName);
+
+        jPanelMesureParams.add(jPanelAdhesionRate1);
+
+        jPanelAdhesionRate.setLayout(new java.awt.GridLayout());
+
+        jLabelTitleAdhesionRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelTitleAdhesionRate.setText("Taux d'adhésion");
+        jPanelAdhesionRate.add(jLabelTitleAdhesionRate);
+
+        jTextFieldAdhesionRate.setText("0%");
+        jPanelAdhesionRate.add(jTextFieldAdhesionRate);
+
+        jPanelMesureParams.add(jPanelAdhesionRate);
+
+        jPanelReproductionRate1.setLayout(new java.awt.GridLayout());
+
+        jLabelActive.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelActive.setText("Actif");
+        jPanelReproductionRate1.add(jLabelActive);
+        jPanelReproductionRate1.add(jCheckBoxActive);
+
+        jPanelMesureParams.add(jPanelReproductionRate1);
+
+        jButtonApplyMesure.setText("Créer une mesure");
+        jButtonApplyMesure.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonApplyMesureActionPerformed(evt);
+            }
+        });
+        jPanelMesureParams.add(jButtonApplyMesure);
+
+        jPanelSimulationContainer.add(jPanelMesureParams);
+
+        jPanelSimulationTool.add(jPanelSimulationContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 250, 300));
 
         jButtonSwitchConception.setText("Passer en conception");
         jButtonSwitchConception.addActionListener(new java.awt.event.ActionListener() {
@@ -508,6 +578,15 @@ public class main_window_Simulation extends javax.swing.JFrame {
             }
         });
         jPanelSimulationTool.add(jButtonSwitchConception, new org.netbeans.lib.awtextra.AbsoluteConstraints(-1, 430, 270, -1));
+
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jList1);
+
+        jPanelSimulationTool.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 250, 90));
 
         jPanelSimulation.add(jPanelSimulationTool, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 30, 270, 460));
 
@@ -703,7 +782,24 @@ public class main_window_Simulation extends javax.swing.JFrame {
         mode = Mode.Create;
         countrySelected = null;
     }//GEN-LAST:event_jButtonCreateCountryActionPerformed
+
+    private void jButtonApplyDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyDiseaseActionPerformed
+        System.out.println("on update disease");
+        worldController.UpdateDisease(Double.parseDouble(jTextFieldCuredRate.getText()), Double.parseDouble(jTextFieldMortalityRate.getText()), Double.parseDouble(jTextFieldReproductionRate.getText()));
+    }//GEN-LAST:event_jButtonApplyDiseaseActionPerformed
+
+    private void jButtonApplyMesureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyMesureActionPerformed
+        System.out.println("on applique une mesure");
+        worldController.AddMesure(Double.parseDouble(jTextFieldAdhesionRate.getText()), jCheckBoxActive.isSelected(), jTextFieldMesureName.getText());
+        DefaultListModel listModel = new DefaultListModel();
+        for (HealthMesureDTO m : worldController.GetHealthMesures()){
+            listModel.addElement(m.MesureName);
+        }
+        jList1.setModel(listModel);
+    }//GEN-LAST:event_jButtonApplyMesureActionPerformed
         
+    
+    
     public void Draw(Graphics g){
         worldController.Draw(g);
     }
@@ -820,6 +916,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAddLink;
     private javax.swing.JButton jButtonAddRegion;
     private javax.swing.JButton jButtonApplyDisease;
+    private javax.swing.JButton jButtonApplyMesure;
     private javax.swing.JButton jButtonCreateCountry;
     private javax.swing.JButton jButtonEditCountry;
     private javax.swing.JButton jButtonEditRegion;
@@ -828,25 +925,31 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private javax.swing.JButton jButtonRemoveRegion;
     private javax.swing.JButton jButtonSwitchConception;
     private javax.swing.JButton jButtonSwitchSimulation;
+    private javax.swing.JCheckBox jCheckBoxActive;
     private javax.swing.JComboBox<String> jComboBoxLinkType;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelActive;
     private javax.swing.JLabel jLabelCase;
     private javax.swing.JLabel jLabelCured;
     private javax.swing.JLabel jLabelDayElapsed;
     private javax.swing.JLabel jLabelDead;
+    private javax.swing.JLabel jLabelTitleAdhesionRate;
     private javax.swing.JLabel jLabelTitleCase;
     private javax.swing.JLabel jLabelTitleCured;
     private javax.swing.JLabel jLabelTitleCuredRate;
     private javax.swing.JLabel jLabelTitleDayElapsed;
     private javax.swing.JLabel jLabelTitleDead;
+    private javax.swing.JLabel jLabelTitleMesureName;
     private javax.swing.JLabel jLabelTitleMortalityRate;
     private javax.swing.JLabel jLabelTitleReproductionRate;
     private javax.swing.JLabel jLabelTitleTransmissionRate;
     private javax.swing.JLayeredPane jLayeredPane;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -855,6 +958,8 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanelAdhesionRate;
+    private javax.swing.JPanel jPanelAdhesionRate1;
     private javax.swing.JPanel jPanelCase;
     private javax.swing.JPanel jPanelConception;
     private javax.swing.JPanel jPanelConceptionContainer;
@@ -870,10 +975,12 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelDeseaseParams;
     private javax.swing.JPanel jPanelLink;
     private javax.swing.JPanel jPanelMainButtons;
+    private javax.swing.JPanel jPanelMesureParams;
     private javax.swing.JPanel jPanelMortalityRate;
     private javax.swing.JPanel jPanelOverview;
     private javax.swing.JPanel jPanelRegion;
     private javax.swing.JPanel jPanelReproductionRate;
+    private javax.swing.JPanel jPanelReproductionRate1;
     private javax.swing.JPanel jPanelSimulation;
     private javax.swing.JPanel jPanelSimulationContainer;
     private javax.swing.JPanel jPanelSimulationDraw;
@@ -882,11 +989,14 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelTransmissionRate;
     private javax.swing.JPanel jPanelUndoRedoButtons;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JTextField jTextFieldAdhesionRate;
     private javax.swing.JTextField jTextFieldCuredRate;
+    private javax.swing.JTextField jTextFieldMesureName;
     private javax.swing.JTextField jTextFieldMortalityRate;
     private javax.swing.JTextField jTextFieldReproductionRate;
     private javax.swing.JTextField jTextFieldTransmissionRate;

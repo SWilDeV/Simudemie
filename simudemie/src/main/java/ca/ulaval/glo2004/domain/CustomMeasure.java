@@ -12,7 +12,7 @@ package ca.ulaval.glo2004.domain;
 public class CustomMeasure extends HealthMesure {
     
     //à déterminer
-    public CustomMeasure() {
-        super(0);
+    public CustomMeasure(double p_adhesionRate, boolean p_active, String p_mesureName) {
+        super(p_adhesionRate, p_active, p_mesureName);
     }
 }

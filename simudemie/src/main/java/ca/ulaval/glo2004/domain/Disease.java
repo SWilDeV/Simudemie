@@ -36,7 +36,10 @@ public class Disease {
     }
     
     public void setReproductionRate(double newReproductionRate) {
-        reproductionRate = newReproductionRate;
+        if ( newReproductionRate >= 0 && newReproductionRate < 1){
+            reproductionRate = newReproductionRate;
+        }
+        
     }
     
     public void setMortalityRate(double newMortalityRate) {
