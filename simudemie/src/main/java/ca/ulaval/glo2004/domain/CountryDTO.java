@@ -15,13 +15,13 @@ import java.util.UUID;
  */
 public class CountryDTO {
     public List<Region> Regions;
-    public Population Population;
+    public PopulationDTO population;
     public GeometricForm Shape;
     public final UUID Id;
     
     public CountryDTO(Country country) {
         Regions = new ArrayList<>(country.GetRegions());
-        Population = country.getPopulation();
+        population = new PopulationDTO(country.getPopulation());
         
         GeometricForm countryShape = country.getShape();
         if(countryShape instanceof RegularForm) {

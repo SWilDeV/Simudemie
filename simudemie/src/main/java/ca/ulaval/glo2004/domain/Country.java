@@ -28,6 +28,7 @@ public class Country {
     public Country(GeometricForm form){
         id = UUID.randomUUID();
         shape = form;
+        population = new Population();
     }
     
     public UUID GetId() {

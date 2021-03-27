@@ -17,9 +17,12 @@ public class Population { //TODO: Faire un DTO de population :)
     private int deadPopulation;
     private int nonInfectedPopulation;
     
+    public Population(){
+        this.totalPopulation = 1500;
+    }
     //   methodes
-    private void Population(int p_TotalPop){
-        totalPopulation = p_TotalPop;
+    public Population(int p_TotalPop){
+        this.totalPopulation = p_TotalPop;
     }
     
     public int getTotalPopulation(){

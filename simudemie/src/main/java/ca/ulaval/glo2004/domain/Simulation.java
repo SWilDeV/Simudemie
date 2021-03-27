@@ -7,7 +7,6 @@ package ca.ulaval.glo2004.domain;
 
 import java.util.ArrayList;
 
-
 /**
  *
  * @author Abergel Clement
@@ -19,7 +18,10 @@ public class Simulation {
     //TODO: On a oublis de definir le type de DataHistory. J'ai mis int pour eviter les erreuurs
     private ArrayList<Integer> dataHistory = new ArrayList<Integer>();
     
-    public boolean IsRunning() {
+    public Simulation() {  
+    }
+    
+    public boolean getIsRunning() {
         return this.isRunning;
     }
     
@@ -35,12 +37,9 @@ public class Simulation {
         this.isRunning = running;
     }
     
-    public Simulation() {  
-    }
-    
     public void Simulate() {
         this.SetRunning(true);
-        System.out.println("J'ai demarer");
+        System.out.println("J'ai demarré");
     }
     
     public void previousDay() {

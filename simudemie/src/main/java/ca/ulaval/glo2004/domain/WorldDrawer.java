@@ -67,7 +67,9 @@ public class WorldDrawer {
             
             g.setColor(Color.BLACK);
             Point center = country.Shape.GetCenter();
-            g.drawString("France", (int)center.getX(), (int)center.getY());
+            //g.drawString("France", (int)center.getX(), (int)center.getY());
+            String count = Integer.toString(country.population.totalPopulation) ;
+            g.drawString(count, (int)center.getX(), (int)center.getY());
         }
     }
     
