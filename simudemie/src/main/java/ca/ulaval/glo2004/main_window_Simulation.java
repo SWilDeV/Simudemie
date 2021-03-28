@@ -206,7 +206,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
 
         jPanelUndoRedoButtons.setLayout(new java.awt.GridBagLayout());
 
-        jBtnUndo.setText("Undo");
+        jBtnUndo.setText("Next");
         jBtnUndo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnUndoActionPerformed(evt);
@@ -528,7 +528,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
         jLabel11.setText("Parametre des mesures");
         jPanelMesureParams.add(jLabel11);
 
-        jPanelAdhesionRate1.setLayout(new java.awt.GridLayout());
+        jPanelAdhesionRate1.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabelTitleMesureName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabelTitleMesureName.setText("Nom de la mesure");
@@ -539,7 +539,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
 
         jPanelMesureParams.add(jPanelAdhesionRate1);
 
-        jPanelAdhesionRate.setLayout(new java.awt.GridLayout());
+        jPanelAdhesionRate.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabelTitleAdhesionRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabelTitleAdhesionRate.setText("Taux d'adhésion");
@@ -550,7 +550,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
 
         jPanelMesureParams.add(jPanelAdhesionRate);
 
-        jPanelReproductionRate1.setLayout(new java.awt.GridLayout());
+        jPanelReproductionRate1.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabelActive.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabelActive.setText("Actif");
@@ -770,7 +770,18 @@ public class main_window_Simulation extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnRedoActionPerformed
 
     private void jBtnUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUndoActionPerformed
-       worldController.Undo();
+//        mode = Mode.Select;
+//        if(mode == Mode.Select && evt.getButton() == MouseEvent.BUTTON1) {
+//            Point mousePoint = evt.getPoint();
+//            List<Country> countries = worldController.GetCountries();
+//            for(Country country: countries) {
+//                if(Utility.IsInRectangle(country.Shape.GetPoints(), mousePoint)) {
+//                worldController.UpdateCountry(country); ;
+//                }
+//            }
+//        }
+        System.out.println("hello");
+        
     }//GEN-LAST:event_jBtnUndoActionPerformed
 
     private void jButtonAddLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddLinkActionPerformed
