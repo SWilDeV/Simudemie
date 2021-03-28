@@ -73,4 +73,8 @@ public class Population { //TODO: Faire un DTO de population :)
         nonInfectedPopulation = p_NonInfectedPop;
     }
     
+    public void printTotalPopulation(){
+        System.out.println(totalPopulation);
+    }
+    
 }

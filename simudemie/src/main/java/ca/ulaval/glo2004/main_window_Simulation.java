@@ -773,14 +773,16 @@ public class main_window_Simulation extends javax.swing.JFrame {
 //        mode = Mode.Select;
 //        if(mode == Mode.Select && evt.getButton() == MouseEvent.BUTTON1) {
 //            Point mousePoint = evt.getPoint();
-//            List<Country> countries = worldController.GetCountries();
-//            for(Country country: countries) {
-//                if(Utility.IsInRectangle(country.Shape.GetPoints(), mousePoint)) {
-//                worldController.UpdateCountry(country); ;
+    
+            List<CountryDTO> countries = worldController.GetCountries();
+            for(CountryDTO country: countries) {
+                country.population.totalPopulation +=1;
+                worldController.UpdateCountry(country); ;
 //                }
-//            }
+            }
+            drawingPanel.repaint();
 //        }
-        System.out.println("hello");
+        
         
     }//GEN-LAST:event_jBtnUndoActionPerformed
 

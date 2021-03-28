@@ -25,10 +25,12 @@ public class World {
          countryList.add(country);
     }
     
-//    public void updateCountry(Country country) {
-//        Population pop1 = new population(1350);
-//        country.setPopulation(pop1);
-//    }
+    public void updateCountry(CountryDTO country) {
+        Country c = FindCountryByUUID(country.Id);
+        if(c != null){
+            c.fromDTO(country);
+        }
+    }
     
     public void removeCountry(UUID countryId){
         Country country = FindCountryByUUID(countryId);

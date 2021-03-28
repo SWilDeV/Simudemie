@@ -66,6 +66,10 @@ public class Country {
         }
     }
     
+    public void fromDTO(CountryDTO countryDTO){
+        population.setTotalPopulation(countryDTO.population.totalPopulation);
+    }
+    
     public Color getColor() {
         throw new UnsupportedOperationException("Not supported");
     }

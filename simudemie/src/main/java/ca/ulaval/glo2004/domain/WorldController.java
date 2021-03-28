@@ -73,9 +73,9 @@ public class WorldController {
         world.addCountry(country);
     }
     
-//    public void UpdateCountry(CountryDTO country) {
-//        world.updateCountry(country);
-//    }
+    public void UpdateCountry(CountryDTO country) {
+        world.updateCountry(country);
+    }
     
     public void RemoveCountry(UUID countryId) {
         world.removeCountry(countryId);
