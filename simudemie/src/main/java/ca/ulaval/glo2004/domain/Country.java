@@ -67,7 +67,7 @@ public class Country {
     }
     
     public void fromDTO(CountryDTO countryDTO){
-        population.setTotalPopulation(countryDTO.population.totalPopulation);
+        population.setTotalPopulation(countryDTO.getPopulationDTO().getTotalPopulationDTO());
     }
     
     public Color getColor() {

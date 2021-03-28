@@ -10,17 +10,62 @@ package ca.ulaval.glo2004.domain;
  * @author Sean
  */
 public class PopulationDTO {
-    public int totalPopulation;
-    public int infectedPopulation;
-    public int curedPopulation;
-    public int deadPopulation;
-    public int nonInfectedPopulation;
+    public int totalPopulationDTO;
+    public int infectedPopulationDTO;
+    public int curedPopulationDTO;
+    public int deadPopulationDTO;
+    public int nonInfectedPopulationDTO;
     
     public PopulationDTO(Population population) {
-        totalPopulation = population.getTotalPopulation();
-        infectedPopulation = population.getInfectedPopulation();
-        curedPopulation = population.getCuredPopulation();
-        deadPopulation = population.getDeadPopulation();
-        nonInfectedPopulation = population.getNonInfectedPopulation();
+        totalPopulationDTO = population.getTotalPopulation();
+        infectedPopulationDTO = population.getInfectedPopulation();
+        curedPopulationDTO = population.getCuredPopulation();
+        deadPopulationDTO = population.getDeadPopulation();
+        nonInfectedPopulationDTO = population.getNonInfectedPopulation();
     }
+    public int getTotalPopulationDTO(){
+        return totalPopulationDTO;
+    }
+    
+
+    public void addPatientZeroDTO(){
+        infectedPopulationDTO = 1;
+    }
+    
+    public int getInfectedPopulationDTO(){
+        return infectedPopulationDTO;
+    }
+    
+    public int getCuredPopulationDTO(){
+        return curedPopulationDTO;
+    }
+    
+    public int getDeadPopulationDTO(){
+        return deadPopulationDTO;
+    }
+    
+    public int getNonInfectedPopulationDTO(){
+        return nonInfectedPopulationDTO;
+    }
+    
+    public void setInfectedPopulationDTO(int p_InfectedPop){
+        infectedPopulationDTO = p_InfectedPop;
+    }
+    
+    public void setCuredPopulationDTO(int p_CuredPop){
+        curedPopulationDTO = p_CuredPop;
+    }
+    
+    public void setDeadPopulationDTO(int p_DeadPop){
+        deadPopulationDTO = p_DeadPop;
+    }
+    
+    public void setTotalPopulationDTO(int p_TotalPop){
+        totalPopulationDTO = p_TotalPop;
+    }
+    
+    public void setNonInfectedPopulationDTO(int p_NonInfectedPop){
+        nonInfectedPopulationDTO = p_NonInfectedPop;
+    }
+    
 }

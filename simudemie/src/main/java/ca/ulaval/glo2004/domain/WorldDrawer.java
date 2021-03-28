@@ -12,6 +12,7 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.geom.GeneralPath;
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -68,8 +69,8 @@ public class WorldDrawer {
             g.setColor(Color.BLACK);
             Point center = country.Shape.GetCenter();
             //g.drawString("France", (int)center.getX(), (int)center.getY());
-            String topPop = Integer.toString(country.population.totalPopulation) ;
-            g.drawString(topPop, (int)center.getX(), (int)center.getY());
+            String totPop = Integer.toString(country.getPopulationDTO().getTotalPopulationDTO());
+            g.drawString(totPop, (int)center.getX(), (int)center.getY());
         }
     }
     

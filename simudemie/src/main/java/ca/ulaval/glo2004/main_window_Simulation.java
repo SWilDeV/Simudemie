@@ -776,7 +776,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
     
             List<CountryDTO> countries = worldController.GetCountries();
             for(CountryDTO country: countries) {
-                country.population.totalPopulation +=1;
+                country.incrementTotalPopulationDTO();
                 worldController.UpdateCountry(country); ;
 //                }
             }

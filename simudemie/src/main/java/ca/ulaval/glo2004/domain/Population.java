@@ -33,10 +33,6 @@ public class Population { //TODO: Faire un DTO de population :)
         totalPopulation = p_TotalPop;
     }
     
-    public void setTotalPopulation1(){
-        totalPopulation += 1;
-    }
-    
     public void addPatientZero(){
         infectedPopulation = 1;
     }
@@ -73,8 +69,5 @@ public class Population { //TODO: Faire un DTO de population :)
         nonInfectedPopulation = p_NonInfectedPop;
     }
     
-    public void printTotalPopulation(){
-        System.out.println(totalPopulation);
-    }
     
 }
