@@ -21,8 +21,8 @@ public class WorldController {
     
     private final World world = new World();
     private final Simulation simulation = new Simulation();
+    private final Disease disease = new Disease(0.0, 0.0, 0.0);
     private final WorldDrawer worldDrawer;
-    private final Disease disease;
     private final List<HealthMesure> mesures = new ArrayList<>();
     
     public List<CountryDTO> GetCountries() {
@@ -58,8 +58,6 @@ public class WorldController {
     
     public WorldController() {
         worldDrawer = new WorldDrawer(this);
-        disease = new Disease(0, 0, 0);
-        
     }
     
     public void Draw(Graphics g) {

@@ -45,7 +45,6 @@ public class World {
     }
     
     public void updateRegion() {
-        
     }
     
     public void RemoveRegion() {
