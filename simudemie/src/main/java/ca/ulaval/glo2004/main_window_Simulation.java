@@ -14,6 +14,7 @@ import ca.ulaval.glo2004.domain.RegularForm;
 import ca.ulaval.glo2004.domain.Utility;
 import ca.ulaval.glo2004.domain.WorldController;
 import ca.ulaval.glo2004.ui.DrawingPanel;
+import ca.ulaval.glo2004.domain.Population;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -90,6 +91,12 @@ public class main_window_Simulation extends javax.swing.JFrame {
         jButtonRemoveCountry = new javax.swing.JButton();
         jButtonEditCountry = new javax.swing.JButton();
         jButtonCreateCountry = new javax.swing.JButton();
+        jPanelCountryInfo = new javax.swing.JPanel();
+        LabelCountryName = new javax.swing.JLabel();
+        jLabelCountryPop = new javax.swing.JLabel();
+        jButtonSaveCountryInfo = new javax.swing.JButton();
+        jTextCountryName = new javax.swing.JTextField();
+        jTextCountryPop = new javax.swing.JTextField();
         jPanelRegion = new javax.swing.JPanel();
         jButtonAddRegion = new javax.swing.JButton();
         jButtonRemoveRegion = new javax.swing.JButton();
@@ -324,8 +331,6 @@ public class main_window_Simulation extends javax.swing.JFrame {
 
         jPanelConceptionTool.add(jPanelConceptionTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 340, 30));
 
-        jPanelConceptionContainer.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
-
         jPanelCountry.setBackground(new java.awt.Color(230, 230, 230));
         jPanelCountry.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -342,6 +347,64 @@ public class main_window_Simulation extends javax.swing.JFrame {
             }
         });
         jPanelCountry.add(jButtonCreateCountry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 320, -1));
+
+        LabelCountryName.setText("Nom du pays");
+
+        jLabelCountryPop.setText("Population");
+
+        jButtonSaveCountryInfo.setText("Sauvegarder");
+        jButtonSaveCountryInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSaveCountryInfoActionPerformed(evt);
+            }
+        });
+
+        jTextCountryName.setText("Nom");
+        jTextCountryName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextCountryNameActionPerformed(evt);
+            }
+        });
+
+        jTextCountryPop.setText("0");
+
+        javax.swing.GroupLayout jPanelCountryInfoLayout = new javax.swing.GroupLayout(jPanelCountryInfo);
+        jPanelCountryInfo.setLayout(jPanelCountryInfoLayout);
+        jPanelCountryInfoLayout.setHorizontalGroup(
+            jPanelCountryInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelCountryInfoLayout.createSequentialGroup()
+                .addGroup(jPanelCountryInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCountryInfoLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonSaveCountryInfo))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCountryInfoLayout.createSequentialGroup()
+                        .addGroup(jPanelCountryInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelCountryPop)
+                            .addComponent(LabelCountryName))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                        .addGroup(jPanelCountryInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextCountryName, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                            .addComponent(jTextCountryPop))))
+                .addContainerGap())
+        );
+        jPanelCountryInfoLayout.setVerticalGroup(
+            jPanelCountryInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelCountryInfoLayout.createSequentialGroup()
+                .addGroup(jPanelCountryInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(LabelCountryName)
+                    .addComponent(jTextCountryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelCountryInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelCountryPop)
+                    .addComponent(jTextCountryPop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonSaveCountryInfo)
+                .addContainerGap(7, Short.MAX_VALUE))
+        );
+
+        jPanelCountryInfo.setVisible(false);
+
+        jPanelCountry.add(jPanelCountryInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 360, 100));
 
         jPanelConceptionContainer.add(jPanelCountry);
 
@@ -378,7 +441,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
 
         jPanelConceptionContainer.add(jPanelLink);
 
-        jPanelConceptionTool.add(jPanelConceptionContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 340, 360));
+        jPanelConceptionTool.add(jPanelConceptionContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 360, 470));
 
         jButtonSwitchSimulation.setText("Passer en simulation");
         jButtonSwitchSimulation.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -387,7 +450,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
                 jButtonSwitchSimulationActionPerformed(evt);
             }
         });
-        jPanelConceptionTool.add(jButtonSwitchSimulation, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 440, 340, -1));
+        jPanelConceptionTool.add(jButtonSwitchSimulation, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 520, 340, -1));
 
         javax.swing.GroupLayout jPanelConceptionLayout = new javax.swing.GroupLayout(jPanelConception);
         jPanelConception.setLayout(jPanelConceptionLayout);
@@ -399,22 +462,18 @@ public class main_window_Simulation extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelConceptionTool, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
+                .addComponent(jPanelConceptionTool, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE))
         );
         jPanelConceptionLayout.setVerticalGroup(
             jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelConceptionLayout.createSequentialGroup()
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 70, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConceptionLayout.createSequentialGroup()
-                .addGroup(jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanelConceptionLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanelConceptionDraw, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanelConceptionLayout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(jPanelConceptionTool, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap()
+                .addComponent(jPanelConceptionDraw, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(jPanelConceptionTool, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
         );
 
         jLayeredPane.add(jPanelConception, "card2");
@@ -483,6 +542,11 @@ public class main_window_Simulation extends javax.swing.JFrame {
         jPanelMortalityRate.add(jLabelTitleMortalityRate);
 
         jTextFieldMortalityRate.setText("0%");
+        jTextFieldMortalityRate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldMortalityRateActionPerformed(evt);
+            }
+        });
         jPanelMortalityRate.add(jTextFieldMortalityRate);
 
         jPanelDeseaseParams.add(jPanelMortalityRate);
@@ -827,6 +891,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private void jButtonCreateCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateCountryActionPerformed
         mode = Mode.Create;
         countrySelected = null;
+        jPanelCountryInfo.setVisible(true);
     }//GEN-LAST:event_jButtonCreateCountryActionPerformed
 
     private void jButtonApplyDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyDiseaseActionPerformed
@@ -859,6 +924,25 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private void NouveauMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NouveauMenuActionPerformed
         // TODO add your handling code here: MEL À CONFIGUER
     }//GEN-LAST:event_NouveauMenuActionPerformed
+
+    private void jTextFieldMortalityRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMortalityRateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldMortalityRateActionPerformed
+
+    private void jButtonSaveCountryInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveCountryInfoActionPerformed
+        String countryName = jTextCountryName.getText();
+        int popNumber = Integer.parseInt(jTextCountryPop.getText());
+        // VALIDATION QUE C'EST UN CHIFFRE A FAIRE
+        Population countryPop = new Population(popNumber);
+        //ADDCOUNTRY A MODIFIER
+        worldController.AddCountry(countryPts);  
+        jPanelCountryInfo.setVisible(false);
+        
+    }//GEN-LAST:event_jButtonSaveCountryInfoActionPerformed
+
+    private void jTextCountryNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextCountryNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextCountryNameActionPerformed
         
     
     
@@ -967,6 +1051,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem ChargerMenu;
+    private javax.swing.JLabel LabelCountryName;
     private javax.swing.JMenuItem NouveauMenu;
     private javax.swing.JMenuItem SauvegarderMenu;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -988,6 +1073,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private javax.swing.JButton jButtonRemoveCountry;
     private javax.swing.JButton jButtonRemoveLink;
     private javax.swing.JButton jButtonRemoveRegion;
+    private javax.swing.JButton jButtonSaveCountryInfo;
     private javax.swing.JButton jButtonSwitchConception;
     private javax.swing.JButton jButtonSwitchSimulation;
     private javax.swing.JCheckBox jCheckBoxActive;
@@ -1000,6 +1086,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelActive;
     private javax.swing.JLabel jLabelCase;
+    private javax.swing.JLabel jLabelCountryPop;
     private javax.swing.JLabel jLabelCured;
     private javax.swing.JLabel jLabelDayElapsed;
     private javax.swing.JLabel jLabelDead;
@@ -1033,6 +1120,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelConceptionTool;
     private javax.swing.JPanel jPanelContainer;
     private javax.swing.JPanel jPanelCountry;
+    private javax.swing.JPanel jPanelCountryInfo;
     private javax.swing.JPanel jPanelCured;
     private javax.swing.JPanel jPanelCuredRate;
     private javax.swing.JPanel jPanelDayElapsed;
@@ -1059,6 +1147,8 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JTextField jTextCountryName;
+    private javax.swing.JTextField jTextCountryPop;
     private javax.swing.JTextField jTextFieldAdhesionRate;
     private javax.swing.JTextField jTextFieldCuredRate;
     private javax.swing.JTextField jTextFieldMesureName;
