@@ -37,13 +37,13 @@ public class WorldDrawer {
         drawLinks(g);
     }
     
-    public void drawCountryInfos(Graphics g, Point mousePosition, Country country) { //TODO: A finir
+    public void drawCountryInfos(Graphics g, Point mousePosition, Country country) { //TODO: A finir..à changer pour countryDTO?
         g.setColor(Color.WHITE);
         g.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), 20, 20);
         g.setColor(Color.BLACK);
         g.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), 20, 20);
         Point center = country.getShape().GetCenter();
-        g.drawString("France", (int)mousePosition.getX(), (int)mousePosition.getY());
+        g.drawString("France", (int)mousePosition.getX(), (int)mousePosition.getY());  // À CHANGER pour country.name (à changer dans domaine)
     }
     
     private void drawCountries(Graphics g) {

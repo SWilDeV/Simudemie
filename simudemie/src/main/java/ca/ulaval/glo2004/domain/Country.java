@@ -6,6 +6,7 @@
 package ca.ulaval.glo2004.domain;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -29,6 +30,7 @@ public class Country {
         pop +=1;
         population.setTotalPopulation(pop);
     }
+
     public Country(GeometricForm form){
         id = UUID.randomUUID();
         shape = form;
@@ -80,6 +82,10 @@ public class Country {
     
     public void setColor(){
         
+    }
+    
+    public void SetPosition(Point position) {
+        shape.SetPosition(position);
     }
     
     @Override

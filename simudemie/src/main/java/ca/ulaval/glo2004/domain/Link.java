@@ -7,6 +7,7 @@ package ca.ulaval.glo2004.domain;
 
 import java.awt.Color;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  *
@@ -23,6 +24,8 @@ public class Link {
    private double travelRate;
    private boolean isOpen;
    
+   private final UUID id;
+   
    private static final Color landColor = Color.BLUE;
    private static final Color airColor = Color.pink;
    private static final Color maritimeColor = Color.GREEN;
@@ -32,6 +35,11 @@ public class Link {
        this.setCountry1(first);
        this.setCountry2(second);
        linkType = type;
+       id = UUID.randomUUID();
+   }
+   
+   public UUID GetId() {
+       return id;
    }
    
    public Country getCountry1(){
@@ -98,19 +106,21 @@ public class Link {
         }
         
         Link link = (Link)other;
-        return linkType == link.GetLinkType() &&
+        return  id == link.GetId() ||
+               (linkType == link.GetLinkType() &&
                (country1 == link.getCountry1() &&
                country2 == link.getCountry2()) ||
                (country1 == link.getCountry2() &&
-               country2 == link.getCountry1());
+               country2 == link.getCountry1()));
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.linkType);
-        hash = 79 * hash + Objects.hashCode(this.country1);
-        hash = 79 * hash + Objects.hashCode(this.country2);
+        int hash = 3;
+        hash = 31 * hash + Objects.hashCode(this.linkType);
+        hash = 31 * hash + Objects.hashCode(this.country1);
+        hash = 31 * hash + Objects.hashCode(this.country2);
+        hash = 31 * hash + Objects.hashCode(this.id);
         return hash;
     }
 }

@@ -105,7 +105,8 @@ public class WorldController {
         }
     }
     
-    public void RemoveLink() {
+    public void RemoveLink(UUID linkId) {
+        world.RemoveLink(linkId);
     }
     
     
