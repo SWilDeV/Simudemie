@@ -140,17 +140,14 @@ public class WorldController {
         }
     }
 
-    
     public void StartSimulation() {
         if(!simulation.getIsRunning()) {
             simulation.Simulate(); 
         }
     }
     
-    public void StopSimlation() {
-        if(simulation.getIsRunning()) {
-            simulation.PausePlay();
-        }
+    public void pauseSimulation() {
+            simulation.Pause();
     }
     
     public void Save() {

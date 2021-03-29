@@ -6,6 +6,8 @@
 package ca.ulaval.glo2004.domain;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  *
@@ -13,13 +15,14 @@ import java.util.ArrayList;
  */
 public class Simulation {
     
+    public Simulation() {  
+    }
     private boolean isRunning = false;
     private int elapsedDay = 0;
     //TODO: On a oublis de definir le type de DataHistory. J'ai mis int pour eviter les erreuurs
     private ArrayList<Integer> dataHistory = new ArrayList<Integer>();
     
-    public Simulation() {  
-    }
+    
     
     public boolean getIsRunning() {
         return this.isRunning;
@@ -38,16 +41,36 @@ public class Simulation {
     }
     
     public void Simulate() {
-        this.SetRunning(true);
-        System.out.println("J'ai demarré");
+        System.out.println("demarré");
+        SetRunning(true);
+        Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            //@Override
+            public void run() {
+                if(getIsRunning()){
+                    //CODE VIENT ICI
+                    elapsedDay +=1;
+                    System.out.println(elapsedDay);
+                    
+                }else{
+                    t.cancel();
+                }
+            }
+        }, 0, 1000);
     }
     
-    public void previousDay() {
+    public int previousDay() {
+        return elapsedDay -=1;
+    }
+    public int nextDay() {
+        return elapsedDay +=1;
+    }
+    
+    public void Pause() {
+        if(isRunning == true){
+            this.isRunning=false;
+        }
         
-    }
-    
-    public void PausePlay() {
-        this.SetRunning(false);
-        System.out.println("Arret");
+        
     }
 }

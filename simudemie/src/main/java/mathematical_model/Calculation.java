@@ -5,6 +5,9 @@
  */
 package mathematical_model;
 
+import ca.ulaval.glo2004.domain.Country;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import org.apache.commons.math3.distribution.BinomialDistribution;
 
@@ -15,7 +18,7 @@ import org.apache.commons.math3.distribution.BinomialDistribution;
  * A voir ce que l'on met dedans.
  */
 public class Calculation {
-    
+    private List<Country> countryList = new ArrayList<Country>();
     public Calculation() {
         
     }

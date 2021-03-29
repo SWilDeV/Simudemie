@@ -762,7 +762,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnPlayActionPerformed
 
     private void jBtnPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPauseActionPerformed
-        worldController.StopSimlation();
+        worldController.pauseSimulation();
     }//GEN-LAST:event_jBtnPauseActionPerformed
 
     private void jBtnRedoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRedoActionPerformed
