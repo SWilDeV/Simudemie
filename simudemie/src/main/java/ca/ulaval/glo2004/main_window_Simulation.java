@@ -152,6 +152,9 @@ public class main_window_Simulation extends javax.swing.JFrame {
         jLabelDayElapsed = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
+        NouveauMenu = new javax.swing.JMenuItem();
+        ChargerMenu = new javax.swing.JMenuItem();
+        SauvegarderMenu = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
 
         jMenu1.setText("jMenu1");
@@ -706,6 +709,31 @@ public class main_window_Simulation extends javax.swing.JFrame {
         getContentPane().add(jPanelContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 1120, 560));
 
         jMenu3.setText("File");
+
+        NouveauMenu.setLabel("Nouveau projet");
+        NouveauMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NouveauMenuActionPerformed(evt);
+            }
+        });
+        jMenu3.add(NouveauMenu);
+
+        ChargerMenu.setLabel("Ouvrir un projet ");
+        ChargerMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChargerMenuActionPerformed(evt);
+            }
+        });
+        jMenu3.add(ChargerMenu);
+
+        SauvegarderMenu.setLabel("Sauvegarder le projet");
+        SauvegarderMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SauvegarderMenuActionPerformed(evt);
+            }
+        });
+        jMenu3.add(SauvegarderMenu);
+
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Edit");
@@ -819,6 +847,18 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private void jBtnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnResetActionPerformed
         worldController.resetSimulation();
     }//GEN-LAST:event_jBtnResetActionPerformed
+
+    private void SauvegarderMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SauvegarderMenuActionPerformed
+        worldController.Save();
+    }//GEN-LAST:event_SauvegarderMenuActionPerformed
+
+    private void ChargerMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChargerMenuActionPerformed
+        worldController.Load();
+    }//GEN-LAST:event_ChargerMenuActionPerformed
+
+    private void NouveauMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NouveauMenuActionPerformed
+        // TODO add your handling code here: MEL À CONFIGUER
+    }//GEN-LAST:event_NouveauMenuActionPerformed
         
     
     
@@ -926,6 +966,9 @@ public class main_window_Simulation extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem ChargerMenu;
+    private javax.swing.JMenuItem NouveauMenu;
+    private javax.swing.JMenuItem SauvegarderMenu;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
