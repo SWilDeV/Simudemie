@@ -24,7 +24,11 @@ public class Country {
     
     private final UUID id;
     
-    
+    public void incrementTotalPopulation(){
+        int pop = population.getTotalPopulation();
+        pop +=1;
+        population.setTotalPopulation(pop);
+    }
     public Country(GeometricForm form){
         id = UUID.randomUUID();
         shape = form;

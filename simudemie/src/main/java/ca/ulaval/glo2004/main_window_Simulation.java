@@ -226,6 +226,11 @@ public class main_window_Simulation extends javax.swing.JFrame {
         jPanelMainButtons.setLayout(new java.awt.GridBagLayout());
 
         jBtnReset.setText("Reset");
+        jBtnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnResetActionPerformed(evt);
+            }
+        });
         jPanelMainButtons.add(jBtnReset, new java.awt.GridBagConstraints());
 
         jBtnPause.setText("Pause");
@@ -810,6 +815,10 @@ public class main_window_Simulation extends javax.swing.JFrame {
         }
         jList1.setModel(listModel);
     }//GEN-LAST:event_jButtonApplyMesureActionPerformed
+
+    private void jBtnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnResetActionPerformed
+        worldController.resetSimulation();
+    }//GEN-LAST:event_jBtnResetActionPerformed
         
     
     

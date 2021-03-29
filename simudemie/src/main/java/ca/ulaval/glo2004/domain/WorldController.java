@@ -20,13 +20,16 @@ import java.util.stream.Collectors;
 public class WorldController {
     
     private final World world = new World();
-    private final Simulation simulation = new Simulation();
+    private final Simulation simulation;
     private final Disease disease = new Disease(0.0, 0.0, 0.0);
     private final WorldDrawer worldDrawer;
     private final List<HealthMesure> mesures = new ArrayList<>();
     
     public List<CountryDTO> GetCountries() {
         return (List<CountryDTO>) world.getCountries().stream().map(e -> new CountryDTO((Country) e)).collect(Collectors.toList());
+    }
+    public List<Country> GetCountriesforSimulation() {
+        return (List<Country>) world.getCountries();
     }
     
     public List<LinkDTO> GetLinks() {
@@ -58,6 +61,7 @@ public class WorldController {
     
     public WorldController() {
         worldDrawer = new WorldDrawer(this);
+        simulation = new Simulation(this);
     }
     
     public void Draw(Graphics g) {
@@ -150,6 +154,10 @@ public class WorldController {
             simulation.Pause();
     }
     
+    public void resetSimulation() {
+            simulation.Reset();
+    }
+    
     public void Save() {
     
     }
@@ -173,4 +181,5 @@ public class WorldController {
     public void GetCountryInfo(UUID countryId) { //Maybe rename: DisplayCountryInfo ?
         world.getInfos(countryId);
     }
+    
 }
