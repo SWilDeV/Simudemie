@@ -873,6 +873,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
                 worldController.UpdateCountry(c);
                 drawingPanel.revalidate();
                 drawingPanel.repaint();
+                break;
             }
         }
         
