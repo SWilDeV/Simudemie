@@ -284,6 +284,9 @@ public class main_window_Simulation extends javax.swing.JFrame {
         jPanelConceptionDraw.setBackground(new java.awt.Color(255, 255, 255));
         jPanelConceptionDraw.setMinimumSize(new java.awt.Dimension(100, 10));
         jPanelConceptionDraw.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jPanelConceptionDrawMouseDragged(evt);
+            }
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 jPanelConceptionDrawMouseMoved(evt);
             }
@@ -859,6 +862,21 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private void NouveauMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NouveauMenuActionPerformed
         // TODO add your handling code here: MEL À CONFIGUER
     }//GEN-LAST:event_NouveauMenuActionPerformed
+
+    private void jPanelConceptionDrawMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelConceptionDrawMouseDragged
+        // On bouge le pays ici. Demander si on peut mettre une tel logique ici.
+        List<CountryDTO> countries = worldController.GetCountries();
+        for(int i = 0; i < countries.size(); i++) {
+            CountryDTO c = countries.get(i);
+            if(Utility.IsInRectangle(c.Shape.GetPoints(), evt.getPoint())) {
+                c.Shape.SetPosition(evt.getPoint());
+                worldController.UpdateCountry(c);
+                drawingPanel.revalidate();
+                drawingPanel.repaint();
+            }
+        }
+        
+    }//GEN-LAST:event_jPanelConceptionDrawMouseDragged
         
     
     

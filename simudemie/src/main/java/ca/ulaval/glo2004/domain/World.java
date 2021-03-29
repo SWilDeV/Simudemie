@@ -62,8 +62,11 @@ public class World {
         }
     }
     
-    public void RemoveLink() {
-        
+    public void RemoveLink(UUID linkId) {
+        Link link = FindLinkByUUID(linkId);
+        if(link != null) {
+            linkList.remove(link);
+        }
     }
     
     public Country findCountryByPosition(Point position) {
@@ -80,6 +83,16 @@ public class World {
         for(Country country: countryList) {
             if(country.GetId() == id) {
                 return country;
+            }
+        }
+        
+        return null;
+    }
+    
+    private Link FindLinkByUUID(UUID id) {
+        for(Link link: linkList) {
+            if(link.GetId() == id) {
+                return link;
             }
         }
         

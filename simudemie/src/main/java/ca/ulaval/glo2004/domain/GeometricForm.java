@@ -8,6 +8,7 @@ package ca.ulaval.glo2004.domain;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.Math;
 
 /**
  *
@@ -20,6 +21,18 @@ public abstract class GeometricForm {
     
     public GeometricForm(List<Point> points){
         this.points = points;
+        CalculateCenter();
+    }
+    
+    public void SetPosition(Point position) {
+        float directionX = position.x - center.x;
+        float directionY = position.y - center.y;
+        
+        for(int i =0; i < points.size(); i++) {
+            points.get(i).x += directionX;
+            points.get(i).y += directionY;
+        }
+        
         CalculateCenter();
     }
     

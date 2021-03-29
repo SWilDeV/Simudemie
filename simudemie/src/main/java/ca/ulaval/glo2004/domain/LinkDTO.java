@@ -5,6 +5,8 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.util.UUID;
+
 /**
  *
  * @author Abergel Clement
@@ -16,6 +18,8 @@ public class LinkDTO {
    public CountryDTO Country2;
    public double TravelRate;
    public boolean IsOpen;
+   
+   public final UUID Id;
     
     public LinkDTO(Link link) {
         LinkType = link.GetLinkType();
@@ -23,5 +27,6 @@ public class LinkDTO {
         Country2 = new CountryDTO(link.getCountry2());
         TravelRate = link.getTravelRate();
         IsOpen = link.isOpen();
+        Id = link.GetId();
     }
 }

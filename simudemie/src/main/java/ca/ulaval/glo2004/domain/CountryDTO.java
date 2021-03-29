@@ -7,6 +7,7 @@ package ca.ulaval.glo2004.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -40,6 +41,27 @@ public class CountryDTO {
         int population = populationDTO.getTotalPopulationDTO();
         population +=1;
         populationDTO.setTotalPopulationDTO(population);
+    }
+    
+    @Override
+    public boolean equals(Object other) {       
+        if(other == null || !(other instanceof CountryDTO)){
+            return false;
+        }
+        
+        if(other == this) {
+            return true;
+        }
+        
+        CountryDTO countryDTO = (CountryDTO)other;
+        return Id == countryDTO.Id;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + Objects.hashCode(this.Id);
+        return hash;
     }
         
 }
