@@ -5,6 +5,7 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,12 +20,14 @@ public class CountryDTO {
     public PopulationDTO populationDTO;
     public GeometricForm Shape;
     public String name;
+    public Color color;
     public final UUID Id;
     
     public CountryDTO(Country country) {
         Regions = new ArrayList<>(country.GetRegions());
         populationDTO = new PopulationDTO(country.getPopulation());
         name = country.getName();
+        color = country.getColor();
         
         GeometricForm countryShape = country.getShape();
         if(countryShape instanceof RegularForm) {

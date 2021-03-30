@@ -90,7 +90,16 @@ public class Country {
     }
     
     public Color getColor() {
-        throw new UnsupportedOperationException("Not supported");
+        double percentageInfected = this.population.getInfectedPopulation() / this.population.getTotalPopulation();
+        if (percentageInfected >= 0.25 && percentageInfected < 0.5) {
+            this.color = new Color(255,255,0); 
+        } else if (percentageInfected >= 0.5) {
+            this.color = new Color(255,0,0);
+        } else {
+            this.color = new Color(50,205,50);
+        }
+        return this.color;
+        //throw new UnsupportedOperationException("Not supported");
     }
     
     public void setColor(){

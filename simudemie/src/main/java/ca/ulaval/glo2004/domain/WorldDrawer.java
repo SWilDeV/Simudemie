@@ -61,7 +61,7 @@ public class WorldDrawer {
             }
             
             Polygon poly = new Polygon(pointsX, pointsY, size);
-            g.setColor(Color.red);
+            g.setColor(country.color);
             g.fillPolygon(poly);
             g.setColor(Color.black);
             g.drawPolygon(poly);
