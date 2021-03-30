@@ -37,6 +37,8 @@ public class main_window_Simulation extends javax.swing.JFrame {
     public enum Mode {Idle, Create, Select};
     public Mode mode = Mode.Idle;
     private int test = 0;
+    private CountryDTO onHoverCountry = null; //Je sais que c'est pas bien, mais pour test, on va faire ca.
+    private Point onHoverMousePosition = new Point(); //Je sais que c'est pas bien, mais pour test, on va faire ca.
     
     /**
      * Creates new form main_window_test
@@ -962,38 +964,40 @@ public class main_window_Simulation extends javax.swing.JFrame {
             }
             drawingPanel.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
-
-        
-    
+ 
     
     public void Draw(Graphics g){
         worldController.Draw(g);
+        if(onHoverCountry != null) {
+            worldController.DrawCountryInfo(g, onHoverMousePosition, onHoverCountry);
+        }
     }
     
     public void LogiqueDeOnHoverQuiNeDoitPasEtreLa(java.awt.event.MouseEvent evt) {
         if(mode == Mode.Idle) {
             Point mousePoint = evt.getPoint();
             List<CountryDTO> countries = worldController.GetCountries();
+            boolean found = false;
             for(CountryDTO country: countries) {
                 if(Utility.IsInRectangle(country.Shape.GetPoints(), mousePoint)) {
-                    //On hover ?
+                    onHoverCountry = country;
+                    onHoverMousePosition = mousePoint;
+                    found = true;
+                    break;
                 }
             }
+            
+            if(!found) {
+                onHoverCountry = null;
+            }
+            
+            drawingPanel.repaint();
+        } else {
+            onHoverCountry = null;
         }
     }
     
-    public void LogiqueQuiNeDoitPasEtreIciNormalement(java.awt.event.MouseEvent evt) {
-//        if(evt.getButton() == MouseEvent.BUTTON3) {
-//            if(mode == Mode.Select) {
-//                mode = Mode.Create;
-//            } else {
-//                mode = Mode.Select;
-//            }
-//            
-//            System.out.println("mode: " + mode);
-//            countrySelected = null;
-//        }
-        
+    public void LogiqueQuiNeDoitPasEtreIciNormalement(java.awt.event.MouseEvent evt) {        
         if(mode == Mode.Select && evt.getButton() == MouseEvent.BUTTON1) {
             Point mousePoint = evt.getPoint();
             

@@ -68,6 +68,4 @@ public class Population { //TODO: Faire un DTO de population :)
     public void setNonInfectedPopulation(int p_NonInfectedPop){
         nonInfectedPopulation = p_NonInfectedPop;
     }
-    
-    
 }

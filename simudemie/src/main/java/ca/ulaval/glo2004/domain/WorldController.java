@@ -71,7 +71,7 @@ public class WorldController {
         worldDrawer.draw(g);
     }
     
-    public void DrawCountryInfo(Graphics g, Point mousePosition, Country country) {
+    public void DrawCountryInfo(Graphics g, Point mousePosition, CountryDTO country) {
         worldDrawer.drawCountryInfos(g, mousePosition, country);
     }
     

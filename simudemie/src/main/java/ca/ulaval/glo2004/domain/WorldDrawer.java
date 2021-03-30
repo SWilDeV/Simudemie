@@ -37,13 +37,22 @@ public class WorldDrawer {
         drawLinks(g);
     }
     
-    public void drawCountryInfos(Graphics g, Point mousePosition, Country country) { //TODO: A finir..à changer pour countryDTO?
+    public void drawCountryInfos(Graphics g, Point mousePosition, CountryDTO country) { //TODO: A finir..à changer pour countryDTO?        
+        //mousePosition = new Point(country.Shape.GetCenter().x, country.Shape.GetCenter().y);
+        
+        String totalPopulation = String.valueOf(country.populationDTO.totalPopulationDTO);
+        int boxWidth = totalPopulation.length() * 8 + 100;
+
         g.setColor(Color.WHITE);
-        g.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), 20, 20);
+        g.fillRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 125);
         g.setColor(Color.BLACK);
-        g.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), 20, 20);
-        Point center = country.getShape().GetCenter();
-        g.drawString(country.getName(), (int)mousePosition.getX(), (int)mousePosition.getY()); 
+        g.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 125);
+        Point center = country.Shape.GetCenter();
+
+        int tempY = (int)mousePosition.getY();
+        for(String str: country.toString().split("\n")) {
+            g.drawString(str, (int)mousePosition.getX() + 1, tempY += g.getFontMetrics().getHeight());        
+        }
     }
     
     private void drawCountries(Graphics g) {
@@ -61,14 +70,14 @@ public class WorldDrawer {
             }
             
             Polygon poly = new Polygon(pointsX, pointsY, size);
-            g.setColor(country.color);
+            g.setColor(country.Color);
             g.fillPolygon(poly);
             g.setColor(Color.black);
             g.drawPolygon(poly);
             
             g.setColor(Color.BLACK);
             Point center = country.Shape.GetCenter();
-            g.drawString(country.name, (int)center.getX(), ((int)center.getY()-20));
+            g.drawString(country.Name, (int)center.getX(), ((int)center.getY()-20));
             String totPop = Integer.toString(country.getPopulationDTO().getTotalPopulationDTO());
             g.drawString(totPop, (int)center.getX(), (int)center.getY());
         }

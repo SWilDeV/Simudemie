@@ -19,15 +19,15 @@ public class CountryDTO {
     public List<Region> Regions;
     public PopulationDTO populationDTO;
     public GeometricForm Shape;
-    public String name;
-    public Color color;
+    public String Name;
+    public Color Color;
     public final UUID Id;
     
     public CountryDTO(Country country) {
         Regions = new ArrayList<>(country.GetRegions());
         populationDTO = new PopulationDTO(country.getPopulation());
-        name = country.getName();
-        color = country.getColor();
+        Name = country.getName();
+        Color = country.getColor();
         
         GeometricForm countryShape = country.getShape();
         if(countryShape instanceof RegularForm) {
@@ -46,6 +46,16 @@ public class CountryDTO {
         int population = populationDTO.getTotalPopulationDTO();
         population +=1;
         populationDTO.setTotalPopulationDTO(population);
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(Name).append("\n");
+        sb.append("---------\n");
+        sb.append(populationDTO.toString());
+        
+        return sb.toString();
     }
     
     @Override

@@ -30,5 +30,4 @@ public final class Utility {
         
         return position.getX() > p1.getX() && position.getX() < p2.getX() && position.getY() > p1.getY() && position.getY() < p2.getY();
     }
-    
 }
