@@ -78,6 +78,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
         jBtnReset = new javax.swing.JButton();
         jBtnPause = new javax.swing.JButton();
         jBtnPlay = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jLayeredPane = new javax.swing.JLayeredPane();
         jPanelConception = new javax.swing.JPanel();
         jPanelConceptionDraw = new javax.swing.JPanel();
@@ -216,7 +217,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
 
         jPanelUndoRedoButtons.setLayout(new java.awt.GridBagLayout());
 
-        jBtnUndo.setText("Next");
+        jBtnUndo.setText("Undo");
         jBtnUndo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnUndoActionPerformed(evt);
@@ -259,29 +260,36 @@ public class main_window_Simulation extends javax.swing.JFrame {
         });
         jPanelMainButtons.add(jBtnPlay, new java.awt.GridBagConstraints());
 
+        jButton2.setText("Update");
+        jButton2.setActionCommand("Update");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1120, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(0, 359, Short.MAX_VALUE)
-                    .addComponent(jPanelUndoRedoButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(58, 58, 58)
-                    .addComponent(jPanelMainButtons, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 359, Short.MAX_VALUE)))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(135, 135, 135)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
+                .addComponent(jPanelUndoRedoButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58)
+                .addComponent(jPanelMainButtons, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 357, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanelUndoRedoButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jPanelMainButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2)
+                    .addComponent(jPanelUndoRedoButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanelMainButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanelContainer.add(jPanel1);
@@ -870,20 +878,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnRedoActionPerformed
 
     private void jBtnUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUndoActionPerformed
-//        mode = Mode.Select;
-//        if(mode == Mode.Select && evt.getButton() == MouseEvent.BUTTON1) {
-//            Point mousePoint = evt.getPoint();
-    
-            List<CountryDTO> countries = worldController.GetCountries();
-            for(CountryDTO country: countries) {
-                country.incrementTotalPopulationDTO();
-                worldController.UpdateCountry(country); ;
-//                }
-            }
-            drawingPanel.repaint();
-//        }
-        
-        
+   worldController.Undo();
     }//GEN-LAST:event_jBtnUndoActionPerformed
 
     private void jButtonAddLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddLinkActionPerformed
@@ -958,6 +953,15 @@ public class main_window_Simulation extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jPanelConceptionDrawMouseDragged
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        List<CountryDTO> countries = worldController.GetCountries();
+            for(CountryDTO country: countries) {
+                //country.incrementTotalPopulationDTO();
+                worldController.UpdateCountry(country);
+            }
+            drawingPanel.repaint();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
         
     
@@ -1079,6 +1083,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private javax.swing.JButton jBtnReset;
     private javax.swing.JButton jBtnUndo;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonAddLink;
     private javax.swing.JButton jButtonAddRegion;
     private javax.swing.JButton jButtonApplyDisease;

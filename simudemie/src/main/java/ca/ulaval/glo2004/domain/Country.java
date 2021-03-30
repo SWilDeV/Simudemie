@@ -23,20 +23,19 @@ public class Country {
     private GeometricForm shape;
     private Color color;
     private String name;
-    
     private final UUID id;
     
-    public void incrementTotalPopulation(){
-        int pop = population.getTotalPopulation();
-        pop +=1;
-        population.setTotalPopulation(pop);
-    }
-
     public Country(GeometricForm form, String countryName, int countryPop){
         id = UUID.randomUUID();
         shape = form;
         name = countryName;
         population = new Population(countryPop);
+    }
+    
+    public void incrementTotalPopulation(){
+        int pop = population.getTotalPopulation();
+        pop +=1;
+        population.setTotalPopulation(pop);
     }
     
     public UUID GetId() {
@@ -82,8 +81,12 @@ public class Country {
         }
     }
     
-    public void fromDTO(CountryDTO countryDTO){
+    public void fromCountryDTO(CountryDTO countryDTO){
         population.setTotalPopulation(countryDTO.getPopulationDTO().getTotalPopulationDTO());
+    }
+    
+    public void fromCountry(Country country){
+        population.setTotalPopulation(country.getPopulation().getTotalPopulation());
     }
     
     public Color getColor() {

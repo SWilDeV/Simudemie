@@ -9,13 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import  mathematical_model.Calculation;
 
 /**
  *
  * @author Abergel Clement
  */
 public class Simulation {
-       
+    private Calculation calculation = new Calculation();
     private boolean isRunning = false;
     private int elapsedDay = 0;
     private ArrayList<Integer> dataHistory = new ArrayList<Integer>();
@@ -24,6 +25,10 @@ public class Simulation {
     
     public Simulation(WorldController p_controller){
         controller = p_controller;
+        
+        
+        //POUR TESTER CALCULATION. A ENLEVER LORSQUE TERMINÉ
+        //calculation.Calculate();
     }
     
     public boolean getIsRunning() {
@@ -54,10 +59,12 @@ public class Simulation {
                 if(getIsRunning()){
                     //CODE VIENT ICI
                     elapsedDay +=1;
-                    System.out.println("Day: "+ elapsedDay);
+                    //controller.printDay();
                     for(Country country : countries) {
                         System.out.println("Pop: "+country.getPopulation().getTotalPopulation());
                         country.incrementTotalPopulation();
+                        controller.getWorld().updateCountryFromSimulation(country);
+                        
                         
                     }
                     
@@ -88,4 +95,5 @@ public class Simulation {
         elapsedDay = 0;
         System.out.println("Timer Reset");
     }
+    
 }

@@ -28,7 +28,14 @@ public class World {
     public void updateCountry(CountryDTO country) {
         Country c = FindCountryByUUID(country.Id);
         if(c != null){
-            c.fromDTO(country);
+            c.fromCountryDTO(country);
+        }
+    }
+    
+    public void updateCountryFromSimulation(Country country) {
+        Country c = FindCountryByUUID(country.GetId());
+        if(c != null){
+            c.fromCountry(country);
         }
     }
     

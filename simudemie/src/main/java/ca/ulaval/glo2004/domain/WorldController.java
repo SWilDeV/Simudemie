@@ -55,13 +55,16 @@ public class WorldController {
                 return mesure;
             }
         }
-        
         return null;
     }
     
     public WorldController() {
         worldDrawer = new WorldDrawer(this);
         simulation = new Simulation(this);
+    }
+    
+    public World getWorld(){
+        return world;
     }
     
     public void Draw(Graphics g) {
@@ -183,4 +186,8 @@ public class WorldController {
         world.getInfos(countryId);
     }
     
+    public void printDay(){
+        int day = simulation.GetElapsedDay();
+        System.out.println("Day: "+ day);
+    }
 }
