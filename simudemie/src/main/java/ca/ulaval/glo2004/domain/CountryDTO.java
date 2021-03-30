@@ -18,11 +18,13 @@ public class CountryDTO {
     public List<Region> Regions;
     public PopulationDTO populationDTO;
     public GeometricForm Shape;
+    public String name;
     public final UUID Id;
     
     public CountryDTO(Country country) {
         Regions = new ArrayList<>(country.GetRegions());
         populationDTO = new PopulationDTO(country.getPopulation());
+        name = country.getName();
         
         GeometricForm countryShape = country.getShape();
         if(countryShape instanceof RegularForm) {

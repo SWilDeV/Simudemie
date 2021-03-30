@@ -43,7 +43,7 @@ public class WorldDrawer {
         g.setColor(Color.BLACK);
         g.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), 20, 20);
         Point center = country.getShape().GetCenter();
-        g.drawString("France", (int)mousePosition.getX(), (int)mousePosition.getY());  // À CHANGER pour country.name (à changer dans domaine)
+        g.drawString(country.getName(), (int)mousePosition.getX(), (int)mousePosition.getY()); 
     }
     
     private void drawCountries(Graphics g) {
@@ -68,7 +68,7 @@ public class WorldDrawer {
             
             g.setColor(Color.BLACK);
             Point center = country.Shape.GetCenter();
-            //g.drawString("France", (int)center.getX(), (int)center.getY());
+            g.drawString(country.name, (int)center.getX(), ((int)center.getY()-20));
             String totPop = Integer.toString(country.getPopulationDTO().getTotalPopulationDTO());
             g.drawString(totPop, (int)center.getX(), (int)center.getY());
         }

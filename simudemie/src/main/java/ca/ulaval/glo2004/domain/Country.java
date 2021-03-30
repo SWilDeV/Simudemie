@@ -22,6 +22,7 @@ public class Country {
     private Population population;
     private GeometricForm shape;
     private Color color;
+    private String name;
     
     private final UUID id;
     
@@ -31,10 +32,11 @@ public class Country {
         population.setTotalPopulation(pop);
     }
 
-    public Country(GeometricForm form){
+    public Country(GeometricForm form, String countryName, int countryPop){
         id = UUID.randomUUID();
         shape = form;
-        population = new Population();
+        name = countryName;
+        population = new Population(countryPop);
     }
     
     public UUID GetId() {
@@ -47,6 +49,14 @@ public class Country {
     
     public Population getPopulation(){
         return population; //TODO : DTO
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String countryName) {
+        name = countryName;
     }
     
     public void setPopulation(Population population) {

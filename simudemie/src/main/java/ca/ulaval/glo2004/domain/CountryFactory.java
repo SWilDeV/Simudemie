@@ -14,7 +14,7 @@ import java.util.List;
  * @author Abergel Clement
  */
 public class CountryFactory {
-    public static Country CreateCountry(final List<Point> points) {
+    public static Country CreateCountry(final List<Point> points, String countryName, int countryPop) {
         GeometricForm form = null;
         
         if(points.size() == 2) {
@@ -33,6 +33,6 @@ public class CountryFactory {
             form = new IrregularForm(points);
         }
         
-        return new Country(form);
+        return new Country(form, countryName, countryPop);
     }
 }

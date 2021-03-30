@@ -410,7 +410,7 @@
                     <Container class="javax.swing.JPanel" name="jPanelConceptionContainer">
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="10" y="40" width="360" height="470"/>
+                          <AbsoluteConstraints x="10" y="40" width="360" height="440"/>
                         </Constraint>
                       </Constraints>
 
@@ -527,7 +527,7 @@
                                 </Component>
                                 <Component class="javax.swing.JButton" name="jButtonSaveCountryInfo">
                                   <Properties>
-                                    <Property name="text" type="java.lang.String" value="Sauvegarder"/>
+                                    <Property name="text" type="java.lang.String" value="Terminer"/>
                                   </Properties>
                                   <Events>
                                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSaveCountryInfoActionPerformed"/>
@@ -660,7 +660,7 @@
                       </Events>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="10" y="520" width="340" height="-1"/>
+                          <AbsoluteConstraints x="10" y="490" width="340" height="-1"/>
                         </Constraint>
                       </Constraints>
                     </Component>

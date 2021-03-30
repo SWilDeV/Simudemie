@@ -355,7 +355,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
 
         jLabelCountryPop.setText("Population");
 
-        jButtonSaveCountryInfo.setText("Sauvegarder");
+        jButtonSaveCountryInfo.setText("Terminer");
         jButtonSaveCountryInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSaveCountryInfoActionPerformed(evt);
@@ -444,7 +444,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
 
         jPanelConceptionContainer.add(jPanelLink);
 
-        jPanelConceptionTool.add(jPanelConceptionContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 360, 470));
+        jPanelConceptionTool.add(jPanelConceptionContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 360, 440));
 
         jButtonSwitchSimulation.setText("Passer en simulation");
         jButtonSwitchSimulation.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -453,7 +453,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
                 jButtonSwitchSimulationActionPerformed(evt);
             }
         });
-        jPanelConceptionTool.add(jButtonSwitchSimulation, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 520, 340, -1));
+        jPanelConceptionTool.add(jButtonSwitchSimulation, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 490, 340, -1));
 
         javax.swing.GroupLayout jPanelConceptionLayout = new javax.swing.GroupLayout(jPanelConception);
         jPanelConception.setLayout(jPanelConceptionLayout);
@@ -934,12 +934,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldMortalityRateActionPerformed
 
     private void jButtonSaveCountryInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveCountryInfoActionPerformed
-        String countryName = jTextCountryName.getText();
-        int popNumber = Integer.parseInt(jTextCountryPop.getText());
         // VALIDATION QUE C'EST UN CHIFFRE A FAIRE
-        Population countryPop = new Population(popNumber);
-        //ADDCOUNTRY A MODIFIER
-        worldController.AddCountry(countryPts);  
         jPanelCountryInfo.setVisible(false);
         
     }//GEN-LAST:event_jButtonSaveCountryInfoActionPerformed
@@ -1024,7 +1019,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
             countryPts.add(evt.getPoint());
             
             if(countryPts.size() == 2) { // Un peux bete de faire ca, mais on trouvera une solution
-                worldController.AddCountry(countryPts);
+                worldController.AddCountry(countryPts, jTextCountryName.getText(), Integer.parseInt(jTextCountryPop.getText()));
                 drawingPanel.repaint();
 
                 countryPts.clear();
