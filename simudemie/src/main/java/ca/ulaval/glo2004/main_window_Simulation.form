@@ -432,6 +432,19 @@
                             <Property name="useNullLayout" type="boolean" value="false"/>
                           </Layout>
                           <SubComponents>
+                            <Component class="javax.swing.JToggleButton" name="jToggleButtonCreateCountry">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="Cr&#xe9;er pays"/>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButtonCreateCountryActionPerformed"/>
+                              </Events>
+                              <Constraints>
+                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                                  <AbsoluteConstraints x="10" y="10" width="320" height="-1"/>
+                                </Constraint>
+                              </Constraints>
+                            </Component>
                             <Component class="javax.swing.JButton" name="jButtonRemoveCountry">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Supprimer le pays"/>
@@ -455,26 +468,13 @@
                                 </Constraint>
                               </Constraints>
                             </Component>
-                            <Component class="javax.swing.JButton" name="jButtonCreateCountry">
-                              <Properties>
-                                <Property name="text" type="java.lang.String" value="Cree un pays"/>
-                              </Properties>
-                              <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCreateCountryActionPerformed"/>
-                              </Events>
-                              <Constraints>
-                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                                  <AbsoluteConstraints x="10" y="10" width="320" height="-1"/>
-                                </Constraint>
-                              </Constraints>
-                            </Component>
                             <Container class="javax.swing.JPanel" name="jPanelCountryInfo">
                               <AuxValues>
                                 <AuxValue name="JavaCodeGenerator_LayoutCodePost" type="java.lang.String" value="jPanelCountryInfo.setVisible(false);"/>
                               </AuxValues>
                               <Constraints>
                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                                  <AbsoluteConstraints x="0" y="100" width="360" height="100"/>
+                                  <AbsoluteConstraints x="0" y="100" width="340" height="70"/>
                                 </Constraint>
                               </Constraints>
 
@@ -483,21 +483,13 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" alignment="1" attributes="0">
-                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                                  <Component id="jButtonSaveCountryInfo" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="1" attributes="0">
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="jLabelCountryPop" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="LabelCountryName" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace pref="60" max="32767" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                      <Component id="jTextCountryName" pref="211" max="32767" attributes="0"/>
-                                                      <Component id="jTextCountryPop" max="32767" attributes="0"/>
-                                                  </Group>
-                                              </Group>
+                                              <Component id="jLabelCountryPop" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="LabelCountryName" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace pref="40" max="32767" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="jTextCountryName" pref="211" max="32767" attributes="0"/>
+                                              <Component id="jTextCountryPop" max="32767" attributes="0"/>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                       </Group>
@@ -515,9 +507,7 @@
                                               <Component id="jLabelCountryPop" alignment="3" min="-2" max="-2" attributes="0"/>
                                               <Component id="jTextCountryPop" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jButtonSaveCountryInfo" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace pref="7" max="32767" attributes="0"/>
+                                          <EmptySpace pref="12" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -532,14 +522,6 @@
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="Population"/>
                                   </Properties>
-                                </Component>
-                                <Component class="javax.swing.JButton" name="jButtonSaveCountryInfo">
-                                  <Properties>
-                                    <Property name="text" type="java.lang.String" value="Terminer"/>
-                                  </Properties>
-                                  <Events>
-                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSaveCountryInfoActionPerformed"/>
-                                  </Events>
                                 </Component>
                                 <Component class="javax.swing.JTextField" name="jTextCountryName">
                                   <Properties>
