@@ -8,6 +8,12 @@ package ca.ulaval.glo2004.domain;
 import ca.ulaval.glo2004.domain.Link.LinkType;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -17,7 +23,7 @@ import java.util.stream.Collectors;
  *
  * @author Abergel Clement
  */
-public class WorldController {
+public class WorldController implements java.io.Serializable {
     
     private final World world = new World();
     private final Simulation simulation;
@@ -162,11 +168,28 @@ public class WorldController {
             simulation.Reset();
     }
     
-    public void save() {
-        
+    public void save(File savedFile) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(savedFile);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(world);
+            out.writeObject(simulation);
+            out.close();
+            fileOut.close();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
     
-    public void load() {
+    public void load(File openedFile) {
+        //try {
+            //FileInputStream fileIn = new FileInputStream(openedFile);
+            //ObjectInputStream in = new ObjectInputStream(fileIn);
+            //world = (World) in.readObject();
+            //simulation = (Simulation) in.readObject();
+        //} catch (ClassNotFoundException c) {
+            //c.printStackTrace();
+        //}
         
     }
     

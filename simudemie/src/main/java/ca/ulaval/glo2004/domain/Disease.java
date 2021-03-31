@@ -10,7 +10,7 @@ package ca.ulaval.glo2004.domain;
  *
  * @author melanietremblay
  */
-public class Disease {
+public class Disease implements java.io.Serializable {
     private double reproductionRate;
     private double mortalityRate;
     private double cureRate;

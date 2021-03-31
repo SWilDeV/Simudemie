@@ -16,7 +16,7 @@ import java.util.function.Predicate;
  *
  * @author charl
  */
-public class World {
+public class World implements java.io.Serializable {
     
     private List<Link> linkList = new ArrayList<Link>();
     private List<Country> countryList = new ArrayList<Country>();

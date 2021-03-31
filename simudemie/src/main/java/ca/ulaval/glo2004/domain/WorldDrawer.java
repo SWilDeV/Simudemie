@@ -20,7 +20,7 @@ import java.util.UUID;
  *
  * @author Sean
  */
-public class WorldDrawer {
+public class WorldDrawer implements java.io.Serializable {
     
     //    Attributs
     private final WorldController controller;

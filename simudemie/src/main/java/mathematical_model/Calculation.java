@@ -18,7 +18,7 @@ import org.apache.commons.math3.distribution.BinomialDistribution;
  * 
  * A voir ce que l'on met dedans.
  */
-public class Calculation {
+public class Calculation implements java.io.Serializable {
     private List<Country> countryList = new ArrayList<Country>();
     public Calculation() {
         

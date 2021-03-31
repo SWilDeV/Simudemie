@@ -921,7 +921,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
         int returnValue = saveFileChooser.showSaveDialog(this);
         
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            worldController.Save();
+            worldController.save(saveFileChooser.getSelectedFile());
         }
         
     }//GEN-LAST:event_SauvegarderMenuActionPerformed
@@ -930,7 +930,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
         int returnValue = openFileChooser.showOpenDialog(this);
         
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            worldController.Load(openFileChooser.getSelectedFile());
+            worldController.load(openFileChooser.getSelectedFile());
         }
         
     }//GEN-LAST:event_ChargerMenuActionPerformed

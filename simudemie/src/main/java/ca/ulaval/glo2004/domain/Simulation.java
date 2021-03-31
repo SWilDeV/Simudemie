@@ -15,7 +15,7 @@ import  mathematical_model.Calculation;
  *
  * @author Abergel Clement
  */
-public class Simulation {
+public class Simulation implements java.io.Serializable {
     private Calculation calculation = new Calculation();
     private boolean isRunning = false;
     private int elapsedDay = 0;
