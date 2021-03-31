@@ -8,7 +8,6 @@ package ca.ulaval.glo2004.domain;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.Math;
 
 /**
  *
@@ -57,5 +56,28 @@ public abstract class GeometricForm {
     
     public Point GetCenter() {
         return new Point(center);
+    }
+    
+    public List<Point> GetBB() {
+        
+        List<Point> pts = new ArrayList<>();
+        points.forEach(p -> {
+            pts.add((Point) p.clone());
+        });
+
+        int size = 5;
+        pts.get(0).x -= size;
+        pts.get(0).y -= size;
+
+        pts.get(1).x += size;
+        pts.get(1).y -= size;
+
+        pts.get(2).x += size;
+        pts.get(2).y += size;
+
+        pts.get(3).x -= size;
+        pts.get(3).y += size;
+        
+        return pts;
     }
 }

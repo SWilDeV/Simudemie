@@ -63,9 +63,17 @@ public class World {
     public void Addlink(UUID firstCountryId, UUID secondCountryId, Link.LinkType type) {
         Link link = new Link(FindCountryByUUID(firstCountryId), FindCountryByUUID(secondCountryId), type);       
         boolean alreadyLink = linkList.stream().anyMatch(e -> e.equals(link));
-
-        if(!alreadyLink) {
-            linkList.add(link);
+ 
+        if(!alreadyLink) { //TODO: Refactor!          
+            if(type == Link.LinkType.TERRESTRE) {
+                Country country1 = FindCountryByUUID(firstCountryId);
+                Country country2 = FindCountryByUUID(secondCountryId);
+                if(type == Link.LinkType.TERRESTRE && Utility.AsCommonBorder(country1, country2)) {
+                    linkList.add(link);
+                }
+            } else {
+                linkList.add(link);
+            }
         }
     }
     
@@ -79,7 +87,7 @@ public class World {
     public Country findCountryByPosition(Point position) {
         for(Country country: countryList) {                
             if (Utility.IsInRectangle(country.getShape().GetPoints(), position)) {
-                return country; //TODO: DTO dans le controller.
+                return country;
             }
         }
         

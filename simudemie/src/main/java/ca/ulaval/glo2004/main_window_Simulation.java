@@ -263,7 +263,6 @@ public class main_window_Simulation extends javax.swing.JFrame {
         jPanelMainButtons.add(jBtnPlay, new java.awt.GridBagConstraints());
 
         jButton2.setText("Update");
-        jButton2.setActionCommand("Update");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -348,6 +347,11 @@ public class main_window_Simulation extends javax.swing.JFrame {
         jPanelCountry.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButtonRemoveCountry.setText("Supprimer le pays");
+        jButtonRemoveCountry.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRemoveCountryActionPerformed(evt);
+            }
+        });
         jPanelCountry.add(jButtonRemoveCountry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 320, -1));
 
         jButtonEditCountry.setText("Editer le pays");
@@ -379,7 +383,7 @@ public class main_window_Simulation extends javax.swing.JFrame {
             }
         });
 
-        jTextCountryPop.setText("0");
+        jTextCountryPop.setText("10");
 
         javax.swing.GroupLayout jPanelCountryInfoLayout = new javax.swing.GroupLayout(jPanelCountryInfo);
         jPanelCountryInfo.setLayout(jPanelCountryInfoLayout);
@@ -964,6 +968,12 @@ public class main_window_Simulation extends javax.swing.JFrame {
             }
             drawingPanel.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButtonRemoveCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveCountryActionPerformed
+        if(countrySelected != null) {
+            worldController.RemoveCountry(countrySelected.Id);
+        }
+    }//GEN-LAST:event_jButtonRemoveCountryActionPerformed
  
     
     public void Draw(Graphics g){

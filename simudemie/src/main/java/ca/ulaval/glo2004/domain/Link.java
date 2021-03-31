@@ -16,7 +16,7 @@ import java.util.UUID;
 
 public class Link {
 //    Attributs
-   public enum LinkType { AERIEN, TERRESTRE, MARITIME }; 
+   public enum LinkType { TERRESTRE, MARITIME, AERIEN }; 
     
    private final LinkType linkType;
    private Country country1;
@@ -26,9 +26,9 @@ public class Link {
    
    private final UUID id;
    
-   private static final Color landColor = Color.BLUE;
-   private static final Color airColor = Color.pink;
-   private static final Color maritimeColor = Color.GREEN;
+   private static final Color landColor = Color.pink;
+   private static final Color airColor = Color.GREEN;
+   private static final Color maritimeColor = Color.BLUE;
    
 //   methodes
    public Link(Country first, Country second, LinkType type){

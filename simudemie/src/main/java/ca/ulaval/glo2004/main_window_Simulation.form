@@ -436,6 +436,9 @@
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Supprimer le pays"/>
                               </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonRemoveCountryActionPerformed"/>
+                              </Events>
                               <Constraints>
                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                                   <AbsoluteConstraints x="10" y="70" width="320" height="-1"/>
@@ -548,7 +551,7 @@
                                 </Component>
                                 <Component class="javax.swing.JTextField" name="jTextCountryPop">
                                   <Properties>
-                                    <Property name="text" type="java.lang.String" value="0"/>
+                                    <Property name="text" type="java.lang.String" value="10"/>
                                   </Properties>
                                 </Component>
                               </SubComponents>
