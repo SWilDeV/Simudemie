@@ -25,10 +25,9 @@ public class Simulation {
     
     public Simulation(WorldController p_controller){
         controller = p_controller;
-        
-        
         //POUR TESTER CALCULATION. A ENLEVER LORSQUE TERMINÉ
-        //calculation.Calculate();
+//        int success = calculation.Calculate(1,0.1);
+//        System.out.println(success); 
     }
     
     public boolean getIsRunning() {
@@ -50,24 +49,26 @@ public class Simulation {
     public void Simulate() {
         System.out.println("demarré");
         SetRunning(true);
+        
         List<Country> countries = controller.GetCountriesforSimulation();
+        for(Country country : countries) {
+        country.getPopulation().addPatientZero();
+        controller.getWorld().updateCountryFromSimulation(country);
+        }
         
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             //@Override
             public void run() {
                 if(getIsRunning()){
-                    //CODE VIENT ICI
                     elapsedDay +=1;
-                    //controller.printDay();
+                    controller.printDay();
                     for(Country country : countries) {
-                        System.out.println("Pop: "+country.getPopulation().getTotalPopulation());
-                        country.incrementTotalPopulation();
+                        //country.incrementTotalPopulation();
+                        Population updated = UpdatePopulation(country);
+                        country.setPopulation(updated);
                         controller.getWorld().updateCountryFromSimulation(country);
-                        
-                        
                     }
-                    
                 }else{
                     timer.cancel();
                 }
@@ -94,6 +95,49 @@ public class Simulation {
         }
         elapsedDay = 0;
         System.out.println("Timer Reset");
+    }
+    public int calculateInfectedPopulation(Country country){
+        int infectedPop = country.getPopulation().getInfectedPopulation();
+        return calculation.Calculate(infectedPop,0.1);
+    }
+    
+    public Population UpdatePopulation(Country country){
+        //Gets
+        Population population = country.getPopulation();
+        int infectedPop = population.getInfectedPopulation();
+        int totalPop = population.getTotalPopulation();
+        int curedPop= population.getCuredPopulation();
+        
+        //Calculation
+        int newInfectedPop = calculation.Calculate(infectedPop,0.15) + infectedPop;
+        int newDeadPop = calculation.Calculate(infectedPop,0.01);
+      
+        int newNonInfectedPop = totalPop - newInfectedPop;
+        
+        int newCuredPop = calculation.Calculate(infectedPop,0.05);
+        if(newCuredPop>0){
+            newInfectedPop -= newCuredPop;
+            newNonInfectedPop += newCuredPop;
+            curedPop+=newCuredPop;
+        }
+        
+        int newTotalPop = totalPop;
+        if(newDeadPop > 0){
+            newTotalPop -= newDeadPop;
+        } else{
+            newTotalPop = newInfectedPop + newNonInfectedPop;
+        }
+        
+        int deadPop= population.getDeadPopulation() + newDeadPop;
+        
+        
+        //Sets
+        population.setInfectedPopulation(newInfectedPop);
+        population.setNonInfectedPopulation(newNonInfectedPop);
+        population.setDeadPopulation(deadPop);
+        population.setTotalPopulation(newTotalPop);
+        population.setCuredPopulation(curedPop);
+        return population;
     }
     
 }

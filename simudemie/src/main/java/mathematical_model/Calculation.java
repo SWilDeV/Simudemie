@@ -24,36 +24,36 @@ public class Calculation {
         
     }
     
-    public void Calculate(){
-        Random rnd = new Random(42);
+    public int Calculate(int x, double y){
+        Random rnd = new Random();
         double tolerance = 0.0001;
-        BinomialDistribution binomial = new BinomialDistribution(100,0.05);
+        BinomialDistribution binomial = new BinomialDistribution(x,y);
         ArrayList<Double> probabilites = new ArrayList<>();
         ArrayList<Integer> numberOfSuccess = new ArrayList<>();
         
-        int x = 5;
-        double prob = binomial.probability(x);
+        int esperance = (int)Math.round(x*y);//esperance: (nombre de test)*(probabilite de succes)
+        double prob = binomial.probability(esperance);
         while(prob > tolerance){
             probabilites.add(prob);
-            numberOfSuccess.add(x);
-            x+=1;
-            prob = binomial.probability(x);
+            numberOfSuccess.add(esperance);
+            esperance+=1;
+            prob = binomial.probability(esperance);
         }
         
-        x = 4;
-        prob = binomial.probability(x);
-        while(prob > tolerance && x>=0){
+        esperance = (int)Math.round(x*y)-1;//esperance - 1: (nombre de test)*(probabilite de succes)-1
+        prob = binomial.probability(esperance);
+        while(prob > tolerance && esperance>=0){
             probabilites.add(prob);
-            numberOfSuccess.add(x);
-            x-=1;
-            prob = binomial.probability(x);
+            numberOfSuccess.add(esperance);
+            esperance-=1;
+            prob = binomial.probability(esperance);
         }
-        
-        System.out.println(probabilites);
-        System.out.println(numberOfSuccess);
+//        
+//        System.out.println(probabilites);
+//        System.out.println(numberOfSuccess);
      
         
-        for(int k=0; k<10;k++){
+        //for(int k=0; k<10;k++){
             double randomNumber =  rnd.nextDouble();
             double current = 0.0;
             int success = 0;
@@ -64,10 +64,10 @@ public class Calculation {
                     break;
                 }
             }
-            System.out.println(success); 
-        }
+            
+        //}
         
-               
+    return success;
     }
     
 }
