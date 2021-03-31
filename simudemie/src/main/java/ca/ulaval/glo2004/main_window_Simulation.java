@@ -5,23 +5,19 @@
  */
 package ca.ulaval.glo2004;
 
-import ca.ulaval.glo2004.domain.Country;
 import ca.ulaval.glo2004.domain.CountryDTO;
-import ca.ulaval.glo2004.domain.CustomMeasure;
 import ca.ulaval.glo2004.domain.HealthMesureDTO;
 import ca.ulaval.glo2004.domain.Link.LinkType;
-import ca.ulaval.glo2004.domain.RegularForm;
 import ca.ulaval.glo2004.domain.Utility;
 import ca.ulaval.glo2004.domain.WorldController;
 import ca.ulaval.glo2004.ui.DrawingPanel;
-import ca.ulaval.glo2004.domain.Population;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -39,6 +35,8 @@ public class main_window_Simulation extends javax.swing.JFrame {
     private int test = 0;
     private CountryDTO onHoverCountry = null; //Je sais que c'est pas bien, mais pour test, on va faire ca.
     private Point onHoverMousePosition = new Point(); //Je sais que c'est pas bien, mais pour test, on va faire ca.
+    private JFileChooser openFileChooser; 
+    private JFileChooser saveFileChooser;
     
     /**
      * Creates new form main_window_test
@@ -48,6 +46,8 @@ public class main_window_Simulation extends javax.swing.JFrame {
 
         drawingPanel = new DrawingPanel(this, jPanelConceptionDraw);
         jPanelConceptionDraw.add(drawingPanel);
+        openFileChooser = new JFileChooser();
+        saveFileChooser = new JFileChooser();
 //        jPanelConceptionDraw.setLayout(new FlowLayout());
     }
 
@@ -918,11 +918,21 @@ public class main_window_Simulation extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnResetActionPerformed
 
     private void SauvegarderMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SauvegarderMenuActionPerformed
-        worldController.Save();
+        int returnValue = saveFileChooser.showSaveDialog(this);
+        
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            worldController.Save();
+        }
+        
     }//GEN-LAST:event_SauvegarderMenuActionPerformed
 
     private void ChargerMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChargerMenuActionPerformed
-        worldController.Load();
+        int returnValue = openFileChooser.showOpenDialog(this);
+        
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            worldController.Load(openFileChooser.getSelectedFile());
+        }
+        
     }//GEN-LAST:event_ChargerMenuActionPerformed
 
     private void NouveauMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NouveauMenuActionPerformed

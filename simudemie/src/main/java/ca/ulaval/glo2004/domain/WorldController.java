@@ -162,11 +162,11 @@ public class WorldController {
             simulation.Reset();
     }
     
-    public void Save() {
-    
+    public void save() {
+        
     }
     
-    public void Load() {
+    public void load() {
         
     }
     

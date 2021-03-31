@@ -90,7 +90,8 @@ public class Country {
     }
     
     public Color getColor() {
-        double percentageInfected = this.population.getInfectedPopulation() / this.population.getTotalPopulation();
+        double percentageInfected = this.population.getInfectedPopulation() / this.population.getTotalPopulation(); 
+        //TODO: mel à retravailler, car je ne suis pas certaine que c'est la bonne facon de faire
         if (percentageInfected >= 0.25 && percentageInfected < 0.5) {
             this.color = new Color(255,255,0); 
         } else if (percentageInfected >= 0.5) {
