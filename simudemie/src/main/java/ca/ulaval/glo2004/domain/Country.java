@@ -90,7 +90,7 @@ public class Country {
     }
     
     public void fromCountry(Country country){
-        population.setTotalPopulation(country.getPopulation().getCuredPopulation());
+        population.setTotalPopulation(country.getPopulation().getTotalPopulation());
         population.setCuredPopulation(country.getPopulation().getCuredPopulation());
         population.setInfectedPopulation(country.getPopulation().getInfectedPopulation());
         population.setNonInfectedPopulation(country.getPopulation().getNonInfectedPopulation());
