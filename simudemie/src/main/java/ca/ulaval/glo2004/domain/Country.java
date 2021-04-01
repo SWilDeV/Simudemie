@@ -18,7 +18,7 @@ import java.util.UUID;
  */
 public class Country {
     
-    private List<Region> regions = new ArrayList<Region>();
+    private List<Region> regions = new ArrayList<>();
     private Population population;
     private GeometricForm shape;
     private Color color;
@@ -41,7 +41,7 @@ public class Country {
     }
     
     public Population getPopulation(){
-        return population; //TODO : DTO
+        return population;
     }
     
     public String getName() {
@@ -76,6 +76,11 @@ public class Country {
     }
     
     public void fromCountryDTO(CountryDTO countryDTO){
+        if(countryDTO.Shape instanceof RegularForm) {
+            shape = new RegularForm(countryDTO.Shape.GetPoints());
+        } else {
+            shape = new IrregularForm(countryDTO.Shape.GetPoints());
+        }
         population.setTotalPopulation(countryDTO.getPopulationDTO().getTotalPopulationDTO());
     }
     

@@ -13,7 +13,6 @@ import java.awt.Polygon;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.util.List;
-import java.util.UUID;
 
 
 /**
@@ -82,7 +81,7 @@ public class WorldDrawer implements java.io.Serializable {
             g.drawString(totPop, (int)center.getX(), (int)center.getY());
             
             if(true) { //Show BoundingBox
-                List<Point> pts = country.Shape.GetBB();
+                List<Point> pts = country.Shape.GetBoundingBox();
                 int bbSize = pts.size();
                 int[] bbPointsX = new int[size];
                 int[] bbPointsY = new int[size];
@@ -97,33 +96,6 @@ public class WorldDrawer implements java.io.Serializable {
                 g.drawPolygon(bbPointsX, bbPointsY, bbSize);
             }
         }
-        
-//        if(countries.size() > 1) { //Ancien code pour draw les frontieres terrestre
-//            CountryDTO country1 = countries.get(0);
-//            CountryDTO country2 = countries.get(1);
-//            
-//            List<Point> CountryPts1 = country1.Shape.GetPoints();
-//            List<Point> bbCountryPts2 = country2.Shape.GetBB();
-//            for(int i = 0; i < bbCountryPts2.size(); i++) {
-//                Point bbPt1 = null;
-//                Point bbPt2 = null;
-//                if(i == (bbCountryPts2.size()-1)) {
-//                    bbPt1 = bbCountryPts2.get(i);
-//                    bbPt2 = bbCountryPts2.get(0);
-//                } else {
-//                    bbPt1 = bbCountryPts2.get(i);
-//                    bbPt2 = bbCountryPts2.get(i+1);
-//                }
-//                
-//                if(Utility.IsInRectangle(CountryPts1, bbPt1) && Utility.IsInRectangle(CountryPts1, bbPt2)) {                
-//                    Graphics2D g2 = (Graphics2D) g;
-//                    g2.setStroke(new BasicStroke(10));
-//                    g2.setColor(Color.cyan);
-//                    g2.setStroke(new BasicStroke(5));
-//                    g2.draw(new Line2D.Float(bbPt1.x, bbPt1.y, bbPt2.x, bbPt2.y));
-//                }
-//            }
-//        }
     }
     
     private void drawLinks(Graphics g) {
@@ -132,15 +104,12 @@ public class WorldDrawer implements java.io.Serializable {
 
         for(LinkDTO link: links) {
             if(link.LinkType == Link.LinkType.TERRESTRE) {
-                if(Utility.AsCommonBorder(link.Country1, link.Country2)) //Si on peux dessiner la border. Mais faut la remove quand on deplacer un pays.
-                {
-                    List<Point> pt = Utility.GetTerrestBorderPoint(link.Country1, link.Country2);
-
-                    g2.setStroke(new BasicStroke(10));
-                    g2.setColor(Color.cyan);
-                    g2.setStroke(new BasicStroke(5));
-                    g2.draw(new Line2D.Float(pt.get(0).x, pt.get(0).y, pt.get(1).x, pt.get(1).y));
-                }
+                List<Point> pt = Utility.GetLandBorderPoints(link.Country1, link.Country2);
+                g2.setStroke(new BasicStroke(10));
+                g2.setColor(Color.cyan);
+                g2.setStroke(new BasicStroke(5));
+                g2.draw(new Line2D.Float(pt.get(0).x, pt.get(0).y, pt.get(1).x, pt.get(1).y));
+                g2.setStroke(new BasicStroke(1));
             } else {
                 GeneralPath path = new GeneralPath();
                 Point countryPoint1 = link.Country1.Shape.GetCenter();

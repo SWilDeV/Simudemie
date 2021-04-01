@@ -16,11 +16,12 @@ import java.util.List;
 public abstract class GeometricForm {
     
     protected List<Point> points;
+    protected List<Point> bounding = new ArrayList<>();
     protected Point center;
     
     public GeometricForm(List<Point> points){
         this.points = points;
-        CalculateCenter();
+        RecalculateAll();
     }
     
     public void SetPosition(Point position) {
@@ -32,10 +33,15 @@ public abstract class GeometricForm {
             points.get(i).y += directionY;
         }
         
-        CalculateCenter();
+        RecalculateAll();
     }
     
-    private void CalculateCenter() {
+    protected void RecalculateAll() {
+        CalculateCenter();
+        CalculateBoundingBox();
+    }
+    
+    protected void CalculateCenter() {
         double sumX = 0;
         double sumY = 0;
         for(Point pt: points) {
@@ -44,6 +50,32 @@ public abstract class GeometricForm {
         }
         
         center = new Point((int)(sumX / points.size()), (int)(sumY / points.size()));
+    }
+    
+    protected void CalculateBoundingBox() {        
+        int size = 10;
+        
+        for(int i = 0 ; i < points.size(); i++) {
+            Vector2D pt = new Vector2D(points.get(i).x, points.get(i).y);
+            Vector2D direction = GetNormalizedDirection(points.get(i), center);
+            
+            int sizeLeft = (int)Math.sqrt(Math.pow(points.get(0).x - points.get(1).x, 2) + Math.pow(points.get(0).y - points.get(1).y, 2));
+            int sizeUp = (int)Math.sqrt(Math.pow(points.get(1).x - points.get(2).x, 2) + Math.pow(points.get(1).y - points.get(2).y, 2));
+            
+            direction.x *= sizeUp/size;
+            direction.y *= sizeLeft/size;
+            direction.SetMagnitude(size);
+
+            pt.x += direction.x;
+            pt.y += direction.y;
+            
+            bounding.add(i, pt.ToPoint());
+        }
+    }
+    
+    private Vector2D GetNormalizedDirection(Point point1, Point point2) {
+        Vector2D direction = new Vector2D(point1.x - point2.x, point1.y - point2.y);
+        return direction.Normalized();
     }
     
     public List<Point> GetPoints(){
@@ -58,26 +90,7 @@ public abstract class GeometricForm {
         return new Point(center);
     }
     
-    public List<Point> GetBB() {
-        
-        List<Point> pts = new ArrayList<>();
-        points.forEach(p -> {
-            pts.add((Point) p.clone());
-        });
-
-        int size = 5;
-        pts.get(0).x -= size;
-        pts.get(0).y -= size;
-
-        pts.get(1).x += size;
-        pts.get(1).y -= size;
-
-        pts.get(2).x += size;
-        pts.get(2).y += size;
-
-        pts.get(3).x -= size;
-        pts.get(3).y += size;
-        
-        return pts;
+    public List<Point> GetBoundingBox() {
+        return new ArrayList<>(bounding);
     }
 }

@@ -106,12 +106,12 @@ public class Link {
         }
         
         Link link = (Link)other;
-        return  id == link.GetId() ||
-               (linkType == link.GetLinkType() &&
-               (country1 == link.getCountry1() &&
-               country2 == link.getCountry2()) ||
+        return id == link.GetId() ||
+                (linkType.equals(link.GetLinkType()) &&
+               ((country1 == link.getCountry1() &&
+               country2 == link.getCountry2()) || 
                (country1 == link.getCountry2() &&
-               country2 == link.getCountry1()));
+                country2 == link.getCountry1())));
     }
 
     @Override

@@ -5,6 +5,7 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import static ca.ulaval.glo2004.domain.Utility.IsTouching;
 import java.awt.Point;
 import java.util.List;
 
@@ -31,45 +32,47 @@ public final class Utility {
         return position.getX() > p1.getX() && position.getX() < p2.getX() && position.getY() > p1.getY() && position.getY() < p2.getY();
     }
     
-    public static final boolean AsCommonBorder(CountryDTO country1, CountryDTO country2) {
-        return IsTouching(country1.Shape.GetPoints(), country2.Shape.GetBB()).Touched || IsTouching(country2.Shape.GetBB(), country1.Shape.GetPoints()).Touched;
+    public static final boolean AsCommonLandBorder(CountryDTO country1, CountryDTO country2) {
+        return IsTouching(country1.Shape.GetBoundingBox(), country2.Shape.GetPoints()).Touched ||
+                IsTouching(country2.Shape.GetBoundingBox(), country1.Shape.GetPoints()).Touched;
     }
     
-    public static final boolean AsCommonBorder(Country country1, Country country2) {
-        return IsTouching(country1.getShape().GetPoints(), country2.getShape().GetBB()).Touched || IsTouching(country2.getShape().GetBB(), country1.getShape().GetPoints()).Touched;
+    public static final boolean AsCommonLandBorder(Country country1, Country country2) {        
+        return IsTouching(country1.getShape().GetBoundingBox(), country2.getShape().GetPoints()).Touched ||
+                IsTouching(country2.getShape().GetBoundingBox(), country1.getShape().GetPoints()).Touched;
     }
     
-    public static final List<Point> GetTerrestBorderPoint(CountryDTO country1, CountryDTO country2) {
-        CountryTouchResult result1 = IsTouching(country1.Shape.GetPoints(), country2.Shape.GetBB());
-        CountryTouchResult result2 = IsTouching(country2.Shape.GetBB(), country1.Shape.GetPoints());
-        
-        if(result1.Touched) {
-            return result1.GetPoints();
+    public static final List<Point> GetLandBorderPoints(CountryDTO country1, CountryDTO country2) {
+        CountryTouchResult resultOne = IsTouching(country1.Shape.GetBoundingBox(), country2.Shape.GetPoints());
+        CountryTouchResult resultTwo = IsTouching(country2.Shape.GetBoundingBox(), country1.Shape.GetPoints());
+
+        if(resultOne.Touched) {
+            return resultOne.GetPoints();
         }
         
-        return result2.GetPoints();
+        return resultTwo.GetPoints();
     }
     
-    public static final CountryTouchResult IsTouching(List<Point> countryPts, List<Point> otherBbPts) {      
+    public static final CountryTouchResult IsTouching(List<Point> countryBb, List<Point> otherPts) {    //other est-il dans la bb de country ?
         Point borderPointOne = null;
         Point borderPointTwo = null;
-        int size = otherBbPts.size();
+        int size = otherPts.size();
           
         boolean touch = false;
         
         for(int i = 0; i < size; i++) {
-            Point bbPt1 = otherBbPts.get(i);
-            Point bbPt2 = otherBbPts.get(0);
+            Point pt1 = otherPts.get(i);
+            Point pt2 = otherPts.get(0);
 
             if(i != (size-1)) {
-                bbPt1 = otherBbPts.get(i);
-                bbPt2 = otherBbPts.get(i+1);
+                pt1 = otherPts.get(i);
+                pt2 = otherPts.get(i+1);
             }
 
-            if(Utility.IsInRectangle(countryPts, bbPt1) && Utility.IsInRectangle(countryPts, bbPt2)) {
+            if(Utility.IsInRectangle(countryBb, pt1) && Utility.IsInRectangle(countryBb, pt2)) {
+                borderPointOne = pt1;
+                borderPointTwo = pt2; 
                 touch = true;
-                borderPointOne = bbPt1;
-                borderPointTwo = bbPt2;
                 break;
             }
         }

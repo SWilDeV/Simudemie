@@ -15,19 +15,23 @@ import java.util.List;
  */
 public class CountryTouchResult {
     public final boolean Touched;
-    public final Point Pt1;
-    public final Point Pt2;
+    public final Point PointOne;
+    public final Point PointTwo;
     
     public CountryTouchResult(boolean touched, Point pt1, Point pt2) {
         Touched = touched;
-        Pt1 = pt1;
-        Pt2 = pt2;
+        PointOne = pt1;
+        PointTwo = pt2;
     }
     
     public List<Point> GetPoints() {
+        if(PointOne == null || PointTwo == null) {
+            return null;
+        }
+
         return new ArrayList<Point>() {{
-            add(Pt1);
-            add(Pt2);
+            add(PointOne);
+            add(PointTwo);
         }};
     }
 }

@@ -4,13 +4,12 @@
  * and open the template in the editor.
  */
 package ca.ulaval.glo2004.domain;
+import ca.ulaval.glo2004.domain.Link.LinkType;
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -18,8 +17,8 @@ import java.util.function.Predicate;
  */
 public class World implements java.io.Serializable {
     
-    private List<Link> linkList = new ArrayList<Link>();
-    private List<Country> countryList = new ArrayList<Country>();
+    private List<Link> linkList = new ArrayList<>();
+    private List<Country> countryList = new ArrayList<>();
     
     public void addCountry(Country country){
          countryList.add(country);
@@ -29,7 +28,9 @@ public class World implements java.io.Serializable {
         Country c = FindCountryByUUID(country.Id);
         if(c != null){
             c.fromCountryDTO(country);
+            UpdateLandBorder(country);
         }
+        
     }
     
     public void updateCountryFromSimulation(Country country) {
@@ -62,17 +63,33 @@ public class World implements java.io.Serializable {
     
     public void Addlink(UUID firstCountryId, UUID secondCountryId, Link.LinkType type) {
         Link link = new Link(FindCountryByUUID(firstCountryId), FindCountryByUUID(secondCountryId), type);       
-        boolean alreadyLink = linkList.stream().anyMatch(e -> e.equals(link));
+        boolean isAbleToLink = !linkList.stream().anyMatch(e -> e.equals(link));
  
-        if(!alreadyLink) { //TODO: Refactor!          
-            if(type == Link.LinkType.TERRESTRE) {
-                Country country1 = FindCountryByUUID(firstCountryId);
-                Country country2 = FindCountryByUUID(secondCountryId);
-                if(type == Link.LinkType.TERRESTRE && Utility.AsCommonBorder(country1, country2)) {
-                    linkList.add(link);
-                }
+        if(type == Link.LinkType.TERRESTRE) {
+            Country country1 = FindCountryByUUID(firstCountryId);
+            Country country2 = FindCountryByUUID(secondCountryId);
+            if(country1 != null && country2 != null) {
+                isAbleToLink = Utility.AsCommonLandBorder(country1, country2);
             } else {
-                linkList.add(link);
+                isAbleToLink = false;
+            }
+        }
+        
+        if(isAbleToLink) {
+            linkList.add(link);
+        }
+    }
+    
+    public void UpdateLandBorder(CountryDTO country) {
+        List<Link> links = linkList.stream().filter(l -> l.GetLinkType().equals(LinkType.TERRESTRE) &&
+                                                   (l.getCountry1().GetId() == country.Id ||
+                                                    l.getCountry2().GetId() == country.Id)).collect(Collectors.toList());
+        
+        if(links != null) {
+            for(int i = 0; i < links.size(); i++) {
+                if(!Utility.AsCommonLandBorder(links.get(i).getCountry1(), links.get(i).getCountry2())) {
+                    linkList.remove(links.get(i));
+                }
             }
         }
     }
@@ -119,7 +136,7 @@ public class World implements java.io.Serializable {
     }
     
     public List getLinks(){
-        return linkList; //Peut etre un retour comme celui-ci dans le controller.
+        return new ArrayList<>(linkList); //Peut etre un retour comme celui-ci dans le controller.
     }
     
     public void getInfos(UUID countryId){

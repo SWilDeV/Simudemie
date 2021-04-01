@@ -48,7 +48,6 @@ public class main_window_Simulation extends javax.swing.JFrame {
         jPanelConceptionDraw.add(drawingPanel);
         openFileChooser = new JFileChooser();
         saveFileChooser = new JFileChooser();
-//        jPanelConceptionDraw.setLayout(new FlowLayout());
     }
 
     /**

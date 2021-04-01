@@ -5,6 +5,7 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -28,5 +29,35 @@ public class LinkDTO {
         TravelRate = link.getTravelRate();
         IsOpen = link.isOpen();
         Id = link.GetId();
+    }
+    
+    
+    @Override
+    public boolean equals(Object other) {       
+        if(other == null || !(other instanceof LinkDTO)){
+            return false;
+        }
+        
+        if(other == this) {
+            return true;
+        }
+        
+        LinkDTO link = (LinkDTO)other;
+        return Id == link.Id||
+                (LinkType.equals(link.LinkType) &&
+               ((Country1 == link.Country1 &&
+               Country2 == link.Country2) || 
+               (Country1 == link.Country2 &&
+                Country2 == link.Country1)));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.LinkType);
+        hash = 97 * hash + Objects.hashCode(this.Country1);
+        hash = 97 * hash + Objects.hashCode(this.Country2);
+        hash = 97 * hash + Objects.hashCode(this.Id);
+        return hash;
     }
 }
