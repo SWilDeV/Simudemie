@@ -43,9 +43,9 @@ public class WorldDrawer implements java.io.Serializable {
         int boxWidth = totalPopulation.length() * 8 + 100;
         
         g.setColor(Color.WHITE);
-        g.fillRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 125);
+        g.fillRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
         g.setColor(Color.BLACK);
-        g.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 125);
+        g.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
         Point center = country.Shape.GetCenter();
 
         int tempY = (int)mousePosition.getY();

@@ -73,9 +73,9 @@ public class PopulationDTO {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("Population total: %d \n", totalPopulationDTO));
         sb.append(String.format("Infecte: %d \n", infectedPopulationDTO));
-        sb.append(String.format("Guerrie total: %d \n", curedPopulationDTO));
+        //sb.append(String.format("Guerrie total: %d \n", curedPopulationDTO));
         sb.append(String.format("Mort total: %d \n", deadPopulationDTO));
-        sb.append(String.format("Non infecte total: %d \n", nonInfectedPopulationDTO));
+        sb.append(String.format("Population saine: %d \n", nonInfectedPopulationDTO));
         
         return sb.toString();
     }
