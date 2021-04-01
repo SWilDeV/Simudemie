@@ -81,11 +81,20 @@ public class Country {
         } else {
             shape = new IrregularForm(countryDTO.Shape.GetPoints());
         }
+
         population.setTotalPopulation(countryDTO.getPopulationDTO().getTotalPopulationDTO());
+        population.setCuredPopulation(countryDTO.getPopulationDTO().getCuredPopulationDTO());
+        population.setInfectedPopulation(countryDTO.getPopulationDTO().getInfectedPopulationDTO());
+        population.setNonInfectedPopulation(countryDTO.getPopulationDTO().getNonInfectedPopulationDTO());
+        population.setDeadPopulation(countryDTO.getPopulationDTO().getDeadPopulationDTO());
     }
     
     public void fromCountry(Country country){
-        population.setTotalPopulation(country.getPopulation().getTotalPopulation());
+        population.setTotalPopulation(country.getPopulation().getCuredPopulation());
+        population.setCuredPopulation(country.getPopulation().getCuredPopulation());
+        population.setInfectedPopulation(country.getPopulation().getInfectedPopulation());
+        population.setNonInfectedPopulation(country.getPopulation().getNonInfectedPopulation());
+        population.setDeadPopulation(country.getPopulation().getDeadPopulation());
     }
     
     public Color getColor() {
