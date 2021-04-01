@@ -32,12 +32,6 @@ public class Country {
         population = new Population(countryPop);
     }
     
-    public void incrementTotalPopulation(){
-        int pop = population.getTotalPopulation();
-        pop +=1;
-        population.setTotalPopulation(pop);
-    }
-    
     public UUID GetId() {
         return id;
     }

@@ -8,6 +8,7 @@ package ca.ulaval.glo2004.domain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.Random;
 import java.util.TimerTask;
 import  mathematical_model.Calculation;
 
@@ -51,9 +52,16 @@ public class Simulation implements java.io.Serializable {
         SetRunning(true);
         
         List<Country> countries = controller.GetCountriesforSimulation();
+        Random rand = new Random();
+        int maxRand = countries.size();
+        int index = rand.nextInt(maxRand);
+        int counter = 0;
         for(Country country : countries) {
-        country.getPopulation().addPatientZero();
-        controller.getWorld().updateCountryFromSimulation(country);
+            if(index == counter){
+                country.getPopulation().addPatientZero();
+                controller.getWorld().updateCountryFromSimulation(country);
+            }
+            counter +=1;
         }
         
         Timer timer = new Timer();
@@ -64,16 +72,59 @@ public class Simulation implements java.io.Serializable {
                     elapsedDay +=1;
                     controller.printDay();
                     for(Country country : countries) {
-                        //country.incrementTotalPopulation();
                         Population updated = UpdatePopulation(country);
-                        country.setPopulation(updated);
-                        controller.getWorld().updateCountryFromSimulation(country);
+                        if(updated.getTotalPopulation()>updated.getInfectedPopulation()){
+                            country.setPopulation(updated);
+                            controller.getWorld().updateCountryFromSimulation(country); 
+                        }else{
+                            timer.cancel();
+                            System.out.println("end ! Des zombies partout!!");
+                        }
                     }
                 }else{
                     timer.cancel();
                 }
             }
         }, 0, 1000);
+    }
+    
+    public Population UpdatePopulation(Country country){
+        //population
+        Population population = country.getPopulation();
+        int totalPop = population.getTotalPopulation();
+        
+        //infectedPop
+        int previousDayInfectedPop = population.getInfectedPopulation();
+        int newInfectedPop = calculation.Calculate(previousDayInfectedPop,0.15);
+        int totalInfectedPop = newInfectedPop + previousDayInfectedPop;
+        
+        //non infected people
+        int curedPop = calculation.Calculate(totalInfectedPop,0.05);
+        if(curedPop>0){
+            totalInfectedPop -= curedPop;
+        }
+        
+        //dead population
+        int previousDayDeadPop= population.getDeadPopulation();
+        int newDeadPop = calculation.Calculate(totalInfectedPop,0.01);
+        int totalDeadPop= previousDayDeadPop + newDeadPop;
+        
+        //total population
+        int newTotalPop = totalPop - newDeadPop;
+        int totalNonInfectedPop = newTotalPop-totalInfectedPop;
+        if (totalNonInfectedPop <0){
+            totalNonInfectedPop = 0;
+            totalInfectedPop = newTotalPop;
+        }
+        
+     
+        //Sets
+        population.setInfectedPopulation(totalInfectedPop);
+        population.setNonInfectedPopulation(totalNonInfectedPop);
+        population.setDeadPopulation(totalDeadPop);
+        population.setTotalPopulation(newTotalPop);
+        
+        return population;
     }
     
     public int previousDay() {
@@ -96,48 +147,43 @@ public class Simulation implements java.io.Serializable {
         elapsedDay = 0;
         System.out.println("Timer Reset");
     }
-    public int calculateInfectedPopulation(Country country){
-        int infectedPop = country.getPopulation().getInfectedPopulation();
-        return calculation.Calculate(infectedPop,0.1);
-    }
-    
-    public Population UpdatePopulation(Country country){
-        //Gets
-        Population population = country.getPopulation();
-        int infectedPop = population.getInfectedPopulation();
-        int totalPop = population.getTotalPopulation();
-        int curedPop= population.getCuredPopulation();
-        
-        //Calculation
-        int newInfectedPop = calculation.Calculate(infectedPop,0.15) + infectedPop;
-        int newDeadPop = calculation.Calculate(infectedPop,0.01);
-      
-        int newNonInfectedPop = totalPop - newInfectedPop;
-        
-        int newCuredPop = calculation.Calculate(infectedPop,0.05);
-        if(newCuredPop>0){
-            newInfectedPop -= newCuredPop;
-            newNonInfectedPop += newCuredPop;
-            curedPop+=newCuredPop;
-        }
-        
-        int newTotalPop = totalPop;
-        if(newDeadPop > 0){
-            newTotalPop -= newDeadPop;
-        } else{
-            newTotalPop = newInfectedPop + newNonInfectedPop;
-        }
-        
-        int deadPop= population.getDeadPopulation() + newDeadPop;
-        
-        
-        //Sets
-        population.setInfectedPopulation(newInfectedPop);
-        population.setNonInfectedPopulation(newNonInfectedPop);
-        population.setDeadPopulation(deadPop);
-        population.setTotalPopulation(newTotalPop);
-        population.setCuredPopulation(curedPop);
-        return population;
-    }
+//    public Population UpdatePopulation(Country country){
+//        //Gets
+//        Population population = country.getPopulation();
+//        int infectedPop = population.getInfectedPopulation();
+//        int totalPop = population.getTotalPopulation();
+//        int curedPop= population.getCuredPopulation();
+//        
+//        //Calculation
+//        int newInfectedPop = calculation.Calculate(infectedPop,0.15) + infectedPop;
+//        int newDeadPop = calculation.Calculate(infectedPop,0.01);
+//      
+//        int newNonInfectedPop = totalPop - newInfectedPop;
+//        
+//        int newCuredPop = calculation.Calculate(infectedPop,0.05);
+//        if(newCuredPop>0){
+//            newInfectedPop -= newCuredPop;
+//            newNonInfectedPop += newCuredPop;
+//            curedPop+=newCuredPop;
+//        }
+//        
+//        int newTotalPop = totalPop;
+//        if(newDeadPop > 0){
+//            newTotalPop -= newDeadPop;
+//        } else{
+//            newTotalPop = newInfectedPop + newNonInfectedPop;
+//        }
+//        
+//        int deadPop= population.getDeadPopulation() + newDeadPop;
+//        
+//        
+//        //Sets
+//        population.setInfectedPopulation(newInfectedPop);
+//        population.setNonInfectedPopulation(newNonInfectedPop);
+//        population.setDeadPopulation(deadPop);
+//        population.setTotalPopulation(newTotalPop);
+//        population.setCuredPopulation(curedPop);
+//        return population;
+//    }
     
 }
