@@ -95,7 +95,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
         jLayeredPane = new javax.swing.JLayeredPane();
         jPanelConception = new javax.swing.JPanel();
         jPanelConceptionDraw = new javax.swing.JPanel();
-        jSeparator1 = new javax.swing.JSeparator();
         jPanelConceptionTool = new javax.swing.JPanel();
         jPanelConceptionTitle = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -121,7 +120,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
         jButtonSwitchSimulation = new javax.swing.JButton();
         jPanelSimulation = new javax.swing.JPanel();
         jPanelSimulationDraw = new javax.swing.JPanel();
-        jSeparator3 = new javax.swing.JSeparator();
         jPanelSimulationTool = new javax.swing.JPanel();
         jPanelSimulationTitle = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -223,7 +221,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Simudémie");
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanelContainer.setLayout(new javax.swing.BoxLayout(jPanelContainer, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -286,11 +283,11 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(135, 135, 135)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
                 .addComponent(jPanelUndoRedoButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(58, 58, 58)
                 .addComponent(jPanelMainButtons, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 357, Short.MAX_VALUE))
+                .addGap(0, 358, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -323,11 +320,8 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
             }
         });
 
-        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-
         jPanelConceptionTool.setMaximumSize(new java.awt.Dimension(500, 2147483647));
         jPanelConceptionTool.setMinimumSize(new java.awt.Dimension(200, 465));
-        jPanelConceptionTool.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -340,7 +334,7 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
             .addGroup(jPanelConceptionTitleLayout.createSequentialGroup()
                 .addGap(126, 126, 126)
                 .addComponent(jLabel1)
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addContainerGap(124, Short.MAX_VALUE))
             .addComponent(jSeparator2)
         );
         jPanelConceptionTitleLayout.setVerticalGroup(
@@ -350,8 +344,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-
-        jPanelConceptionTool.add(jPanelConceptionTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 340, 30));
 
         jPanelCountry.setBackground(new java.awt.Color(230, 230, 230));
         jPanelCountry.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -396,7 +388,7 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
                 .addGroup(jPanelCountryInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelCountryPop)
                     .addComponent(LabelCountryName))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addGroup(jPanelCountryInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextCountryName, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
                     .addComponent(jTextCountryPop))
@@ -412,7 +404,7 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
                 .addGroup(jPanelCountryInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCountryPop)
                     .addComponent(jTextCountryPop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         jPanelCountryInfo.setVisible(false);
@@ -454,8 +446,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
 
         jPanelConceptionContainer.add(jPanelLink);
 
-        jPanelConceptionTool.add(jPanelConceptionContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 360, 440));
-
         jButtonSwitchSimulation.setText("Passer en simulation");
         jButtonSwitchSimulation.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonSwitchSimulation.addActionListener(new java.awt.event.ActionListener() {
@@ -463,7 +453,31 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
                 jButtonSwitchSimulationActionPerformed(evt);
             }
         });
-        jPanelConceptionTool.add(jButtonSwitchSimulation, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 490, 340, -1));
+
+        javax.swing.GroupLayout jPanelConceptionToolLayout = new javax.swing.GroupLayout(jPanelConceptionTool);
+        jPanelConceptionTool.setLayout(jPanelConceptionToolLayout);
+        jPanelConceptionToolLayout.setHorizontalGroup(
+            jPanelConceptionToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelConceptionToolLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jPanelConceptionTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanelConceptionContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConceptionToolLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonSwitchSimulation, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanelConceptionToolLayout.setVerticalGroup(
+            jPanelConceptionToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelConceptionToolLayout.createSequentialGroup()
+                .addComponent(jPanelConceptionTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(jPanelConceptionContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonSwitchSimulation)
+                .addContainerGap(34, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanelConceptionLayout = new javax.swing.GroupLayout(jPanelConception);
         jPanelConception.setLayout(jPanelConceptionLayout);
@@ -471,27 +485,22 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
             jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelConceptionLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(jPanelConceptionDraw, javax.swing.GroupLayout.PREFERRED_SIZE, 713, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelConceptionTool, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE))
+                .addComponent(jPanelConceptionDraw, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(14, 14, 14)
+                .addComponent(jPanelConceptionTool, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanelConceptionLayout.setVerticalGroup(
             jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelConceptionLayout.createSequentialGroup()
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 70, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConceptionLayout.createSequentialGroup()
+                .addComponent(jPanelConceptionTool, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(211, 211, 211))
+            .addGroup(jPanelConceptionLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelConceptionDraw, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(jPanelConceptionTool, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
         );
 
         jLayeredPane.add(jPanelConception, "card2");
-
-        jPanelSimulation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanelSimulationDraw.setBackground(new java.awt.Color(255, 255, 255));
         jPanelSimulationDraw.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -504,13 +513,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
                 jPanelSimulationDrawMousePressed(evt);
             }
         });
-        jPanelSimulation.add(jPanelSimulationDraw, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 760, 460));
-
-        jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jSeparator3.setMinimumSize(new java.awt.Dimension(50, 50));
-        jPanelSimulation.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 30, 10, 460));
-
-        jPanelSimulationTool.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -524,21 +526,19 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
                 .addContainerGap()
                 .addGroup(jPanelSimulationTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelSimulationTitleLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 98, Short.MAX_VALUE)
                         .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE))
+                        .addGap(0, 98, Short.MAX_VALUE))
+                    .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         jPanelSimulationTitleLayout.setVerticalGroup(
             jPanelSimulationTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSimulationTitleLayout.createSequentialGroup()
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-
-        jPanelSimulationTool.add(jPanelSimulationTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 260, 30));
 
         jPanelSimulationContainer.setLayout(new java.awt.GridLayout(0, 1));
 
@@ -654,28 +654,43 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
 
         jPanelSimulationContainer.add(jPanelMesureParams);
 
-        jPanelSimulationTool.add(jPanelSimulationContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 250, 300));
-
         jButtonSwitchConception.setText("Passer en conception");
         jButtonSwitchConception.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSwitchConceptionActionPerformed(evt);
             }
         });
-        jPanelSimulationTool.add(jButtonSwitchConception, new org.netbeans.lib.awtextra.AbsoluteConstraints(-1, 430, 270, -1));
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(jList1);
 
-        jPanelSimulationTool.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 250, 90));
+        javax.swing.GroupLayout jPanelSimulationToolLayout = new javax.swing.GroupLayout(jPanelSimulationTool);
+        jPanelSimulationTool.setLayout(jPanelSimulationToolLayout);
+        jPanelSimulationToolLayout.setHorizontalGroup(
+            jPanelSimulationToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelSimulationToolLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanelSimulationToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelSimulationToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                        .addComponent(jPanelSimulationTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanelSimulationContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonSwitchConception, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(35, Short.MAX_VALUE))
+        );
+        jPanelSimulationToolLayout.setVerticalGroup(
+            jPanelSimulationToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelSimulationToolLayout.createSequentialGroup()
+                .addComponent(jPanelSimulationTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(jPanelSimulationContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 313, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(jButtonSwitchConception)
+                .addGap(25, 25, 25))
+        );
 
-        jPanelSimulation.add(jPanelSimulationTool, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 30, 270, 460));
-
-        jPanelOverview.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
+        jPanelOverview.setLayout(new java.awt.GridLayout(1, 0));
 
         jPanelCase.setPreferredSize(new java.awt.Dimension(700, 30));
 
@@ -777,13 +792,37 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
 
         jPanelOverview.add(jPanelDayElapsed);
 
-        jPanelSimulation.add(jPanelOverview, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 380, 30));
+        javax.swing.GroupLayout jPanelSimulationLayout = new javax.swing.GroupLayout(jPanelSimulation);
+        jPanelSimulation.setLayout(jPanelSimulationLayout);
+        jPanelSimulationLayout.setHorizontalGroup(
+            jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelSimulationLayout.createSequentialGroup()
+                .addGap(210, 210, 210)
+                .addComponent(jPanelOverview, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanelSimulationLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jPanelSimulationDraw, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(jPanelSimulationTool, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10))
+        );
+        jPanelSimulationLayout.setVerticalGroup(
+            jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelSimulationLayout.createSequentialGroup()
+                .addComponent(jPanelOverview, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelSimulationLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jPanelSimulationDraw, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE))
+                    .addGroup(jPanelSimulationLayout.createSequentialGroup()
+                        .addComponent(jPanelSimulationTool, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(180, 180, 180))))
+        );
 
         jLayeredPane.add(jPanelSimulation, "card3");
 
         jPanelContainer.add(jLayeredPane);
-
-        getContentPane().add(jPanelContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 1120, 560));
 
         jMenu3.setText("File");
 
@@ -818,6 +857,22 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
 
         setJMenuBar(jMenuBar1);
 
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jPanelContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jPanelContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                .addGap(43, 43, 43))
+        );
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -836,32 +891,9 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
         jPanelConceptionDraw.add(drawingPanel);
     }//GEN-LAST:event_jButtonSwitchConceptionActionPerformed
 
-    private void jButtonSwitchSimulationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSwitchSimulationActionPerformed
-        countrySelected = null;
-        countryPts.clear();
-        
-        jLayeredPane.removeAll();
-        jLayeredPane.add(jPanelSimulation);
-        jLayeredPane.repaint();
-        jLayeredPane.revalidate();
-        
-        jPanelConceptionDraw.remove(drawingPanel);
-        jPanelSimulationDraw.remove(drawingPanel);
-        drawingPanel = new DrawingPanel(this, jPanelSimulationDraw);
-        jPanelSimulationDraw.add(drawingPanel);
-    }//GEN-LAST:event_jButtonSwitchSimulationActionPerformed
-
-    private void jPanelConceptionDrawMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelConceptionDrawMousePressed
-        LogiqueQuiNeDoitPasEtreIciNormalement(evt);
-    }//GEN-LAST:event_jPanelConceptionDrawMousePressed
-
     private void jPanelSimulationDrawMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelSimulationDrawMousePressed
         LogiqueQuiNeDoitPasEtreIciNormalement(evt);
     }//GEN-LAST:event_jPanelSimulationDrawMousePressed
-
-    private void jPanelConceptionDrawMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelConceptionDrawMouseMoved
-        LogiqueDeOnHoverQuiNeDoitPasEtreLa(evt);
-    }//GEN-LAST:event_jPanelConceptionDrawMouseMoved
 
     private void jPanelSimulationDrawMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelSimulationDrawMouseMoved
         LogiqueDeOnHoverQuiNeDoitPasEtreLa(evt);
@@ -882,11 +914,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
     private void jBtnUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUndoActionPerformed
    worldController.Undo();
     }//GEN-LAST:event_jBtnUndoActionPerformed
-
-    private void jButtonAddLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddLinkActionPerformed
-        mode = Mode.Select;
-        countrySelected = null;
-    }//GEN-LAST:event_jButtonAddLinkActionPerformed
 
     private void jButtonApplyDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyDiseaseActionPerformed
         System.out.println("on update disease");
@@ -934,26 +961,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldMortalityRateActionPerformed
 
-    private void jTextCountryNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextCountryNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextCountryNameActionPerformed
-
-    private void jPanelConceptionDrawMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelConceptionDrawMouseDragged
-        // On bouge le pays ici. Demander si on peut mettre une tel logique ici.
-        List<CountryDTO> countries = worldController.GetCountries();
-        for(int i = 0; i < countries.size(); i++) {
-            CountryDTO c = countries.get(i);
-            if(Utility.IsInRectangle(c.Shape.GetPoints(), evt.getPoint())) {
-                c.Shape.SetPosition(evt.getPoint());
-                worldController.UpdateCountry(c);
-                drawingPanel.revalidate();
-                drawingPanel.repaint();
-                break;
-            }
-        }
-        
-    }//GEN-LAST:event_jPanelConceptionDrawMouseDragged
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         List<CountryDTO> countries = worldController.GetCountries();
             for(CountryDTO country: countries) {
@@ -962,6 +969,30 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
             }
             drawingPanel.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButtonSwitchSimulationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSwitchSimulationActionPerformed
+        countrySelected = null;
+        countryPts.clear();
+
+        jLayeredPane.removeAll();
+        jLayeredPane.add(jPanelSimulation);
+        jLayeredPane.repaint();
+        jLayeredPane.revalidate();
+
+        jPanelConceptionDraw.remove(drawingPanel);
+        jPanelSimulationDraw.remove(drawingPanel);
+        drawingPanel = new DrawingPanel(this, jPanelSimulationDraw);
+        jPanelSimulationDraw.add(drawingPanel);
+    }//GEN-LAST:event_jButtonSwitchSimulationActionPerformed
+
+    private void jButtonAddLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddLinkActionPerformed
+        mode = Mode.Select;
+        countrySelected = null;
+    }//GEN-LAST:event_jButtonAddLinkActionPerformed
+
+    private void jTextCountryNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextCountryNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextCountryNameActionPerformed
 
     private void jButtonRemoveCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveCountryActionPerformed
         if(countrySelected != null) {
@@ -980,6 +1011,29 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
             jPanelCountryInfo.setVisible(false);
         }
     }//GEN-LAST:event_jToggleButtonCreateCountryActionPerformed
+
+    private void jPanelConceptionDrawMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelConceptionDrawMousePressed
+        LogiqueQuiNeDoitPasEtreIciNormalement(evt);
+    }//GEN-LAST:event_jPanelConceptionDrawMousePressed
+
+    private void jPanelConceptionDrawMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelConceptionDrawMouseMoved
+        LogiqueDeOnHoverQuiNeDoitPasEtreLa(evt);
+    }//GEN-LAST:event_jPanelConceptionDrawMouseMoved
+
+    private void jPanelConceptionDrawMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelConceptionDrawMouseDragged
+        // On bouge le pays ici. Demander si on peut mettre une tel logique ici.
+        List<CountryDTO> countries = worldController.GetCountries();
+        for(int i = 0; i < countries.size(); i++) {
+            CountryDTO c = countries.get(i);
+            if(Utility.IsInRectangle(c.Shape.GetPoints(), evt.getPoint())) {
+                c.Shape.SetPosition(evt.getPoint());
+                worldController.UpdateCountry(c);
+                drawingPanel.revalidate();
+                drawingPanel.repaint();
+                break;
+            }
+        }
+    }//GEN-LAST:event_jPanelConceptionDrawMouseDragged
  
     
     public void Draw(Graphics g){
@@ -1182,9 +1236,7 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
     private javax.swing.JPanel jPanelUndoRedoButtons;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTextField jTextCountryName;
     private javax.swing.JTextField jTextCountryPop;
