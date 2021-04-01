@@ -22,7 +22,7 @@ public class Simulation implements java.io.Serializable {
     private int elapsedDay = 0;
     private ArrayList<Integer> dataHistory = new ArrayList<Integer>();
     private final WorldController controller;
-    //TODO: On a oublis de definir le type de DataHistory. J'ai mis int pour eviter les erreuurs
+    //TODO: On a oublis de definir le type de DataHistory. J'ai mis int pour eviter les erreurs
     
     public Simulation(WorldController p_controller){
         controller = p_controller;
@@ -70,7 +70,6 @@ public class Simulation implements java.io.Serializable {
             public void run() {
                 if(getIsRunning()){
                     elapsedDay +=1;
-                    controller.printDay();
                     for(Country country : countries) {
                         Population updated = UpdatePopulation(country);
                         if(updated.getTotalPopulation()>updated.getInfectedPopulation()){
@@ -81,6 +80,7 @@ public class Simulation implements java.io.Serializable {
                             System.out.println("end ! Des zombies partout!!");
                         }
                     }
+                    controller.NotifyTick(elapsedDay);
                 }else{
                     timer.cancel();
                 }

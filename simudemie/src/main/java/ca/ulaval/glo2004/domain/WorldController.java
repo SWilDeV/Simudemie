@@ -30,6 +30,7 @@ public class WorldController implements java.io.Serializable {
     private final Disease disease = new Disease(0.0, 0.0, 0.0);
     private final WorldDrawer worldDrawer;
     private final List<HealthMesure> mesures = new ArrayList<>();
+    private List<WorldObserver> observers = new ArrayList<>(); //TODO: Discuter de ou mettre l'observer. Ici ou dans simulation ? 
     
     public List<CountryDTO> GetCountries() {
         return (List<CountryDTO>) world.getCountries().stream().map(e -> new CountryDTO((Country) e)).collect(Collectors.toList());
@@ -71,6 +72,24 @@ public class WorldController implements java.io.Serializable {
     
     public World getWorld(){
         return world;
+    }
+    
+    public void Subscribe(WorldObserver observer) {
+        if(!observers.contains(observer)) {
+            observers.add(observer);
+        }
+    }
+    
+    public void Unsubscribe(WorldObserver observer) {
+        if(observers.contains(observer)) {
+            observers.remove(observer);
+        }
+    }
+    
+    public void NotifyTick(int day) {
+        for(WorldObserver ob: observers) {
+            ob.OnSimulationTick(day);
+        }
     }
     
     public void Draw(Graphics g) {

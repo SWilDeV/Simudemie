@@ -10,6 +10,7 @@ import ca.ulaval.glo2004.domain.HealthMesureDTO;
 import ca.ulaval.glo2004.domain.Link.LinkType;
 import ca.ulaval.glo2004.domain.Utility;
 import ca.ulaval.glo2004.domain.WorldController;
+import ca.ulaval.glo2004.domain.WorldObserver;
 import ca.ulaval.glo2004.ui.DrawingPanel;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -23,13 +24,14 @@ import javax.swing.JFileChooser;
  *
  * @author charl
  */
-public class main_window_Simulation extends javax.swing.JFrame {
+public class main_window_Simulation extends javax.swing.JFrame implements WorldObserver {
 
     public DrawingPanel drawingPanel;
     public WorldController worldController = new WorldController();
     
     public List<Point> countryPts = new ArrayList<>();
     public CountryDTO countrySelected = null;
+
     public enum Mode {Idle, Create, Select};
     public Mode mode = Mode.Idle;
     private int test = 0;
@@ -48,6 +50,16 @@ public class main_window_Simulation extends javax.swing.JFrame {
         jPanelConceptionDraw.add(drawingPanel);
         openFileChooser = new JFileChooser();
         saveFileChooser = new JFileChooser();
+        
+        worldController.Subscribe(this);
+    }
+    
+    @Override
+    public void OnSimulationTick(int day) {
+        System.err.println("Nouveau jour!");
+        jLabelDayElapsed.setText(String.valueOf(day));
+        
+        drawingPanel.repaint();
     }
 
     /**
