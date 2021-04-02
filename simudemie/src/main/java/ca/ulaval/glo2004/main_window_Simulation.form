@@ -186,14 +186,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="135" max="-2" attributes="0"/>
-                      <Component id="jButton2" min="-2" pref="73" max="-2" attributes="0"/>
-                      <EmptySpace pref="150" max="32767" attributes="0"/>
                       <Component id="jPanelUndoRedoButtons" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="58" pref="58" max="-2" attributes="0"/>
                       <Component id="jPanelMainButtons" min="-2" pref="230" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="358" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="604" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -202,7 +200,6 @@
                   <Group type="102" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButton2" min="-2" max="-2" attributes="0"/>
                           <Component id="jPanelUndoRedoButtons" min="-2" max="-2" attributes="0"/>
                           <Component id="jPanelMainButtons" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -294,14 +291,6 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="jButton2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Update"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
-              </Events>
-            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JLayeredPane" name="jLayeredPane">
@@ -1071,7 +1060,7 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="jLabelTitleCase" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabelTitleCase" min="-2" pref="48" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="jLabelCase" min="-2" pref="45" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -1090,7 +1079,7 @@
                       <SubComponents>
                         <Component class="javax.swing.JLabel" name="jLabelTitleCase">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="Cas:"/>
+                            <Property name="text" type="java.lang.String" value="Inf&#xe9;ct&#xe9;s:"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabelCase">
@@ -1134,46 +1123,6 @@
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabelDead">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="1000"/>
-                          </Properties>
-                        </Component>
-                      </SubComponents>
-                    </Container>
-                    <Container class="javax.swing.JPanel" name="jPanelCured">
-                      <Properties>
-                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[700, 30]"/>
-                        </Property>
-                      </Properties>
-
-                      <Layout>
-                        <DimensionLayout dim="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabelTitleCured" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jLabelCured" min="-2" pref="45" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                        </DimensionLayout>
-                        <DimensionLayout dim="1">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                  <Component id="jLabelTitleCured" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                  <Component id="jLabelCured" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                        </DimensionLayout>
-                      </Layout>
-                      <SubComponents>
-                        <Component class="javax.swing.JLabel" name="jLabelTitleCured">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Guerie:"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="jLabelCured">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="1000"/>
                           </Properties>

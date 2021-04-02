@@ -55,9 +55,11 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
     }
     
     @Override
-    public void OnSimulationTick(int day) {
+    public void OnSimulationTick(int day, int deads, int infected) {
         System.err.println("Nouveau jour!");
         jLabelDayElapsed.setText(String.valueOf(day));
+        jLabelDead.setText(String.valueOf(deads));
+        jLabelCase.setText(String.valueOf(infected));
         
         drawingPanel.repaint();
     }
@@ -91,7 +93,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
         jBtnReset = new javax.swing.JButton();
         jBtnPause = new javax.swing.JButton();
         jBtnPlay = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jLayeredPane = new javax.swing.JLayeredPane();
         jPanelConception = new javax.swing.JPanel();
         jPanelConceptionDraw = new javax.swing.JPanel();
@@ -162,9 +163,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
         jPanelDead = new javax.swing.JPanel();
         jLabelTitleDead = new javax.swing.JLabel();
         jLabelDead = new javax.swing.JLabel();
-        jPanelCured = new javax.swing.JPanel();
-        jLabelTitleCured = new javax.swing.JLabel();
-        jLabelCured = new javax.swing.JLabel();
         jPanelDayElapsed = new javax.swing.JPanel();
         jLabelTitleDayElapsed = new javax.swing.JLabel();
         jLabelDayElapsed = new javax.swing.JLabel();
@@ -269,32 +267,22 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
         });
         jPanelMainButtons.add(jBtnPlay, new java.awt.GridBagConstraints());
 
-        jButton2.setText("Update");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(135, 135, 135)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
                 .addComponent(jPanelUndoRedoButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(58, 58, 58)
                 .addComponent(jPanelMainButtons, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 358, Short.MAX_VALUE))
+                .addGap(0, 604, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2)
                     .addComponent(jPanelUndoRedoButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanelMainButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -694,7 +682,7 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
 
         jPanelCase.setPreferredSize(new java.awt.Dimension(700, 30));
 
-        jLabelTitleCase.setText("Cas:");
+        jLabelTitleCase.setText("Inféctés:");
 
         jLabelCase.setText("1000");
 
@@ -703,7 +691,7 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
         jPanelCaseLayout.setHorizontalGroup(
             jPanelCaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelCaseLayout.createSequentialGroup()
-                .addComponent(jLabelTitleCase)
+                .addComponent(jLabelTitleCase, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabelCase, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -741,31 +729,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
         );
 
         jPanelOverview.add(jPanelDead);
-
-        jPanelCured.setPreferredSize(new java.awt.Dimension(700, 30));
-
-        jLabelTitleCured.setText("Guerie:");
-
-        jLabelCured.setText("1000");
-
-        javax.swing.GroupLayout jPanelCuredLayout = new javax.swing.GroupLayout(jPanelCured);
-        jPanelCured.setLayout(jPanelCuredLayout);
-        jPanelCuredLayout.setHorizontalGroup(
-            jPanelCuredLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelCuredLayout.createSequentialGroup()
-                .addComponent(jLabelTitleCured)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabelCured, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanelCuredLayout.setVerticalGroup(
-            jPanelCuredLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelCuredLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabelTitleCured, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabelCured, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        jPanelOverview.add(jPanelCured);
 
         jPanelDayElapsed.setPreferredSize(new java.awt.Dimension(700, 30));
 
@@ -961,15 +924,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldMortalityRateActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        List<CountryDTO> countries = worldController.GetCountries();
-            for(CountryDTO country: countries) {
-                //country.incrementTotalPopulationDTO();
-                worldController.UpdateCountry(country);
-            }
-            drawingPanel.repaint();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButtonSwitchSimulationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSwitchSimulationActionPerformed
         countrySelected = null;
         countryPts.clear();
@@ -1157,7 +1111,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
     private javax.swing.JButton jBtnReset;
     private javax.swing.JButton jBtnUndo;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonAddLink;
     private javax.swing.JButton jButtonAddRegion;
     private javax.swing.JButton jButtonApplyDisease;
@@ -1180,12 +1133,10 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
     private javax.swing.JLabel jLabelActive;
     private javax.swing.JLabel jLabelCase;
     private javax.swing.JLabel jLabelCountryPop;
-    private javax.swing.JLabel jLabelCured;
     private javax.swing.JLabel jLabelDayElapsed;
     private javax.swing.JLabel jLabelDead;
     private javax.swing.JLabel jLabelTitleAdhesionRate;
     private javax.swing.JLabel jLabelTitleCase;
-    private javax.swing.JLabel jLabelTitleCured;
     private javax.swing.JLabel jLabelTitleCuredRate;
     private javax.swing.JLabel jLabelTitleDayElapsed;
     private javax.swing.JLabel jLabelTitleDead;
@@ -1214,7 +1165,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
     private javax.swing.JPanel jPanelContainer;
     private javax.swing.JPanel jPanelCountry;
     private javax.swing.JPanel jPanelCountryInfo;
-    private javax.swing.JPanel jPanelCured;
     private javax.swing.JPanel jPanelCuredRate;
     private javax.swing.JPanel jPanelDayElapsed;
     private javax.swing.JPanel jPanelDead;

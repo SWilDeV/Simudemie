@@ -20,6 +20,7 @@ public class Simulation implements java.io.Serializable {
     private Calculation calculation = new Calculation();
     private boolean isRunning = false;
     private int elapsedDay = 0;
+    private int globalDeads = 0;
     private ArrayList<Integer> dataHistory = new ArrayList<Integer>();
     private final WorldController controller;
     //TODO: On a oublis de definir le type de DataHistory. J'ai mis int pour eviter les erreurs
@@ -63,29 +64,33 @@ public class Simulation implements java.io.Serializable {
             }
             counter +=1;
         }
-        
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             //@Override
             public void run() {
                 if(getIsRunning()){
                     elapsedDay +=1;
+                    int globalInfected = 0;
                     for(Country country : countries) {
                         Population updated = UpdatePopulation(country);
                         if(updated.getTotalPopulation()>updated.getInfectedPopulation()){
                             country.setPopulation(updated);
-                            controller.getWorld().updateCountryFromSimulation(country); 
+                            controller.getWorld().updateCountryFromSimulation(country);
+                        }else if (updated.getInfectedPopulation()== 0){
+                            timer.cancel();
+                            System.out.println("Miracle, la maladie a disparu");
                         }else{
                             timer.cancel();
                             System.out.println("end ! Des zombies partout!!");
                         }
+                        globalInfected+=updated.getInfectedPopulation();
                     }
-                    controller.NotifyTick(elapsedDay);
+                    controller.NotifyTick(elapsedDay, globalDeads,globalInfected);
                 }else{
                     timer.cancel();
                 }
             }
-        }, 0, 1000);
+        }, 0, 500);
     }
     
     public Population UpdatePopulation(Country country){
@@ -123,6 +128,7 @@ public class Simulation implements java.io.Serializable {
         population.setNonInfectedPopulation(totalNonInfectedPop);
         population.setDeadPopulation(totalDeadPop);
         population.setTotalPopulation(newTotalPop);
+        globalDeads+=newDeadPop;
         
         return population;
     }
