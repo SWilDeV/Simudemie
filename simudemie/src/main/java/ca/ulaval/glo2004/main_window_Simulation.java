@@ -391,11 +391,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
         jPanelCountry.add(jButtonRemoveCountry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 320, -1));
 
         jButtonEditCountry.setText("Editer le pays");
-        jButtonEditCountry.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEditCountryActionPerformed(evt);
-            }
-        });
         jPanelCountry.add(jButtonEditCountry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 320, -1));
 
         LabelCountryName.setText("Nom du pays");
