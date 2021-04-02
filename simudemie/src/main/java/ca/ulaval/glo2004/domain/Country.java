@@ -7,6 +7,7 @@ package ca.ulaval.glo2004.domain;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +17,7 @@ import java.util.UUID;
  *
  * @author charl
  */
-public class Country {
+public class Country implements Serializable {
     
     private List<Region> regions = new ArrayList<>();
     private Population population;
