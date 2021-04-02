@@ -49,48 +49,56 @@ public class Simulation implements java.io.Serializable {
     }
     
     public void Simulate() {
-        System.out.println("demarré");
-        SetRunning(true);
-        
         List<Country> countries = controller.GetCountriesforSimulation();
-        Random rand = new Random();
-        int maxRand = countries.size();
-        int index = rand.nextInt(maxRand);
-        int counter = 0;
-        for(Country country : countries) {
-            if(index == counter){
-                country.getPopulation().addPatientZero();
-                controller.getWorld().updateCountryFromSimulation(country);
-            }
-            counter +=1;
-        }
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            //@Override
-            public void run() {
-                if(getIsRunning()){
-                    elapsedDay +=1;
-                    int globalInfected = 0;
-                    for(Country country : countries) {
-                        Population updated = UpdatePopulation(country);
-                        if(updated.getTotalPopulation()>updated.getInfectedPopulation()){
-                            country.setPopulation(updated);
-                            controller.getWorld().updateCountryFromSimulation(country);
-                        }else if (updated.getInfectedPopulation()== 0){
-                            timer.cancel();
-                            System.out.println("Miracle, la maladie a disparu");
-                        }else{
-                            timer.cancel();
-                            System.out.println("end ! Des zombies partout!!");
-                        }
-                        globalInfected+=updated.getInfectedPopulation();
-                    }
-                    controller.NotifyTick(elapsedDay, globalDeads,globalInfected);
-                }else{
-                    timer.cancel();
+        int countryListSize = countries.size();
+        
+        if(countryListSize>0){
+            System.out.println("demarré");
+            SetRunning(true);
+            
+            //Initialiser le patient zero
+            Random rand = new Random();
+            int maxRand = countryListSize;
+            int index = rand.nextInt(maxRand);
+            int counter = 0;
+            for(Country country : countries) {
+                if(index == counter){
+                    country.getPopulation().addPatientZero();
+                    controller.getWorld().updateCountryFromSimulation(country);
                 }
+                counter +=1;
             }
-        }, 0, 500);
+            
+            //Timer faisant office de boucle principale
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                public void run() {
+                    if(getIsRunning()){
+                        elapsedDay +=1;
+                        int globalInfected = 0;
+                        for(Country country : countries) {
+                            Population updated = UpdatePopulation(country);
+                            if(updated.getTotalPopulation()>updated.getInfectedPopulation()){
+                                country.setPopulation(updated);
+                                controller.getWorld().updateCountryFromSimulation(country);
+        //                            }else if (updated.getInfectedPopulation()== 0){
+        //                                timer.cancel();
+        //                                System.out.println("Miracle, la maladie a disparu");
+                            }else{
+                                timer.cancel();
+                                System.out.println("end ! Des zombies partout!!");
+                            }
+                            globalInfected+=updated.getInfectedPopulation();
+                        }
+                        controller.NotifyTick(elapsedDay, globalDeads,globalInfected);
+                    }else{
+                        timer.cancel();
+                    }
+                }
+            }, 0, 500);
+        }else{
+            System.out.println("Veuillez ajouter au moins un pays");
+        }
     }
     
     public Population UpdatePopulation(Country country){
