@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  */
 public class WorldController implements java.io.Serializable {
     
-    private final World world = new World();
+    private final World world;
     private final Simulation simulation;
     private final Disease disease = new Disease(0.0, 0.0, 0.0);
     private final WorldDrawer worldDrawer;
@@ -67,6 +67,7 @@ public class WorldController implements java.io.Serializable {
     
     public WorldController() {
         worldDrawer = new WorldDrawer(this);
+        world = new World(this);
         simulation = new Simulation(this);
     }
     
@@ -89,6 +90,12 @@ public class WorldController implements java.io.Serializable {
     public void NotifyTick(int day, int deads,int infected) {
         for(WorldObserver ob: observers) {
             ob.OnSimulationTick(day, deads, infected);
+        }
+    }
+    
+    public void NotifyLinksUpdated() {
+        for(WorldObserver ob: observers) {
+            ob.OnLinksUpdated();
         }
     }
     

@@ -18,8 +18,13 @@ import java.util.stream.Collectors;
  */
 public class World implements java.io.Serializable {
     
+    private WorldController worldController;
     private List<Link> linkList = new ArrayList<>();
     private List<Country> countryList = new ArrayList<>();
+    
+    public World(WorldController worldController) {
+        this.worldController = worldController;
+    }
     
     public void addCountry(Country country){
          countryList.add(country);
@@ -87,6 +92,8 @@ public class World implements java.io.Serializable {
         if(isAbleToLink) {
             linkList.add(link);
         }
+        
+        worldController.NotifyLinksUpdated();
     }
     
     public void UpdateSelectionStateLink(UUID linkId, boolean select) {
@@ -103,6 +110,8 @@ public class World implements java.io.Serializable {
         for(int i = 0; i < links.size(); i++) {
             linkList.remove(links.get(i));
         }
+        
+        worldController.NotifyLinksUpdated();
     }
     
     public void UpdateLandBorder(CountryDTO country) {
@@ -117,6 +126,8 @@ public class World implements java.io.Serializable {
                 }
             }
         }
+        
+        worldController.NotifyLinksUpdated();
     }
     
     public void RemoveLink(UUID linkId) {

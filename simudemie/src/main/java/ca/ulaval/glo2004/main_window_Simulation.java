@@ -66,12 +66,18 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
         drawingPanel.repaint();
     }
     
+    @Override
+    public void OnLinksUpdated() {
+        UpdateJLinkList();
+    }
+    
     private void UpdateJLinkList() {
         DefaultListModel listModel = new DefaultListModel();
         for(LinkDTO l: worldController.GetLinks()){
             listModel.addElement(l.Id);
         }
         jlistLinks.setModel(listModel);
+        drawingPanel.repaint();
     }
     
     private void SelectCountry(Point mousePosition) {
@@ -1005,8 +1011,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
     private void jButtonRemoveCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveCountryActionPerformed
         if(countrySelected != null) {
             worldController.RemoveCountry(countrySelected.Id);
-            UpdateJLinkList();
-            drawingPanel.repaint();
         }
     }//GEN-LAST:event_jButtonRemoveCountryActionPerformed
 
@@ -1052,9 +1056,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
             UUID id = links.get(index[i]).Id;
             worldController.RemoveLink(id);
         }
-        
-        UpdateJLinkList();
-        drawingPanel.repaint();
     }//GEN-LAST:event_jButtonRemoveLinkActionPerformed
 
     private void jlistLinksValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlistLinksValueChanged
@@ -1117,9 +1118,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
                     worldController.AddLink(countrySelected.Id, selected.Id, LinkType.values()[linkIndex]);
                     mode = Mode.Idle;
                     SetSelectedCountry(null);
-
-                    UpdateJLinkList();
-                    drawingPanel.repaint();
                 } else {
                     countrySelected = selected;
                     found = true;
