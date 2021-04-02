@@ -8,6 +8,7 @@ package ca.ulaval.glo2004.ui;
 import ca.ulaval.glo2004.domain.CountryDTO;
 import ca.ulaval.glo2004.domain.HealthMesureDTO;
 import ca.ulaval.glo2004.domain.Link;
+import ca.ulaval.glo2004.domain.LinkDTO;
 import ca.ulaval.glo2004.domain.Utility;
 import ca.ulaval.glo2004.domain.WorldController;
 import ca.ulaval.glo2004.domain.WorldObserver;
@@ -877,11 +878,11 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         if(countrySelected != null) {
                             int linkIndex = jComboBoxAddLink.getSelectedIndex();
                             worldController.AddLink(countrySelected.Id, country.Id, Link.LinkType.values()[linkIndex]);
-                            //DefaultListModel listModel = new DefaultListModel();
-                            //for (LinkDTO link: worldController.GetLinks()){
-                                //listModel.addElement(link.linkName());
-                            //}
-                            //jListMesures.setModel(listModel);
+                            DefaultListModel listModel = new DefaultListModel();
+                            for (LinkDTO link: worldController.GetLinks()){
+                                listModel.addElement(link.name);
+                            }
+                            jListLinks.setModel(listModel);
                             countrySelected = null;
                             drawingPanel.repaint();
                         } else {
