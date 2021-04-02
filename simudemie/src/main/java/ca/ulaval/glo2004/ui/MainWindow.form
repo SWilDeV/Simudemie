@@ -478,9 +478,10 @@
                     <Component class="javax.swing.JComboBox" name="jComboBoxAddLink">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="2">
-                            <StringItem index="0" value="Aerien"/>
+                          <StringArray count="3">
+                            <StringItem index="0" value="Terrestre"/>
                             <StringItem index="1" value="Maritime"/>
+                            <StringItem index="2" value="Aerien"/>
                           </StringArray>
                         </Property>
                       </Properties>
@@ -591,7 +592,6 @@
                                       <Component id="jLabelTimeLapse" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="jTextFieldTimeLapse" min="-2" pref="48" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
@@ -1045,7 +1045,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                       <SubComponents>
-                        <Component class="javax.swing.JList" name="jListLinks">
+                        <Component class="javax.swing.JList" name="jlistLinks">
                           <Properties>
                             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
                               <StringArray count="0"/>

@@ -102,9 +102,9 @@ public class World implements java.io.Serializable {
         
         if(isAbleToLink) {
             linkList.add(link);
+            worldController.NotifyLinksUpdated();
         }
         
-        worldController.NotifyLinksUpdated();
     }
     
     public void UpdateSelectionStateLink(UUID linkId, boolean select) {
@@ -150,13 +150,11 @@ public class World implements java.io.Serializable {
     }
     
     public Country findCountryByPosition(Point position) {
-        for(Country country: countryList) {                
-            if (Utility.IsInRectangle(country.getShape().GetPoints(), position)) {
-                return country;
-            }
+        try {
+            return countryList.stream().filter(c -> Utility.IsInRectangle(c.getShape().GetPoints(), position)).findAny().get();
+        } catch(NoSuchElementException e) {
+            return null;
         }
-        
-        return null;
     }
     
     private Country FindCountryByUUID(UUID id) {
