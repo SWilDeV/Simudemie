@@ -71,7 +71,11 @@ public class WorldDrawer implements java.io.Serializable {
             Polygon poly = new Polygon(pointsX, pointsY, size);
             g.setColor(country.Color);
             g.fillPolygon(poly);
-            g.setColor(Color.black);
+            
+            g.setColor(Color.BLACK);
+            if(country.IsSelected) {
+                g.setColor(Color.YELLOW);
+            }
             g.drawPolygon(poly);
             
             g.setColor(Color.BLACK);
@@ -80,7 +84,7 @@ public class WorldDrawer implements java.io.Serializable {
             String totPop = Integer.toString(country.getPopulationDTO().getTotalPopulationDTO());
             g.drawString(totPop, (int)center.getX(), (int)center.getY());
             
-            if(true) { //Show BoundingBox
+            if(false) { //Show BoundingBox
                 List<Point> pts = country.Shape.GetBoundingBox();
                 int bbSize = pts.size();
                 int[] bbPointsX = new int[size];
@@ -105,11 +109,17 @@ public class WorldDrawer implements java.io.Serializable {
         for(LinkDTO link: links) {
             if(link.LinkType == Link.LinkType.TERRESTRE) {
                 List<Point> pt = Utility.GetLandBorderPoints(link.Country1, link.Country2);
-                g2.setStroke(new BasicStroke(10));
+                Line2D line = new Line2D.Float(pt.get(0).x, pt.get(0).y, pt.get(1).x, pt.get(1).y);
+                
+                if(link.IsSelected) {
+                    g2.setColor(Color.YELLOW);
+                    g2.setStroke(new BasicStroke(8));
+                    g2.draw(line);
+                }
+                
                 g2.setColor(Color.cyan);
                 g2.setStroke(new BasicStroke(5));
-                g2.draw(new Line2D.Float(pt.get(0).x, pt.get(0).y, pt.get(1).x, pt.get(1).y));
-                g2.setStroke(new BasicStroke(1));
+                g2.draw(line);
             } else {
                 GeneralPath path = new GeneralPath();
                 Point countryPoint1 = link.Country1.Shape.GetCenter();
@@ -122,11 +132,20 @@ public class WorldDrawer implements java.io.Serializable {
                 path.curveTo(countryPoint1.getX(), countryPoint1.getY(),
                                                  mid.getX(), mid.getY(),
                                                  countryPoint2.getX(), countryPoint2.getY());
+                
+                if(link.IsSelected) {
+                    g2.setColor(Color.YELLOW);
+                    g2.setStroke(new BasicStroke(5));
+                    g2.draw(path);
+                }
+
                 g2.setColor(Link.GetColor(link.LinkType));
                 g2.setStroke(new BasicStroke(2));
                 g2.draw(path);
             }
         }
+        
+        g2.setStroke(new BasicStroke(1));
     }
     
     public void drawRegular(Graphics g) {

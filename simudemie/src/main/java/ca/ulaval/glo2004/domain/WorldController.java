@@ -105,6 +105,10 @@ public class WorldController implements java.io.Serializable {
         world.addCountry(country);
     }
     
+    public void UpdateSelectionStateCountry(UUID id, boolean select) {
+        world.UpdateSelectionStateCountry(id, select);
+    }
+    
     public void UpdateCountry(CountryDTO country) {
         world.updateCountry(country);
     }
@@ -131,6 +135,10 @@ public class WorldController implements java.io.Serializable {
         } else {
             System.out.println("Impossible de link le meme pays!");
         }
+    }
+    
+    public void UpdateSelectionStateLink(UUID linkId, boolean select) {
+        world.UpdateSelectionStateLink(linkId, select);
     }
     
     public void RemoveLink(UUID linkId) {

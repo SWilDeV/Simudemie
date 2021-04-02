@@ -19,6 +19,7 @@ public class LinkDTO {
    public CountryDTO Country2;
    public double TravelRate;
    public boolean IsOpen;
+   public boolean IsSelected;
    
    public final UUID Id;
     
@@ -28,6 +29,7 @@ public class LinkDTO {
         Country2 = new CountryDTO(link.getCountry2());
         TravelRate = link.getTravelRate();
         IsOpen = link.isOpen();
+        IsSelected = link.IsSelected();
         Id = link.GetId();
     }
     

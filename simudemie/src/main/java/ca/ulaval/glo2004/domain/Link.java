@@ -23,6 +23,7 @@ public class Link {
    private Country country2;
    private double travelRate;
    private boolean isOpen;
+   private boolean isSelected;
    
    private final UUID id;
    
@@ -40,6 +41,10 @@ public class Link {
    
    public UUID GetId() {
        return id;
+   }
+   
+   public boolean IsSelected() {
+       return isSelected;
    }
    
    public Country getCountry1(){
@@ -71,6 +76,10 @@ public class Link {
    
    public void setOpen(boolean open){
        isOpen = open;
+   }
+   
+   public void SetSelectionState(boolean select) {
+       isSelected = select;
    }
    
    public LinkType GetLinkType() {
