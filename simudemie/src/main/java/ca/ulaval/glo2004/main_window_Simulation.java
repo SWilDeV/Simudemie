@@ -46,8 +46,8 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
     public main_window_Simulation() {
         initComponents();
 
-        drawingPanel = new DrawingPanel(this, jPanelConceptionDraw);
-        jPanelConceptionDraw.add(drawingPanel);
+        //drawingPanel = new DrawingPanel(this, jPanelConceptionDraw);
+        //jPanelConceptionDraw.add(drawingPanel);
         openFileChooser = new JFileChooser();
         saveFileChooser = new JFileChooser();
         
@@ -365,6 +365,11 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
         jPanelCountry.add(jButtonRemoveCountry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 320, -1));
 
         jButtonEditCountry.setText("Editer le pays");
+        jButtonEditCountry.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditCountryActionPerformed(evt);
+            }
+        });
         jPanelCountry.add(jButtonEditCountry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 320, -1));
 
         LabelCountryName.setText("Nom du pays");
@@ -869,7 +874,7 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(jPanelContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                .addComponent(jPanelContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 560, Short.MAX_VALUE)
                 .addGap(43, 43, 43))
         );
 
@@ -887,7 +892,7 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
         
         jPanelSimulationDraw.remove(drawingPanel);
         jPanelConceptionDraw.remove(drawingPanel);
-        drawingPanel = new DrawingPanel(this, jPanelConceptionDraw);
+        //drawingPanel = new DrawingPanel(this, jPanelConceptionDraw);
         jPanelConceptionDraw.add(drawingPanel);
     }//GEN-LAST:event_jButtonSwitchConceptionActionPerformed
 
@@ -938,7 +943,7 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
         int returnValue = saveFileChooser.showSaveDialog(this);
         
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            worldController.save(saveFileChooser.getSelectedFile());
+            //worldController.save(saveFileChooser.getSelectedFile());
         }
         
     }//GEN-LAST:event_SauvegarderMenuActionPerformed
@@ -981,7 +986,7 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
 
         jPanelConceptionDraw.remove(drawingPanel);
         jPanelSimulationDraw.remove(drawingPanel);
-        drawingPanel = new DrawingPanel(this, jPanelSimulationDraw);
+        //drawingPanel = new DrawingPanel(this, jPanelSimulationDraw);
         jPanelSimulationDraw.add(drawingPanel);
     }//GEN-LAST:event_jButtonSwitchSimulationActionPerformed
 
@@ -1034,6 +1039,10 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
             }
         }
     }//GEN-LAST:event_jPanelConceptionDrawMouseDragged
+
+    private void jButtonEditCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditCountryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonEditCountryActionPerformed
  
     
     public void Draw(Graphics g){
@@ -1111,7 +1120,7 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
      */
     public static void main(String args[]) {
         
-        /* Set the Nimbus look and feel */
+        //* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -1136,11 +1145,11 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new main_window_Simulation().setVisible(true);
-            }
-        });
+        //java.awt.EventQueue.invokeLater(new Runnable() {
+           // public void run() {
+                //new main_window_Simulation().setVisible(true);
+            //}
+        //});
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

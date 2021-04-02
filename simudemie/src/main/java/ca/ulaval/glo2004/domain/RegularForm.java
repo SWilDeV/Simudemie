@@ -6,6 +6,7 @@
 package ca.ulaval.glo2004.domain;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.List;
 
 /**

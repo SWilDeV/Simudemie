@@ -6,6 +6,7 @@
 package ca.ulaval.glo2004.domain;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * @author charl
  */
-public abstract class GeometricForm {
+public abstract class GeometricForm implements Serializable {
     
     protected List<Point> points;
     protected List<Point> bounding = new ArrayList<>();

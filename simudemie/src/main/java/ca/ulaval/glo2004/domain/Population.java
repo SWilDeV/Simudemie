@@ -5,11 +5,13 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Sean
  */
-public class Population { //TODO: Faire un DTO de population :)
+public class Population implements Serializable { //TODO: Faire un DTO de population :)
     //    Attributs
     private int totalPopulation;
     private int infectedPopulation;

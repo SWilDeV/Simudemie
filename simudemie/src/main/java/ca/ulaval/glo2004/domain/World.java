@@ -20,6 +20,9 @@ public class World implements java.io.Serializable {
     private List<Link> linkList = new ArrayList<>();
     private List<Country> countryList = new ArrayList<>();
     
+    public World(){   
+    }
+    
     public void addCountry(Country country){
          countryList.add(country);
     }
@@ -29,6 +32,8 @@ public class World implements java.io.Serializable {
         if(c != null){
             c.fromCountryDTO(country);
             UpdateLandBorder(country);
+            c.setName(country.Name);
+            c.setPopulation(new Population(country.populationDTO.totalPopulationDTO));
         }
         
     }
@@ -59,6 +64,10 @@ public class World implements java.io.Serializable {
     
     public void RemoveRegion() {
         
+    }
+    
+    public void addLink(Link link) {
+        linkList.add(link);
     }
     
     public void Addlink(UUID firstCountryId, UUID secondCountryId, Link.LinkType type) {
@@ -145,5 +154,10 @@ public class World implements java.io.Serializable {
         if(country != null) {
             //Do something...
         }
+    }
+    
+    public void clearWorld() {
+        countryList.clear();
+        linkList.clear();
     }
 }

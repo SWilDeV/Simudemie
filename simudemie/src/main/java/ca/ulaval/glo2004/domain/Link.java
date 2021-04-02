@@ -95,6 +95,23 @@ public class Link {
        return 0;
    }
    
+   public String linkName() {
+       String linkName = "";
+       
+       if (linkType == linkType.TERRESTRE) {
+           linkName = "T - ";
+       } else if (linkType == linkType.AERIEN) {
+           linkName = "A - ";
+       } else {
+           linkName = "M - ";
+       }
+       
+       String secondString = linkName + country1.getName() + " - " + country2.getName();
+       
+       
+       return secondString;
+   }
+   
     @Override
     public boolean equals(Object other) {       
         if(other == null || !(other instanceof Link)){

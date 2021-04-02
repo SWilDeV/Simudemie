@@ -1,6 +1,7 @@
 package ca.ulaval.glo2004;
 
 
+import ca.ulaval.glo2004.ui.MainWindow;
 import org.apache.commons.math3.distribution.BinomialDistribution;
 
 import javax.swing.*;
@@ -18,7 +19,7 @@ public class App {
     // Par contre vous aurez a creer les actions listener pour vos boutons et etc.
     
     public static void main(String[] args) {
-        JFrame test = new main_window_Simulation();
+        JFrame test = new MainWindow(); //main_window_Simulation();
         test.setVisible(true);
     }
         

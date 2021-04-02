@@ -18,12 +18,12 @@ import javax.swing.border.BevelBorder;
 public class DrawingPanel extends JPanel {
     
     public Dimension initialDimension;
-    private main_window_Simulation mainWindow;
+    private MainWindow mainWindow; //main_window_Simulation
     
     public DrawingPanel(){
     }
     
-    public DrawingPanel(main_window_Simulation mainWindow, JPanel parentPanel) {
+    public DrawingPanel(MainWindow mainWindow, JPanel parentPanel) { //main_window_Simulation
         this.mainWindow = mainWindow;
         setVisible(true);
         setBorder(new javax.swing.border.BevelBorder(BevelBorder.LOWERED));

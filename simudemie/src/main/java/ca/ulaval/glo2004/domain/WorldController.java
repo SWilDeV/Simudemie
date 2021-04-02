@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
  */
 public class WorldController implements java.io.Serializable {
     
-    private final World world = new World();
+    private World world = new World();
     private final Simulation simulation;
     private final Disease disease = new Disease(0.0, 0.0, 0.0);
     private final WorldDrawer worldDrawer;
@@ -137,6 +138,9 @@ public class WorldController implements java.io.Serializable {
         world.RemoveLink(linkId);
     }
     
+    public String getLinkName(Link link) {
+        return link.linkName();
+    }
     
     public void ActiveMesures() {
         
@@ -187,12 +191,12 @@ public class WorldController implements java.io.Serializable {
             simulation.Reset();
     }
     
-    public void save(File savedFile) {
+    public void save(File file) {
         try {
-            FileOutputStream fileOut = new FileOutputStream(savedFile);
+            FileOutputStream fileOut = new FileOutputStream(file);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(world);
-            out.writeObject(simulation);
+            //out.writeObject(simulation);
             out.close();
             fileOut.close();
         } catch (IOException ioe) {
@@ -201,15 +205,22 @@ public class WorldController implements java.io.Serializable {
     }
     
     public void load(File openedFile) {
-        //try {
-            //FileInputStream fileIn = new FileInputStream(openedFile);
-            //ObjectInputStream in = new ObjectInputStream(fileIn);
-            //world = (World) in.readObject();
-            //simulation = (Simulation) in.readObject();
-        //} catch (ClassNotFoundException c) {
-            //c.printStackTrace();
-        //}
+        try {
+            FileInputStream fileIn = new FileInputStream(openedFile);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            world = (World) in.readObject();
+        } catch (FileNotFoundException f) {
+            f.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } catch (ClassNotFoundException c) {
+            c.printStackTrace();
+        }
         
+    }
+    
+    public void newProjet() {
+        world.clearWorld();
     }
     
     public void CreateJEPG() {
