@@ -51,11 +51,17 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }
     
     @Override
-    public void OnSimulationTick(int day) {
+    public void OnSimulationTick(int day, int deads, int infected) {
         System.err.println("Nouveau jour!");
         jLabelDayElapsed.setText(String.valueOf(day));
+        jLabelDead.setText(String.valueOf(deads));
+        jLabelCase.setText(String.valueOf(infected));
         
         drawingPanel.repaint();
+    }
+    
+    @Override
+    public void OnLinksUpdated() {
     }
 
     /**

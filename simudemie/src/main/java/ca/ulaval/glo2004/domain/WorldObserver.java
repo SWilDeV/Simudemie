@@ -5,10 +5,13 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.util.List;
+
 /**
  *
  * @author Abergel Clement
  */
 public interface WorldObserver {
-    public void OnSimulationTick(int day);
+    public void OnSimulationTick(int day, int deads,int infected);
+    public void OnLinksUpdated();
 }

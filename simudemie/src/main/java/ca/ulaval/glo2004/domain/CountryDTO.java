@@ -22,6 +22,7 @@ public class CountryDTO {
     public String Name;
     public Color Color;
     public final UUID Id;
+    public boolean IsSelected;
     
     public CountryDTO(Country country) {
         Regions = new ArrayList<>(country.GetRegions());
@@ -37,7 +38,9 @@ public class CountryDTO {
         }
         
         Id = country.GetId();
+        IsSelected = country.IsSelected();
     }
+    
     public PopulationDTO getPopulationDTO(){
         return populationDTO;
     }

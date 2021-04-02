@@ -8,6 +8,7 @@ import ca.ulaval.glo2004.domain.Link.LinkType;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -17,16 +18,30 @@ import java.util.stream.Collectors;
  */
 public class World implements java.io.Serializable {
     
+    private WorldController worldController;
     private List<Link> linkList = new ArrayList<>();
     private List<Country> countryList = new ArrayList<>();
     
-    public World(){   
+
+    public World(){
+        
+    }   
+
+    public World(WorldController worldController) {
+        this.worldController = worldController;
     }
     
     public void addCountry(Country country){
          countryList.add(country);
     }
     
+    public void UpdateSelectionStateCountry(UUID id, boolean select) {
+        Country country = FindCountryByUUID(id);
+        if(country != null) {
+            country.SetSelectionState(select);
+        }
+    }
+
     public void updateCountry(CountryDTO country) {
         Country c = FindCountryByUUID(country.Id);
         if(c != null){
@@ -48,6 +63,7 @@ public class World implements java.io.Serializable {
     public void removeCountry(UUID countryId){
         Country country = FindCountryByUUID(countryId);
         if(country != null) {
+            RemoveAllBorders(country);
             countryList.remove(country);
         }
     }
@@ -87,6 +103,26 @@ public class World implements java.io.Serializable {
         if(isAbleToLink) {
             linkList.add(link);
         }
+        
+        worldController.NotifyLinksUpdated();
+    }
+    
+    public void UpdateSelectionStateLink(UUID linkId, boolean select) {
+        Link l = FindLinkByUUID(linkId);
+        if(l != null) {
+            l.SetSelectionState(select);
+        }
+    }
+    
+    public void RemoveAllBorders(Country country) {
+        List<Link> links = linkList.stream().filter(l -> l.getCountry1().GetId().equals(country.GetId()) ||
+                                                    l.getCountry2().GetId().equals(country.GetId())).collect(Collectors.toList());
+        
+        for(int i = 0; i < links.size(); i++) {
+            linkList.remove(links.get(i));
+        }
+        
+        worldController.NotifyLinksUpdated();
     }
     
     public void UpdateLandBorder(CountryDTO country) {
@@ -101,12 +137,15 @@ public class World implements java.io.Serializable {
                 }
             }
         }
+        
+        worldController.NotifyLinksUpdated();
     }
     
     public void RemoveLink(UUID linkId) {
         Link link = FindLinkByUUID(linkId);
         if(link != null) {
             linkList.remove(link);
+            worldController.NotifyLinksUpdated();
         }
     }
     
@@ -120,24 +159,20 @@ public class World implements java.io.Serializable {
         return null;
     }
     
-    private Country FindCountryByUUID(UUID id) {  
-        for(Country country: countryList) {
-            if(country.GetId() == id) {
-                return country;
-            }
+    private Country FindCountryByUUID(UUID id) {
+        try {
+            return countryList.stream().filter(c -> c.GetId().equals(id)).findAny().get();
+        } catch(NoSuchElementException e) {
+            return null;
         }
-        
-        return null;
     }
     
     private Link FindLinkByUUID(UUID id) {
-        for(Link link: linkList) {
-            if(link.GetId() == id) {
-                return link;
-            }
+        try {
+            return linkList.stream().filter(l -> l.GetId().equals(id)).findAny().get();
+        } catch(NoSuchElementException e) {
+            return null;
         }
-        
-        return null;
     }
        
     public List getCountries(){

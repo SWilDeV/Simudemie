@@ -68,6 +68,7 @@ public class WorldController implements java.io.Serializable {
     
     public WorldController() {
         worldDrawer = new WorldDrawer(this);
+        world = new World(this);
         simulation = new Simulation(this);
     }
     
@@ -87,9 +88,15 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
-    public void NotifyTick(int day) {
+    public void NotifyTick(int day, int deads,int infected) {
         for(WorldObserver ob: observers) {
-            ob.OnSimulationTick(day);
+            ob.OnSimulationTick(day, deads, infected);
+        }
+    }
+    
+    public void NotifyLinksUpdated() {
+        for(WorldObserver ob: observers) {
+            ob.OnLinksUpdated();
         }
     }
     
@@ -104,6 +111,10 @@ public class WorldController implements java.io.Serializable {
     public void AddCountry(List<Point> points, String countryName, int countryPop) {
         Country country = CountryFactory.CreateCountry(points, countryName, countryPop);
         world.addCountry(country);
+    }
+    
+    public void UpdateSelectionStateCountry(UUID id, boolean select) {
+        world.UpdateSelectionStateCountry(id, select);
     }
     
     public void UpdateCountry(CountryDTO country) {
@@ -132,6 +143,10 @@ public class WorldController implements java.io.Serializable {
         } else {
             System.out.println("Impossible de link le meme pays!");
         }
+    }
+    
+    public void UpdateSelectionStateLink(UUID linkId, boolean select) {
+        world.UpdateSelectionStateLink(linkId, select);
     }
     
     public void RemoveLink(UUID linkId) {

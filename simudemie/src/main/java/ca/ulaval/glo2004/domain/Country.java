@@ -25,6 +25,7 @@ public class Country implements Serializable {
     private Color color;
     private String name;
     private final UUID id;
+    private boolean isSelected;
     
     public Country(GeometricForm form, String countryName, int countryPop){
         id = UUID.randomUUID();
@@ -35,6 +36,10 @@ public class Country implements Serializable {
     
     public UUID GetId() {
         return id;
+    }
+    
+    public boolean IsSelected() {
+        return isSelected;
     }
     
     public List<Region> GetRegions() {
@@ -109,15 +114,14 @@ public class Country implements Serializable {
             this.color = new Color(50,205,50);
         }
         return this.color;
-        //throw new UnsupportedOperationException("Not supported");
-    }
-    
-    public void setColor(){
-        
     }
     
     public void SetPosition(Point position) {
         shape.SetPosition(position);
+    }
+    
+    public void SetSelectionState(boolean select) {
+        isSelected = select;
     }
     
     @Override

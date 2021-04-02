@@ -15,6 +15,19 @@ import java.util.List;
  */
 public final class Utility {
     
+    public static final CountryDTO SelectCountry(List<CountryDTO> countries, Point mousePosition) {
+        CountryDTO country = null;
+        
+        for(CountryDTO c: countries) {
+            if(IsInRectangle(c.Shape.GetPoints(), mousePosition)) {
+                country = c;
+                break;
+            }
+        }
+        
+        return country;
+    }
+    
     public static final boolean IsInRectangle(List<Point> points, Point position) {        
         Point p1 = new Point(Integer.MAX_VALUE, Integer.MAX_VALUE); //En haut a gauche.
         Point p2 = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE); //En bas a droite.
