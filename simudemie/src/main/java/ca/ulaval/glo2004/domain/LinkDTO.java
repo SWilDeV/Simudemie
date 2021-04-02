@@ -20,6 +20,7 @@ public class LinkDTO {
    public double TravelRate;
    public boolean IsOpen;
    public boolean IsSelected;
+   public String name;
    
    public final UUID Id;
     
@@ -31,6 +32,8 @@ public class LinkDTO {
         IsOpen = link.isOpen();
         IsSelected = link.IsSelected();
         Id = link.GetId();
+        name = link.getlinkName();
+        
     }
     
     

@@ -153,9 +153,9 @@ public class WorldController implements java.io.Serializable {
         world.RemoveLink(linkId);
     }
     
-    public String getLinkName(Link link) {
-        return link.linkName();
-    }
+    //public void removeLink(int index) {
+        //world.removeLink(index);
+    //}
     
     public void ActiveMesures() {
         
