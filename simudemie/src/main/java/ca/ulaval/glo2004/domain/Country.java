@@ -66,9 +66,10 @@ public class Country implements Serializable {
     }
     
     public void addRegionsToList(int population){
-        int numberOfRegion=4;   //A changer !!
+        long numberOfRegion=4;   //A changer !!
+        int regionPop= (int)Math.round(population/numberOfRegion);       
         for(int i =0; i< numberOfRegion; i++){
-            regions.add(new Region(population));
+            regions.add(new Region(regionPop));
         }
         //regions.add(region);
     }

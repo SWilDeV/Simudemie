@@ -52,23 +52,18 @@ public class Simulation implements java.io.Serializable {
         List<Country> countries = controller.GetCountriesforSimulation();
         int countryListSize = countries.size();
         
+        //Fake creation de regions
+        for(Country country:countries){
+            country.addRegionsToList(1993);
+        }
+        
         if(countryListSize>0){
             System.out.println("demarré");
             SetRunning(true);
             
             //Initialiser le patient zero
-            Random rand = new Random();
-            int maxRand = countryListSize;
-            int index = rand.nextInt(maxRand);
-            int counter = 0;
-            for(Country country : countries) {
-                if(index == counter){
-                    country.getPopulation().addPatientZero();
-                    controller.getWorld().updateCountryFromSimulation(country);
-                }
-                counter +=1;
-            }
-            
+            initializePatientZero(countries);
+                    
             //Timer faisant office de boucle principale
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -77,23 +72,22 @@ public class Simulation implements java.io.Serializable {
                         elapsedDay +=1;
                         int globalInfected = 0;
                         for(Country country : countries) {
-                            country.addRegionsToList(10000);
                             List<Region> regions = country.GetRegions();
                             for(Region region:regions){
                                Population updated = UpdatePopulation(region);
 //                            Population updated = UpdatePopulation(country);
 //                            if (country[index].getInfectedPopulation()== 0){
 //                                timer.cancel();
-                                System.out.println(region.getPopulation().getTotalPopulation());
 //                            }
-                            if(updated.getTotalPopulation()>updated.getInfectedPopulation()){
-                                region.setPopulation(updated);
-                                controller.getWorld().updateCountryFromSimulation(country);
-                            }else{
-                                timer.cancel();
-                                System.out.println("end ! Des zombies partout!!");
-                            }
-                            globalInfected+=updated.getInfectedPopulation(); 
+                                if(updated.getTotalPopulation()>updated.getInfectedPopulation()){
+                                    region.setPopulation(updated);
+                                    controller.getWorld().updateCountryFromSimulation(country);
+                                }else{
+                                    timer.cancel();
+                                    System.out.println("end ! Des zombies partout!!");
+                                }
+                                globalInfected+=updated.getInfectedPopulation(); 
+                                System.out.println(region.getPopulation().getTotalPopulation());
                             }
                         }
                         controller.NotifyTick(elapsedDay, globalDeads,globalInfected);
@@ -185,6 +179,32 @@ public class Simulation implements java.io.Serializable {
 //        
 //        return population;
 //    }
+    
+    
+    public void initializePatientZero(List<Country> countries ){
+        //Initialiser le patient zero
+        Random rand = new Random();
+        int maxRand = countries.size();
+        int index = rand.nextInt(maxRand);
+        int counter = 0;
+        for(Country country : countries) {
+            if(index == counter){
+                List<Region>regionList = country.GetRegions();
+                int maxRand2 = regionList.size();
+                int index2 = rand.nextInt(maxRand2);
+                int counter2 = 0;
+                
+                for (Region region:regionList){
+                    if (index2 == counter2){
+                        region.getPopulation().addPatientZero();
+                        controller.getWorld().updateCountryFromSimulation(country);
+                    }
+                    counter2 +=1;
+                }                
+            }
+            counter +=1;
+        }
+    }
     
     public int previousDay() {
         return elapsedDay -=1;
