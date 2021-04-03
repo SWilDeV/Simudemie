@@ -148,7 +148,7 @@ public class World implements java.io.Serializable {
             worldController.NotifyLinksUpdated();
         }
     }
-    
+        
     public Country findCountryByPosition(Point position) {
         for(Country country: countryList) {                
             if (Utility.IsInRectangle(country.getShape().GetPoints(), position)) {
@@ -176,11 +176,11 @@ public class World implements java.io.Serializable {
     }
        
     public List getCountries(){
-        return countryList; //Peut etre un retour comme celui-ci dans le controller.
+        return countryList;
     }
     
     public List getLinks(){
-        return new ArrayList<>(linkList); //Peut etre un retour comme celui-ci dans le controller.
+        return linkList;
     }
     
     public void getInfos(UUID countryId){

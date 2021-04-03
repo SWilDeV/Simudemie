@@ -24,6 +24,7 @@ public class Link {
    private double travelRate;
    private boolean isOpen;
    private boolean isSelected;
+   private String linkName;
    
    private final UUID id;
    
@@ -104,21 +105,21 @@ public class Link {
        return 0;
    }
    
-   public String linkName() {
-       String linkName = "";
+   public String getlinkName() {
+       String firstPart = "";
        
        if (linkType == linkType.TERRESTRE) {
-           linkName = "T - ";
+           firstPart = "T - ";
        } else if (linkType == linkType.AERIEN) {
-           linkName = "A - ";
+           firstPart = "A - ";
        } else {
-           linkName = "M - ";
+           firstPart = "M - ";
        }
        
-       String secondString = linkName + country1.getName() + " - " + country2.getName();
+       this.linkName = firstPart + country1.getName() + " - " + country2.getName();
        
        
-       return secondString;
+       return this.linkName;
    }
    
     @Override

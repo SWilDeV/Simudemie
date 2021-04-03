@@ -1050,12 +1050,13 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
 
     private void jButtonRemoveLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveLinkActionPerformed
         List<LinkDTO> links = worldController.GetLinks();
-        int[] index = jlistLinks.getSelectedIndices();
+        int index = jlistLinks.getSelectedIndex();
         
-        for(int i = 0; i < index.length; i++) {
-            UUID id = links.get(index[i]).Id;
-            worldController.RemoveLink(id);
-        }
+        //for(int i = 0; i < index.length; i++) {
+            //UUID id = links.get(index[i]).Id;
+            //worldController.RemoveLink(id);
+        //}
+        
     }//GEN-LAST:event_jButtonRemoveLinkActionPerformed
 
     private void jlistLinksValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlistLinksValueChanged
@@ -1071,6 +1072,7 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
             UUID id = links.get(index[i]).Id;
             worldController.UpdateSelectionStateLink(id, true);
         }
+
         drawingPanel.repaint();
     }//GEN-LAST:event_jlistLinksValueChanged
  
