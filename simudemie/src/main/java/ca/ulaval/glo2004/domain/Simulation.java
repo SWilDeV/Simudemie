@@ -31,18 +31,16 @@ public class Simulation implements java.io.Serializable {
         disease = controller.getDisease();
     }
     
-    
-    
-    public boolean getIsRunning() {
-        return this.isRunning;
-    }
-    
     public ArrayList<Integer> GetDataHistory() {
         return dataHistory; //TODO: DTO ou un deep copy?
     }
     
     public int GetElapsedDay() {
         return this.elapsedDay;
+    }
+    
+    public boolean getIsRunning() {
+        return this.isRunning;
     }
     
     private void SetRunning(boolean running) {
@@ -59,8 +57,10 @@ public class Simulation implements java.io.Serializable {
             SetRunning(true);
             
             //Initialiser le patient zero
-            initializePatientZero(countries);
-            controller.getWorld().updateWorldPopulation(); 
+            if(controller.getWorld().getWorldPopulation().getInfectedPopulation() == 0){
+                initializePatientZero(countries);
+                controller.getWorld().updateWorldPopulation(); 
+            }
                     
             //Timer faisant office de boucle principale
             Timer timer = new Timer();
