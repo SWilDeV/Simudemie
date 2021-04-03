@@ -53,7 +53,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     
     @Override
     public void OnSimulationTick(int day, int deads, int infected) {
-        System.err.println("Jour: "+ day);
+        System.err.println("Nouveau jour!");
         jLabelDayElapsed.setText(String.valueOf(day));
         jLabelDead.setText(String.valueOf(deads));
         jLabelCase.setText(String.valueOf(infected));
@@ -556,21 +556,21 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
-        jLabelTitleCase.setText("Infectés:");
+        jLabelTitleCase.setText("Cas:");
 
-        jLabelCase.setText("-");
+        jLabelCase.setText("1000");
 
-        jLabelTitleDead.setText("Morts:");
+        jLabelTitleDead.setText("Mort:");
 
-        jLabelDead.setText("-");
+        jLabelDead.setText("1000");
 
-        jLabelTitleCured.setText("Population Totale:");
+        jLabelTitleCured.setText("Guerie:");
 
-        jLabelCured.setText("-");
+        jLabelCured.setText("1000");
 
         jLabelTitleDayElapsed.setText("Jour:");
 
-        jLabelDayElapsed.setText("-");
+        jLabelDayElapsed.setText("1000");
 
         jButtonBacktrack.setText("<<");
         jButtonBacktrack.addActionListener(new java.awt.event.ActionListener() {
@@ -963,27 +963,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 List<CountryDTO> countries = worldController.GetCountries();
                 CountryDTO selected = Utility.SelectCountry(countries, mousePoint);
                 boolean found = false;
-<<<<<<< HEAD
-                for(CountryDTO country: countries) {                
-                    if (Utility.IsInRectangle(country.Shape.GetPoints(), mousePoint)) {                    
-                        if(countrySelected != null) {
-                            int linkIndex = jComboBoxAddLink.getSelectedIndex();
-                            worldController.AddLink(countrySelected.Id, country.Id, Link.LinkType.values()[linkIndex]);
-                            DefaultListModel listModel = new DefaultListModel();
-                            for (LinkDTO link: worldController.GetLinks()){
-                                listModel.addElement(link.Id);
-                            }
-                            jListLinks.setModel(listModel);
-                            countrySelected = null;
-                            drawingPanel.repaint();
-                        } else {
-                            countrySelected = country;
-                            found = true;
-                        }
-
-                        break;
-                    }
-=======
                 if(selected != null && countrySelected != null) {
                     int linkIndex = jComboBoxAddLink.getSelectedIndex();
                     worldController.AddLink(countrySelected.Id, selected.Id, Link.LinkType.values()[linkIndex]);
@@ -996,7 +975,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
                 if(!found) {
                     SetSelectedCountry(null);
->>>>>>> 3119d3f035e3250e295e448680005fa8b81083a3
                 }
             break;
                 
