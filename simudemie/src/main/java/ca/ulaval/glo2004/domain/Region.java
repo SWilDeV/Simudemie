@@ -5,6 +5,8 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.util.UUID;
+
 /**
  *
  * @author charl
@@ -13,11 +15,23 @@ public class Region {
     
     private double percentagePop;
     private Population subPopulation;
+    private final UUID id;
     
-    public Region(){
-        
+    public Region(int population){
+        id = UUID.randomUUID();
+        subPopulation = new Population(population);
     }
     
+    public Population getPopulation(){
+        return subPopulation;
+    }
+    
+    public void setPopulation(Population population) {
+        this.subPopulation = population;
+    }
+    
+    
+    //////////////////////////////////////////////////
     public double getPercentagePop() {
         throw new UnsupportedOperationException("Not supported");
     }
@@ -25,4 +39,6 @@ public class Region {
     public void setPercentagePop(double percentagePop){
         
     }
+    
+    
 }

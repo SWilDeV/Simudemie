@@ -77,18 +77,24 @@ public class Simulation implements java.io.Serializable {
                         elapsedDay +=1;
                         int globalInfected = 0;
                         for(Country country : countries) {
-                            Population updated = UpdatePopulation(country);
+                            country.addRegionsToList(10000);
+                            List<Region> regions = country.GetRegions();
+                            for(Region region:regions){
+                               Population updated = UpdatePopulation(region);
+//                            Population updated = UpdatePopulation(country);
+//                            if (country[index].getInfectedPopulation()== 0){
+//                                timer.cancel();
+                                System.out.println(region.getPopulation().getTotalPopulation());
+//                            }
                             if(updated.getTotalPopulation()>updated.getInfectedPopulation()){
-                                country.setPopulation(updated);
+                                region.setPopulation(updated);
                                 controller.getWorld().updateCountryFromSimulation(country);
-        //                            }else if (updated.getInfectedPopulation()== 0){
-        //                                timer.cancel();
-        //                                System.out.println("Miracle, la maladie a disparu");
                             }else{
                                 timer.cancel();
                                 System.out.println("end ! Des zombies partout!!");
                             }
-                            globalInfected+=updated.getInfectedPopulation();
+                            globalInfected+=updated.getInfectedPopulation(); 
+                            }
                         }
                         controller.NotifyTick(elapsedDay, globalDeads,globalInfected);
                     }else{
@@ -101,9 +107,9 @@ public class Simulation implements java.io.Serializable {
         }
     }
     
-    public Population UpdatePopulation(Country country){
+    public Population UpdatePopulation(Region region){
         //population
-        Population population = country.getPopulation();
+        Population population = region.getPopulation();
         int totalPop = population.getTotalPopulation();
         
         //infectedPop
@@ -140,6 +146,45 @@ public class Simulation implements java.io.Serializable {
         
         return population;
     }
+//    public Population UpdatePopulation(Country country){
+//        //population
+//        Population population = country.getPopulation();
+//        int totalPop = population.getTotalPopulation();
+//        
+//        //infectedPop
+//        int previousDayInfectedPop = population.getInfectedPopulation();
+//        int newInfectedPop = calculation.Calculate(previousDayInfectedPop,0.15);
+//        int totalInfectedPop = newInfectedPop + previousDayInfectedPop;
+//        
+//        //non infected people
+//        int curedPop = calculation.Calculate(totalInfectedPop,0.05);
+//        if(curedPop>0){
+//            totalInfectedPop -= curedPop;
+//        }
+//        
+//        //dead population
+//        int previousDayDeadPop= population.getDeadPopulation();
+//        int newDeadPop = calculation.Calculate(totalInfectedPop,0.01);
+//        int totalDeadPop= previousDayDeadPop + newDeadPop;
+//        
+//        //total population
+//        int newTotalPop = totalPop - newDeadPop;
+//        int totalNonInfectedPop = newTotalPop-totalInfectedPop;
+//        if (totalNonInfectedPop <0){
+//            totalNonInfectedPop = 0;
+//            totalInfectedPop = newTotalPop;
+//        }
+//        
+//     
+//        //Sets
+//        population.setInfectedPopulation(totalInfectedPop);
+//        population.setNonInfectedPopulation(totalNonInfectedPop);
+//        population.setDeadPopulation(totalDeadPop);
+//        population.setTotalPopulation(newTotalPop);
+//        globalDeads+=newDeadPop;
+//        
+//        return population;
+//    }
     
     public int previousDay() {
         return elapsedDay -=1;
@@ -161,43 +206,5 @@ public class Simulation implements java.io.Serializable {
         elapsedDay = 0;
         System.out.println("Timer Reset");
     }
-//    public Population UpdatePopulation(Country country){
-//        //Gets
-//        Population population = country.getPopulation();
-//        int infectedPop = population.getInfectedPopulation();
-//        int totalPop = population.getTotalPopulation();
-//        int curedPop= population.getCuredPopulation();
-//        
-//        //Calculation
-//        int newInfectedPop = calculation.Calculate(infectedPop,0.15) + infectedPop;
-//        int newDeadPop = calculation.Calculate(infectedPop,0.01);
-//      
-//        int newNonInfectedPop = totalPop - newInfectedPop;
-//        
-//        int newCuredPop = calculation.Calculate(infectedPop,0.05);
-//        if(newCuredPop>0){
-//            newInfectedPop -= newCuredPop;
-//            newNonInfectedPop += newCuredPop;
-//            curedPop+=newCuredPop;
-//        }
-//        
-//        int newTotalPop = totalPop;
-//        if(newDeadPop > 0){
-//            newTotalPop -= newDeadPop;
-//        } else{
-//            newTotalPop = newInfectedPop + newNonInfectedPop;
-//        }
-//        
-//        int deadPop= population.getDeadPopulation() + newDeadPop;
-//        
-//        
-//        //Sets
-//        population.setInfectedPopulation(newInfectedPop);
-//        population.setNonInfectedPopulation(newNonInfectedPop);
-//        population.setDeadPopulation(deadPop);
-//        population.setTotalPopulation(newTotalPop);
-//        population.setCuredPopulation(curedPop);
-//        return population;
-//    }
     
 }

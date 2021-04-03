@@ -19,8 +19,9 @@ import java.util.UUID;
  */
 public class Country implements Serializable {
     
-    private List<Region> regions = new ArrayList<>();
+    private List<Region> regions ;
     private Population population;
+    private int PopulationNumber;
     private GeometricForm shape;
     private Color color;
     private String name;
@@ -31,7 +32,9 @@ public class Country implements Serializable {
         id = UUID.randomUUID();
         shape = form;
         name = countryName;
+        regions = new ArrayList<>() ;
         population = new Population(countryPop);
+        PopulationNumber = countryPop;
     }
     
     public UUID GetId() {
@@ -62,8 +65,21 @@ public class Country implements Serializable {
         this.population = population;
     }
     
+    public void addRegionsToList(int population){
+        int numberOfRegion=4;   //A changer !!
+        for(int i =0; i< numberOfRegion; i++){
+            regions.add(new Region(population));
+        }
+        //regions.add(region);
+    }
     public void addRegion(Region region){
         regions.add(region);
+    }
+    
+    public void setPopulationToRegion(Population population){
+        for(Region region:regions){
+            region.setPopulation(population);
+        }  
     }
     
     public GeometricForm getShape(){
@@ -96,11 +112,14 @@ public class Country implements Serializable {
     }
     
     public void fromCountry(Country country){
-        population.setTotalPopulation(country.getPopulation().getTotalPopulation());
-        population.setCuredPopulation(country.getPopulation().getCuredPopulation());
-        population.setInfectedPopulation(country.getPopulation().getInfectedPopulation());
-        population.setNonInfectedPopulation(country.getPopulation().getNonInfectedPopulation());
-        population.setDeadPopulation(country.getPopulation().getDeadPopulation());
+        for(Region region :regions){
+            population.setTotalPopulation(region.getPopulation().getTotalPopulation());
+            population.setCuredPopulation(region.getPopulation().getCuredPopulation());
+            population.setInfectedPopulation(region.getPopulation().getInfectedPopulation());
+            population.setNonInfectedPopulation(region.getPopulation().getNonInfectedPopulation());
+            population.setDeadPopulation(region.getPopulation().getDeadPopulation());
+        }
+        
     }
     
     public Color getColor() {

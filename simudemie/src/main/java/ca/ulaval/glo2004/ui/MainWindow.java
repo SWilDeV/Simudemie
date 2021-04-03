@@ -53,7 +53,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     
     @Override
     public void OnSimulationTick(int day, int deads, int infected) {
-        System.err.println("Nouveau jour!");
+        System.err.println("Jour: "+ day);
         jLabelDayElapsed.setText(String.valueOf(day));
         jLabelDead.setText(String.valueOf(deads));
         jLabelCase.setText(String.valueOf(infected));
@@ -457,21 +457,21 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
-        jLabelTitleCase.setText("Cas:");
+        jLabelTitleCase.setText("Infectés:");
 
-        jLabelCase.setText("1000");
+        jLabelCase.setText("-");
 
-        jLabelTitleDead.setText("Mort:");
+        jLabelTitleDead.setText("Morts:");
 
-        jLabelDead.setText("1000");
+        jLabelDead.setText("-");
 
-        jLabelTitleCured.setText("Guerie:");
+        jLabelTitleCured.setText("Population Totale:");
 
-        jLabelCured.setText("1000");
+        jLabelCured.setText("-");
 
         jLabelTitleDayElapsed.setText("Jour:");
 
-        jLabelDayElapsed.setText("1000");
+        jLabelDayElapsed.setText("-");
 
         jButtonBacktrack.setText("<<");
         jButtonBacktrack.addActionListener(new java.awt.event.ActionListener() {
@@ -493,7 +493,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jPanelDeseaseParams.setBackground(new java.awt.Color(230, 230, 230));
 
-        jPanelMortalityRate.setLayout(new java.awt.GridLayout());
+        jPanelMortalityRate.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabelTitleMortalityRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabelTitleMortalityRate.setText("Taux mortalite");
@@ -502,7 +502,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jTextFieldMortalityRate.setText("0%");
         jPanelMortalityRate.add(jTextFieldMortalityRate);
 
-        jPanelReproductionRate.setLayout(new java.awt.GridLayout());
+        jPanelReproductionRate.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabelTitleReproductionRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabelTitleReproductionRate.setText("Taux reproduction");
@@ -511,7 +511,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jTextFieldReproductionRate.setText("0%");
         jPanelReproductionRate.add(jTextFieldReproductionRate);
 
-        jPanelCuredRate.setLayout(new java.awt.GridLayout());
+        jPanelCuredRate.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabelTitleCuredRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabelTitleCuredRate.setText("Taux guerison");
@@ -520,7 +520,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jTextFieldCuredRate.setText("0%");
         jPanelCuredRate.add(jTextFieldCuredRate);
 
-        jPanelTransmissionRate.setLayout(new java.awt.GridLayout());
+        jPanelTransmissionRate.setLayout(new java.awt.GridLayout(1, 0));
 
         jButtonApplyDisease.setText("Appliquer (maladie)");
         jButtonApplyDisease.addActionListener(new java.awt.event.ActionListener() {
@@ -670,8 +670,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                             .addGroup(jPanelSimulationLayout.createSequentialGroup()
                                 .addComponent(jLabelTimeLapse)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextFieldTimeLapse, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jTextFieldTimeLapse, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanelSimulationLayout.createSequentialGroup()
                                 .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanelSimulationLayout.createSequentialGroup()
@@ -880,7 +879,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                             worldController.AddLink(countrySelected.Id, country.Id, Link.LinkType.values()[linkIndex]);
                             DefaultListModel listModel = new DefaultListModel();
                             for (LinkDTO link: worldController.GetLinks()){
-                                listModel.addElement(link.name);
+                                listModel.addElement(link.Id);
                             }
                             jListLinks.setModel(listModel);
                             countrySelected = null;
