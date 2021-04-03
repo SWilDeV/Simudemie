@@ -1072,6 +1072,7 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
             UUID id = links.get(index[i]).Id;
             worldController.UpdateSelectionStateLink(id, true);
         }
+
         drawingPanel.repaint();
     }//GEN-LAST:event_jlistLinksValueChanged
  

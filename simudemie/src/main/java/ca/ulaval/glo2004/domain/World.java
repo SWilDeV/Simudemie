@@ -145,13 +145,9 @@ public class World implements java.io.Serializable {
         Link link = FindLinkByUUID(linkId);
         if(link != null) {
             linkList.remove(link);
-            //worldController.NotifyLinksUpdated();
+            worldController.NotifyLinksUpdated();
         }
     }
-    
-    //public void removeLink(int index) {
-        //linkList.remove(index);
-    //}
         
     public Country findCountryByPosition(Point position) {
         for(Country country: countryList) {                
@@ -180,11 +176,11 @@ public class World implements java.io.Serializable {
     }
        
     public List getCountries(){
-        return countryList; //Peut etre un retour comme celui-ci dans le controller.
+        return countryList;
     }
     
     public List getLinks(){
-        return new ArrayList<>(linkList); //Peut etre un retour comme celui-ci dans le controller.
+        return linkList;
     }
     
     public void getInfos(UUID countryId){
