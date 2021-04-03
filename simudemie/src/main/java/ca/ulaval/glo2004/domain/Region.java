@@ -30,6 +30,19 @@ public class Region {
         this.subPopulation = population;
     }
     
+    public UUID GetId() {
+        return id;
+    }
+    
+    public void updateRegion(Region region){
+      subPopulation.setTotalPopulation(region.getPopulation().getTotalPopulation());
+      subPopulation.setCuredPopulation(region.getPopulation().getCuredPopulation());
+      subPopulation.setInfectedPopulation(region.getPopulation().getInfectedPopulation());
+      subPopulation.setNonInfectedPopulation(region.getPopulation().getNonInfectedPopulation());
+      subPopulation.setDeadPopulation(region.getPopulation().getDeadPopulation());
+    }
+
+    
     
     //////////////////////////////////////////////////
     public double getPercentagePop() {

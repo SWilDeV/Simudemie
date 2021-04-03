@@ -10,6 +10,7 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -19,9 +20,8 @@ import java.util.UUID;
  */
 public class Country implements Serializable {
     
-    private List<Region> regions ;
+    private List<Region> regions = new ArrayList<>();
     private Population population;
-    private int PopulationNumber;
     private GeometricForm shape;
     private Color color;
     private String name;
@@ -32,9 +32,8 @@ public class Country implements Serializable {
         id = UUID.randomUUID();
         shape = form;
         name = countryName;
-        regions = new ArrayList<>() ;
+        regions.add(new Region(countryPop)) ;
         population = new Population(countryPop);
-        PopulationNumber = countryPop;
     }
     
     public UUID GetId() {
@@ -45,57 +44,61 @@ public class Country implements Serializable {
         return isSelected;
     }
     
-    public List<Region> GetRegions() {
-        return regions;
+    public String getName() {
+        return name;
     }
     
     public Population getPopulation(){
         return population;
     }
     
-    public String getName() {
-        return name;
-    }
-    
     public void setName(String countryName) {
         name = countryName;
-    }
-    
-    public void setPopulation(Population population) {
-        this.population = population;
-    }
-    
-    public void addRegionsToList(int population){
-        long numberOfRegion=4;   //A changer !!
-        int regionPop= (int)Math.round(population/numberOfRegion);       
-        for(int i =0; i< numberOfRegion; i++){
-            regions.add(new Region(regionPop));
-        }
-        //regions.add(region);
-    }
-    public void addRegion(Region region){
-        regions.add(region);
-    }
-    
-    public void setPopulationToRegion(Population population){
-        for(Region region:regions){
-            region.setPopulation(population);
-        }  
     }
     
     public GeometricForm getShape(){
         return shape;
     }
     
-    public void removeRegion(Region region){
-        regions.remove(region);
+    public void setPopulation(Population population) {
+        this.population = population;
+    }
+    public int getTotalPopulation(){
+        int totalPopulation =0;
+        for(Region region:regions){
+            totalPopulation += region.getPopulation().getTotalPopulation();
+        }
+        return totalPopulation;
     }
     
-    public void modifyRegion(Region region){
-        if (regions.contains(region)) {
-            int index = regions.indexOf(region);
-            regions.set(index, region);
+    public int getInfectedPopulation(){
+        int infectedPopulation =0;
+        for(Region region:regions){
+            infectedPopulation += region.getPopulation().getInfectedPopulation();
         }
+        return infectedPopulation;
+    }
+    public int getNonInfectedPopulation(){
+        int nonInfectedPopulation =0;
+        for(Region region:regions){
+            nonInfectedPopulation += region.getPopulation().getNonInfectedPopulation();
+        }
+        return nonInfectedPopulation;
+    }
+    
+    public int getDeadPopulation(){
+        int deadPopulation =0;
+        for(Region region:regions){
+            deadPopulation += region.getPopulation().getDeadPopulation();
+        }
+        return deadPopulation;
+    }
+    
+    public void updateCountryPopulation(Country country){
+        population.setTotalPopulation(country.getTotalPopulation());
+        population.setInfectedPopulation(country.getInfectedPopulation());
+        population.setNonInfectedPopulation(country.getNonInfectedPopulation());
+        population.setDeadPopulation(country.getDeadPopulation());
     }
     
     public void fromCountryDTO(CountryDTO countryDTO){
@@ -112,16 +115,7 @@ public class Country implements Serializable {
         population.setDeadPopulation(countryDTO.getPopulationDTO().getDeadPopulationDTO());
     }
     
-    public void fromCountry(Country country){
-        for(Region region :regions){
-            population.setTotalPopulation(region.getPopulation().getTotalPopulation());
-            population.setCuredPopulation(region.getPopulation().getCuredPopulation());
-            population.setInfectedPopulation(region.getPopulation().getInfectedPopulation());
-            population.setNonInfectedPopulation(region.getPopulation().getNonInfectedPopulation());
-            population.setDeadPopulation(region.getPopulation().getDeadPopulation());
-        }
-        
-    }
+    
     
     public Color getColor() {
         double percentageInfected = this.population.getInfectedPopulation() / this.population.getTotalPopulation(); 
@@ -164,5 +158,67 @@ public class Country implements Serializable {
         hash = 59 * hash + Objects.hashCode(this.id);
         return hash;
     }
+    
+    
+    /////////////////REGIONS////////////////////////
+    
+    public List<Region> GetRegions() {
+        return regions;
+    }
+    
+    public Region FindRegionByUUID(UUID id) {
+        try {
+            return regions.stream().filter(c -> c.GetId().equals(id)).findAny().get();
+        } catch(NoSuchElementException e) {
+            return null;
+        }
+    }
+    
+    public void addRegionsToList(int population){
+        long numberOfRegion=4;   //A changer !!
+        int regionPop= (int)Math.round(population/numberOfRegion);       
+        for(int i =0; i< numberOfRegion; i++){
+            regions.add(new Region(regionPop));
+        }
+    }
+    public void addRegion(Region region){
+        regions.add(region);
+    }
+    
+    public void setPopulationToRegion(Population population){//faudrait ajouter un index ou un id de la region
+        for(Region region:regions){
+            //if(region.id == id){
+            region.setPopulation(population);
+            //}
+        }  
+    }
+    
+    public void removeRegion(Region region){//faudrait ajouter un index ou un id de la region
+        //for(Region region:regions){
+            //if(region.id == id){
+            regions.remove(region);
+        //}
+    }
+    
+    public void modifyRegion(Region region){
+        if (regions.contains(region)) {
+            int index = regions.indexOf(region);
+            regions.set(index, region);
+        }
+    }
+    
+    public void updateRegion(Region region) {
+        Region r = FindRegionByUUID(region.GetId());
+        if(r != null){
+            r.updateRegion(region);
+        }
+    }
+    
+  
+    
+    
+    
+    
+    
     
 }

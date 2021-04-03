@@ -14,10 +14,10 @@ import java.io.Serializable;
 public class Population implements Serializable { //TODO: Faire un DTO de population :)
     //    Attributs
     private int totalPopulation;
-    private int infectedPopulation;
-    private int curedPopulation;
-    private int deadPopulation;
-    private int nonInfectedPopulation;
+    private int infectedPopulation =0;
+    private int curedPopulation = 0;
+    private int deadPopulation = 0;
+    private int nonInfectedPopulation =0;
     
     public Population(){
     }

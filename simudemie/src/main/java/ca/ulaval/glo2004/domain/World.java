@@ -56,7 +56,17 @@ public class World implements java.io.Serializable {
     public void updateCountryFromSimulation(Country country) {
         Country c = FindCountryByUUID(country.GetId());
         if(c != null){
-            c.fromCountry(country);
+            c.updateCountryPopulation(country);
+        }
+    }
+    
+    public void updateRegionFromSimulation(Country country,Region region) {
+        Country c = FindCountryByUUID(country.GetId());
+        if(c != null){
+            Region r =c.FindRegionByUUID(region.GetId());
+             if(r != null){
+                 r.updateRegion(region);
+             }
         }
     }
     

@@ -53,9 +53,9 @@ public class Simulation implements java.io.Serializable {
         int countryListSize = countries.size();
         
         //Fake creation de regions
-        for(Country country:countries){
-            country.addRegionsToList(1993);
-        }
+//        for(Country country:countries){
+//            country.addRegionsToList(1993);
+//        }
         
         if(countryListSize>0){
             System.out.println("demarré");
@@ -74,28 +74,30 @@ public class Simulation implements java.io.Serializable {
                         for(Country country : countries) {
                             List<Region> regions = country.GetRegions();
                             for(Region region:regions){
-                               Population updated = UpdatePopulation(region);
+                               Population regionUpdated = UpdatePopulation(region);
 //                            Population updated = UpdatePopulation(country);
 //                            if (country[index].getInfectedPopulation()== 0){
 //                                timer.cancel();
 //                            }
-                                if(updated.getTotalPopulation()>updated.getInfectedPopulation()){
-                                    region.setPopulation(updated);
-                                    controller.getWorld().updateCountryFromSimulation(country);
+                                if(regionUpdated.getTotalPopulation()>regionUpdated.getInfectedPopulation()){
+                                    region.setPopulation(regionUpdated);
+                                    controller.getWorld().updateRegionFromSimulation(country, region);
                                 }else{
                                     timer.cancel();
                                     System.out.println("end ! Des zombies partout!!");
                                 }
-                                globalInfected+=updated.getInfectedPopulation(); 
-                                System.out.println(region.getPopulation().getTotalPopulation());
+                                globalInfected+=regionUpdated.getInfectedPopulation(); 
                             }
+                            controller.getWorld().updateCountryFromSimulation(country);
+                            
                         }
+                        System.out.println(countries.size());
                         controller.NotifyTick(elapsedDay, globalDeads,globalInfected);
                     }else{
                         timer.cancel();
                     }
                 }
-            }, 0, 500);
+            }, 0, 1000);
         }else{
             System.out.println("Veuillez ajouter au moins un pays");
         }
@@ -111,7 +113,7 @@ public class Simulation implements java.io.Serializable {
         int newInfectedPop = calculation.Calculate(previousDayInfectedPop,0.15);
         int totalInfectedPop = newInfectedPop + previousDayInfectedPop;
         
-        //non infected people
+        //cured people
         int curedPop = calculation.Calculate(totalInfectedPop,0.05);
         if(curedPop>0){
             totalInfectedPop -= curedPop;
