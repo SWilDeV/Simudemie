@@ -616,7 +616,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jPanelReproductionRate.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabelTitleReproductionRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabelTitleReproductionRate.setText("Taux reproduction (%)");
+        jLabelTitleReproductionRate.setText("Taux Infection (%)");
         jPanelReproductionRate.add(jLabelTitleReproductionRate);
 
         jTextFieldReproductionRate.setText("15");

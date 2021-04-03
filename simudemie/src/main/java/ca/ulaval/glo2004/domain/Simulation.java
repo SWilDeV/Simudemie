@@ -88,11 +88,7 @@ public class Simulation implements java.io.Serializable {
                             }
                             controller.getWorld().updateCountryFromSimulation(country);
                         }
-                        controller.getWorld().updateWorldPopulation(); 
-                        int globalInfected = controller.getWorld().getWorldPopulation().getInfectedPopulation();
-                        int globalPop = controller.getWorld().getWorldPopulation().getTotalPopulation();
-                        int globalDeads = controller.getWorld().getWorldPopulation().getDeadPopulation();
-                        controller.NotifyTick(elapsedDay, globalDeads,globalInfected,globalPop);
+                        updateWorldPopulation();
                     }else{
                         timer.cancel();
                     }
@@ -168,6 +164,14 @@ public class Simulation implements java.io.Serializable {
             }
             counter +=1;
         }
+    }
+    
+    public void updateWorldPopulation(){
+        controller.getWorld().updateWorldPopulation(); 
+        int globalInfected = controller.getWorld().getWorldPopulation().getInfectedPopulation();
+        int globalPop = controller.getWorld().getWorldPopulation().getTotalPopulation();
+        int globalDeads = controller.getWorld().getWorldPopulation().getDeadPopulation();
+        controller.NotifyTick(elapsedDay, globalDeads,globalInfected,globalPop);
     }
     
     public int previousDay() {
