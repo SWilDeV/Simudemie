@@ -12,6 +12,6 @@ import java.util.List;
  * @author Abergel Clement
  */
 public interface WorldObserver {
-    public void OnSimulationTick(int day, int deads,int infected);
+    public void OnSimulationTick(int day, int deads,int infected, int PopTot);
     public void OnLinksUpdated();
 }

@@ -58,7 +58,7 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
     }
     
     @Override
-    public void OnSimulationTick(int day, int deads, int infected) {
+    public void OnSimulationTick(int day, int deads, int infected, int totPop) {
         System.err.println("Nouveau jour!");
         jLabelDayElapsed.setText(String.valueOf(day));
         jLabelDead.setText(String.valueOf(deads));

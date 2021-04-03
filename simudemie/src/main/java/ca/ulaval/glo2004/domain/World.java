@@ -21,6 +21,7 @@ public class World implements java.io.Serializable {
     private WorldController worldController;
     private List<Link> linkList = new ArrayList<>();
     private List<Country> countryList = new ArrayList<>();
+    private Population worldPopulation =new Population();
     
 
     public World(){
@@ -40,6 +41,27 @@ public class World implements java.io.Serializable {
         if(country != null) {
             country.SetSelectionState(select);
         }
+    }
+    
+    public Population getWorldPopulation(){
+        return worldPopulation;
+    }
+    
+    public void updateWorldPopulation(){
+        int totalPop = 0;
+        int infectedPop = 0;
+        int deadPop = 0;
+        int nonInfectedPop = 0;
+        for(Country country:countryList){
+            totalPop += country.getPopulation().getTotalPopulation();
+            infectedPop += country.getPopulation().getInfectedPopulation();
+            deadPop += country.getPopulation().getDeadPopulation();
+            nonInfectedPop += country.getPopulation().getNonInfectedPopulation();
+        }
+        worldPopulation.setInfectedPopulation(infectedPop);
+        worldPopulation.setNonInfectedPopulation(nonInfectedPop);
+        worldPopulation.setDeadPopulation(deadPop);
+        worldPopulation.setTotalPopulation(totalPop);
     }
 
     public void updateCountry(CountryDTO country) {

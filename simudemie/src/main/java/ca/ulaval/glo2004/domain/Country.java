@@ -63,42 +63,22 @@ public class Country implements Serializable {
     public void setPopulation(Population population) {
         this.population = population;
     }
-    public int getTotalPopulation(){
-        int totalPopulation =0;
-        for(Region region:regions){
-            totalPopulation += region.getPopulation().getTotalPopulation();
-        }
-        return totalPopulation;
-    }
-    
-    public int getInfectedPopulation(){
-        int infectedPopulation =0;
-        for(Region region:regions){
-            infectedPopulation += region.getPopulation().getInfectedPopulation();
-        }
-        return infectedPopulation;
-    }
-    public int getNonInfectedPopulation(){
-        int nonInfectedPopulation =0;
-        for(Region region:regions){
-            nonInfectedPopulation += region.getPopulation().getNonInfectedPopulation();
-        }
-        return nonInfectedPopulation;
-    }
-    
-    public int getDeadPopulation(){
-        int deadPopulation =0;
-        for(Region region:regions){
-            deadPopulation += region.getPopulation().getDeadPopulation();
-        }
-        return deadPopulation;
-    }
     
     public void updateCountryPopulation(Country country){
-        population.setTotalPopulation(country.getTotalPopulation());
-        population.setInfectedPopulation(country.getInfectedPopulation());
-        population.setNonInfectedPopulation(country.getNonInfectedPopulation());
-        population.setDeadPopulation(country.getDeadPopulation());
+        int totalPopulation =0;
+        int infectedPopulation =0;
+        int nonInfectedPopulation =0;
+        int deadPopulation =0;
+        for(Region region:regions){
+            nonInfectedPopulation += region.getPopulation().getNonInfectedPopulation();
+            infectedPopulation += region.getPopulation().getInfectedPopulation();
+            totalPopulation += region.getPopulation().getTotalPopulation();
+            deadPopulation += region.getPopulation().getDeadPopulation();
+        }
+        population.setTotalPopulation(totalPopulation);
+        population.setInfectedPopulation(infectedPopulation);
+        population.setNonInfectedPopulation(nonInfectedPopulation);
+        population.setDeadPopulation(deadPopulation);
     }
     
     public void fromCountryDTO(CountryDTO countryDTO){
@@ -107,15 +87,12 @@ public class Country implements Serializable {
         } else {
             shape = new IrregularForm(countryDTO.Shape.GetPoints());
         }
-
         population.setTotalPopulation(countryDTO.getPopulationDTO().getTotalPopulationDTO());
         population.setCuredPopulation(countryDTO.getPopulationDTO().getCuredPopulationDTO());
         population.setInfectedPopulation(countryDTO.getPopulationDTO().getInfectedPopulationDTO());
         population.setNonInfectedPopulation(countryDTO.getPopulationDTO().getNonInfectedPopulationDTO());
         population.setDeadPopulation(countryDTO.getPopulationDTO().getDeadPopulationDTO());
     }
-    
-    
     
     public Color getColor() {
         double percentageInfected = this.population.getInfectedPopulation() / this.population.getTotalPopulation(); 

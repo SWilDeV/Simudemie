@@ -21,7 +21,6 @@ public class Simulation implements java.io.Serializable {
     
     private boolean isRunning = false;
     private int elapsedDay = 0;
-    private int globalDeads = 0;
     private ArrayList<Integer> dataHistory = new ArrayList<Integer>();
     private final WorldController controller;
     private Disease disease;
@@ -55,17 +54,13 @@ public class Simulation implements java.io.Serializable {
         List<Country> countries = controller.GetCountriesforSimulation();
         int countryListSize = countries.size();
         
-        //Fake creation de regions
-//        for(Country country:countries){
-//            country.addRegionsToList(1993);
-//        }
-        
         if(countryListSize>0){
             System.out.println("demarré");
             SetRunning(true);
             
             //Initialiser le patient zero
             initializePatientZero(countries);
+            controller.getWorld().updateWorldPopulation(); 
                     
             //Timer faisant office de boucle principale
             Timer timer = new Timer();
@@ -73,15 +68,16 @@ public class Simulation implements java.io.Serializable {
                 public void run() {
                     if(getIsRunning()){
                         elapsedDay +=1;
-                        int globalInfected = 0;
+                        
                         for(Country country : countries) {
                             List<Region> regions = country.GetRegions();
                             for(Region region:regions){
                                Population regionUpdated = UpdatePopulation(region);
-//                            Population updated = UpdatePopulation(country);
-//                            if (country[index].getInfectedPopulation()== 0){
-//                                timer.cancel();
-//                            }
+
+                                if (controller.getWorld().getWorldPopulation().getInfectedPopulation() ==0){
+                                    timer.cancel();
+                                    System.out.println("Miracle, maladie éradiquée");
+                                }
                                 if(regionUpdated.getTotalPopulation()>regionUpdated.getInfectedPopulation()){
                                     region.setPopulation(regionUpdated);
                                     controller.getWorld().updateRegionFromSimulation(country, region);
@@ -89,18 +85,19 @@ public class Simulation implements java.io.Serializable {
                                     timer.cancel();
                                     System.out.println("end ! Des zombies partout!!");
                                 }
-                                globalInfected+=regionUpdated.getInfectedPopulation(); 
                             }
                             controller.getWorld().updateCountryFromSimulation(country);
-                            
                         }
-                        System.out.println(countries.size());
-                        controller.NotifyTick(elapsedDay, globalDeads,globalInfected);
+                        controller.getWorld().updateWorldPopulation(); 
+                        int globalInfected = controller.getWorld().getWorldPopulation().getInfectedPopulation();
+                        int globalPop = controller.getWorld().getWorldPopulation().getTotalPopulation();
+                        int globalDeads = controller.getWorld().getWorldPopulation().getDeadPopulation();
+                        controller.NotifyTick(elapsedDay, globalDeads,globalInfected,globalPop);
                     }else{
                         timer.cancel();
                     }
                 }
-            }, 0, 1000);
+            }, 0, 500);
         }else{
             System.out.println("Veuillez ajouter au moins un pays");
         }
@@ -138,57 +135,15 @@ public class Simulation implements java.io.Serializable {
             totalNonInfectedPop = 0;
             totalInfectedPop = newTotalPop;
         }
-        
      
         //Sets
         population.setInfectedPopulation(totalInfectedPop);
         population.setNonInfectedPopulation(totalNonInfectedPop);
         population.setDeadPopulation(totalDeadPop);
         population.setTotalPopulation(newTotalPop);
-        globalDeads+=newDeadPop;
         
         return population;
     }
-//    public Population UpdatePopulation(Country country){
-//        //population
-//        Population population = country.getPopulation();
-//        int totalPop = population.getTotalPopulation();
-//        
-//        //infectedPop
-//        int previousDayInfectedPop = population.getInfectedPopulation();
-//        int newInfectedPop = calculation.Calculate(previousDayInfectedPop,0.15);
-//        int totalInfectedPop = newInfectedPop + previousDayInfectedPop;
-//        
-//        //non infected people
-//        int curedPop = calculation.Calculate(totalInfectedPop,0.05);
-//        if(curedPop>0){
-//            totalInfectedPop -= curedPop;
-//        }
-//        
-//        //dead population
-//        int previousDayDeadPop= population.getDeadPopulation();
-//        int newDeadPop = calculation.Calculate(totalInfectedPop,0.01);
-//        int totalDeadPop= previousDayDeadPop + newDeadPop;
-//        
-//        //total population
-//        int newTotalPop = totalPop - newDeadPop;
-//        int totalNonInfectedPop = newTotalPop-totalInfectedPop;
-//        if (totalNonInfectedPop <0){
-//            totalNonInfectedPop = 0;
-//            totalInfectedPop = newTotalPop;
-//        }
-//        
-//     
-//        //Sets
-//        population.setInfectedPopulation(totalInfectedPop);
-//        population.setNonInfectedPopulation(totalNonInfectedPop);
-//        population.setDeadPopulation(totalDeadPop);
-//        population.setTotalPopulation(newTotalPop);
-//        globalDeads+=newDeadPop;
-//        
-//        return population;
-//    }
-    
     
     public void initializePatientZero(List<Country> countries ){
         //Initialiser le patient zero

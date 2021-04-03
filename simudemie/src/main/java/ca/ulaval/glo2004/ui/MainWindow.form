@@ -340,8 +340,11 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldAddCountryPop">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="10"/>
+                        <Property name="text" type="java.lang.String" value="10000"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldAddCountryPopActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -685,54 +688,64 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="2" max="32767" attributes="0"/>
+                      <Component id="jTabbedPaneSimulationOptions" min="-2" pref="373" max="-2" attributes="0"/>
+                  </Group>
                   <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabelTitleDayElapsed" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabelDayElapsed" min="-2" pref="45" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButtonBacktrack" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButtonForward" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabelTitleCase" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jLabelCase" min="-2" pref="57" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="jBtnReset" min="-2" pref="77" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jBtnPlay" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jBtnPause" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="jLabelTitleDead" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jLabelDead" min="-2" pref="41" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jLabelTitleCured" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jLabelCured" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Component id="jLabelTimeLapse" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="jTextFieldTimeLapse" min="-2" pref="48" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" attributes="0">
-                                      <Component id="jLabelTitleCase" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jLabelCase" min="-2" pref="45" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jLabelTitleDead" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jLabelDead" min="-2" pref="45" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jLabelTitleCured" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jLabelCured" min="-2" pref="45" max="-2" attributes="0"/>
-                                  </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jBtnReset" min="-2" pref="77" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jBtnPlay" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabelTitleDayElapsed" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jBtnPause" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabelDayElapsed" min="-2" pref="45" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="jButtonBacktrack" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jButtonForward" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="jTabbedPaneSimulationOptions" min="-2" pref="373" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -820,7 +833,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelTitleCured">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Population Totale:"/>
+                <Property name="text" type="java.lang.String" value="Pop. Mondiale:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelCured">
@@ -937,7 +950,7 @@
                         </Component>
                         <Component class="javax.swing.JTextField" name="jTextFieldMortalityRate">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="0"/>
+                            <Property name="text" type="java.lang.String" value="2"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldMortalityRateActionPerformed"/>
@@ -962,7 +975,7 @@
                         </Component>
                         <Component class="javax.swing.JTextField" name="jTextFieldReproductionRate">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="0"/>
+                            <Property name="text" type="java.lang.String" value="15"/>
                           </Properties>
                         </Component>
                       </SubComponents>
@@ -984,7 +997,7 @@
                         </Component>
                         <Component class="javax.swing.JTextField" name="jTextFieldCuredRate">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="0"/>
+                            <Property name="text" type="java.lang.String" value="4"/>
                           </Properties>
                         </Component>
                       </SubComponents>

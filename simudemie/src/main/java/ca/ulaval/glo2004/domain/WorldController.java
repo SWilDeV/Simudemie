@@ -88,9 +88,9 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
-    public void NotifyTick(int day, int deads,int infected) {
+    public void NotifyTick(int day, int deads,int infected,int PopTot) {
         for(WorldObserver ob: observers) {
-            ob.OnSimulationTick(day, deads, infected);
+            ob.OnSimulationTick(day, deads, infected,PopTot);
         }
     }
     
