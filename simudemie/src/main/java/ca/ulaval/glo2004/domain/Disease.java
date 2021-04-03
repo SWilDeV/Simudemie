@@ -11,20 +11,20 @@ package ca.ulaval.glo2004.domain;
  * @author melanietremblay
  */
 public class Disease implements java.io.Serializable {
-    private double reproductionRate;
+    private double infectionRate;
     private double mortalityRate;
     private double cureRate;
     
-    public Disease(double p_reproductionRate, double p_mortalityRate,
-            double p_cureRate) {
+    public Disease(double p_cureRate, double p_mortalityRate,
+            double p_infectionRate ) {
         
-        reproductionRate = p_reproductionRate;
+        infectionRate = p_infectionRate;
         mortalityRate = p_mortalityRate;
         cureRate = p_cureRate;
     }
     
-    public double getReproductionRate() {
-        return reproductionRate;
+    public double getInfectionRate() {
+        return infectionRate;
     }
     
     public double getMortalityRate() {
@@ -35,9 +35,9 @@ public class Disease implements java.io.Serializable {
         return cureRate;
     }
     
-    public void setReproductionRate(double newReproductionRate) {
-        if ( newReproductionRate >= 0 && newReproductionRate < 1){
-            reproductionRate = newReproductionRate;
+    public void setInfectionRate(double newInfectionRate) {
+        if ( newInfectionRate >= 0 && newInfectionRate < 1){
+            infectionRate = newInfectionRate;
         }
         
     }
@@ -48,5 +48,11 @@ public class Disease implements java.io.Serializable {
     
     public void setCureRate(double newCureRate) {
         cureRate = newCureRate;
+    }
+    
+    public void updateFromDTO(DiseaseDTO diseaseDTO){
+        infectionRate = diseaseDTO.getInfectionRateDTO();
+        mortalityRate = diseaseDTO.getMortalityRateDTO();
+        cureRate = diseaseDTO.getCureRateDTO();
     }
 }

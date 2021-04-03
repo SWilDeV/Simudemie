@@ -18,6 +18,7 @@ import  mathematical_model.Calculation;
  */
 public class Simulation implements java.io.Serializable {
     private Calculation calculation = new Calculation();
+    //private Disease disease = new Disease();
     private boolean isRunning = false;
     private int elapsedDay = 0;
     private int globalDeads = 0;
@@ -104,24 +105,28 @@ public class Simulation implements java.io.Serializable {
     }
     
     public Population UpdatePopulation(Region region){
+        double infectionRate = controller.getDisease().getInfectionRate()/100;
+        double curedRate = controller.getDisease().getCureRate()/100;
+        double mortalityRate = controller.getDisease().getMortalityRate()/100;
+        
         //population
         Population population = region.getPopulation();
         int totalPop = population.getTotalPopulation();
         
         //infectedPop
         int previousDayInfectedPop = population.getInfectedPopulation();
-        int newInfectedPop = calculation.Calculate(previousDayInfectedPop,0.15);
+        int newInfectedPop = calculation.Calculate(previousDayInfectedPop,infectionRate);
         int totalInfectedPop = newInfectedPop + previousDayInfectedPop;
         
         //cured people
-        int curedPop = calculation.Calculate(totalInfectedPop,0.05);
+        int curedPop = calculation.Calculate(totalInfectedPop,curedRate);
         if(curedPop>0){
             totalInfectedPop -= curedPop;
         }
         
         //dead population
         int previousDayDeadPop= population.getDeadPopulation();
-        int newDeadPop = calculation.Calculate(totalInfectedPop,0.01);
+        int newDeadPop = calculation.Calculate(totalInfectedPop,mortalityRate);
         int totalDeadPop= previousDayDeadPop + newDeadPop;
         
         //total population

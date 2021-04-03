@@ -6,6 +6,7 @@
 package ca.ulaval.glo2004;
 
 import ca.ulaval.glo2004.domain.CountryDTO;
+import ca.ulaval.glo2004.domain.DiseaseDTO;
 import ca.ulaval.glo2004.domain.HealthMesureDTO;
 import ca.ulaval.glo2004.domain.Link.LinkType;
 import ca.ulaval.glo2004.domain.LinkDTO;
@@ -939,8 +940,9 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
     }//GEN-LAST:event_jBtnUndoActionPerformed
 
     private void jButtonApplyDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyDiseaseActionPerformed
-        System.out.println("on update disease");
-        worldController.UpdateDisease(Double.parseDouble(jTextFieldCuredRate.getText()), Double.parseDouble(jTextFieldMortalityRate.getText()), Double.parseDouble(jTextFieldReproductionRate.getText()));
+        //System.out.println("on update disease");
+       DiseaseDTO diseaseDTO = new DiseaseDTO(Double.parseDouble(jTextFieldCuredRate.getText()), Double.parseDouble(jTextFieldMortalityRate.getText()), Double.parseDouble(jTextFieldReproductionRate.getText()));
+        worldController.UpdateDiseaseFromDTO(diseaseDTO);
     }//GEN-LAST:event_jButtonApplyDiseaseActionPerformed
 
     private void jButtonApplyMesureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyMesureActionPerformed

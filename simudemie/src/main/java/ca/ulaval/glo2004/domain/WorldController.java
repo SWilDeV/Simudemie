@@ -161,12 +161,13 @@ public class WorldController implements java.io.Serializable {
         
     }
     
+    public void UpdateDiseaseFromDTO(DiseaseDTO diseaseDTO){
+        disease.updateFromDTO(diseaseDTO);
+        System.out.println("mortality: "+ disease.getMortalityRate() +", curedRate: "+ disease.getCureRate());
+    }
     
-    public void UpdateDisease(double cureRate, double mortalityRate, double reproductionRate){
-        disease.setReproductionRate(reproductionRate);
-        disease.setMortalityRate(mortalityRate);
-        disease.setCureRate(cureRate);
-        System.out.println("Update le curerate : " + cureRate);
+    public Disease getDisease(){
+        return disease;
     }
     
     public void AddMesure(double adhesionRate, boolean active, String mesureName){

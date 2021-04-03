@@ -6,6 +6,8 @@
 package ca.ulaval.glo2004.ui;
 
 import ca.ulaval.glo2004.domain.CountryDTO;
+import ca.ulaval.glo2004.domain.DiseaseDTO;
+import ca.ulaval.glo2004.domain.Disease;
 import ca.ulaval.glo2004.domain.Link;
 import ca.ulaval.glo2004.domain.LinkDTO;
 import ca.ulaval.glo2004.domain.Utility;
@@ -556,21 +558,21 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
-        jLabelTitleCase.setText("Cas:");
+        jLabelTitleCase.setText("Infectés:");
 
-        jLabelCase.setText("1000");
+        jLabelCase.setText("-");
 
-        jLabelTitleDead.setText("Mort:");
+        jLabelTitleDead.setText("Morts:");
 
-        jLabelDead.setText("1000");
+        jLabelDead.setText("-");
 
-        jLabelTitleCured.setText("Guerie:");
+        jLabelTitleCured.setText("Population Totale:");
 
-        jLabelCured.setText("1000");
+        jLabelCured.setText("-");
 
         jLabelTitleDayElapsed.setText("Jour:");
 
-        jLabelDayElapsed.setText("1000");
+        jLabelDayElapsed.setText("-");
 
         jButtonBacktrack.setText("<<");
         jButtonBacktrack.addActionListener(new java.awt.event.ActionListener() {
@@ -595,28 +597,33 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jPanelMortalityRate.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabelTitleMortalityRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabelTitleMortalityRate.setText("Taux mortalite");
+        jLabelTitleMortalityRate.setText("Taux mortalite (%)");
         jPanelMortalityRate.add(jLabelTitleMortalityRate);
 
-        jTextFieldMortalityRate.setText("0%");
+        jTextFieldMortalityRate.setText("0");
+        jTextFieldMortalityRate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldMortalityRateActionPerformed(evt);
+            }
+        });
         jPanelMortalityRate.add(jTextFieldMortalityRate);
 
         jPanelReproductionRate.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabelTitleReproductionRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabelTitleReproductionRate.setText("Taux reproduction");
+        jLabelTitleReproductionRate.setText("Taux reproduction (%)");
         jPanelReproductionRate.add(jLabelTitleReproductionRate);
 
-        jTextFieldReproductionRate.setText("0%");
+        jTextFieldReproductionRate.setText("0");
         jPanelReproductionRate.add(jTextFieldReproductionRate);
 
         jPanelCuredRate.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabelTitleCuredRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabelTitleCuredRate.setText("Taux guerison");
+        jLabelTitleCuredRate.setText("Taux guerison (%)");
         jPanelCuredRate.add(jLabelTitleCuredRate);
 
-        jTextFieldCuredRate.setText("0%");
+        jTextFieldCuredRate.setText("0");
         jPanelCuredRate.add(jTextFieldCuredRate);
 
         jPanelTransmissionRate.setLayout(new java.awt.GridLayout(1, 0));
@@ -746,7 +753,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jPanelSimulationLayout.setHorizontalGroup(
             jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSimulationLayout.createSequentialGroup()
-                .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelSimulationLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabelTitleDayElapsed)
@@ -764,26 +771,23 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                                 .addGap(18, 18, 18)
                                 .addComponent(jTextFieldTimeLapse, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanelSimulationLayout.createSequentialGroup()
-                                .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanelSimulationLayout.createSequentialGroup()
-                                        .addComponent(jLabelTitleCase)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabelCase, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabelTitleDead)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabelDead, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabelTitleCured)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabelCured, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanelSimulationLayout.createSequentialGroup()
-                                        .addComponent(jBtnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jBtnPlay)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jBtnPause)))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addComponent(jLabelTitleCase)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabelCase, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabelTitleDead)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabelDead, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabelTitleCured)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabelCured, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelSimulationLayout.createSequentialGroup()
+                                .addComponent(jBtnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jBtnPlay)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBtnPause)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSimulationLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -1020,8 +1024,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }//GEN-LAST:event_jBtnPlayActionPerformed
 
     private void jButtonApplyDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyDiseaseActionPerformed
+        
+        DiseaseDTO diseaseDTO = new DiseaseDTO(Double.parseDouble(jTextFieldCuredRate.getText()), Double.parseDouble(jTextFieldMortalityRate.getText()), Double.parseDouble(jTextFieldReproductionRate.getText()));
+        worldController.UpdateDiseaseFromDTO(diseaseDTO);
         System.out.println("on update disease");
-        worldController.UpdateDisease(Double.parseDouble(jTextFieldCuredRate.getText()), Double.parseDouble(jTextFieldMortalityRate.getText()), Double.parseDouble(jTextFieldReproductionRate.getText()));
     }//GEN-LAST:event_jButtonApplyDiseaseActionPerformed
 
     private void jButtonForwardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonForwardActionPerformed
@@ -1150,6 +1156,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         drawingPanel.repaint();
     }//GEN-LAST:event_jListLinksValueChanged
+
+    private void jTextFieldMortalityRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMortalityRateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldMortalityRateActionPerformed
 
     public void Draw(Graphics g){
         worldController.Draw(g); 

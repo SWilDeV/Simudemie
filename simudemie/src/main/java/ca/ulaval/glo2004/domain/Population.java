@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author Sean
  */
-public class Population implements Serializable { //TODO: Faire un DTO de population :)
+public class Population implements Serializable { 
     //    Attributs
     private int totalPopulation;
     private int infectedPopulation =0;
