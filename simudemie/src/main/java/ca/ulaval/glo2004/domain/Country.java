@@ -36,51 +36,20 @@ public class Country implements Serializable {
         population = new Population(countryPop);
     }
     
-    public UUID GetId() {
-        return id;
-    }
-    
-    public boolean IsSelected() {
-        return isSelected;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public Population getPopulation(){
-        return population;
-    }
-    
-    public void setName(String countryName) {
-        name = countryName;
-    }
-    
-    public GeometricForm getShape(){
-        return shape;
-    }
-    
-    public void setPopulation(Population population) {
-        this.population = population;
-    }
-    
-    public void updateCountryPopulation(Country country){
-        int totalPopulation =0;
-        int infectedPopulation =0;
-        int nonInfectedPopulation =0;
-        int deadPopulation =0;
-        for(Region region:regions){
-            nonInfectedPopulation += region.getPopulation().getNonInfectedPopulation();
-            infectedPopulation += region.getPopulation().getInfectedPopulation();
-            totalPopulation += region.getPopulation().getTotalPopulation();
-            deadPopulation += region.getPopulation().getDeadPopulation();
+    @Override
+    public boolean equals(Object other) {       
+        if(other == null || !(other instanceof Country)){
+            return false;
         }
-        population.setTotalPopulation(totalPopulation);
-        population.setInfectedPopulation(infectedPopulation);
-        population.setNonInfectedPopulation(nonInfectedPopulation);
-        population.setDeadPopulation(deadPopulation);
+        
+        if(other == this) {
+            return true;
+        }
+        
+        Country country = (Country)other;
+        return id == country.GetId();
     }
-    
+
     public void fromCountryDTO(CountryDTO countryDTO){
         if(countryDTO.Shape instanceof RegularForm) {
             shape = new RegularForm(countryDTO.Shape.GetPoints());
@@ -107,6 +76,58 @@ public class Country implements Serializable {
         return this.color;
     }
     
+    public UUID GetId() {
+        return id;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public Population getPopulation(){
+        return population;
+    }
+    
+    public GeometricForm getShape(){
+        return shape;
+    }
+    
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+    
+    public boolean IsSelected() {
+        return isSelected;
+    }
+    
+    public void setName(String countryName) {
+        name = countryName;
+    }
+    
+    public void setPopulation(Population population) {
+        this.population = population;
+    }
+    
+    public void updateCountryPopulation(Country country){
+        int totalPopulation =0;
+        int infectedPopulation =0;
+        int nonInfectedPopulation =0;
+        int deadPopulation =0;
+        for(Region region:regions){
+            nonInfectedPopulation += region.getPopulation().getNonInfectedPopulation();
+            infectedPopulation += region.getPopulation().getInfectedPopulation();
+            totalPopulation += region.getPopulation().getTotalPopulation();
+            deadPopulation += region.getPopulation().getDeadPopulation();
+        }
+        population.setTotalPopulation(totalPopulation);
+        population.setInfectedPopulation(infectedPopulation);
+        population.setNonInfectedPopulation(nonInfectedPopulation);
+        population.setDeadPopulation(deadPopulation);
+    }
+    
     public void SetPosition(Point position) {
         shape.SetPosition(position);
     }
@@ -115,32 +136,20 @@ public class Country implements Serializable {
         isSelected = select;
     }
     
-    @Override
-    public boolean equals(Object other) {       
-        if(other == null || !(other instanceof Country)){
-            return false;
-        }
-        
-        if(other == this) {
-            return true;
-        }
-        
-        Country country = (Country)other;
-        return id == country.GetId();
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 59 * hash + Objects.hashCode(this.id);
-        return hash;
-    }
     
     
     /////////////////REGIONS////////////////////////
     
-    public List<Region> GetRegions() {
-        return regions;
+    public void addRegion(Region region){
+        regions.add(region);
+    }
+    
+    public void addRegionsToList(int population){
+        long numberOfRegion=4;   //A changer !!
+        int regionPop= (int)Math.round(population/numberOfRegion);       
+        for(int i =0; i< numberOfRegion; i++){
+            regions.add(new Region(regionPop));
+        }
     }
     
     public Region FindRegionByUUID(UUID id) {
@@ -151,15 +160,22 @@ public class Country implements Serializable {
         }
     }
     
-    public void addRegionsToList(int population){
-        long numberOfRegion=4;   //A changer !!
-        int regionPop= (int)Math.round(population/numberOfRegion);       
-        for(int i =0; i< numberOfRegion; i++){
-            regions.add(new Region(regionPop));
+    public List<Region> GetRegions() {
+        return regions;
+    }
+    
+    public void modifyRegion(Region region){
+        if (regions.contains(region)) {
+            int index = regions.indexOf(region);
+            regions.set(index, region);
         }
     }
-    public void addRegion(Region region){
-        regions.add(region);
+    
+    public void removeRegion(Region region){//faudrait ajouter un index ou un id de la region
+        //for(Region region:regions){
+            //if(region.id == id){
+            regions.remove(region);
+        //}
     }
     
     public void setPopulationToRegion(Population population){//faudrait ajouter un index ou un id de la region
@@ -170,32 +186,10 @@ public class Country implements Serializable {
         }  
     }
     
-    public void removeRegion(Region region){//faudrait ajouter un index ou un id de la region
-        //for(Region region:regions){
-            //if(region.id == id){
-            regions.remove(region);
-        //}
-    }
-    
-    public void modifyRegion(Region region){
-        if (regions.contains(region)) {
-            int index = regions.indexOf(region);
-            regions.set(index, region);
-        }
-    }
-    
     public void updateRegion(Region region) {
         Region r = FindRegionByUUID(region.GetId());
         if(r != null){
             r.updateRegion(region);
         }
     }
-    
-  
-    
-    
-    
-    
-    
-    
 }

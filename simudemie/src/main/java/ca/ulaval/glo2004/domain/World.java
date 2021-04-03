@@ -23,9 +23,7 @@ public class World implements java.io.Serializable {
     private List<Country> countryList = new ArrayList<>();
     private Population worldPopulation =new Population();
     
-
     public World(){
-        
     }   
 
     public World(WorldController worldController) {
@@ -34,84 +32,6 @@ public class World implements java.io.Serializable {
     
     public void addCountry(Country country){
          countryList.add(country);
-    }
-    
-    public void UpdateSelectionStateCountry(UUID id, boolean select) {
-        Country country = FindCountryByUUID(id);
-        if(country != null) {
-            country.SetSelectionState(select);
-        }
-    }
-    
-    public Population getWorldPopulation(){
-        return worldPopulation;
-    }
-    
-    public void updateWorldPopulation(){
-        int totalPop = 0;
-        int infectedPop = 0;
-        int deadPop = 0;
-        int nonInfectedPop = 0;
-        for(Country country:countryList){
-            totalPop += country.getPopulation().getTotalPopulation();
-            infectedPop += country.getPopulation().getInfectedPopulation();
-            deadPop += country.getPopulation().getDeadPopulation();
-            nonInfectedPop += country.getPopulation().getNonInfectedPopulation();
-        }
-        worldPopulation.setInfectedPopulation(infectedPop);
-        worldPopulation.setNonInfectedPopulation(nonInfectedPop);
-        worldPopulation.setDeadPopulation(deadPop);
-        worldPopulation.setTotalPopulation(totalPop);
-    }
-
-    public void updateCountry(CountryDTO country) {
-        Country c = FindCountryByUUID(country.Id);
-        if(c != null){
-            c.fromCountryDTO(country);
-            UpdateLandBorder(country);
-            c.setName(country.Name);
-            c.setPopulation(new Population(country.populationDTO.totalPopulationDTO));
-        }
-        
-    }
-    
-    public void updateCountryFromSimulation(Country country) {
-        Country c = FindCountryByUUID(country.GetId());
-        if(c != null){
-            c.updateCountryPopulation(country);
-        }
-    }
-    
-    public void updateRegionFromSimulation(Country country,Region region) {
-        Country c = FindCountryByUUID(country.GetId());
-        if(c != null){
-            Region r =c.FindRegionByUUID(region.GetId());
-             if(r != null){
-                 r.updateRegion(region);
-             }
-        }
-    }
-    
-    public void removeCountry(UUID countryId){
-        Country country = FindCountryByUUID(countryId);
-        if(country != null) {
-            RemoveAllBorders(country);
-            countryList.remove(country);
-        }
-    }
-    
-    public void addRegion(UUID countryId, Region region) {
-        Country country = FindCountryByUUID(countryId);
-        if(country != null) {
-            country.addRegion(region);
-        }
-    }
-    
-    public void updateRegion() {
-    }
-    
-    public void RemoveRegion() {
-        
     }
     
     public void addLink(Link link) {
@@ -139,55 +59,24 @@ public class World implements java.io.Serializable {
         worldController.NotifyLinksUpdated();
     }
     
-    public void UpdateSelectionStateLink(UUID linkId, boolean select) {
-        Link l = FindLinkByUUID(linkId);
-        if(l != null) {
-            l.SetSelectionState(select);
+    public void addRegion(UUID countryId, Region region) {
+        Country country = FindCountryByUUID(countryId);
+        if(country != null) {
+            country.addRegion(region);
         }
     }
     
-    public void RemoveAllBorders(Country country) {
-        List<Link> links = linkList.stream().filter(l -> l.getCountry1().GetId().equals(country.GetId()) ||
-                                                    l.getCountry2().GetId().equals(country.GetId())).collect(Collectors.toList());
-        
-        for(int i = 0; i < links.size(); i++) {
-            linkList.remove(links.get(i));
-        }
-        
-        worldController.NotifyLinksUpdated();
+    public void clearWorld() {
+        countryList.clear();
+        linkList.clear();
     }
     
-    public void UpdateLandBorder(CountryDTO country) {
-        List<Link> links = linkList.stream().filter(l -> l.GetLinkType().equals(LinkType.TERRESTRE) &&
-                                                   (l.getCountry1().GetId() == country.Id ||
-                                                    l.getCountry2().GetId() == country.Id)).collect(Collectors.toList());
-        
-        if(links != null) {
-            for(int i = 0; i < links.size(); i++) {
-                if(!Utility.AsCommonLandBorder(links.get(i).getCountry1(), links.get(i).getCountry2())) {
-                    linkList.remove(links.get(i));
-                }
-            }
-        }
-        
-        worldController.NotifyLinksUpdated();
-    }
-    
-    public void RemoveLink(UUID linkId) {
-        Link link = FindLinkByUUID(linkId);
-        if(link != null) {
-            linkList.remove(link);
-            worldController.NotifyLinksUpdated();
-        }
-    }
-        
     public Country findCountryByPosition(Point position) {
         for(Country country: countryList) {                
             if (Utility.IsInRectangle(country.getShape().GetPoints(), position)) {
                 return country;
             }
         }
-        
         return null;
     }
     
@@ -206,7 +95,7 @@ public class World implements java.io.Serializable {
             return null;
         }
     }
-       
+    
     public List getCountries(){
         return countryList;
     }
@@ -223,8 +112,112 @@ public class World implements java.io.Serializable {
         }
     }
     
-    public void clearWorld() {
-        countryList.clear();
-        linkList.clear();
+    public Population getWorldPopulation(){
+        return worldPopulation;
+    }
+    
+    public void RemoveAllBorders(Country country) {
+        List<Link> links = linkList.stream().filter(l -> l.getCountry1().GetId().equals(country.GetId()) ||
+                                                    l.getCountry2().GetId().equals(country.GetId())).collect(Collectors.toList());
+        
+        for(int i = 0; i < links.size(); i++) {
+            linkList.remove(links.get(i));
+        }
+        
+        worldController.NotifyLinksUpdated();
+    }
+    
+    public void removeCountry(UUID countryId){
+        Country country = FindCountryByUUID(countryId);
+        if(country != null) {
+            RemoveAllBorders(country);
+            countryList.remove(country);
+        }
+    }
+    
+    public void RemoveLink(UUID linkId) {
+        Link link = FindLinkByUUID(linkId);
+        if(link != null) {
+            linkList.remove(link);
+            worldController.NotifyLinksUpdated();
+        }
+    }
+    
+    public void RemoveRegion() {
+        
+    }
+    
+    public void UpdateSelectionStateCountry(UUID id, boolean select) {
+        Country country = FindCountryByUUID(id);
+        if(country != null) {
+            country.SetSelectionState(select);
+        }
+    }
+    
+
+    public void updateCountry(CountryDTO country) {
+        Country c = FindCountryByUUID(country.Id);
+        if(c != null){
+            c.fromCountryDTO(country);
+            UpdateLandBorder(country);
+            c.setName(country.Name);
+            c.setPopulation(new Population(country.populationDTO.totalPopulationDTO));
+        }
+    }
+    
+    public void updateCountryFromSimulation(Country country) {
+        Country c = FindCountryByUUID(country.GetId());
+        if(c != null){
+            c.updateCountryPopulation(country);
+        }
+    }
+    
+    public void updateRegionFromSimulation(Country country,Region region) {
+        Country c = FindCountryByUUID(country.GetId());
+        if(c != null){
+            Region r =c.FindRegionByUUID(region.GetId());
+            if(r != null){
+                r.updateRegion(region);
+            }
+        }
+    }
+    
+    public void UpdateSelectionStateLink(UUID linkId, boolean select) {
+        Link l = FindLinkByUUID(linkId);
+        if(l != null) {
+            l.SetSelectionState(select);
+        }
+    }
+    
+    public void UpdateLandBorder(CountryDTO country) {
+        List<Link> links = linkList.stream().filter(l -> l.GetLinkType().equals(LinkType.TERRESTRE) &&
+                                                   (l.getCountry1().GetId() == country.Id ||
+                                                    l.getCountry2().GetId() == country.Id)).collect(Collectors.toList());
+        
+        if(links != null) {
+            for(int i = 0; i < links.size(); i++) {
+                if(!Utility.AsCommonLandBorder(links.get(i).getCountry1(), links.get(i).getCountry2())) {
+                    linkList.remove(links.get(i));
+                }
+            }
+        }
+        worldController.NotifyLinksUpdated();
+    }
+    
+    public void updateWorldPopulation(){
+        int totalPop = 0;
+        int infectedPop = 0;
+        int deadPop = 0;
+        int nonInfectedPop = 0;
+        for(Country country:countryList){
+            totalPop += country.getPopulation().getTotalPopulation();
+            infectedPop += country.getPopulation().getInfectedPopulation();
+            deadPop += country.getPopulation().getDeadPopulation();
+            nonInfectedPop += country.getPopulation().getNonInfectedPopulation();
+        }
+        worldPopulation.setInfectedPopulation(infectedPop);
+        worldPopulation.setNonInfectedPopulation(nonInfectedPop);
+        worldPopulation.setDeadPopulation(deadPop);
+        worldPopulation.setTotalPopulation(totalPop);
     }
 }

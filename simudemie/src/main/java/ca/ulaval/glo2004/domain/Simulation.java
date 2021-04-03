@@ -86,6 +86,7 @@ public class Simulation implements java.io.Serializable {
                                     System.out.println("end ! Des zombies partout!!");
                                 }
                             }
+                            
                             controller.getWorld().updateCountryFromSimulation(country);
                         }
                         updateWorldPopulation();
@@ -97,6 +98,57 @@ public class Simulation implements java.io.Serializable {
         }else{
             System.out.println("Veuillez ajouter au moins un pays");
         }
+    }
+    
+   public void updateWithLinks(){
+       
+   }
+   
+    public void initializePatientZero(List<Country> countries ){
+        //Initialiser le patient zero
+        Random rand = new Random();
+        int maxRand = countries.size();
+        int index = rand.nextInt(maxRand);
+        int counter = 0;
+        for(Country country : countries) {
+            if(index == counter){
+                List<Region>regionList = country.GetRegions();
+                int maxRand2 = regionList.size();
+                int index2 = rand.nextInt(maxRand2);
+                int counter2 = 0;
+                
+                for (Region region:regionList){
+                    if (index2 == counter2){
+                        region.getPopulation().addPatientZero();
+                        controller.getWorld().updateCountryFromSimulation(country);
+                    }
+                    counter2 +=1;
+                }                
+            }
+            counter +=1;
+        }
+    }
+    
+    public int nextDay() {
+        return elapsedDay +=1;
+    }
+    
+    public void Pause() {
+        if(isRunning == true){
+            this.isRunning=false;
+        }
+    }
+    
+    public int previousDay() {
+        return elapsedDay -=1;
+    }
+    
+    public void Reset() {
+        if(isRunning == true){
+            this.isRunning=false;
+        }
+        elapsedDay = 0;
+        System.out.println("Timer Reset");
     }
     
     public Population UpdatePopulation(Region region){
@@ -140,32 +192,7 @@ public class Simulation implements java.io.Serializable {
         
         return population;
     }
-    
-    public void initializePatientZero(List<Country> countries ){
-        //Initialiser le patient zero
-        Random rand = new Random();
-        int maxRand = countries.size();
-        int index = rand.nextInt(maxRand);
-        int counter = 0;
-        for(Country country : countries) {
-            if(index == counter){
-                List<Region>regionList = country.GetRegions();
-                int maxRand2 = regionList.size();
-                int index2 = rand.nextInt(maxRand2);
-                int counter2 = 0;
-                
-                for (Region region:regionList){
-                    if (index2 == counter2){
-                        region.getPopulation().addPatientZero();
-                        controller.getWorld().updateCountryFromSimulation(country);
-                    }
-                    counter2 +=1;
-                }                
-            }
-            counter +=1;
-        }
-    }
-    
+     
     public void updateWorldPopulation(){
         controller.getWorld().updateWorldPopulation(); 
         int globalInfected = controller.getWorld().getWorldPopulation().getInfectedPopulation();
@@ -174,25 +201,7 @@ public class Simulation implements java.io.Serializable {
         controller.NotifyTick(elapsedDay, globalDeads,globalInfected,globalPop);
     }
     
-    public int previousDay() {
-        return elapsedDay -=1;
-    }
-    public int nextDay() {
-        return elapsedDay +=1;
-    }
     
-    public void Pause() {
-        if(isRunning == true){
-            this.isRunning=false;
-        }
-    }
     
-    public void Reset() {
-        if(isRunning == true){
-            this.isRunning=false;
-        }
-        elapsedDay = 0;
-        System.out.println("Timer Reset");
-    }
     
 }

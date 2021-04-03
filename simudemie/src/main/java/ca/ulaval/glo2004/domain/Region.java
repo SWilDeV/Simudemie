@@ -22,16 +22,16 @@ public class Region {
         subPopulation = new Population(population);
     }
     
+    public UUID GetId() {
+        return id;
+    }
+    
     public Population getPopulation(){
         return subPopulation;
     }
     
     public void setPopulation(Population population) {
         this.subPopulation = population;
-    }
-    
-    public UUID GetId() {
-        return id;
     }
     
     public void updateRegion(Region region){
@@ -42,8 +42,6 @@ public class Region {
       subPopulation.setDeadPopulation(region.getPopulation().getDeadPopulation());
     }
 
-    
-    
     //////////////////////////////////////////////////
     public double getPercentagePop() {
         throw new UnsupportedOperationException("Not supported");

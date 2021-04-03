@@ -17,10 +17,13 @@ public class Disease implements java.io.Serializable {
     
     public Disease(double p_cureRate, double p_mortalityRate,
             double p_infectionRate ) {
-        
         infectionRate = p_infectionRate;
         mortalityRate = p_mortalityRate;
         cureRate = p_cureRate;
+    }
+    
+     public double getCureRate() {
+        return cureRate;
     }
     
     public double getInfectionRate() {
@@ -31,23 +34,18 @@ public class Disease implements java.io.Serializable {
         return mortalityRate;
     }
     
-    public double getCureRate() {
-        return cureRate;
+    public void setCureRate(double newCureRate) {
+        cureRate = newCureRate;
     }
     
     public void setInfectionRate(double newInfectionRate) {
         if ( newInfectionRate >= 0 && newInfectionRate < 1){
             infectionRate = newInfectionRate;
         }
-        
     }
     
     public void setMortalityRate(double newMortalityRate) {
         mortalityRate = newMortalityRate;
-    }
-    
-    public void setCureRate(double newCureRate) {
-        cureRate = newCureRate;
     }
     
     public void updateFromDTO(DiseaseDTO diseaseDTO){

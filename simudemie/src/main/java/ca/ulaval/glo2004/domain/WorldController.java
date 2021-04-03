@@ -53,7 +53,6 @@ public class WorldController implements java.io.Serializable {
         if(country != null) {
             return new CountryDTO(country);
         }
-        
         return null;
     }
     
@@ -176,7 +175,6 @@ public class WorldController implements java.io.Serializable {
         mesures.add(mesure);
     }
     
-    
     public void UpdateMesure(double adhesionRate, boolean active, UUID id){
         HealthMesure mesure = FindMesureByUUID(id);
         if (mesure != null){
@@ -184,7 +182,6 @@ public class WorldController implements java.io.Serializable {
             mesure.setActive(active);
         }
     }
-    
     
     public void RemoveMesure(UUID id){
         HealthMesure mesure = FindMesureByUUID(id);
@@ -232,7 +229,6 @@ public class WorldController implements java.io.Serializable {
         } catch (ClassNotFoundException c) {
             c.printStackTrace();
         }
-        
     }
     
     public void newProjet() {
@@ -255,8 +251,4 @@ public class WorldController implements java.io.Serializable {
         world.getInfos(countryId);
     }
     
-    public void printDay(){
-        int day = simulation.GetElapsedDay();
-        System.out.println("Day: "+ day);
-    }
 }
