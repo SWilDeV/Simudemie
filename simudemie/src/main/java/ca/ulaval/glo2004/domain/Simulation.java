@@ -18,20 +18,21 @@ import  mathematical_model.Calculation;
  */
 public class Simulation implements java.io.Serializable {
     private Calculation calculation = new Calculation();
-    //private Disease disease = new Disease();
+    
     private boolean isRunning = false;
     private int elapsedDay = 0;
     private int globalDeads = 0;
     private ArrayList<Integer> dataHistory = new ArrayList<Integer>();
     private final WorldController controller;
+    private Disease disease;
     //TODO: On a oublis de definir le type de DataHistory. J'ai mis int pour eviter les erreurs
     
     public Simulation(WorldController p_controller){
         controller = p_controller;
-        //POUR TESTER CALCULATION. A ENLEVER LORSQUE TERMINÉ
-//        int success = calculation.Calculate(1,0.1);
-//        System.out.println(success); 
+        disease = controller.getDisease();
     }
+    
+    
     
     public boolean getIsRunning() {
         return this.isRunning;
@@ -50,6 +51,7 @@ public class Simulation implements java.io.Serializable {
     }
     
     public void Simulate() {
+        
         List<Country> countries = controller.GetCountriesforSimulation();
         int countryListSize = countries.size();
         
@@ -105,9 +107,9 @@ public class Simulation implements java.io.Serializable {
     }
     
     public Population UpdatePopulation(Region region){
-        double infectionRate = controller.getDisease().getInfectionRate()/100;
-        double curedRate = controller.getDisease().getCureRate()/100;
-        double mortalityRate = controller.getDisease().getMortalityRate()/100;
+        double infectionRate = disease.getInfectionRate()/100;
+        double curedRate = disease.getCureRate()/100;
+        double mortalityRate = disease.getMortalityRate()/100;
         
         //population
         Population population = region.getPopulation();
