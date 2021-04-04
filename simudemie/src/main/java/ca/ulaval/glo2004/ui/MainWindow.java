@@ -9,6 +9,8 @@ import ca.ulaval.glo2004.domain.CountryDTO;
 import ca.ulaval.glo2004.domain.DiseaseDTO;
 import ca.ulaval.glo2004.domain.Link;
 import ca.ulaval.glo2004.domain.LinkDTO;
+import ca.ulaval.glo2004.domain.Region;
+import ca.ulaval.glo2004.domain.RegionDTO;
 import ca.ulaval.glo2004.domain.Utility;
 import ca.ulaval.glo2004.domain.WorldController;
 import ca.ulaval.glo2004.domain.WorldObserver;
@@ -67,12 +69,36 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         UpdateJLinkList();
     }
     
+    @Override
+    public void OnCountryCreated(CountryDTO country) {
+        UpdateJRegionList(country);
+    }
+    
+    @Override
+    public void OnSimulationStarted() {
+        UpdateJRegionList(countrySelected.Id);
+    }
+    
     private void UpdateJLinkList() {
         DefaultListModel listModel = new DefaultListModel();
         for(LinkDTO l: worldController.GetLinks()){
             listModel.addElement(l.Id);
         }
         jListLinks.setModel(listModel);
+        drawingPanel.repaint();
+    }
+    
+    private void UpdateJRegionList(UUID countryId) {
+        CountryDTO country = worldController.GetCountries().stream().filter(c -> c.Id.equals(countryId)).findFirst().get();
+        UpdateJRegionList(country);
+    }
+    
+    private void UpdateJRegionList(CountryDTO country) {
+        DefaultListModel listModel = new DefaultListModel();
+        for(RegionDTO r: country.Regions) {
+            listModel.addElement(String.format("Region %s | %s | %s", 1, r.PercentagePop * 100, r.SubPopulation.totalPopulationDTO));
+        }
+        jListRegionsList.setModel(listModel);
         drawingPanel.repaint();
     }
     
@@ -129,12 +155,15 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jTextFieldChangeCountryName = new javax.swing.JTextField();
         jTextFieldChangeCountryPop = new javax.swing.JTextField();
         jToggleBtnAddRegion = new javax.swing.JToggleButton();
-        jToggleBtnModifyRegion = new javax.swing.JToggleButton();
         jPanelRegionOptions = new javax.swing.JPanel();
         jLabelNumberRegions = new javax.swing.JLabel();
         jTextFieldNumberRegions = new javax.swing.JTextField();
         jScrollPaneRegionsList = new javax.swing.JScrollPane();
         jListRegionsList = new javax.swing.JList<>();
+        jToggleBtnModifyRegion = new javax.swing.JToggleButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jTextFieldPercentageAddRegion = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         jPanelAddLink = new javax.swing.JPanel();
         jComboBoxAddLink = new javax.swing.JComboBox<>();
         jPanelModifyLink = new javax.swing.JPanel();
@@ -295,7 +324,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addGroup(jPanelAddCountryLayout.createSequentialGroup()
                         .addComponent(jLabelAddCountryPop)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextFieldAddCountryPop)))
+                        .addComponent(jTextFieldAddCountryPop, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelAddCountryLayout.setVerticalGroup(
@@ -309,12 +338,12 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addGroup(jPanelAddCountryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelAddCountryPop)
                     .addComponent(jTextFieldAddCountryPop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(314, Short.MAX_VALUE))
+                .addContainerGap(321, Short.MAX_VALUE))
         );
 
         jPanelConceptionOptions.add(jPanelAddCountry, "card4");
 
-        jButtonDeleteCountry.setText("Supprimer pays");
+        jButtonDeleteCountry.setText("Supprimer le pays");
         jButtonDeleteCountry.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDeleteCountryActionPerformed(evt);
@@ -339,9 +368,12 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
-        jToggleBtnAddRegion.setText("Ajouter régions");
-
-        jToggleBtnModifyRegion.setText("Modifier régions");
+        jToggleBtnAddRegion.setText("Ajouter région");
+        jToggleBtnAddRegion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleBtnAddRegionActionPerformed(evt);
+            }
+        });
 
         jLabelNumberRegions.setText("Nombre de regions désiré: ");
 
@@ -352,6 +384,11 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
+        jListRegionsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jListRegionsListValueChanged(evt);
+            }
+        });
         jScrollPaneRegionsList.setViewportView(jListRegionsList);
 
         javax.swing.GroupLayout jPanelRegionOptionsLayout = new javax.swing.GroupLayout(jPanelRegionOptions);
@@ -362,7 +399,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addContainerGap()
                 .addGroup(jPanelRegionOptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelRegionOptionsLayout.createSequentialGroup()
-                        .addComponent(jScrollPaneRegionsList)
+                        .addComponent(jScrollPaneRegionsList, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanelRegionOptionsLayout.createSequentialGroup()
                         .addComponent(jLabelNumberRegions, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -373,14 +410,25 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jPanelRegionOptionsLayout.setVerticalGroup(
             jPanelRegionOptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelRegionOptionsLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(56, 56, 56)
                 .addGroup(jPanelRegionOptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNumberRegions)
                     .addComponent(jTextFieldNumberRegions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPaneRegionsList, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
+
+        jToggleBtnModifyRegion.setText("Modifier régions");
+        jToggleBtnModifyRegion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleBtnModifyRegionActionPerformed(evt);
+            }
+        });
+
+        jTextFieldPercentageAddRegion.setText("10");
+
+        jLabel2.setText("Pourcentage");
 
         javax.swing.GroupLayout jPanelModifyCountryLayout = new javax.swing.GroupLayout(jPanelModifyCountry);
         jPanelModifyCountry.setLayout(jPanelModifyCountryLayout);
@@ -399,17 +447,21 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                             .addComponent(jTextFieldChangeCountryName)
                             .addComponent(jTextFieldChangeCountryPop)))
                     .addComponent(jToggleBtnAddRegion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jToggleBtnModifyRegion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelModifyCountryLayout.createSequentialGroup()
-                        .addComponent(jButtonDeleteCountry, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addComponent(jToggleBtnModifyRegion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(jPanelModifyCountryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1)
+                            .addComponent(jButtonDeleteCountry, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelModifyCountryLayout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextFieldPercentageAddRegion, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
         );
         jPanelModifyCountryLayout.setVerticalGroup(
             jPanelModifyCountryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelModifyCountryLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButtonDeleteCountry)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelModifyCountryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelModCountryName)
                     .addComponent(jTextFieldChangeCountryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -417,13 +469,21 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addGroup(jPanelModifyCountryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldChangeCountryPop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelModCountryPop))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonDeleteCountry)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addGroup(jPanelModifyCountryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldPercentageAddRegion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleBtnAddRegion)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleBtnModifyRegion)
-                .addGap(18, 18, 18)
+                .addGap(32, 32, 32)
                 .addComponent(jPanelRegionOptions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanelConceptionOptions.add(jPanelModifyCountry, "card2");
@@ -969,6 +1029,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 SelectCountry(mousePoint);
                 jTextFieldChangeCountryName.setText(countrySelected.Name);
                 jTextFieldChangeCountryPop.setText(Integer.toString(countrySelected.populationDTO.totalPopulationDTO));
+                UpdateJRegionList(countrySelected.Id);
                 break;
             case AddLink:
                 List<CountryDTO> countries = worldController.GetCountries();
@@ -1127,10 +1188,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         drawingPanel.repaint();
     }//GEN-LAST:event_jListLinksValueChanged
 
-    private void jTextFieldAddCountryPopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAddCountryPopActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldAddCountryPopActionPerformed
-
     private void jButtonAddMesureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddMesureActionPerformed
         System.out.println("on applique une mesure");
         worldController.AddMesure(Double.parseDouble(jTextFieldAdhesionRate.getText()), jCheckBoxActiveMesure.isSelected(), jTextFieldMesureName.getText());
@@ -1181,6 +1238,45 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private void jBtnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnResetActionPerformed
         worldController.resetSimulation();
     }//GEN-LAST:event_jBtnResetActionPerformed
+
+    private void jTextFieldAddCountryPopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAddCountryPopActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldAddCountryPopActionPerformed
+
+    private void jToggleBtnAddRegionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleBtnAddRegionActionPerformed
+        if(countrySelected != null) {
+            double percentage = Double.parseDouble(jTextFieldPercentageAddRegion.getText()) / 100.0;
+            if(percentage > 0.0) {
+                worldController.AddRegion(countrySelected.Id, percentage);
+                UpdateJRegionList(countrySelected.Id);
+            }
+        }
+    }//GEN-LAST:event_jToggleBtnAddRegionActionPerformed
+
+    private void jToggleBtnModifyRegionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleBtnModifyRegionActionPerformed
+        int index = jListRegionsList.getSelectedIndex();
+        if(countrySelected != null) {
+            if(index != -1) {
+                RegionDTO region = countrySelected.Regions.get(index);
+
+                double percentage = Double.parseDouble(jTextFieldPercentageAddRegion.getText()); //TODO: > 0 && < 100
+                region.PercentagePop = percentage / 100.0;
+
+                worldController.UpdateRegion(countrySelected.Id, region);
+                UpdateJRegionList(countrySelected.Id);
+            }
+        }
+    }//GEN-LAST:event_jToggleBtnModifyRegionActionPerformed
+
+    private void jListRegionsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListRegionsListValueChanged
+        if(countrySelected != null) {
+            int index = jListRegionsList.getSelectedIndex();
+            if(index != -1) {
+                double percentage = worldController.GetCountries().stream().filter(c -> c.Id.equals(countrySelected.Id)).findFirst().get().Regions.get(index).PercentagePop;
+                jTextFieldPercentageAddRegion.setText(String.valueOf(percentage * 100.0));
+            }
+        }
+    }//GEN-LAST:event_jListRegionsListValueChanged
 
     public void Draw(Graphics g){
         worldController.Draw(g); 
@@ -1241,6 +1337,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JComboBox<String> jComboBoxAddLink;
     private javax.swing.JComboBox<String> jComboBoxModifyLink;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelAddCountryName;
     private javax.swing.JLabel jLabelAddCountryPop;
     private javax.swing.JLabel jLabelAdhesionRate;
@@ -1293,6 +1390,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JScrollPane jScrollPaneMap;
     private javax.swing.JScrollPane jScrollPaneOtherMeasures;
     private javax.swing.JScrollPane jScrollPaneRegionsList;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedMainPane;
     private javax.swing.JTabbedPane jTabbedPaneSimulationOptions;
     private javax.swing.JTextField jTextFieldAddCountryName;
@@ -1304,6 +1402,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JTextField jTextFieldMesureName;
     private javax.swing.JTextField jTextFieldMortalityRate;
     private javax.swing.JTextField jTextFieldNumberRegions;
+    private javax.swing.JTextField jTextFieldPercentageAddRegion;
     private javax.swing.JTextField jTextFieldReproductionRate;
     private javax.swing.JTextField jTextFieldTimeLapse;
     private javax.swing.JToggleButton jToggleBtnAddCountry;

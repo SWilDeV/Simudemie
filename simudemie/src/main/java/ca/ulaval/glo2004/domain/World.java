@@ -32,8 +32,9 @@ public class World implements java.io.Serializable {
     
     public void addCountry(Country country){
          countryList.add(country);
+         worldController.NotifyCountryCreated(new CountryDTO(country));
     }
-    
+
     public void addLink(Link link) {
         linkList.add(link);
     }
@@ -59,10 +60,10 @@ public class World implements java.io.Serializable {
         worldController.NotifyLinksUpdated();
     }
     
-    public void addRegion(UUID countryId, Region region) {
+    public void addRegion(UUID countryId, double popPercentage) {
         Country country = FindCountryByUUID(countryId);
         if(country != null) {
-            country.addRegion(region);
+            country.addRegion(popPercentage);
         }
     }
     
@@ -140,6 +141,19 @@ public class World implements java.io.Serializable {
         if(link != null) {
             linkList.remove(link);
             worldController.NotifyLinksUpdated();
+        }
+    }
+    
+    public void UpdateRegion(UUID countryId, RegionDTO region) {
+        Country c = FindCountryByUUID(countryId);
+        if(c != null) {
+            c.UpdateRegion(region);
+        }
+    }
+    
+    public void ValidateRegions() {
+        for(Country c: countryList) {
+            c.ValidateRegions();
         }
     }
     

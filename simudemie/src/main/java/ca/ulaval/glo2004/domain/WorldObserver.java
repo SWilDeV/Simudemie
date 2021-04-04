@@ -14,4 +14,6 @@ import java.util.List;
 public interface WorldObserver {
     public void OnSimulationTick(int day, int deads,int infected, int PopTot);
     public void OnLinksUpdated();
+    public void OnCountryCreated(CountryDTO country);
+    public void OnSimulationStarted();
 }

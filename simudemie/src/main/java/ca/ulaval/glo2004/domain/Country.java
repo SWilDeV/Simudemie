@@ -32,8 +32,10 @@ public class Country implements Serializable {
         id = UUID.randomUUID();
         shape = form;
         name = countryName;
-        regions.add(new Region(countryPop));
+        
         population = new Population(countryPop);
+        
+        this.addRegion(1.0);
     }
     
     @Override
@@ -140,17 +142,30 @@ public class Country implements Serializable {
     
     /////////////////REGIONS////////////////////////
     
-    public void addRegion(Region region){
+    public void addRegion(double popPercentage) {
+//        double total_percentage = 0.0;
+//        total_percentage = regions.stream().map(r -> r.getPercentagePop()).reduce(total_percentage, (accumulator, _item) -> accumulator + _item);
+//        
+//        double rest_percentage_to_allow = 1-popPercentage;
+//        if(rest_percentage_to_allow >= 0) {
+//            if(popPercentage < rest_percentage_to_allow) {
+//                popPercentage = rest_percentage_to_allow;
+//            }
+//        } else {
+//            popPercentage = 0;
+//        }
+        
+        Region region = new Region(population.getTotalPopulation(), popPercentage);
         regions.add(region);
     }
     
-    public void addRegionsToList(int population){
-        long numberOfRegion=4;   //A changer !!
-        int regionPop= (int)Math.round(population/numberOfRegion);       
-        for(int i =0; i< numberOfRegion; i++){
-            regions.add(new Region(regionPop));
-        }
-    }
+//    public void addRegionsToList(int population){
+//        long numberOfRegion=4;   //A changer !!
+//        int regionPop = (int)Math.round(population/numberOfRegion);       
+//        for(int i =0; i< numberOfRegion; i++){
+//            regions.add(new Region(population.getTotalPopulation(), regionPop));
+//        }
+//    }
     
     public Region FindRegionByUUID(UUID id) {
         try {
@@ -164,10 +179,20 @@ public class Country implements Serializable {
         return regions;
     }
     
-    public void modifyRegion(Region region) {
-        if (regions.contains(region)) {
-            int index = regions.indexOf(region);
-            regions.set(index, region);
+    public void UpdateRegion(RegionDTO region) {
+        Region r = FindRegionByUUID(region.Id);
+        if(r != null) {
+            r.SetPercentage(population.getTotalPopulation(), region.PercentagePop);
+        }
+    }
+    
+    public void ValidateRegions() {
+        double totalPercentage = 0.0;
+        for(Region r: regions) {
+            totalPercentage += r.getPercentagePop();
+            if(totalPercentage > 1) {
+                r.SetPercentage(population.getTotalPopulation(), 0.0);
+            }
         }
     }
     
@@ -185,11 +210,11 @@ public class Country implements Serializable {
             //}
         }  
     }
-    
-    public void updateRegion(Region region) {
-        Region r = FindRegionByUUID(region.GetId());
-        if(r != null){
-            r.updateRegion(region);
-        }
-    }
+//    
+//    public void updateRegion(Region region) {
+//        Region r = FindRegionByUUID(region.GetId());
+//        if(r != null){
+//            r.updateRegion(region);
+//        }
+//    }
 }

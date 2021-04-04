@@ -10,13 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  *
  * @author Abergel Clement
  */
 public class CountryDTO {
-    public List<Region> Regions;
+    public List<RegionDTO> Regions;
     public PopulationDTO populationDTO;
     public GeometricForm Shape;
     public String Name;
@@ -25,7 +26,7 @@ public class CountryDTO {
     public boolean IsSelected;
     
     public CountryDTO(Country country) {
-        Regions = new ArrayList<>(country.GetRegions());
+        Regions = country.GetRegions().stream().map(r -> new RegionDTO((Region)r)).collect(Collectors.toList());
         populationDTO = new PopulationDTO(country.getPopulation());
         Name = country.getName();
         Color = country.getColor();
