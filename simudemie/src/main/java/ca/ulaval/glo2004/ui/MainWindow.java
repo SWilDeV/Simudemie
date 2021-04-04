@@ -1142,10 +1142,20 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }//GEN-LAST:event_jButtonAddMesureActionPerformed
 
     private void jButtonApplyDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyDiseaseActionPerformed
-
-        DiseaseDTO diseaseDTO = new DiseaseDTO(Double.parseDouble(jTextFieldCuredRate.getText()), Double.parseDouble(jTextFieldMortalityRate.getText()), Double.parseDouble(jTextFieldReproductionRate.getText()));
-        worldController.UpdateDiseaseFromDTO(diseaseDTO);
-        System.out.println("on update disease");
+        double infectionRate = Double.parseDouble(jTextFieldReproductionRate.getText())/100;
+        double mortalityRate = Double.parseDouble(jTextFieldMortalityRate.getText())/100;
+        double cureRate = Double.parseDouble(jTextFieldCuredRate.getText())/100;
+        if( infectionRate >=0 && infectionRate <=1 &&
+            mortalityRate >=0 && mortalityRate <=1 && 
+            cureRate >=0 && cureRate <=1)
+            {
+            DiseaseDTO diseaseDTO = new DiseaseDTO(cureRate, mortalityRate , infectionRate);
+            worldController.UpdateDiseaseFromDTO(diseaseDTO);
+            System.out.println("on update disease");
+            }
+        else{
+            System.out.println("valeur non comprise entre 0 et 100");
+        }
     }//GEN-LAST:event_jButtonApplyDiseaseActionPerformed
 
     private void jTextFieldMortalityRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMortalityRateActionPerformed

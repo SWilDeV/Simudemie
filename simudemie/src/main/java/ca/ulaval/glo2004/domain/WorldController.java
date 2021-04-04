@@ -28,7 +28,7 @@ public class WorldController implements java.io.Serializable {
     
     private World world = new World();
     private final Simulation simulation;
-    private final Disease disease = new Disease(4.0, 2.0, 15.0);
+    private final Disease disease = new Disease(0.04, 0.02, 0.15);
     private final WorldDrawer worldDrawer;
     private final List<HealthMesure> mesures = new ArrayList<>();
     private List<WorldObserver> observers = new ArrayList<>(); //TODO: Discuter de ou mettre l'observer. Ici ou dans simulation ? 

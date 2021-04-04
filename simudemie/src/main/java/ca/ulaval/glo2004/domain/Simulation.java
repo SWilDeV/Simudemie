@@ -152,9 +152,9 @@ public class Simulation implements java.io.Serializable {
     }
     
     public Population UpdatePopulation(Region region){
-        double infectionRate = disease.getInfectionRate()/100;
-        double curedRate = disease.getCureRate()/100;
-        double mortalityRate = disease.getMortalityRate()/100;
+        double infectionRate = disease.getInfectionRate();
+        double curedRate = disease.getCureRate();
+        double mortalityRate = disease.getMortalityRate();
         
         //population
         Population population = region.getPopulation();

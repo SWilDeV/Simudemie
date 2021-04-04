@@ -35,22 +35,27 @@ public class DiseaseDTO {
     }
     
     public void setInfectionRateDTO(double newReproductionRate) {
-        //if ( newReproductionRate >= 0 && newReproductionRate <= 100){
-        if ( newReproductionRate >= 0 && newReproductionRate < 1){
+        if ( newReproductionRate >= 0 && newReproductionRate <= 1){
             infectionRateDTO = newReproductionRate;
+        }else{
+            System.out.println("valeur de taux d'infection non comprise entre 0 et 100");
         }
     }
     
     public void setMortalityRateDTO(double newMortalityRate) {
-        //if ( newMortalityRate >= 0 && newMortalityRate <= 100){
+        if ( newMortalityRate >= 0 && newMortalityRate <= 1){
             mortalityRateDTO = newMortalityRate;
-        //}
+        }else{
+            System.out.println("valeur de taux de mortalité non comprise entre 0 et 100");
+        }
     }
     
     public void setCureRateDTO(double newCureRate) {
-        //if ( newCureRate >= 0 && newCureRate <= 100){
+        if ( newCureRate >= 0 && newCureRate <= 1){
             cureRateDTO = newCureRate;
-        //}
+        }else{
+            System.out.println("valeur de taux de guérison non comprise entre 0 et 100");
+        }
     }
     
 }

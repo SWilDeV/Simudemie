@@ -35,22 +35,27 @@ public class Disease implements java.io.Serializable {
     }
     
     public void setCureRate(double newCureRate) {
-        //if (newCureRate >= 0 && newCureRate <= 100){
+        if ( newCureRate >= 0 && newCureRate <= 1){
             cureRate = newCureRate;
-        //}
+        }else{
+            System.out.println("valeur de taux de guérison non comprise entre 0 et 100");
+        }
     }
     
     public void setInfectionRate(double newInfectionRate) {
-        //if ( newInfectionRate >= 0 && newInfectionRate <= 100){
-        if ( newInfectionRate >= 0 && newInfectionRate < 1){
+        if ( newInfectionRate >= 0 && newInfectionRate <= 1){
             infectionRate = newInfectionRate;
+        }else{
+            System.out.println("valeur de taux d'infection non comprise entre 0 et 100");
         }
     }
     
     public void setMortalityRate(double newMortalityRate) {
-        //if (newMortalityRate >= 0 && newMortalityRate <= 100){
+        if ( newMortalityRate >= 0 && newMortalityRate <= 1){
             mortalityRate = newMortalityRate;
-        //}
+        }else{
+            System.out.println("valeur de taux de mortalité non comprise entre 0 et 100");
+        }
     }
     
     public void updateFromDTO(DiseaseDTO diseaseDTO){
