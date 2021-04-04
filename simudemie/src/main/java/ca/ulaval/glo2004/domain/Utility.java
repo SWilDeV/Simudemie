@@ -15,6 +15,10 @@ import java.util.List;
  */
 public final class Utility {
     
+    public static final int Distance(Point pt1, Point pt2) {
+        return (int)Math.sqrt(Math.pow(pt1.getX() - pt2.getX(), 2) + Math.pow(pt1.getY() - pt2.getY(), 2));
+    }
+    
     public static final CountryDTO SelectCountry(List<CountryDTO> countries, Point mousePosition) {
         CountryDTO country = null;
         
@@ -26,6 +30,30 @@ public final class Utility {
         }
         
         return country;
+    }
+    
+    public static final Point GetTopLeftPoint(List<Point> points) {
+        Point p1 = new Point(Integer.MAX_VALUE, Integer.MAX_VALUE); //En haut a gauche.
+        
+        for(Point point: points) {
+            if(point.getX() <= p1.getX() && point.getY() <= p1.getY()) {
+                p1 = point;
+            }
+        }
+        
+        return p1;
+    }
+    
+    public static final Point GetBottomRightPoint(List<Point> points) {
+        Point p1 = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE); //En haut a gauche.
+        
+        for(Point point: points) {
+            if(point.getX() >= p1.getX() && point.getY() >= p1.getY()) {
+                p1 = point;
+            }
+        }
+        
+        return p1;
     }
     
     public static final boolean IsInRectangle(List<Point> points, Point position) {        

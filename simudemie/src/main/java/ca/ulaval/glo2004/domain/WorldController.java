@@ -132,8 +132,8 @@ public class WorldController implements java.io.Serializable {
         
     }
     
-    public void RemoveRegion(UUID countryId) {
-        
+    public void RemoveRegion(UUID countryId, UUID regionId) {
+        world.RemoveRegion(countryId, regionId);
     }
     
     public void AddLink(UUID firstCountryId, UUID secondCountryId, LinkType type) {

@@ -7,7 +7,6 @@ package ca.ulaval.glo2004.ui;
 
 import ca.ulaval.glo2004.domain.CountryDTO;
 import ca.ulaval.glo2004.domain.DiseaseDTO;
-import ca.ulaval.glo2004.domain.Disease;
 import ca.ulaval.glo2004.domain.Link;
 import ca.ulaval.glo2004.domain.LinkDTO;
 import ca.ulaval.glo2004.domain.Utility;

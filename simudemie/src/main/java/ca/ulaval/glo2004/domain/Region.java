@@ -42,14 +42,10 @@ public class Region {
       subPopulation.setDeadPopulation(region.getPopulation().getDeadPopulation());
     }
 
-    //////////////////////////////////////////////////
     public double getPercentagePop() {
         throw new UnsupportedOperationException("Not supported");
     }
     
-    public void setPercentagePop(double percentagePop){
-        
+    public void setPercentagePop(double percentagePop){    
     }
-    
-    
 }

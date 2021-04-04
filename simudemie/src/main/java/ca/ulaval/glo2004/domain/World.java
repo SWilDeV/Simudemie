@@ -21,7 +21,7 @@ public class World implements java.io.Serializable {
     private WorldController worldController;
     private List<Link> linkList = new ArrayList<>();
     private List<Country> countryList = new ArrayList<>();
-    private Population worldPopulation =new Population();
+    private Population worldPopulation = new Population();
     
     public World(){
     }   
@@ -104,7 +104,7 @@ public class World implements java.io.Serializable {
         return linkList;
     }
     
-    public void getInfos(UUID countryId){
+    public void getInfos(UUID countryId) {
         //Return le pays en DTO ?
         Country country = FindCountryByUUID(countryId);
         if(country != null) {
@@ -143,8 +143,11 @@ public class World implements java.io.Serializable {
         }
     }
     
-    public void RemoveRegion() {
-        
+    public void RemoveRegion(UUID countryId, UUID regionId) {
+        Country c = FindCountryByUUID(countryId);
+        if(c != null) {
+            c.removeRegion(regionId);
+        }
     }
     
     public void UpdateSelectionStateCountry(UUID id, boolean select) {

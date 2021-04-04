@@ -54,6 +54,29 @@ public class WorldDrawer implements java.io.Serializable {
         }
     }
     
+    private void drawRegion(Graphics g, CountryDTO country) {
+        List<Point> pts = country.Shape.GetPoints();
+        int width = Utility.Distance(pts.get(0), pts.get(1));
+        int height = Utility.Distance(pts.get(1), pts.get(2));
+        
+        int regionCount = 5; //country.Regions.size();
+        
+        int stepY = height / regionCount;
+        Point topLeft = Utility.GetTopLeftPoint(pts);
+        Point bottomRight = Utility.GetBottomRightPoint(pts);
+        
+        g.setColor(Color.green);
+        for(int y = 0; y < regionCount; y++) {
+            if(y == regionCount) {
+                stepY = bottomRight.y;
+            }
+            g.setColor(Color.green);
+            g.fillRect(topLeft.x, y * stepY +  topLeft.y, width, stepY);
+            g.setColor(Color.black);
+            g.drawRect(topLeft.x, y * stepY +  topLeft.y, width, stepY);
+        }
+    }
+    
     private void drawCountries(Graphics g) {
         List<CountryDTO> countries = controller.GetCountries();
         for(CountryDTO country : countries) {
@@ -69,13 +92,16 @@ public class WorldDrawer implements java.io.Serializable {
             }
             
             Polygon poly = new Polygon(pointsX, pointsY, size);
-            g.setColor(country.Color);
-            g.fillPolygon(poly);
+            //g.setColor(country.Color);
+            //g.fillPolygon(poly);
+            
+            drawRegion(g, country);
             
             g.setColor(Color.BLACK);
             if(country.IsSelected) {
                 g.setColor(Color.YELLOW);
             }
+            //g2.setStroke(new BasicStroke(5));
             g.drawPolygon(poly);
             
             g.setColor(Color.BLACK);
@@ -84,21 +110,21 @@ public class WorldDrawer implements java.io.Serializable {
             String totPop = Integer.toString(country.getPopulationDTO().getTotalPopulationDTO());
             g.drawString(totPop, (int)center.getX(), (int)center.getY());
             
-            if(false) { //Show BoundingBox
-                List<Point> pts = country.Shape.GetBoundingBox();
-                int bbSize = pts.size();
-                int[] bbPointsX = new int[size];
-                int[] bbPointsY = new int[size];
-            
-                for(int i = 0; i < size; i++) {
-                    Point pt = pts.get(i);
-                    bbPointsX[i] = (int)pt.getX();
-                    bbPointsY[i] = (int)pt.getY();
-                }
-                
-                g.setColor(Color.red);
-                g.drawPolygon(bbPointsX, bbPointsY, bbSize);
-            }
+//            if(false) { //Show BoundingBox
+//                List<Point> pts = country.Shape.GetBoundingBox();
+//                int bbSize = pts.size();
+//                int[] bbPointsX = new int[size];
+//                int[] bbPointsY = new int[size];
+//            
+//                for(int i = 0; i < size; i++) {
+//                    Point pt = pts.get(i);
+//                    bbPointsX[i] = (int)pt.getX();
+//                    bbPointsY[i] = (int)pt.getY();
+//                }
+//                
+//                g.setColor(Color.red);
+//                g.drawPolygon(bbPointsX, bbPointsY, bbSize);
+//            }
         }
     }
     

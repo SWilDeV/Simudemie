@@ -32,7 +32,7 @@ public class Country implements Serializable {
         id = UUID.randomUUID();
         shape = form;
         name = countryName;
-        regions.add(new Region(countryPop)) ;
+        regions.add(new Region(countryPop));
         population = new Population(countryPop);
     }
     
@@ -164,18 +164,18 @@ public class Country implements Serializable {
         return regions;
     }
     
-    public void modifyRegion(Region region){
+    public void modifyRegion(Region region) {
         if (regions.contains(region)) {
             int index = regions.indexOf(region);
             regions.set(index, region);
         }
     }
     
-    public void removeRegion(Region region){//faudrait ajouter un index ou un id de la region
-        //for(Region region:regions){
-            //if(region.id == id){
-            regions.remove(region);
-        //}
+    public void removeRegion(UUID regionId){//faudrait ajouter un index ou un id de la region
+        Region r = FindRegionByUUID(regionId);
+        if(r != null) {
+            regions.remove(r);
+        }
     }
     
     public void setPopulationToRegion(Population population){//faudrait ajouter un index ou un id de la region
