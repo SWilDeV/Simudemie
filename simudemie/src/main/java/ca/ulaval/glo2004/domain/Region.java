@@ -17,9 +17,9 @@ public class Region {
     private Population subPopulation;
     private final UUID id;
     
-    public Region(int population){
+    public Region(int countryPopulation, double percentage){
         id = UUID.randomUUID();
-        subPopulation = new Population(population);
+        SetPercentage(countryPopulation, percentage);
     }
     
     public UUID GetId() {
@@ -28,6 +28,11 @@ public class Region {
     
     public Population getPopulation(){
         return subPopulation;
+    }
+    
+    public void SetPercentage(int countryPopulation, double percentage) {
+        percentagePop = percentage;
+        subPopulation = new Population((int)(countryPopulation * percentage));
     }
     
     public void setPopulation(Population population) {
@@ -43,9 +48,6 @@ public class Region {
     }
 
     public double getPercentagePop() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-    
-    public void setPercentagePop(double percentagePop){    
+        return percentagePop;
     }
 }

@@ -99,6 +99,18 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
+    public void NotifyCountryCreated(CountryDTO contry) {
+        for(WorldObserver ob: observers) {
+            ob.OnCountryCreated(contry);
+        }
+    }
+    
+    public void NotifySimulationStarted() {
+        for(WorldObserver ob: observers) {
+            ob.OnSimulationStarted();
+        }
+    }
+    
     public void Draw(Graphics g) {
         worldDrawer.draw(g);
     }
@@ -124,12 +136,12 @@ public class WorldController implements java.io.Serializable {
         world.removeCountry(countryId);
     }
     
-    public void AddRegion(UUID countryId, Region region) { // Un region ID ?
-        world.addRegion(countryId, region);
+    public void AddRegion(UUID countryId, double popPercentage) { // Un region ID ?
+        world.addRegion(countryId, popPercentage);
     }
     
-    public void UpdateRegion() {
-        
+    public void UpdateRegion(UUID countryId, RegionDTO region) {
+        world.UpdateRegion(countryId, region);
     }
     
     public void RemoveRegion(UUID countryId, UUID regionId) {
@@ -194,7 +206,9 @@ public class WorldController implements java.io.Serializable {
 
     public void StartSimulation() {
         if(!simulation.getIsRunning()) {
-            simulation.Simulate(); 
+            world.ValidateRegions();
+            NotifySimulationStarted();
+            simulation.Simulate();
         }
     }
     

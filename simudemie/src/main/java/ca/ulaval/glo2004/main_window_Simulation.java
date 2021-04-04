@@ -35,6 +35,11 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
     public List<Point> countryPts = new ArrayList<>();
     public CountryDTO countrySelected = null;
 
+    @Override
+    public void OnCountryCreated(CountryDTO country) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public enum Mode {Idle, Create, Select};
     public Mode mode = Mode.Idle;
     private int test = 0;
@@ -1135,7 +1140,7 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
             countryPts.add(evt.getPoint());
             
             if(countryPts.size() == 2) { // Un peux bete de faire ca, mais on trouvera une solution
-                worldController.AddCountry(countryPts, jTextCountryName.getText(), Integer.parseInt(jTextCountryPop.getText()));
+                worldController.AddCountry(countryPts, jTextCountryName.getText(), Integer.parseInt(jTextCountryPop.getText()), 10);
                 drawingPanel.repaint();
 
                 countryPts.clear();

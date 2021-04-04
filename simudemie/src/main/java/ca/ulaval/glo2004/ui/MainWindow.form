@@ -297,7 +297,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabelAddCountryPop" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldAddCountryPop" max="32767" attributes="0"/>
+                                      <Component id="jTextFieldAddCountryPop" pref="260" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -317,7 +317,7 @@
                                   <Component id="jLabelAddCountryPop" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jTextFieldAddCountryPop" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="314" max="32767" attributes="0"/>
+                              <EmptySpace pref="321" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -358,7 +358,7 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jPanelRegionOptions" max="32767" attributes="0"/>
@@ -374,11 +374,19 @@
                                       </Group>
                                   </Group>
                                   <Component id="jToggleBtnAddRegion" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jToggleBtnModifyRegion" alignment="0" max="32767" attributes="0"/>
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Component id="jButtonDeleteCountry" pref="342" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jButtonDeleteCountry" alignment="1" max="32767" attributes="0"/>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
+                                              <Component id="jTextFieldPercentageAddRegion" min="-2" pref="223" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jToggleBtnModifyRegion" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -386,8 +394,6 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButtonDeleteCountry" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabelModCountryName" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -398,13 +404,22 @@
                                   <Component id="jTextFieldChangeCountryPop" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabelModCountryPop" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jButtonDeleteCountry" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jTextFieldPercentageAddRegion" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jToggleBtnAddRegion" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jToggleBtnModifyRegion" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                               <Component id="jPanelRegionOptions" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="18" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -412,7 +427,7 @@
                   <SubComponents>
                     <Component class="javax.swing.JButton" name="jButtonDeleteCountry">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Supprimer pays"/>
+                        <Property name="text" type="java.lang.String" value="Supprimer le pays"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDeleteCountryActionPerformed"/>
@@ -446,24 +461,22 @@
                     </Component>
                     <Component class="javax.swing.JToggleButton" name="jToggleBtnAddRegion">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Ajouter r&#xe9;gions"/>
+                        <Property name="text" type="java.lang.String" value="Ajouter r&#xe9;gion"/>
                       </Properties>
-                    </Component>
-                    <Component class="javax.swing.JToggleButton" name="jToggleBtnModifyRegion">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Modifier r&#xe9;gions"/>
-                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleBtnAddRegionActionPerformed"/>
+                      </Events>
                     </Component>
                     <Container class="javax.swing.JPanel" name="jPanelRegionOptions">
 
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
+                              <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <Component id="jScrollPaneRegionsList" max="32767" attributes="0"/>
+                                          <Component id="jScrollPaneRegionsList" pref="330" max="32767" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
@@ -479,14 +492,14 @@
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabelNumberRegions" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jTextFieldNumberRegions" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="jScrollPaneRegionsList" min="-2" pref="100" max="-2" attributes="0"/>
-                                  <EmptySpace pref="95" max="32767" attributes="0"/>
+                                  <EmptySpace pref="22" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -518,6 +531,9 @@
                                   <StringArray count="0"/>
                                 </Property>
                               </Properties>
+                              <Events>
+                                <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="jListRegionsListValueChanged"/>
+                              </Events>
                               <AuxValues>
                                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                               </AuxValues>
@@ -526,6 +542,26 @@
                         </Container>
                       </SubComponents>
                     </Container>
+                    <Component class="javax.swing.JToggleButton" name="jToggleBtnModifyRegion">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Modifier r&#xe9;gions"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleBtnModifyRegionActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JSeparator" name="jSeparator1">
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="jTextFieldPercentageAddRegion">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="10"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabel2">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Pourcentage"/>
+                      </Properties>
+                    </Component>
                   </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="jPanelAddLink">

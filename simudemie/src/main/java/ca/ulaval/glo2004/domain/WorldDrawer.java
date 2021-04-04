@@ -13,6 +13,7 @@ import java.awt.Polygon;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.util.List;
+import javax.rmi.CORBA.Util;
 
 
 /**
@@ -59,21 +60,24 @@ public class WorldDrawer implements java.io.Serializable {
         int width = Utility.Distance(pts.get(0), pts.get(1));
         int height = Utility.Distance(pts.get(1), pts.get(2));
         
-        int regionCount = 5; //country.Regions.size();
+        int regionCount = country.Regions.size();
         
-        int stepY = height / regionCount;
-        Point topLeft = Utility.GetTopLeftPoint(pts);
-        Point bottomRight = Utility.GetBottomRightPoint(pts);
-        
-        g.setColor(Color.green);
-        for(int y = 0; y < regionCount; y++) {
-            if(y == regionCount) {
-                stepY = bottomRight.y;
+        if(regionCount > 0) {   
+            int stepY = height / regionCount;
+            int heightY = stepY;
+            Point topLeft = Utility.GetTopLeftPoint(pts);
+            Point bottomRight = Utility.GetBottomRightPoint(pts);
+
+            for(int y = 0; y < regionCount; y++) {
+                if(y == (regionCount-1)) {
+                    heightY = Utility.Distance(bottomRight, new Point(topLeft.x + width, y * stepY +  topLeft.y));
+                }
+
+                g.setColor(Color.green);
+                g.fillRect(topLeft.x, y * stepY +  topLeft.y, width, heightY);
+                g.setColor(Color.black);
+                g.drawRect(topLeft.x, y * stepY +  topLeft.y, width, heightY);
             }
-            g.setColor(Color.green);
-            g.fillRect(topLeft.x, y * stepY +  topLeft.y, width, stepY);
-            g.setColor(Color.black);
-            g.drawRect(topLeft.x, y * stepY +  topLeft.y, width, stepY);
         }
     }
     
