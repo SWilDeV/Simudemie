@@ -70,7 +70,6 @@ public class Simulation implements java.io.Serializable {
                         elapsedDay +=1;
                         //UPDATE DES PAYS ET LEURS REGIONS
                         for(Country country : countries) {
-                            System.out.println(country.GetRegions().size());
 
                             List<Region> regions = country.GetRegions();
                             if (controller.getWorld().getWorldPopulation().getInfectedPopulation() == 0){
@@ -81,17 +80,20 @@ public class Simulation implements java.io.Serializable {
                             for(Region region:regions){
                                Region regionUpdated = updateRegions(region); 
                                
-                               if(regionUpdated.getPopulation().getTotalPopulation()>regionUpdated.getPopulation().getInfectedPopulation()){
+                               if(controller.getWorld().getWorldPopulation().getTotalPopulation()>0){
+//                               if(regionUpdated.getPopulation().getTotalPopulation()>regionUpdated.getPopulation().getInfectedPopulation()){
                                     controller.getWorld().updateRegionFromSimulation(country, regionUpdated);
+
                                }else{
                                     timer.cancel();
                                     System.out.println("end ! Des zombies partout!!");
                                 }
                             }
                             //deuxieme  boucle pour la propagation interregionale
-//                            if(regions.size() >1){
-//                                propagateBetweenRegions(country);
-//                            }
+                            if(regions.size() >1){
+                                propagateBetweenRegions(country);
+                                    //splitNewInfectedInRegions(Country country, int newInfected)
+                            }
                             controller.getWorld().updateCountryFromSimulation(country);
                         }
                         //PRISE EN COMPTE DES LIENS ENTRE PAYS
@@ -177,35 +179,6 @@ public class Simulation implements java.io.Serializable {
         System.out.println("Timer Reset");
     }
     
-    public void splitNewInfectedInRegions(Country country, int newInfected){
-        List<Region> regionList = country.GetRegions();
-        while (newInfected >0){
-            Random rand = new Random();
-            int index = rand.nextInt(regionList.size());
-
-            int counter = 0;
-            for(Region region:regionList){
-                if(index == counter){
-                    Population population = region.getPopulation();
-                    int infected = population.getInfectedPopulation();
-
-                    Random randPop = new Random();
-                    int randInfected = randPop.nextInt(newInfected);
-
-                    if(randInfected == 0){
-                        newInfected = 0;
-                    }else{
-                        infected +=randInfected;
-                        population.setInfectedPopulation(infected);
-                        region.setPopulation(population);
-                        newInfected -=randInfected;
-                    }
-                }
-                counter +=1;
-            }
-        }
-    }
-    
     public Population UpdatePopulation(Region region){
         double infectionRate = disease.getInfectionRate();
         double curedRate = disease.getCureRate();
@@ -273,10 +246,12 @@ public class Simulation implements java.io.Serializable {
         
         //Now dispatch new infected in random regions 
         if(newInfectedPop1 > 0){
-            splitNewInfectedInRegions(country1, newInfectedPop1);
+//            splitNewInfectedInRegions(country1, newInfectedPop1);
+            country1.splitNewInfectedInRegions(newInfectedPop1);
         }
         if(newInfectedPop2 > 0){
-            splitNewInfectedInRegions(country2, newInfectedPop2);
+//            splitNewInfectedInRegions(country2, newInfectedPop2);
+              country2.splitNewInfectedInRegions(newInfectedPop2);
         }
         
         //Update countryList in World
@@ -302,7 +277,7 @@ public class Simulation implements java.io.Serializable {
         int countryInfectedPop = country.getPopulation().getInfectedPopulation();
         
         
-        int newInfectedPop = calculation.Calculate(countryInfectedPop,0.1);
+        int newInfectedPop = calculation.Calculate(countryInfectedPop,0.05);
         return newInfectedPop;
     }
     

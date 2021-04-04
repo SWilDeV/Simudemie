@@ -75,7 +75,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     
     @Override
     public void OnSimulationStarted() {
-        UpdateJRegionList(countrySelected.Id);
+        if(countrySelected != null){
+            UpdateJRegionList(countrySelected.Id);
+        }
+        
     }
     
     private void UpdateJLinkList() {
