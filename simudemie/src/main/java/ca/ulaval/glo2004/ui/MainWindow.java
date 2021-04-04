@@ -9,7 +9,6 @@ import ca.ulaval.glo2004.domain.CountryDTO;
 import ca.ulaval.glo2004.domain.DiseaseDTO;
 import ca.ulaval.glo2004.domain.Link;
 import ca.ulaval.glo2004.domain.LinkDTO;
-import ca.ulaval.glo2004.domain.Region;
 import ca.ulaval.glo2004.domain.RegionDTO;
 import ca.ulaval.glo2004.domain.Utility;
 import ca.ulaval.glo2004.domain.WorldController;
