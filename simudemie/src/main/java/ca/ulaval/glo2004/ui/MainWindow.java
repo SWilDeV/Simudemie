@@ -73,9 +73,16 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         UpdateJRegionList(country);
     }
     
+//    @Override
+//    public void OnRegionAdded() {
+//        drawingPanel.repaint();
+//    }
+    
     @Override
     public void OnSimulationStarted() {
-        UpdateJRegionList(countrySelected.Id);
+        if(countrySelected != null) {
+            UpdateJRegionList(countrySelected.Id);
+        }
     }
     
     private void UpdateJLinkList() {
@@ -1026,9 +1033,11 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 break;
             case ModifyCountry:
                 SelectCountry(mousePoint);
-                jTextFieldChangeCountryName.setText(countrySelected.Name);
-                jTextFieldChangeCountryPop.setText(Integer.toString(countrySelected.populationDTO.totalPopulationDTO));
-                UpdateJRegionList(countrySelected.Id);
+                if(countrySelected != null) {
+                    jTextFieldChangeCountryName.setText(countrySelected.Name);
+                    jTextFieldChangeCountryPop.setText(Integer.toString(countrySelected.populationDTO.totalPopulationDTO));
+                    UpdateJRegionList(countrySelected.Id);
+                }
                 break;
             case AddLink:
                 List<CountryDTO> countries = worldController.GetCountries();
@@ -1070,7 +1079,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         if (mode == Mode.ModifyCountry) {
             CountryDTO country = Utility.SelectCountry(worldController.GetCountries(), evt.getPoint());
             if(country != null) {
-                country.Shape.SetPosition(evt.getPoint());
+                country.SetPosition(evt.getPoint());
                 worldController.UpdateCountry(country);
                 drawingPanel.revalidate();
                 drawingPanel.repaint();
@@ -1248,6 +1257,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             if(percentage > 0.0) {
                 worldController.AddRegion(countrySelected.Id, percentage);
                 UpdateJRegionList(countrySelected.Id);
+                drawingPanel.repaint();
             }
         }
     }//GEN-LAST:event_jToggleBtnAddRegionActionPerformed

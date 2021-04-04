@@ -7,6 +7,7 @@ package ca.ulaval.glo2004.domain;
 
 import static ca.ulaval.glo2004.domain.Utility.IsTouching;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +18,20 @@ public final class Utility {
     
     public static final int Distance(Point pt1, Point pt2) {
         return (int)Math.sqrt(Math.pow(pt1.getX() - pt2.getX(), 2) + Math.pow(pt1.getY() - pt2.getY(), 2));
+    }
+    
+    public static List<Point> ToRectangle(List<Point> pts) {
+        final Point pt1 = new Point((int)pts.get(1).getX(), (int)pts.get(0).getY());
+        final Point pt3 = new Point((int)pts.get(0).getX(), (int)pts.get(1).getY());
+
+        List<Point> arrangedPoints = new ArrayList<Point>() {{
+            add(pts.get(0));
+            add(pt1);
+            add(pts.get(1));
+            add(pt3);
+        }};
+            
+        return arrangedPoints;
     }
     
     public static final CountryDTO SelectCountry(List<CountryDTO> countries, Point mousePosition) {

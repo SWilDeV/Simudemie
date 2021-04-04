@@ -6,7 +6,7 @@
 package ca.ulaval.glo2004.domain;
 
 import java.awt.Color;
-import java.util.ArrayList;
+import java.awt.Point;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -52,6 +52,29 @@ public class CountryDTO {
         populationDTO.setTotalPopulationDTO(population);
     }
     
+    public void SetPosition(Point position) {
+        Shape.SetPosition(position);
+        
+        List<Point> pts = Shape.GetPoints();
+        int regionCount = Regions.size();
+        int width = Utility.Distance(pts.get(0), pts.get(1));
+        int height = Utility.Distance(pts.get(1), pts.get(2));
+        
+        int stepY = height / regionCount;
+        int heightY = stepY;
+        Point topLeft = Utility.GetTopLeftPoint(pts);
+        Point bottomRight = Utility.GetBottomRightPoint(pts);
+
+        for(int y = 0; y < regionCount; y++) {
+            Point bt = new Point(topLeft.x + width, topLeft.y + (y+1) * heightY);
+            if(y == (regionCount-1)) {
+               bt.y = Utility.GetBottomRightPoint(pts).y;
+            }
+            
+            Regions.get(y).ModifyShape(new Point(topLeft.x, y * stepY +  topLeft.y), bt);
+        }
+    }
+    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -81,6 +104,5 @@ public class CountryDTO {
         int hash = 5;
         hash = 59 * hash + Objects.hashCode(this.Id);
         return hash;
-    }
-        
+    }       
 }
