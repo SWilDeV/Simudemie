@@ -6,6 +6,7 @@
 package ca.ulaval.glo2004.domain;
 import ca.ulaval.glo2004.domain.Link.LinkType;
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -16,12 +17,13 @@ import java.util.stream.Collectors;
  *
  * @author charl
  */
-public class World implements java.io.Serializable {
+public class World implements Serializable {
     
-    private WorldController worldController;
+    private transient WorldController worldController;
     private List<Link> linkList = new ArrayList<>();
     private List<Country> countryList = new ArrayList<>();
     private Population worldPopulation = new Population();
+    private static final long serialVersionUID = 1L; 
     
     public World(){
     }   

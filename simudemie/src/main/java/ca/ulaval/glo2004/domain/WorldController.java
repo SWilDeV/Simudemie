@@ -27,8 +27,8 @@ import java.util.stream.Collectors;
 public class WorldController implements java.io.Serializable {
     
     private World world = new World();
-    private final Simulation simulation;
-    private final Disease disease = new Disease(0.04, 0.02, 0.15);
+    private Simulation simulation;
+    private Disease disease = new Disease(0.04, 0.02, 0.15);
     private final WorldDrawer worldDrawer;
     private final List<HealthMesure> mesures = new ArrayList<>();
     private List<WorldObserver> observers = new ArrayList<>(); //TODO: Discuter de ou mettre l'observer. Ici ou dans simulation ? 
@@ -164,10 +164,6 @@ public class WorldController implements java.io.Serializable {
         world.RemoveLink(linkId);
     }
     
-    //public void removeLink(int index) {
-        //world.removeLink(index);
-    //}
-    
     public void ActiveMesures() {
         
     }
@@ -225,7 +221,7 @@ public class WorldController implements java.io.Serializable {
             FileOutputStream fileOut = new FileOutputStream(file);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(world);
-            //out.writeObject(simulation);
+            out.writeObject(simulation);
             out.close();
             fileOut.close();
         } catch (IOException ioe) {
@@ -238,6 +234,7 @@ public class WorldController implements java.io.Serializable {
             FileInputStream fileIn = new FileInputStream(openedFile);
             ObjectInputStream in = new ObjectInputStream(fileIn);
             world = (World) in.readObject();
+            simulation = (Simulation) in.readObject();
         } catch (FileNotFoundException f) {
             f.printStackTrace();
         } catch (IOException ioe) {

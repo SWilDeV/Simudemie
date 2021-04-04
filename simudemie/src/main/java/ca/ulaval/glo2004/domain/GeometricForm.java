@@ -19,6 +19,7 @@ public abstract class GeometricForm implements Serializable {
     protected List<Point> points;
     protected List<Point> bounding = new ArrayList<>();
     protected Point center;
+    private static final long serialVersionUID = 3L; 
     
     public GeometricForm(List<Point> points){
         this.points = points;

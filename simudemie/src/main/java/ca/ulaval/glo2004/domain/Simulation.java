@@ -5,6 +5,7 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -16,14 +17,15 @@ import  mathematical_model.Calculation;
  *
  * @author Abergel Clement
  */
-public class Simulation implements java.io.Serializable {
+public class Simulation implements Serializable {
     private Calculation calculation = new Calculation();
     
     private boolean isRunning = false;
     private int elapsedDay = 0;
     private ArrayList<Integer> dataHistory = new ArrayList<Integer>();
-    private final WorldController controller;
+    private transient final WorldController controller;
     private Disease disease;
+    private static final long serialVersionUID = 4L; 
     //TODO: On a oublis de definir le type de DataHistory. J'ai mis int pour eviter les erreurs
     
     public Simulation(WorldController p_controller){
