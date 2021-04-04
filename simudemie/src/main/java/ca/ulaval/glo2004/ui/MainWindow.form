@@ -195,13 +195,13 @@
                       <Component id="jToggleBtnAddLink" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jToggleBtnModifyLink" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="551" max="32767" attributes="0"/>
+                      <EmptySpace pref="588" max="32767" attributes="0"/>
                   </Group>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace pref="175" max="32767" attributes="0"/>
+                          <EmptySpace pref="183" max="32767" attributes="0"/>
                           <Component id="jPanelConceptionOptions" min="-2" pref="471" max="-2" attributes="0"/>
-                          <EmptySpace pref="45" max="32767" attributes="0"/>
+                          <EmptySpace pref="55" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -882,11 +882,6 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
               <SubComponents>
                 <Container class="javax.swing.JPanel" name="jPanelDeseaseParams">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="e6" green="e6" red="e6" type="rgb"/>
-                    </Property>
-                  </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                       <JTabbedPaneConstraints tabName="Param&#xe8;tres de la maladie">
@@ -970,7 +965,7 @@
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Tahoma" size="14" style="0"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Taux Infection (%)"/>
+                            <Property name="text" type="java.lang.String" value="Taux infection (%)"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="jTextFieldReproductionRate">
@@ -1035,7 +1030,7 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jScrollPaneOtherMeasures" pref="340" max="32767" attributes="0"/>
+                                      <Component id="jScrollPaneOtherMeasures" pref="348" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="jButtonAddMesure" alignment="1" max="32767" attributes="0"/>
                               </Group>
@@ -1076,7 +1071,7 @@
                                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                                   <Component id="jCheckBox2" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="159" max="32767" attributes="0"/>
+                              <EmptySpace pref="198" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jTextFieldMesureName" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabelMesureName" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1110,12 +1105,12 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabelAdhesionRate">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Taux d&apos;adh&#xe9;sion:"/>
+                        <Property name="text" type="java.lang.String" value="Taux d&apos;adh&#xe9;sion (%):"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldAdhesionRate">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="0%"/>
+                        <Property name="text" type="java.lang.String" value="80"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="jCheckBoxActiveMesure">

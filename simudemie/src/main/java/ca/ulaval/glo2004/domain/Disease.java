@@ -35,17 +35,22 @@ public class Disease implements java.io.Serializable {
     }
     
     public void setCureRate(double newCureRate) {
-        cureRate = newCureRate;
+        //if (newCureRate >= 0 && newCureRate <= 100){
+            cureRate = newCureRate;
+        //}
     }
     
     public void setInfectionRate(double newInfectionRate) {
+        //if ( newInfectionRate >= 0 && newInfectionRate <= 100){
         if ( newInfectionRate >= 0 && newInfectionRate < 1){
             infectionRate = newInfectionRate;
         }
     }
     
     public void setMortalityRate(double newMortalityRate) {
-        mortalityRate = newMortalityRate;
+        //if (newMortalityRate >= 0 && newMortalityRate <= 100){
+            mortalityRate = newMortalityRate;
+        //}
     }
     
     public void updateFromDTO(DiseaseDTO diseaseDTO){

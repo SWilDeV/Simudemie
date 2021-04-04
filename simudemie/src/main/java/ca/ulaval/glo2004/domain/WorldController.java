@@ -162,7 +162,7 @@ public class WorldController implements java.io.Serializable {
     
     public void UpdateDiseaseFromDTO(DiseaseDTO diseaseDTO){
         disease.updateFromDTO(diseaseDTO);
-        System.out.println("mortality: "+ disease.getMortalityRate() +", curedRate: "+ disease.getCureRate());
+        System.out.println("mortalityRate: "+ disease.getMortalityRate() +", curedRate: "+ disease.getCureRate() + ", infectedtRate : " + disease.getInfectionRate());
     }
     
     public Disease getDisease(){
@@ -170,9 +170,11 @@ public class WorldController implements java.io.Serializable {
     }
     
     public void AddMesure(double adhesionRate, boolean active, String mesureName){
-        //TODO: limits for adhasionRate 
-        HealthMesure mesure = new CustomMeasure(adhesionRate, active, mesureName);
+        //TODO: limits for adhasionRate
+        if (adhesionRate >=0 && adhesionRate <= 100){
+            HealthMesure mesure = new CustomMeasure(adhesionRate, active, mesureName);
         mesures.add(mesure);
+        }
     }
     
     public void UpdateMesure(double adhesionRate, boolean active, UUID id){

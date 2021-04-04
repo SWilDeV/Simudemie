@@ -35,17 +35,22 @@ public class DiseaseDTO {
     }
     
     public void setInfectionRateDTO(double newReproductionRate) {
+        //if ( newReproductionRate >= 0 && newReproductionRate <= 100){
         if ( newReproductionRate >= 0 && newReproductionRate < 1){
             infectionRateDTO = newReproductionRate;
         }
     }
     
     public void setMortalityRateDTO(double newMortalityRate) {
-        mortalityRateDTO = newMortalityRate;
+        //if ( newMortalityRate >= 0 && newMortalityRate <= 100){
+            mortalityRateDTO = newMortalityRate;
+        //}
     }
     
     public void setCureRateDTO(double newCureRate) {
-        cureRateDTO = newCureRate;
+        //if ( newCureRate >= 0 && newCureRate <= 100){
+            cureRateDTO = newCureRate;
+        //}
     }
     
 }

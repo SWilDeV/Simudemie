@@ -531,12 +531,12 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addComponent(jToggleBtnAddLink)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleBtnModifyLink)
-                .addContainerGap(551, Short.MAX_VALUE))
+                .addContainerGap(588, Short.MAX_VALUE))
             .addGroup(jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConceptionLayout.createSequentialGroup()
-                    .addContainerGap(175, Short.MAX_VALUE)
+                    .addContainerGap(183, Short.MAX_VALUE)
                     .addComponent(jPanelConceptionOptions, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(45, Short.MAX_VALUE)))
+                    .addContainerGap(55, Short.MAX_VALUE)))
         );
 
         jTabbedMainPane.addTab("Conception", jPanelConception);
@@ -596,8 +596,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jTextFieldTimeLapse.setText("1");
 
-        jPanelDeseaseParams.setBackground(new java.awt.Color(230, 230, 230));
-
         jPanelMortalityRate.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabelTitleMortalityRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -615,7 +613,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jPanelReproductionRate.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabelTitleReproductionRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabelTitleReproductionRate.setText("Taux Infection (%)");
+        jLabelTitleReproductionRate.setText("Taux infection (%)");
         jPanelReproductionRate.add(jLabelTitleReproductionRate);
 
         jTextFieldReproductionRate.setText("15");
@@ -676,9 +674,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jTextFieldMesureName.setText("Nom");
 
-        jLabelAdhesionRate.setText("Taux d'adhésion:");
+        jLabelAdhesionRate.setText("Taux d'adhésion (%):");
 
-        jTextFieldAdhesionRate.setText("0%");
+        jTextFieldAdhesionRate.setText("80");
 
         jCheckBoxActiveMesure.setText("Mesure active");
 
@@ -703,7 +701,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelHealthMesuresLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPaneOtherMeasures, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE))
+                        .addComponent(jScrollPaneOtherMeasures, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
                     .addComponent(jButtonAddMesure, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
@@ -733,7 +731,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jCheckBox2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
                 .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldMesureName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelMesureName))
@@ -1138,7 +1136,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         worldController.AddMesure(Double.parseDouble(jTextFieldAdhesionRate.getText()), jCheckBoxActiveMesure.isSelected(), jTextFieldMesureName.getText());
         DefaultListModel listModel = new DefaultListModel();
         worldController.GetHealthMesures().forEach(m -> {
-            listModel.addElement(m.MesureName);
+            listModel.addElement(m.MesureName + " " + m.IsActive + " " + m.AdhesionRate + "%");
         });
         jListMesures.setModel(listModel);
     }//GEN-LAST:event_jButtonAddMesureActionPerformed
