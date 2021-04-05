@@ -659,7 +659,11 @@
                           <StringArray count="3">
                             <StringItem index="0" value="Terrestre"/>
                             <StringItem index="1" value="Maritime"/>
+<<<<<<< HEAD
+                            <StringItem index="2" value="Aerien"/>
+=======
                             <StringItem index="2" value="A&#xe9;rien"/>
+>>>>>>> 13bdc09d54b0c9730dbac24f5a6f987cdc5ac053
                           </StringArray>
                         </Property>
                       </Properties>
@@ -788,6 +792,30 @@
                       <Component id="jTabbedPaneSimulationOptions" min="-2" pref="373" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
+<<<<<<< HEAD
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jLabelTitleDayElapsed" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jLabelDayElapsed" min="-2" pref="45" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jButtonBacktrack" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jButtonForward" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="jLabelTimeLapse" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="jTextFieldTimeLapse" min="-2" pref="48" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+=======
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
@@ -795,6 +823,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="1" attributes="0">
                                           <Group type="102" alignment="0" attributes="0">
+>>>>>>> 13bdc09d54b0c9730dbac24f5a6f987cdc5ac053
                                               <Component id="jLabelTitleCase" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="jLabelCase" min="-2" pref="57" max="-2" attributes="0"/>
@@ -1257,6 +1286,28 @@
                         <Property name="text" type="java.lang.String" value="Liens"/>
                       </Properties>
                     </Component>
+<<<<<<< HEAD
+                    <Container class="javax.swing.JScrollPane" name="jScrollPaneLinks">
+                      <AuxValues>
+                        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                      </AuxValues>
+
+                      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                      <SubComponents>
+                        <Component class="javax.swing.JList" name="jlistLinks">
+                          <Properties>
+                            <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
+                              <StringArray count="0"/>
+                            </Property>
+                          </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                          </AuxValues>
+                        </Component>
+                      </SubComponents>
+                    </Container>
+=======
+>>>>>>> cb6be108b2700f7c0cf6f469ccf56277f6c7241d
                     <Component class="javax.swing.JCheckBox" name="jCheckBox2">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Ferm&#xe9;"/>
