@@ -17,6 +17,9 @@ public class Disease implements Serializable {
     private double mortalityRate;
     private double cureRate;
     
+    public Disease() {
+    }
+    
     public Disease(double p_cureRate, double p_mortalityRate,
             double p_infectionRate ) {
         infectionRate = p_infectionRate;

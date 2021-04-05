@@ -38,7 +38,7 @@ public class Country implements Serializable  {
         
         population = new Population(countryPop);
         
-        this.addRegion(1.0);
+        this.addRegion("Region 1", 1.0);
     }
     
     @Override
@@ -117,6 +117,13 @@ public class Country implements Serializable  {
         this.population = population;
     }
     
+    public void UpdateSelectionStateRegion(UUID regionId, boolean select) {
+        Region region = regions.stream().filter(r -> r.GetId().equals(regionId)).findFirst().get();
+        if(region != null) {
+            region.SetSelectionState(select);
+        }
+    }
+    
     public void updateCountryPopulation(Country country){
         int totalPopulation =0;
         int infectedPopulation =0;
@@ -174,21 +181,9 @@ public class Country implements Serializable  {
     
     /////////////////REGIONS////////////////////////
     
-    public void addRegion(double popPercentage) {
-//        double total_percentage = 0.0;
-//        total_percentage = regions.stream().map(r -> r.getPercentagePop()).reduce(total_percentage, (accumulator, _item) -> accumulator + _item);
-//        
-//        double rest_percentage_to_allow = 1-popPercentage;
-//        if(rest_percentage_to_allow >= 0) {
-//            if(popPercentage < rest_percentage_to_allow) {
-//                popPercentage = rest_percentage_to_allow;
-//            }
-//        } else {
-//            popPercentage = 0;
-//        }
-        
+    public void addRegion(String regionName, double popPercentage) {       
         RegularForm form = new RegularForm(shape.GetPoints());
-        Region region = new Region(form, population.getTotalPopulation(), popPercentage);
+        Region region = new Region(form, regionName, population.getTotalPopulation(), popPercentage);
         regions.add(region);
         
         SetRegionPosition();
@@ -203,7 +198,6 @@ public class Country implements Serializable  {
         int stepY = height / regionCount;
         int heightY = stepY;
         Point topLeft = Utility.GetTopLeftPoint(pts);
-        Point bottomRight = Utility.GetBottomRightPoint(pts);
 
         for(int y = 0; y < regionCount; y++) {
             Point bt = new Point(topLeft.x + width, topLeft.y + (y+1) * heightY);
@@ -214,14 +208,6 @@ public class Country implements Serializable  {
             regions.get(y).ModifyShape(new Point(topLeft.x, y * stepY +  topLeft.y), bt);
         }
     }
-    
-//    public void addRegionsToList(int population){
-//        long numberOfRegion=4;   //A changer !!
-//        int regionPop = (int)Math.round(population/numberOfRegion);       
-//        for(int i =0; i< numberOfRegion; i++){
-//            regions.add(new Region(population.getTotalPopulation(), regionPop));
-//        }
-//    }
     
     public Region FindRegionByUUID(UUID id) {
         try {
@@ -259,7 +245,7 @@ public class Country implements Serializable  {
         }
     }
     
-    public void setPopulationToRegion(Population population){//faudrait ajouter un index ou un id de la region
+    public void setPopulationToRegion(Population population){ //faudrait ajouter un index ou un id de la region
         for(Region region:regions){
             //if(region.id == id){
             region.setPopulation(population);

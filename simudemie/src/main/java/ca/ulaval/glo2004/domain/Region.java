@@ -5,6 +5,7 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.awt.Color;
 import java.io.Serializable;
 import java.awt.Point;
 import java.util.List;
@@ -17,22 +18,39 @@ import java.util.UUID;
  */
 public class Region implements Serializable {
     
+    private String name;
     private double percentagePop;
     private Population subPopulation;
     private RegularForm shape;
     private final UUID id;
+    private boolean isSelected = false;
     
-    public Region(RegularForm form, int countryPopulation, double percentage) {
+    public Region(RegularForm form, String name, int countryPopulation, double percentage) {
+        name = this.name;
         shape = form;
         id = UUID.randomUUID();
         SetPercentage(countryPopulation, percentage);
     }
     
-    public Region(UUID id, RegularForm form, Population population, double percentage) {
+    public Region(UUID id, RegularForm form, Population population, double percentage, boolean isSelected, String name) {
         shape = form;
         this.id = id;
+        this.name = name;
         subPopulation = population;
         percentagePop = percentage;
+        this.isSelected = isSelected;
+    }
+    
+    public String GetName() {
+        return name;
+    }
+    
+    public boolean IsSelected() {
+        return isSelected;
+    }
+    
+    public void SetSelectionState(boolean select) {
+        isSelected = select;
     }
     
     public void ModifyShape(Point p1, Point p2) {
@@ -76,5 +94,21 @@ public class Region implements Serializable {
 
     public double getPercentagePop() {
         return percentagePop;
+    }
+    
+    public Color GetColor() {
+        double p = 1.0;
+        if(subPopulation.getTotalPopulation() > 0) {
+            if(subPopulation.getInfectedPopulation() > 0) {
+                p = (subPopulation.getInfectedPopulation() + subPopulation.getDeadPopulation()) / (double)(subPopulation.getTotalPopulation() + subPopulation.getDeadPopulation());
+                if(p > 1) {
+                    p = 1;
+                }
+            } else {
+                p = 0.0;
+            }
+        }
+        
+        return Utility.GetColorGradient(p);
     }
 }

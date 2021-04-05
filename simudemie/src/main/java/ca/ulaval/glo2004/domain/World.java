@@ -26,9 +26,13 @@ public class World implements Serializable {
     private static final long serialVersionUID = 1L; 
     
     public World(){
-    }   
+    }
 
     public World(WorldController worldController) {
+        this.worldController = worldController;
+    }
+    
+    public void SetWorldController(WorldController worldController) {
         this.worldController = worldController;
     }
     
@@ -62,10 +66,10 @@ public class World implements Serializable {
         worldController.NotifyLinksUpdated();
     }
     
-    public void addRegion(UUID countryId, double popPercentage) {
+    public void addRegion(UUID countryId, String name, double popPercentage) {
         Country country = FindCountryByUUID(countryId);
         if(country != null) {
-            country.addRegion(popPercentage);
+            country.addRegion(name, popPercentage);
         }
     }
     
@@ -144,6 +148,13 @@ public class World implements Serializable {
             linkList.remove(link);
             worldController.NotifyLinksUpdated();
         }
+    }
+    
+    public void UpdateSelectionStateRegion(UUID countryId, UUID regionId, boolean select) {
+       Country c = FindCountryByUUID(countryId);
+        if(c != null) {
+            c.UpdateSelectionStateRegion(regionId, select);
+        } 
     }
     
     public void UpdateRegion(UUID countryId, RegionDTO region) {
@@ -228,7 +239,7 @@ public class World implements Serializable {
         int infectedPop = 0;
         int deadPop = 0;
         int nonInfectedPop = 0;
-        for(Country country:countryList){
+        for(Country country: countryList){
             totalPop += country.getPopulation().getTotalPopulation();
             infectedPop += country.getPopulation().getInfectedPopulation();
             deadPop += country.getPopulation().getDeadPopulation();

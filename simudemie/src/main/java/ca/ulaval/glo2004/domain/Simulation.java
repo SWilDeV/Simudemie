@@ -22,20 +22,23 @@ public class Simulation implements Serializable {
     private Calculation calculation = new Calculation();
     private boolean isRunning = false;
     private int elapsedDay = 0;
-    private ArrayList<Integer> dataHistory = new ArrayList<Integer>();
+    //private ArrayList<World> dataHistory = new ArrayList<World>(); //livrable 4
     private transient final WorldController controller;
-    private Disease disease;
+    private Timer timer = new Timer();
     private static final long serialVersionUID = 4L; 
-    //TODO: On a oublis de definir le type de DataHistory. J'ai mis int pour eviter les erreurs
     
     public Simulation(WorldController p_controller){
         controller = p_controller;
-        disease = controller.getDisease();
     }
     
-    public ArrayList<Integer> GetDataHistory() {
-        return dataHistory; //TODO: DTO ou un deep copy?
+    public Simulation(WorldController p_controller, int elapsedDay) {
+        controller = p_controller;
+        this.elapsedDay = elapsedDay;
     }
+    
+//    public ArrayList<Integer> GetDataHistory() { //livrable 4
+//        return dataHistory;
+//    }
     
     public int GetElapsedDay() {
         return this.elapsedDay;
@@ -49,12 +52,12 @@ public class Simulation implements Serializable {
         this.isRunning = running;
     }
     
-    public void Simulate() {
+    public void Simulate(int timeStep) {
         
         List<Country> countries = controller.GetCountriesforSimulation();
         int countryListSize = countries.size();
         
-        if(countryListSize>0){
+        if(countryListSize > 0){
             System.out.println("demarré");
             SetRunning(true);
             
@@ -65,7 +68,7 @@ public class Simulation implements Serializable {
             }
                     
             //Timer faisant office de boucle principale
-            Timer timer = new Timer();
+            timer = new Timer();
             timer.schedule(new TimerTask() {
                 public void run() {
                     if(getIsRunning()){
@@ -100,7 +103,6 @@ public class Simulation implements Serializable {
                                Region regionUpdated = updateRegions(region); 
                                if(controller.getWorld().getWorldPopulation().getTotalPopulation()>0){
                                     controller.getWorld().updateRegionFromSimulation(country, regionUpdated);
-                                    System.out.println(regionUpdated.getPopulation().getInfectedPopulation());
                                }else{
                                     timer.cancel();
                                     System.out.println("end ! Des zombies partout!!");
@@ -115,7 +117,7 @@ public class Simulation implements Serializable {
                         timer.cancel();
                     }
                 }
-            }, 0, 500);
+            }, 0, timeStep);
         }else{
             System.out.println("Veuillez ajouter au moins un pays");
         }
@@ -169,7 +171,9 @@ public class Simulation implements Serializable {
     
     public void Pause() {
         if(isRunning == true){
-            this.isRunning=false;
+            timer.cancel();
+            timer.purge();
+            this.isRunning = false;
         }
     }
     
@@ -186,6 +190,7 @@ public class Simulation implements Serializable {
     }
     
     public Population UpdatePopulation(Region region){
+        Disease disease = controller.getDisease();
         double infectionRate = disease.getInfectionRate();
         double curedRate = disease.getCureRate();
         double mortalityRate = disease.getMortalityRate();
