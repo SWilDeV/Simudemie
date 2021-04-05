@@ -73,6 +73,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         drawingPanel.repaint();
     }
     
+    
     @Override
     public void OnLinksUpdated() {
         UpdateJLinkList();
@@ -89,6 +90,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             UpdateJRegionList(countrySelected.Id);
         }
     }
+    
     
     @Override
     public void OnProjectLoaded() {

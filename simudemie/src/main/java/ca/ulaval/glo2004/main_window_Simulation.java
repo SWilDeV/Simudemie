@@ -68,6 +68,14 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
     }
     
     @Override
+    public void OnProjectLoaded() {
+        UpdateSimulationUI();
+        DiseaseDTO disease = worldController.GetDiseaseDTO();
+        jTextFieldMortalityRate.setText(String.valueOf(disease.getMortalityRateDTO() * 100));
+        jTextFieldReproductionRate.setText(String.valueOf(disease.getInfectionRateDTO() * 100));
+        jTextFieldCuredRate.setText(String.valueOf(disease.getCureRateDTO() * 100));
+    }
+    
     public void OnSimulationTick(int day, int deads, int infected, int totPop) {
         System.err.println("Nouveau jour!");
         jLabelDayElapsed.setText(String.valueOf(day));
@@ -951,8 +959,8 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
 
     private void jButtonApplyDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyDiseaseActionPerformed
         //System.out.println("on update disease");
-       DiseaseDTO diseaseDTO = new DiseaseDTO(Double.parseDouble(jTextFieldCuredRate.getText()), Double.parseDouble(jTextFieldMortalityRate.getText()), Double.parseDouble(jTextFieldReproductionRate.getText()));
-        worldController.UpdateDiseaseFromDTO(diseaseDTO);
+//       DiseaseDTO diseaseDTO = new DiseaseDTO(Double.parseDouble(jTextFieldCuredRate.getText()), Double.parseDouble(jTextFieldMortalityRate.getText()), Double.parseDouble(jTextFieldReproductionRate.getText()));
+//        worldController.UpdateDiseaseFromDTO(diseaseDTO);
     }//GEN-LAST:event_jButtonApplyDiseaseActionPerformed
 
     private void jButtonApplyMesureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyMesureActionPerformed
