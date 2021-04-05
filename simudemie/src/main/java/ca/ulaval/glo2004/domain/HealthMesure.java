@@ -17,6 +17,7 @@ public abstract class HealthMesure {
     protected boolean isActive = false;
     protected String mesureName;
     private final UUID id; 
+    private static final long serialVersionUID = 6L; 
     
     public HealthMesure(double p_adhesionRate, boolean p_isActive, String p_mesureName) {
         id = UUID.randomUUID();
