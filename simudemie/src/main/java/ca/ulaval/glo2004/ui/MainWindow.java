@@ -1143,6 +1143,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private void jPanelDrawMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jPanelDrawMouseWheelMoved
         // TODO add your handling code here:
         //Zoom à implémenter?? 
+        drawingPanel.zoom(evt.getPreciseWheelRotation(), evt.getPoint());
+        //worldController.zoom(evt.getPreciseWheelRotation(), evt.getPoint(), drawingPanel.getWidth(), drawingPanel.getHeight());
+        //drawingPanel.repaint();
     }//GEN-LAST:event_jPanelDrawMouseWheelMoved
 
     private void jToggleBtnModifyLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleBtnModifyLinkActionPerformed

@@ -10,6 +10,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.util.List;
@@ -24,7 +26,9 @@ public class WorldDrawer implements java.io.Serializable {
     //    Attributs
     private final WorldController controller;
     //private Dimension initialDimension; pour le zoom ?
-    private float zoom;
+    private double zoom = 1.0;
+    private double zoomIncr = 0.025;
+    AffineTransform at = new AffineTransform();
     
 
     public WorldDrawer(WorldController p_controller){
@@ -32,7 +36,30 @@ public class WorldDrawer implements java.io.Serializable {
         //initialDimension = p_intialDimension;
     }
     
+    public void Zoom(double amount, Point mousePosition, int width, int height) {
+        zoom += amount * zoomIncr;
+        if(zoom <= 0) {
+            zoom = 0;
+        }
+        
+        
+        
+        
+//        double x = (1.0 - zoom)*width/2.0;
+//        double y = (1.0 - zoom)*height/2.0;
+        //at.setToTranslation(mousePosition.x, mousePosition.y);
+//        at.setToTranslation(x, y);
+//        at.scale(zoom, zoom);
+        
+//        at.translate(mousePosition.x, mousePosition.y);
+//        at.scale(zoom, zoom);
+//        at.translate(-mousePosition.x, -mousePosition.y);
+    }
+    
     public void draw(Graphics g) {
+//        Graphics2D g2 = (Graphics2D)g;
+//        g2.setTransform(at);
+        
         drawCountries(g);
         drawLinks(g);
     }
@@ -75,7 +102,7 @@ public class WorldDrawer implements java.io.Serializable {
         }
     }
     
-    private Polygon CreatePolygon(List<Point> pts) {
+    private Shape CreatePolygon(List<Point> pts) {
         int size =  pts.size();
             int[] pointsX = new int[size];
             int[] pointsY = new int[size];
@@ -86,7 +113,8 @@ public class WorldDrawer implements java.io.Serializable {
                 pointsY[i] = (int)pt.getY();
             }
             
-        return new Polygon(pointsX, pointsY, size);
+        //at.createTransformedShape(new Polygon(pointsX, pointsY, size));
+        return at.createTransformedShape(new Polygon(pointsX, pointsY, size));
     }
     
     private void drawRegion(Graphics g, CountryDTO country) {
@@ -94,12 +122,16 @@ public class WorldDrawer implements java.io.Serializable {
         for(RegionDTO r: country.Regions) {
             List<Point> pts = r.Shape.GetPoints();
             
-            Polygon poly = CreatePolygon(pts);
+            Shape poly = CreatePolygon(pts);
             
-            g.setColor(Color.green);
-            g.fillPolygon(poly);
-            g.setColor(Color.black);
-            g.drawPolygon(poly);
+            Graphics2D g2 = (Graphics2D)g;
+            
+            g2.setColor(Color.green);
+            g2.fill(poly);
+            //g.fillPolygon(poly);
+            g2.setColor(Color.black);
+            g2.draw(poly);
+            //g.drawPolygon(poly);
         }
         
 //        List<Point> pts = country.Shape.GetPoints();
@@ -131,28 +163,22 @@ public class WorldDrawer implements java.io.Serializable {
         List<CountryDTO> countries = controller.GetCountries();
         for(CountryDTO country : countries) {
             GeometricForm form = country.Shape;
-            int size = form.GetPoints().size();
-            int[] pointsX = new int[size];
-            int[] pointsY = new int[size];
             
-            for(int i = 0; i < size; i++) {
-                Point pt = form.GetPoint(i);
-                pointsX[i] = (int)pt.getX();
-                pointsY[i] = (int)pt.getY();
-            }
-            
-            Polygon poly = new Polygon(pointsX, pointsY, size);
-            //g.setColor(country.Color);
+            Graphics2D g2 = (Graphics2D)g;
+            Shape poly = CreatePolygon(form.GetPoints());
+            g2.setColor(country.Color);
+            g2.fill(poly);
             //g.fillPolygon(poly);
             
             drawRegion(g, country);
             
-            g.setColor(Color.BLACK);
+            g2.setColor(Color.BLACK);
             if(country.IsSelected) {
-                g.setColor(Color.YELLOW);
+                g2.setColor(Color.YELLOW);
             }
             //g2.setStroke(new BasicStroke(5));
-            g.drawPolygon(poly);
+            //g.drawPolygon(poly);
+            g2.draw(poly);
             
             g.setColor(Color.BLACK);
             Point center = country.Shape.GetCenter();
@@ -237,7 +263,7 @@ public class WorldDrawer implements java.io.Serializable {
         zoom = p_zoom;
     }
     
-    public float getZoom(){
+    public double getZoom(){
         return zoom;
     }
     
