@@ -222,6 +222,7 @@ public class WorldController implements java.io.Serializable {
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(world);
             out.writeObject(simulation);
+            //out.writeObject(disease);
             out.close();
             fileOut.close();
         } catch (IOException ioe) {
@@ -235,6 +236,7 @@ public class WorldController implements java.io.Serializable {
             ObjectInputStream in = new ObjectInputStream(fileIn);
             world = (World) in.readObject();
             simulation = (Simulation) in.readObject();
+            //disease = (Disease) in.readObject();
         } catch (FileNotFoundException f) {
             f.printStackTrace();
         } catch (IOException ioe) {
@@ -246,6 +248,7 @@ public class WorldController implements java.io.Serializable {
     
     public void newProjet() {
         world.clearWorld();
+        simulation.Reset();
     }
     
     public void CreateJEPG() {
