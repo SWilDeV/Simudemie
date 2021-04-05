@@ -150,8 +150,8 @@ public class WorldController implements java.io.Serializable {
         world.UpdateSelectionStateRegion(countryId, regionId, select);
     }
     
-    public void AddRegion(UUID countryId, String name, double popPercentage) { // Un region ID ?
-        world.addRegion(countryId, name, popPercentage);
+    public void AddRegion(UUID countryId, List<Point> points, String name, double popPercentage) { // Un region ID ?
+        world.addRegion(countryId, Utility.ToRectangle(points), name, popPercentage);
     }
     
     public void UpdateRegion(UUID countryId, RegionDTO region) {
@@ -197,11 +197,10 @@ public class WorldController implements java.io.Serializable {
         return new DiseaseDTO(disease);
     }
     
-    public void AddMesure(double adhesionRate, boolean active, String mesureName){
-        //TODO: limits for adhasionRate
-        if (adhesionRate >=0 && adhesionRate <= 100){
+    public void AddMesure(double adhesionRate, boolean active, String mesureName) {
+        if (adhesionRate >=0 && adhesionRate <= 100) {
             HealthMesure mesure = new CustomMeasure(adhesionRate, active, mesureName);
-        mesures.add(mesure);
+            mesures.add(mesure);
         }
     }
     
@@ -224,7 +223,7 @@ public class WorldController implements java.io.Serializable {
         return simulation.getIsRunning();
     }
 
-    public void StartSimulation(int timeStep) {
+    public void StartSimulation(int timeStep) throws NotAllPopulationAssign {
         if(!simulation.getIsRunning()) {
             world.ValidateRegions();
             NotifySimulationStarted();
@@ -247,7 +246,7 @@ public class WorldController implements java.io.Serializable {
             out.writeInt(simulation.GetElapsedDay());
             out.writeObject(world);
             out.writeObject(disease);
-            //out.writeObject(mesures);
+            out.writeObject(mesures);
             out.close();
             fileOut.close();
         } catch (IOException ioe) {
@@ -262,7 +261,7 @@ public class WorldController implements java.io.Serializable {
             int elapsedDay = in.readInt();
             world = (World) in.readObject();
             disease = (Disease) in.readObject();
-            //mesures = (ArrayList) in.readObject();
+            mesures = (ArrayList) in.readObject();
             world.SetWorldController(this);
             simulation = new Simulation(this, elapsedDay);
             NotifyProjectLoaded();

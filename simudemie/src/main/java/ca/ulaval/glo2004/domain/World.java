@@ -66,16 +66,17 @@ public class World implements Serializable {
         worldController.NotifyLinksUpdated();
     }
     
-    public void addRegion(UUID countryId, String name, double popPercentage) {
+    public void addRegion(UUID countryId, List<Point> points, String name, double popPercentage) {
         Country country = FindCountryByUUID(countryId);
         if(country != null) {
-            country.addRegion(name, popPercentage);
+            country.addRegion(points, name, popPercentage);
         }
     }
     
     public void clearWorld() {
         countryList.clear();
         linkList.clear();
+        worldPopulation = new Population();
     }
     
     public Country findCountryByPosition(Point position) {
@@ -164,7 +165,7 @@ public class World implements Serializable {
         }
     }
     
-    public void ValidateRegions() {
+    public void ValidateRegions() throws NotAllPopulationAssign {
         for(Country c: countryList) {
             c.ValidateRegions();
         }

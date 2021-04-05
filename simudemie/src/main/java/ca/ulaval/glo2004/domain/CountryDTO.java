@@ -7,6 +7,8 @@ package ca.ulaval.glo2004.domain;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
  *
  * @author Abergel Clement
  */
-public class CountryDTO {
+public class CountryDTO implements Serializable {
     public List<RegionDTO> Regions;
     public PopulationDTO populationDTO;
     public GeometricForm Shape;
@@ -53,25 +55,23 @@ public class CountryDTO {
     }
     
     public void SetPosition(Point position) {
+        Point prevPosition = Shape.GetPoint(0);
+        
         Shape.SetPosition(position);
         
-        List<Point> pts = Shape.GetPoints();
-        int regionCount = Regions.size();
-        int width = Utility.Distance(pts.get(0), pts.get(1));
-        int height = Utility.Distance(pts.get(1), pts.get(2));
+        Point newPosition = Shape.GetPoint(0);
+        Point diff = new Point(newPosition.x - prevPosition.x, newPosition.y - prevPosition.y);
         
-        int stepY = height / regionCount;
-        int heightY = stepY;
-        Point topLeft = Utility.GetTopLeftPoint(pts);
-        Point bottomRight = Utility.GetBottomRightPoint(pts);
-
-        for(int y = 0; y < regionCount; y++) {
-            Point bt = new Point(topLeft.x + width, topLeft.y + (y+1) * heightY);
-            if(y == (regionCount-1)) {
-               bt.y = Utility.GetBottomRightPoint(pts).y;
-            }
+        for(RegionDTO r: Regions) {
             
-            Regions.get(y).ModifyShape(new Point(topLeft.x, y * stepY +  topLeft.y), bt);
+            List<Point> pts = new ArrayList<Point>() {
+                {
+                    add(new Point(r.Shape.GetPoint(0).x + diff.x, r.Shape.GetPoint(0).y + diff.y));
+                    add(new Point(r.Shape.GetPoint(2).x + diff.x, r.Shape.GetPoint(2).y + diff.y));
+                }
+            };
+            
+            r.Shape = new RegularForm(Utility.ToRectangle(pts));
         }
     }
     

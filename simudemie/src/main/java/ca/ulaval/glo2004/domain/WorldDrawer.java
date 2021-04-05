@@ -61,23 +61,28 @@ public class WorldDrawer implements java.io.Serializable {
     
     public void drawCountryInfos(Graphics g, Point mousePosition, CountryDTO country) {  
         
-//        String totalPopulation = String.valueOf(country.populationDTO.totalPopulationDTO);
-//        int boxWidth = totalPopulation.length() * 8 + 100;
-//        
-//        g.setColor(Color.WHITE);
-//        g.fillRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
-//        g.setColor(Color.BLACK);
-//        g.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
-//
-//        int tempY = (int)mousePosition.getY();
-//        for(String str: country.toString().split("\n")) {
-//            g.drawString(str, (int)mousePosition.getX() + 1, tempY += g.getFontMetrics().getHeight());        
-//        }
-
-
+        boolean onRegion = false;
+        
         for(RegionDTO r: country.Regions) {
             if(Utility.IsInRectangle(r.Shape.GetPoints(), mousePosition)) {
                 drawRegionInfo(g, mousePosition, r);
+                onRegion = true;
+                break;
+            }
+        }
+        
+        if (!onRegion) {
+            String totalPopulation = String.valueOf(country.populationDTO.totalPopulationDTO);
+            int boxWidth = totalPopulation.length() * 8 + 100;
+
+            g.setColor(Color.WHITE);
+            g.fillRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
+            g.setColor(Color.BLACK);
+            g.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
+
+            int tempY = (int)mousePosition.getY();
+            for(String str: country.toString().split("\n")) {
+                g.drawString(str, (int)mousePosition.getX() + 1, tempY += g.getFontMetrics().getHeight());        
             }
         }
     }
