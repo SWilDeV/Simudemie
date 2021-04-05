@@ -126,10 +126,13 @@ public class WorldDrawer implements java.io.Serializable {
             
             Graphics2D g2 = (Graphics2D)g;
             
-            g2.setColor(Color.green);
+            g2.setColor(r.Color);
             g2.fill(poly);
             //g.fillPolygon(poly);
             g2.setColor(Color.black);
+            if(r.IsSelected) {
+                g2.setColor(Color.YELLOW);
+            }
             g2.draw(poly);
             //g.drawPolygon(poly);
         }
@@ -248,15 +251,6 @@ public class WorldDrawer implements java.io.Serializable {
         }
         
         g2.setStroke(new BasicStroke(1));
-    }
-    
-    public void drawRegular(Graphics g) {
-    }
-    
-    public void drawIrregular(Graphics g) {
-    }
-    
-    public void region(Graphics g){
     }
     
     public void setZoom(float p_zoom){

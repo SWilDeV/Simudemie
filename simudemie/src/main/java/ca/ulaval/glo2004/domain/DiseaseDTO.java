@@ -14,12 +14,10 @@ public class DiseaseDTO {
     private double mortalityRateDTO;
     private double cureRateDTO;
     
-    public DiseaseDTO(double p_cureRate, double p_mortalityRate,
-            double p_infectionRate) {
-        
-        infectionRateDTO = p_infectionRate;
-        mortalityRateDTO = p_mortalityRate;
-        cureRateDTO = p_cureRate;
+    public DiseaseDTO(Disease disease) {
+        infectionRateDTO = disease.getInfectionRate();
+        mortalityRateDTO = disease.getMortalityRate();
+        cureRateDTO = disease.getCureRate();
     }
     
     public double getInfectionRateDTO() {

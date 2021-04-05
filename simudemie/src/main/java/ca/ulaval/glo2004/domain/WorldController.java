@@ -33,6 +33,10 @@ public class WorldController implements java.io.Serializable {
     private List<HealthMesure> mesures = new ArrayList<>();
     private List<WorldObserver> observers = new ArrayList<>(); //TODO: Discuter de ou mettre l'observer. Ici ou dans simulation ? 
     
+    public int GetElapsedDay() {
+        return simulation.GetElapsedDay();
+    }
+    
     public List<CountryDTO> GetCountries() {
         return (List<CountryDTO>) world.getCountries().stream().map(e -> new CountryDTO((Country) e)).collect(Collectors.toList());
     }
@@ -111,6 +115,12 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
+    public void NotifyProjectLoaded() {
+        for(WorldObserver ob: observers) {
+            ob.OnProjectLoaded();
+        }
+    }
+    
     public void Draw(Graphics g) {
         worldDrawer.draw(g);
     }
@@ -136,8 +146,12 @@ public class WorldController implements java.io.Serializable {
         world.removeCountry(countryId);
     }
     
-    public void AddRegion(UUID countryId, double popPercentage) { // Un region ID ?
-        world.addRegion(countryId, popPercentage);
+    public void UpdateSelectionStateRegion(UUID countryId, UUID regionId, boolean select) {
+        world.UpdateSelectionStateRegion(countryId, regionId, select);
+    }
+    
+    public void AddRegion(UUID countryId, String name, double popPercentage) { // Un region ID ?
+        world.addRegion(countryId, name, popPercentage);
     }
     
     public void UpdateRegion(UUID countryId, RegionDTO region) {
@@ -168,13 +182,19 @@ public class WorldController implements java.io.Serializable {
         
     }
     
-    public void UpdateDiseaseFromDTO(DiseaseDTO diseaseDTO){
-        disease.updateFromDTO(diseaseDTO);
+    public void UpdateDiseaseFromDTO(double infectionRate, double mortalityRate, double cureRate){
+        disease.setInfectionRate(infectionRate);
+        disease.setMortalityRate(mortalityRate);
+        disease.setCureRate(cureRate);
         System.out.println("mortalityRate: "+ disease.getMortalityRate() +", curedRate: "+ disease.getCureRate() + ", infectedtRate : " + disease.getInfectionRate());
     }
     
     public Disease getDisease(){
         return disease;
+    }
+    
+    public DiseaseDTO GetDiseaseDTO(){
+        return new DiseaseDTO(disease);
     }
     
     public void AddMesure(double adhesionRate, boolean active, String mesureName){
@@ -199,17 +219,21 @@ public class WorldController implements java.io.Serializable {
             mesures.remove(mesure);
         }
     }
+    
+    public boolean IsRunning() {
+        return simulation.getIsRunning();
+    }
 
-    public void StartSimulation() {
+    public void StartSimulation(int timeStep) {
         if(!simulation.getIsRunning()) {
             world.ValidateRegions();
             NotifySimulationStarted();
-            simulation.Simulate();
+            simulation.Simulate(timeStep);
         }
     }
     
     public void pauseSimulation() {
-            simulation.Pause();
+        simulation.Pause();
     }
     
     public void resetSimulation() {
@@ -220,10 +244,10 @@ public class WorldController implements java.io.Serializable {
         try {
             FileOutputStream fileOut = new FileOutputStream(file);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeInt(simulation.GetElapsedDay());
             out.writeObject(world);
-            out.writeObject(simulation);
-            //out.writeObject(disease);
-            out.writeObject(mesures);
+            out.writeObject(disease);
+            //out.writeObject(mesures);
             out.close();
             fileOut.close();
         } catch (IOException ioe) {
@@ -235,10 +259,13 @@ public class WorldController implements java.io.Serializable {
         try {
             FileInputStream fileIn = new FileInputStream(openedFile);
             ObjectInputStream in = new ObjectInputStream(fileIn);
+            int elapsedDay = in.readInt();
             world = (World) in.readObject();
-            simulation = (Simulation) in.readObject();
-            //disease = (Disease) in.readObject();
-            mesures = (ArrayList) in.readObject();
+            disease = (Disease) in.readObject();
+            //mesures = (ArrayList) in.readObject();
+            world.SetWorldController(this);
+            simulation = new Simulation(this, elapsedDay);
+            NotifyProjectLoaded();
         } catch (FileNotFoundException f) {
             f.printStackTrace();
         } catch (IOException ioe) {

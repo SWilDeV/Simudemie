@@ -9,10 +9,12 @@ import ca.ulaval.glo2004.domain.CountryDTO;
 import ca.ulaval.glo2004.domain.DiseaseDTO;
 import ca.ulaval.glo2004.domain.Link;
 import ca.ulaval.glo2004.domain.LinkDTO;
+import ca.ulaval.glo2004.domain.Population;
 import ca.ulaval.glo2004.domain.RegionDTO;
 import ca.ulaval.glo2004.domain.Utility;
 import ca.ulaval.glo2004.domain.WorldController;
 import ca.ulaval.glo2004.domain.WorldObserver;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -21,6 +23,7 @@ import java.util.List;
 import java.util.UUID;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -55,12 +58,18 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }
     
     @Override
-    public void OnSimulationTick(int day, int deads, int infected,int PopTot) {
+    public void OnSimulationTick(int day, int deads, int infected, int PopTot) {
         System.err.println("Jour:" + day);
-        jLabelDayElapsed.setText(String.valueOf(day));
-        jLabelDead.setText(String.valueOf(deads));
-        jLabelCase.setText(String.valueOf(infected));
-        jLabelCured.setText(String.valueOf(PopTot));
+        UpdateSimulationUI();
+    }
+    
+    private void UpdateSimulationUI() {
+        Population pop = worldController.getWorld().getWorldPopulation();
+        jLabelDayElapsed.setText(String.valueOf(worldController.GetElapsedDay()));
+        jLabelDead.setText(String.valueOf(pop.getDeadPopulation()));
+        jLabelCase.setText(String.valueOf(pop.getInfectedPopulation()));
+        jLabelCured.setText(String.valueOf(pop.getNonInfectedPopulation()));
+        jLabelPopMondial.setText(String.valueOf(pop.getTotalPopulation()));
         drawingPanel.repaint();
     }
     
@@ -74,11 +83,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         UpdateJRegionList(country);
     }
     
-//    @Override
-//    public void OnRegionAdded() {
-//        drawingPanel.repaint();
-//    }
-    
     @Override
     public void OnSimulationStarted() {
         if(countrySelected != null){
@@ -86,10 +90,33 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         }
     }
     
+    @Override
+    public void OnProjectLoaded() {
+        UpdateSimulationUI();
+        DiseaseDTO disease = worldController.GetDiseaseDTO();
+        jTextFieldMortalityRate.setText(String.valueOf(disease.getMortalityRateDTO() * 100));
+        jTextFieldReproductionRate.setText(String.valueOf(disease.getInfectionRateDTO() * 100));
+        jTextFieldCuredRate.setText(String.valueOf(disease.getCureRateDTO() * 100));
+    }
+    
     private void UpdateJLinkList() {
         DefaultListModel listModel = new DefaultListModel();
-        for(LinkDTO l: worldController.GetLinks()){
-            listModel.addElement(l.Id);
+        for(LinkDTO l: worldController.GetLinks()) {
+            String name = "";
+            switch (l.LinkType) {
+                case TERRESTRE:
+                    name = "T - ";
+                    break;
+                case MARITIME:
+                    name = "M - ";
+                    break;
+                default:
+                    name = "A - ";
+                    break;
+            }
+            
+            name += l.Country1.Name + " <-> " + l.Country2.Name;
+            listModel.addElement(name);
         }
         jListLinks.setModel(listModel);
         drawingPanel.repaint();
@@ -102,9 +129,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     
     private void UpdateJRegionList(CountryDTO country) {
         DefaultListModel listModel = new DefaultListModel();
-        for(RegionDTO r: country.Regions) {
-            listModel.addElement(String.format("Region %s | %s | %s", 1, r.PercentagePop * 100, r.SubPopulation.totalPopulationDTO));
-        }
+        country.Regions.forEach(r -> {
+            listModel.addElement(String.format("%s | Pourcentage: %s | Population: %s", r.Name, r.PercentagePop * 100, r.SubPopulation.totalPopulationDTO));
+        });
         jListRegionsList.setModel(listModel);
         drawingPanel.repaint();
     }
@@ -163,14 +190,17 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jTextFieldChangeCountryPop = new javax.swing.JTextField();
         jToggleBtnAddRegion = new javax.swing.JToggleButton();
         jPanelRegionOptions = new javax.swing.JPanel();
-        jLabelNumberRegions = new javax.swing.JLabel();
-        jTextFieldNumberRegions = new javax.swing.JTextField();
         jScrollPaneRegionsList = new javax.swing.JScrollPane();
         jListRegionsList = new javax.swing.JList<>();
+        jLabelTitleRegionList = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        jButtonRemoveRegion = new javax.swing.JButton();
         jToggleBtnModifyRegion = new javax.swing.JToggleButton();
         jSeparator1 = new javax.swing.JSeparator();
         jTextFieldPercentageAddRegion = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jTextFieldRegionName = new javax.swing.JTextField();
+        jLabelTitleRegionName = new javax.swing.JLabel();
         jPanelAddLink = new javax.swing.JPanel();
         jComboBoxAddLink = new javax.swing.JComboBox<>();
         jPanelModifyLink = new javax.swing.JPanel();
@@ -188,13 +218,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jLabelTitleDead = new javax.swing.JLabel();
         jLabelDead = new javax.swing.JLabel();
         jLabelTitleCured = new javax.swing.JLabel();
-        jLabelCured = new javax.swing.JLabel();
+        jLabelPopMondial = new javax.swing.JLabel();
         jLabelTitleDayElapsed = new javax.swing.JLabel();
         jLabelDayElapsed = new javax.swing.JLabel();
         jButtonBacktrack = new javax.swing.JButton();
         jButtonForward = new javax.swing.JButton();
         jLabelTimeLapse = new javax.swing.JLabel();
-        jTextFieldTimeLapse = new javax.swing.JTextField();
+        jTextFieldSimulationTimeStep = new javax.swing.JTextField();
         jTabbedPaneSimulationOptions = new javax.swing.JTabbedPane();
         jPanelDeseaseParams = new javax.swing.JPanel();
         jPanelMortalityRate = new javax.swing.JPanel();
@@ -219,6 +249,16 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jButtonAddMesure = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jCheckBox2 = new javax.swing.JCheckBox();
+        jLabelTitlePopMondial = new javax.swing.JLabel();
+        jLabelCured = new javax.swing.JLabel();
+        jBtnChangeSimulationTimeStep = new javax.swing.JButton();
+        jPanelLegend = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         jMainMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemNew = new javax.swing.JMenuItem();
@@ -368,7 +408,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
-        jTextFieldChangeCountryPop.setText("10");
+        jTextFieldChangeCountryPop.setText("10000");
         jTextFieldChangeCountryPop.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextFieldChangeCountryPopKeyPressed(evt);
@@ -382,21 +422,21 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
-        jLabelNumberRegions.setText("Nombre de regions désiré: ");
-
-        jTextFieldNumberRegions.setText("1");
-        jTextFieldNumberRegions.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldNumberRegionsKeyPressed(evt);
-            }
-        });
-
         jListRegionsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 jListRegionsListValueChanged(evt);
             }
         });
         jScrollPaneRegionsList.setViewportView(jListRegionsList);
+
+        jLabelTitleRegionList.setText("Regions");
+
+        jButtonRemoveRegion.setText("Supprimer la region");
+        jButtonRemoveRegion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRemoveRegionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelRegionOptionsLayout = new javax.swing.GroupLayout(jPanelRegionOptions);
         jPanelRegionOptions.setLayout(jPanelRegionOptionsLayout);
@@ -405,25 +445,26 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             .addGroup(jPanelRegionOptionsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelRegionOptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneRegionsList, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                    .addComponent(jSeparator2)
                     .addGroup(jPanelRegionOptionsLayout.createSequentialGroup()
-                        .addComponent(jScrollPaneRegionsList, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(jPanelRegionOptionsLayout.createSequentialGroup()
-                        .addComponent(jLabelNumberRegions, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextFieldNumberRegions, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34))))
+                        .addComponent(jLabelTitleRegionList)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jButtonRemoveRegion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanelRegionOptionsLayout.setVerticalGroup(
             jPanelRegionOptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelRegionOptionsLayout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addGroup(jPanelRegionOptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelNumberRegions)
-                    .addComponent(jTextFieldNumberRegions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(6, 6, 6)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelTitleRegionList)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPaneRegionsList, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonRemoveRegion)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         jToggleBtnModifyRegion.setText("Modifier régions");
@@ -433,9 +474,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
-        jTextFieldPercentageAddRegion.setText("10");
+        jTextFieldPercentageAddRegion.setText("25");
 
         jLabel2.setText("Pourcentage");
+
+        jTextFieldRegionName.setText("Region");
+
+        jLabelTitleRegionName.setText("Nom");
 
         javax.swing.GroupLayout jPanelModifyCountryLayout = new javax.swing.GroupLayout(jPanelModifyCountry);
         jPanelModifyCountry.setLayout(jPanelModifyCountryLayout);
@@ -457,12 +502,17 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addComponent(jToggleBtnModifyRegion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelModifyCountryLayout.createSequentialGroup()
                         .addGroup(jPanelModifyCountryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator1)
                             .addComponent(jButtonDeleteCountry, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelModifyCountryLayout.createSequentialGroup()
-                                .addComponent(jLabel2)
+                                .addGroup(jPanelModifyCountryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabelTitleRegionName))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextFieldPercentageAddRegion, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanelModifyCountryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextFieldPercentageAddRegion, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                                    .addComponent(jTextFieldRegionName))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator1)))
                         .addContainerGap())))
         );
         jPanelModifyCountryLayout.setVerticalGroup(
@@ -479,8 +529,15 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonDeleteCountry)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
+                .addGroup(jPanelModifyCountryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelModifyCountryLayout.createSequentialGroup()
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelModifyCountryLayout.createSequentialGroup()
+                        .addGroup(jPanelModifyCountryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldRegionName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelTitleRegionName))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanelModifyCountryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldPercentageAddRegion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
@@ -488,7 +545,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addComponent(jToggleBtnAddRegion)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleBtnModifyRegion)
-                .addGap(32, 32, 32)
+                .addGap(18, 18, 18)
                 .addComponent(jPanelRegionOptions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -637,9 +694,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jLabelDead.setText("-");
 
-        jLabelTitleCured.setText("Pop. Mondiale:");
+        jLabelTitleCured.setText("Pop. Saine:");
 
-        jLabelCured.setText("-");
+        jLabelPopMondial.setText("-");
 
         jLabelTitleDayElapsed.setText("Jour:");
 
@@ -661,7 +718,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jLabelTimeLapse.setText("Durée d'un pas de temps (s):");
 
-        jTextFieldTimeLapse.setText("1");
+        jTextFieldSimulationTimeStep.setText("1");
 
         jPanelMortalityRate.setLayout(new java.awt.GridLayout(1, 0));
 
@@ -817,55 +874,71 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jTabbedPaneSimulationOptions.addTab("Mesures sanitaires", jPanelHealthMesures);
 
+        jLabelTitlePopMondial.setText("Pop. Mondiale:");
+
+        jLabelCured.setText("-");
+
+        jBtnChangeSimulationTimeStep.setText("Changer temps");
+        jBtnChangeSimulationTimeStep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnChangeSimulationTimeStepActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelSimulationLayout = new javax.swing.GroupLayout(jPanelSimulation);
         jPanelSimulation.setLayout(jPanelSimulationLayout);
         jPanelSimulationLayout.setHorizontalGroup(
             jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSimulationLayout.createSequentialGroup()
-                .addGap(0, 2, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jTabbedPaneSimulationOptions, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanelSimulationLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelSimulationLayout.createSequentialGroup()
-                        .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelSimulationLayout.createSequentialGroup()
-                                .addComponent(jLabelTitleCase)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabelCase, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                        .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanelSimulationLayout.createSequentialGroup()
-                                .addComponent(jBtnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(13, 13, 13)))
-                        .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelSimulationLayout.createSequentialGroup()
+                                        .addComponent(jLabelTitleCase)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabelCase, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                    .addGroup(jPanelSimulationLayout.createSequentialGroup()
+                                        .addComponent(jBtnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(13, 13, 13)))
+                                .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanelSimulationLayout.createSequentialGroup()
+                                        .addComponent(jBtnPlay)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jBtnPause))
+                                    .addGroup(jPanelSimulationLayout.createSequentialGroup()
+                                        .addComponent(jLabelTitleDead)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabelDead, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabelTitleCured))))
                             .addGroup(jPanelSimulationLayout.createSequentialGroup()
-                                .addComponent(jBtnPlay)
+                                .addComponent(jLabelTitlePopMondial)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBtnPause)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSimulationLayout.createSequentialGroup()
-                                .addComponent(jLabelTitleDead)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabelDead, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabelTitleCured)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabelCured, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(jLabelPopMondial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(11, 11, 11)
+                        .addComponent(jLabelCured, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanelSimulationLayout.createSequentialGroup()
-                        .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelSimulationLayout.createSequentialGroup()
-                                .addComponent(jLabelTimeLapse)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextFieldTimeLapse, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelSimulationLayout.createSequentialGroup()
-                                .addComponent(jLabelTitleDayElapsed)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabelDayElapsed, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButtonBacktrack)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonForward)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jLabelTitleDayElapsed)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelDayElapsed, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonBacktrack)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonForward))
+                    .addGroup(jPanelSimulationLayout.createSequentialGroup()
+                        .addComponent(jLabelTimeLapse)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextFieldSimulationTimeStep, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtnChangeSimulationTimeStep)))
+                .addContainerGap())
         );
         jPanelSimulationLayout.setVerticalGroup(
             jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -879,7 +952,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelTimeLapse)
-                    .addComponent(jTextFieldTimeLapse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldSimulationTimeStep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtnChangeSimulationTimeStep))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnPlay)
@@ -894,11 +968,74 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addComponent(jLabelTitleCured, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelCured, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelTitlePopMondial, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelPopMondial, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPaneSimulationOptions, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedMainPane.addTab("Simulation", jPanelSimulation);
+
+        jPanelLegend.setBackground(new java.awt.Color(153, 153, 153));
+
+        jLabel3.setText("Terrestre");
+
+        jLabel4.setText("Maritime");
+
+        jLabel5.setText("Aerien");
+
+        jLabel7.setBackground(new java.awt.Color(0, 255, 255));
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 255, 255));
+        jLabel7.setText("-----------------");
+
+        jLabel8.setBackground(new java.awt.Color(51, 51, 255));
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel8.setText("-----------------");
+
+        jLabel9.setBackground(new java.awt.Color(255, 51, 255));
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 51, 255));
+        jLabel9.setText("-----------------");
+
+        javax.swing.GroupLayout jPanelLegendLayout = new javax.swing.GroupLayout(jPanelLegend);
+        jPanelLegend.setLayout(jPanelLegendLayout);
+        jPanelLegendLayout.setHorizontalGroup(
+            jPanelLegendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelLegendLayout.createSequentialGroup()
+                .addGroup(jPanelLegendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanelLegendLayout.createSequentialGroup()
+                        .addGroup(jPanelLegendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanelLegendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanelLegendLayout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(70, Short.MAX_VALUE))
+        );
+        jPanelLegendLayout.setVerticalGroup(
+            jPanelLegendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelLegendLayout.createSequentialGroup()
+                .addGroup(jPanelLegendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelLegendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelLegendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel9)))
+        );
 
         jMenu1.setText("File");
 
@@ -951,21 +1088,26 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPaneMap, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTabbedMainPane, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPaneMap)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTabbedMainPane, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 504, Short.MAX_VALUE)
+                        .addComponent(jPanelLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelTitle)
+                .addContainerGap(28, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelLegend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTabbedMainPane, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1003,7 +1145,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         });
         jListMesures.setModel(listMesuresModel);
         
-        //mise è jour list liens
+        //mise des jour list liens
         UpdateJLinkList();
         
     }//GEN-LAST:event_jMenuItemLoadActionPerformed
@@ -1038,8 +1180,25 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 countryPts.add(mousePoint);
             
                 if(countryPts.size() == 2) { // Un peux bete de faire ca, mais on trouvera une solution
-                    worldController.AddCountry(countryPts, jTextFieldAddCountryName.getText(), Integer.parseInt(jTextFieldAddCountryPop.getText()));
-                    drawingPanel.repaint();
+                    try {
+                        String name = jTextFieldAddCountryName.getText();
+                        int population = Integer.parseInt(jTextFieldAddCountryPop.getText());
+                        if(!Utility.StringIsNullOrEmpty(name) && population > 0) {
+                            worldController.AddCountry(countryPts, name, population);
+
+                            jTextFieldAddCountryName.setBackground(Color.white);
+                            jTextFieldAddCountryPop.setBackground(Color.white);
+
+                            drawingPanel.repaint();
+                            countryPts.clear();
+                        } else {
+                            if(Utility.StringIsNullOrEmpty(name)) jTextFieldAddCountryName.setBackground(Color.red);
+                            if(population <= 0) jTextFieldAddCountryPop.setBackground(Color.red);
+                        }
+                    }catch(NumberFormatException e) {
+                        jTextFieldAddCountryPop.setBackground(Color.red);
+                    }
+                    
                     countryPts.clear();
                 }
                 break;
@@ -1179,22 +1338,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         for(int i = 0; i < index.length; i++) {
             UUID id = links.get(index[i]).Id;
             worldController.RemoveLink(id);            
-        } 
-    }//GEN-LAST:event_jButtonDeleteLinkActionPerformed
-
-    private void jTextFieldNumberRegionsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNumberRegionsKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            int numberOfRegions = Integer.parseInt(jTextFieldNumberRegions.getText());
-            double initialPercent = 1 / numberOfRegions;
-            DefaultListModel listModel = new DefaultListModel();
-            for (int i = 0; i < numberOfRegions; i++) {
-                String name = "Region " + Integer.toString(i + 1);
-//                worldController.AddRegion(countrySelected.Id, initialPercent, name);
-                listModel.addElement(name);
-            }
-            jListRegionsList.setModel(listModel);
         }
-    }//GEN-LAST:event_jTextFieldNumberRegionsKeyPressed
+    }//GEN-LAST:event_jButtonDeleteLinkActionPerformed
 
     private void jListLinksValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListLinksValueChanged
         List<LinkDTO> links = worldController.GetLinks();
@@ -1212,29 +1357,48 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }//GEN-LAST:event_jListLinksValueChanged
 
     private void jButtonAddMesureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddMesureActionPerformed
-        System.out.println("on applique une mesure");
-        worldController.AddMesure(Double.parseDouble(jTextFieldAdhesionRate.getText()), jCheckBoxActiveMesure.isSelected(), jTextFieldMesureName.getText());
-        DefaultListModel listMesuresModel = new DefaultListModel();
-        worldController.GetHealthMesures().forEach(m -> {
-            listMesuresModel.addElement(m.MesureName + " " + m.IsActive + " " + m.AdhesionRate + "%");
-        });
-        jListMesures.setModel(listMesuresModel);
+        try {
+            String mesureName = jTextFieldMesureName.getText();
+            double adhesion = Double.parseDouble(jTextFieldAdhesionRate.getText());
+            if(!Utility.StringIsNullOrEmpty(mesureName) && adhesion >= 0) { 
+                worldController.AddMesure(adhesion, jCheckBoxActiveMesure.isSelected(), mesureName);
+                DefaultListModel listMesuresModel = new DefaultListModel();
+                worldController.GetHealthMesures().forEach(m -> {
+                    listMesuresModel.addElement(m.MesureName + " " + m.IsActive + " " + m.AdhesionRate + "%");
+                });
+                jListMesures.setModel(listMesuresModel);
+
+                jTextFieldMesureName.setBackground(Color.white);
+                jTextFieldAdhesionRate.setBackground(Color.white);
+                drawingPanel.repaint();
+            } else {
+                if (Utility.StringIsNullOrEmpty(mesureName)) jTextFieldMesureName.setBackground(Color.red);
+                if (adhesion < 0) jTextFieldAdhesionRate.setBackground(Color.red);
+            }
+        } catch(NumberFormatException e) {
+            jTextFieldAdhesionRate.setBackground(Color.red);
+        }
     }//GEN-LAST:event_jButtonAddMesureActionPerformed
 
     private void jButtonApplyDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyDiseaseActionPerformed
-        double infectionRate = Double.parseDouble(jTextFieldReproductionRate.getText())/100;
-        double mortalityRate = Double.parseDouble(jTextFieldMortalityRate.getText())/100;
-        double cureRate = Double.parseDouble(jTextFieldCuredRate.getText())/100;
-        if( infectionRate >=0 && infectionRate <=1 &&
-            mortalityRate >=0 && mortalityRate <=1 && 
-            cureRate >=0 && cureRate <=1)
-            {
-            DiseaseDTO diseaseDTO = new DiseaseDTO(cureRate, mortalityRate , infectionRate);
-            worldController.UpdateDiseaseFromDTO(diseaseDTO);
-            System.out.println("on update disease");
+        try {
+            double infectionRate = Double.parseDouble(jTextFieldReproductionRate.getText())/100;
+            double mortalityRate = Double.parseDouble(jTextFieldMortalityRate.getText())/100;
+            double cureRate = Double.parseDouble(jTextFieldCuredRate.getText())/100;
+            if(infectionRate >= 0 && infectionRate <=1 && mortalityRate >=0 && mortalityRate <=1 && 
+                cureRate >= 0 && cureRate <=1) {
+                    worldController.UpdateDiseaseFromDTO(infectionRate, mortalityRate, cureRate);
+                    jTextFieldReproductionRate.setBackground(Color.white);
+                    jTextFieldMortalityRate.setBackground(Color.white);
+                    jTextFieldCuredRate.setBackground(Color.white);
+                }
+            else{
+                if(infectionRate < 0) jTextFieldReproductionRate.setBackground(Color.red);
+                if(mortalityRate < 0) jTextFieldMortalityRate.setBackground(Color.red);
+                if(cureRate < 0) jTextFieldCuredRate.setBackground(Color.red);
             }
-        else{
-            System.out.println("valeur non comprise entre 0 et 100");
+        } catch(NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Un des champs n'est pas valide");
         }
     }//GEN-LAST:event_jButtonApplyDiseaseActionPerformed
 
@@ -1251,7 +1415,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }//GEN-LAST:event_jButtonBacktrackActionPerformed
 
     private void jBtnPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPlayActionPerformed
-        worldController.StartSimulation();
+        try {
+            int timeInMs = (int)(Double.parseDouble(jTextFieldSimulationTimeStep.getText()) * 1000);
+            worldController.StartSimulation(timeInMs);
+            jTextFieldSimulationTimeStep.setBackground(Color.white);
+        } catch(NumberFormatException e) {
+            jTextFieldSimulationTimeStep.setBackground(Color.red);
+        }
     }//GEN-LAST:event_jBtnPlayActionPerformed
 
     private void jBtnPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPauseActionPerformed
@@ -1268,11 +1438,23 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
     private void jToggleBtnAddRegionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleBtnAddRegionActionPerformed
         if(countrySelected != null) {
-            double percentage = Double.parseDouble(jTextFieldPercentageAddRegion.getText()) / 100.0;
-            if(percentage > 0.0) {
-                worldController.AddRegion(countrySelected.Id, percentage);
-                UpdateJRegionList(countrySelected.Id);
-                drawingPanel.repaint();
+            try {
+                double percentage = Double.parseDouble(jTextFieldPercentageAddRegion.getText()) / 100.0;
+                String name = jTextFieldRegionName.getText();
+                if(percentage > 0.0 && !Utility.StringIsNullOrEmpty(name)) {
+                    worldController.AddRegion(countrySelected.Id, name, percentage);
+                    UpdateJRegionList(countrySelected.Id);
+                    
+                    jTextFieldPercentageAddRegion.setBackground(Color.white);
+                    jTextFieldRegionName.setBackground(Color.white);
+                    
+                    drawingPanel.repaint();
+                } else {
+                    if(percentage < 0) jTextFieldPercentageAddRegion.setBackground(Color.red);
+                    if(Utility.StringIsNullOrEmpty(name)) jTextFieldRegionName.setBackground(Color.red);
+                }
+            } catch(NumberFormatException e) {
+                    jTextFieldPercentageAddRegion.setBackground(Color.red);
             }
         }
     }//GEN-LAST:event_jToggleBtnAddRegionActionPerformed
@@ -1282,25 +1464,66 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         if(countrySelected != null) {
             if(index != -1) {
                 RegionDTO region = countrySelected.Regions.get(index);
+                
+                try {
+                    double percentage = Double.parseDouble(jTextFieldPercentageAddRegion.getText()); //TODO: > 0 && < 100
+                    region.PercentagePop = percentage / 100.0;
 
-                double percentage = Double.parseDouble(jTextFieldPercentageAddRegion.getText()); //TODO: > 0 && < 100
-                region.PercentagePop = percentage / 100.0;
-
-                worldController.UpdateRegion(countrySelected.Id, region);
-                UpdateJRegionList(countrySelected.Id);
+                    worldController.UpdateRegion(countrySelected.Id, region);
+                    UpdateJRegionList(countrySelected.Id);
+                    
+                    jTextFieldPercentageAddRegion.setBackground(Color.white);
+                } catch(NumberFormatException e) {
+                    jTextFieldPercentageAddRegion.setBackground(Color.red);
+                }
             }
         }
     }//GEN-LAST:event_jToggleBtnModifyRegionActionPerformed
 
     private void jListRegionsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListRegionsListValueChanged
         if(countrySelected != null) {
+            countrySelected = worldController.GetCountries().stream().filter(c -> c.Id.equals(countrySelected.Id)).findFirst().get();
+            List<RegionDTO> regions = countrySelected.Regions;
+            
+            regions.stream().filter(r -> (r.IsSelected)).forEachOrdered(r -> {
+                worldController.UpdateSelectionStateRegion(countrySelected.Id, r.Id, false);
+            });
+            
             int index = jListRegionsList.getSelectedIndex();
             if(index != -1) {
+                worldController.UpdateSelectionStateRegion(countrySelected.Id, regions.get(index).Id, true);
                 double percentage = worldController.GetCountries().stream().filter(c -> c.Id.equals(countrySelected.Id)).findFirst().get().Regions.get(index).PercentagePop;
                 jTextFieldPercentageAddRegion.setText(String.valueOf(percentage * 100.0));
             }
         }
     }//GEN-LAST:event_jListRegionsListValueChanged
+
+    private void jBtnChangeSimulationTimeStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnChangeSimulationTimeStepActionPerformed
+        try {
+            if(worldController.IsRunning()) {
+                int timeInMs = (int)(Double.parseDouble(jTextFieldSimulationTimeStep.getText()) * 1000);
+                worldController.pauseSimulation();
+                worldController.StartSimulation(timeInMs);
+                
+                jTextFieldSimulationTimeStep.setBackground(Color.white);
+            }
+        } catch(NumberFormatException e) {
+            jTextFieldSimulationTimeStep.setBackground(Color.red);
+        }
+    }//GEN-LAST:event_jBtnChangeSimulationTimeStepActionPerformed
+
+    private void jButtonRemoveRegionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveRegionActionPerformed
+        if(countrySelected != null) {            
+            int index = jListRegionsList.getSelectedIndex();
+            if(index != -1) {
+                if(countrySelected.Regions.size() > 1) {
+                    UUID regionId = countrySelected.Regions.get(index).Id;
+                    worldController.RemoveRegion(countrySelected.Id, regionId);   
+                    UpdateJRegionList(countrySelected.Id);
+                }
+            }
+        }
+    }//GEN-LAST:event_jButtonRemoveRegionActionPerformed
 
     public void Draw(Graphics g){
         worldController.Draw(g); 
@@ -1347,6 +1570,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupConception;
     private javax.swing.ButtonGroup buttonGroupSimulation;
+    private javax.swing.JButton jBtnChangeSimulationTimeStep;
     private javax.swing.JButton jBtnPause;
     private javax.swing.JButton jBtnPlay;
     private javax.swing.JButton jBtnReset;
@@ -1356,12 +1580,19 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JButton jButtonDeleteCountry;
     private javax.swing.JButton jButtonDeleteLink;
     private javax.swing.JButton jButtonForward;
+    private javax.swing.JButton jButtonRemoveRegion;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBoxActiveMesure;
     private javax.swing.JComboBox<String> jComboBoxAddLink;
     private javax.swing.JComboBox<String> jComboBoxModifyLink;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelAddCountryName;
     private javax.swing.JLabel jLabelAddCountryPop;
     private javax.swing.JLabel jLabelAdhesionRate;
@@ -1373,7 +1604,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JLabel jLabelModCountryName;
     private javax.swing.JLabel jLabelModCountryPop;
     private javax.swing.JLabel jLabelModifyLinkType;
-    private javax.swing.JLabel jLabelNumberRegions;
+    private javax.swing.JLabel jLabelPopMondial;
     private javax.swing.JLabel jLabelTimeLapse;
     private javax.swing.JLabel jLabelTitle;
     private javax.swing.JLabel jLabelTitleCase;
@@ -1382,6 +1613,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JLabel jLabelTitleDayElapsed;
     private javax.swing.JLabel jLabelTitleDead;
     private javax.swing.JLabel jLabelTitleMortalityRate;
+    private javax.swing.JLabel jLabelTitlePopMondial;
+    private javax.swing.JLabel jLabelTitleRegionList;
+    private javax.swing.JLabel jLabelTitleRegionName;
     private javax.swing.JLabel jLabelTitleReproductionRate;
     private javax.swing.JList<String> jListLinks;
     private javax.swing.JList<String> jListMesures;
@@ -1403,6 +1637,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JPanel jPanelDeseaseParams;
     private javax.swing.JPanel jPanelDraw;
     private javax.swing.JPanel jPanelHealthMesures;
+    private javax.swing.JPanel jPanelLegend;
     private javax.swing.JPanel jPanelModifyCountry;
     private javax.swing.JPanel jPanelModifyLink;
     private javax.swing.JPanel jPanelMortalityRate;
@@ -1415,6 +1650,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JScrollPane jScrollPaneOtherMeasures;
     private javax.swing.JScrollPane jScrollPaneRegionsList;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedMainPane;
     private javax.swing.JTabbedPane jTabbedPaneSimulationOptions;
     private javax.swing.JTextField jTextFieldAddCountryName;
@@ -1425,10 +1661,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JTextField jTextFieldCuredRate;
     private javax.swing.JTextField jTextFieldMesureName;
     private javax.swing.JTextField jTextFieldMortalityRate;
-    private javax.swing.JTextField jTextFieldNumberRegions;
     private javax.swing.JTextField jTextFieldPercentageAddRegion;
+    private javax.swing.JTextField jTextFieldRegionName;
     private javax.swing.JTextField jTextFieldReproductionRate;
-    private javax.swing.JTextField jTextFieldTimeLapse;
+    private javax.swing.JTextField jTextFieldSimulationTimeStep;
     private javax.swing.JToggleButton jToggleBtnAddCountry;
     private javax.swing.JToggleButton jToggleBtnAddLink;
     private javax.swing.JToggleButton jToggleBtnAddRegion;
