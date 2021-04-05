@@ -5,6 +5,7 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,6 @@ import  mathematical_model.Calculation;
  */
 public class Simulation implements Serializable {
     private Calculation calculation = new Calculation();
-    
     private boolean isRunning = false;
     private int elapsedDay = 0;
     private ArrayList<Integer> dataHistory = new ArrayList<Integer>();
@@ -80,7 +80,6 @@ public class Simulation implements Serializable {
                                     updateCountriesWithLinks(link.getCountry1(),link.getCountry2());
                                 }
                             }
-                            
                         }   
                         controller.getWorld().updateWorldPopulation();
                         
@@ -286,6 +285,19 @@ public class Simulation implements Serializable {
         
         int newInfectedPop = calculation.Calculate(countryInfectedPop,0.05);
         return newInfectedPop;
+    }
+    
+  
+    private void writeObject(java.io.ObjectOutputStream stream)
+        throws IOException {
+
+    int Day = elapsedDay;
+    List<Link> worlLinkList = controller.getWorld().getLinks();
+    List<Country> countryList = controller.getWorld().getCountries();
+
+    stream.writeInt(Day);
+    stream.writeObject(worlLinkList);
+    stream.writeObject(countryList);
     }
     
     

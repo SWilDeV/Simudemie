@@ -239,4 +239,6 @@ public class World implements Serializable {
         worldPopulation.setDeadPopulation(deadPop);
         worldPopulation.setTotalPopulation(totalPop);
     }
+    
+    
 }

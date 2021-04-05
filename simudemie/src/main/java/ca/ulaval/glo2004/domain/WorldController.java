@@ -219,10 +219,10 @@ public class WorldController implements java.io.Serializable {
     public void save(File file) {
         try {
             FileOutputStream fileOut = new FileOutputStream(file);
+            
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(world);
-            out.writeObject(simulation);
-            //out.writeObject(disease);
+            out.writeObject(disease);
             out.writeObject(mesures);
             out.close();
             fileOut.close();
