@@ -83,6 +83,7 @@ public class Simulation implements java.io.Serializable {
                                if(controller.getWorld().getWorldPopulation().getTotalPopulation()>0){
 //                               if(regionUpdated.getPopulation().getTotalPopulation()>regionUpdated.getPopulation().getInfectedPopulation()){
                                     controller.getWorld().updateRegionFromSimulation(country, regionUpdated);
+                                    System.out.println(regionUpdated.getPopulation().getInfectedPopulation());
 
                                }else{
                                     timer.cancel();

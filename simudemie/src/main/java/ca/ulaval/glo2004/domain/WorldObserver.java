@@ -5,8 +5,6 @@
  */
 package ca.ulaval.glo2004.domain;
 
-import java.util.List;
-
 /**
  *
  * @author Abergel Clement

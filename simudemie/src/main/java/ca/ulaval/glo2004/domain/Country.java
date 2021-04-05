@@ -14,6 +14,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -59,6 +60,7 @@ public class Country implements Serializable {
         } else {
             shape = new IrregularForm(countryDTO.Shape.GetPoints());
         }
+        regions = countryDTO.Regions.stream().map(r -> r.toRegion()).collect(Collectors.toList());
         population.setTotalPopulation(countryDTO.getPopulationDTO().getTotalPopulationDTO());
         population.setCuredPopulation(countryDTO.getPopulationDTO().getCuredPopulationDTO());
         population.setInfectedPopulation(countryDTO.getPopulationDTO().getInfectedPopulationDTO());
@@ -184,8 +186,32 @@ public class Country implements Serializable {
 //            popPercentage = 0;
 //        }
         
-        Region region = new Region(population.getTotalPopulation(), popPercentage);
+        RegularForm form = new RegularForm(shape.GetPoints());
+        Region region = new Region(form, population.getTotalPopulation(), popPercentage);
         regions.add(region);
+        
+        SetRegionPosition();
+    }
+    
+    private void SetRegionPosition() {
+        List<Point> pts = shape.GetPoints();
+        int regionCount = regions.size();
+        int width = Utility.Distance(pts.get(0), pts.get(1));
+        int height = Utility.Distance(pts.get(1), pts.get(2));
+        
+        int stepY = height / regionCount;
+        int heightY = stepY;
+        Point topLeft = Utility.GetTopLeftPoint(pts);
+        Point bottomRight = Utility.GetBottomRightPoint(pts);
+
+        for(int y = 0; y < regionCount; y++) {
+            Point bt = new Point(topLeft.x + width, topLeft.y + (y+1) * heightY);
+            if(y == (regionCount-1)) {
+               bt.y = Utility.GetBottomRightPoint(pts).y;
+            }
+            
+            regions.get(y).ModifyShape(new Point(topLeft.x, y * stepY +  topLeft.y), bt);
+        }
     }
     
 //    public void addRegionsToList(int population){
