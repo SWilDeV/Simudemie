@@ -5,6 +5,7 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.io.Serializable;
 import java.awt.Point;
 import java.util.List;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.UUID;
  *
  * @author charl
  */
-public class Region {
+public class Region implements Serializable {
     
     private double percentagePop;
     private Population subPopulation;

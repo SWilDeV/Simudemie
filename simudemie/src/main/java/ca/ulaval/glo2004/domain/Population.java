@@ -18,6 +18,7 @@ public class Population implements Serializable {
     private int curedPopulation = 0;
     private int deadPopulation = 0;
     private int nonInfectedPopulation =0;
+    private static final long serialVersionUID = 5L; 
     
     public Population(){
     }

@@ -40,6 +40,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private CountryDTO onHoverCountry = null; //Je sais que c'est pas bien, mais pour test, on va faire ca.
     private Point onHoverMousePosition = new Point(); //Je sais que c'est pas bien, mais pour test, on va faire ca.
     private final JFileChooser fileChooser;
+ 
     /**
      * Creates new form MainWindow
      */
@@ -994,6 +995,17 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             worldController.load(fileChooser.getSelectedFile());
         }
+        DefaultListModel listMesuresModel = new DefaultListModel();
+        
+        //mise à jour liste healthmesures
+        worldController.GetHealthMesures().forEach(m -> {
+            listMesuresModel.addElement(m.MesureName + " " + m.IsActive + " " + m.AdhesionRate + "%");
+        });
+        jListMesures.setModel(listMesuresModel);
+        
+        //mise è jour list liens
+        UpdateJLinkList();
+        
     }//GEN-LAST:event_jMenuItemLoadActionPerformed
 
     private void jMenuItemUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUndoActionPerformed
@@ -1202,11 +1214,11 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private void jButtonAddMesureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddMesureActionPerformed
         System.out.println("on applique une mesure");
         worldController.AddMesure(Double.parseDouble(jTextFieldAdhesionRate.getText()), jCheckBoxActiveMesure.isSelected(), jTextFieldMesureName.getText());
-        DefaultListModel listModel = new DefaultListModel();
+        DefaultListModel listMesuresModel = new DefaultListModel();
         worldController.GetHealthMesures().forEach(m -> {
-            listModel.addElement(m.MesureName + " " + m.IsActive + " " + m.AdhesionRate + "%");
+            listMesuresModel.addElement(m.MesureName + " " + m.IsActive + " " + m.AdhesionRate + "%");
         });
-        jListMesures.setModel(listModel);
+        jListMesures.setModel(listMesuresModel);
     }//GEN-LAST:event_jButtonAddMesureActionPerformed
 
     private void jButtonApplyDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyDiseaseActionPerformed

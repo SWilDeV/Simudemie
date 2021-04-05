@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  *
  * @author charl
  */
-public class Country implements Serializable {
+public class Country implements Serializable  {
     
     private List<Region> regions = new ArrayList<>();
     private Population population;
@@ -29,6 +29,7 @@ public class Country implements Serializable {
     private String name;
     private final UUID id;
     private boolean isSelected;
+    private static final long serialVersionUID = 2L; 
     
     public Country(GeometricForm form, String countryName, int countryPop){
         id = UUID.randomUUID();

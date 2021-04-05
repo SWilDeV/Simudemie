@@ -5,18 +5,20 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  *
  * @author melanietremblay
  */
-public abstract class HealthMesure {
+public abstract class HealthMesure implements Serializable {
     
     protected double adhesionRate;
     protected boolean isActive = false;
     protected String mesureName;
     private final UUID id; 
+    private static final long serialVersionUID = 6L; 
     
     public HealthMesure(double p_adhesionRate, boolean p_isActive, String p_mesureName) {
         id = UUID.randomUUID();
