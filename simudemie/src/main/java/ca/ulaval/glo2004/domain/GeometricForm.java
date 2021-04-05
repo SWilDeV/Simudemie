@@ -30,7 +30,7 @@ public abstract class GeometricForm implements Serializable {
         float directionX = position.x - center.x;
         float directionY = position.y - center.y;
         
-        for(int i =0; i < points.size(); i++) {
+        for(int i = 0; i < points.size(); i++) {
             points.get(i).x += directionX;
             points.get(i).y += directionY;
         }

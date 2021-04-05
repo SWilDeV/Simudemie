@@ -381,10 +381,10 @@
                                           <Component id="jTextFieldChangeCountryPop" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Component id="jToggleBtnAddRegion" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jToggleBtnModifyRegion" alignment="0" max="32767" attributes="0"/>
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Component id="jButtonModifyRegion" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jButtonAddRegion" alignment="0" max="32767" attributes="0"/>
                                           <Component id="jButtonDeleteCountry" alignment="1" max="32767" attributes="0"/>
                                           <Group type="102" alignment="1" attributes="0">
                                               <Group type="103" groupAlignment="0" attributes="0">
@@ -439,10 +439,10 @@
                                   <Component id="jTextFieldPercentageAddRegion" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jToggleBtnAddRegion" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jToggleBtnModifyRegion" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jButtonAddRegion" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+                              <Component id="jButtonModifyRegion" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jPanelRegionOptions" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
@@ -483,14 +483,6 @@
                       </Properties>
                       <Events>
                         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldChangeCountryPopKeyPressed"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JToggleButton" name="jToggleBtnAddRegion">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Ajouter r&#xe9;gion"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleBtnAddRegionActionPerformed"/>
                       </Events>
                     </Component>
                     <Container class="javax.swing.JPanel" name="jPanelRegionOptions">
@@ -569,14 +561,6 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Component class="javax.swing.JToggleButton" name="jToggleBtnModifyRegion">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Modifier r&#xe9;gions"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleBtnModifyRegionActionPerformed"/>
-                      </Events>
-                    </Component>
                     <Component class="javax.swing.JSeparator" name="jSeparator1">
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldPercentageAddRegion">
@@ -598,6 +582,22 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Nom"/>
                       </Properties>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="jButtonAddRegion">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Ajouter la region"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAddRegionActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="jButtonModifyRegion">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Modifier la region"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonModifyRegionActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>

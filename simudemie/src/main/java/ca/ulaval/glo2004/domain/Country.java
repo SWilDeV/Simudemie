@@ -38,7 +38,15 @@ public class Country implements Serializable  {
         
         population = new Population(countryPop);
         
-        this.addRegion("Region 1", 1.0);
+        Point topLeft = Utility.GetTopLeftPoint(shape.GetPoints());
+        List<Point> pts = new ArrayList<Point>(){
+            {
+                add(new Point(topLeft.x + 10, topLeft.y + 10));
+                add(new Point(topLeft.x + 50, topLeft.y + 50));
+            }  
+        };
+        
+        addRegion(Utility.ToRectangle(pts), "Region 1", 1.0);
     }
     
     @Override
@@ -61,6 +69,7 @@ public class Country implements Serializable  {
         } else {
             shape = new IrregularForm(countryDTO.Shape.GetPoints());
         }
+        
         regions = countryDTO.Regions.stream().map(r -> r.toRegion()).collect(Collectors.toList());
         population.setTotalPopulation(countryDTO.getPopulationDTO().getTotalPopulationDTO());
         population.setCuredPopulation(countryDTO.getPopulationDTO().getCuredPopulationDTO());
@@ -70,16 +79,19 @@ public class Country implements Serializable  {
     }
     
     public Color getColor() {
-        double percentageInfected = this.population.getInfectedPopulation() / this.population.getTotalPopulation(); 
-        //TODO: mel à retravailler, car je ne suis pas certaine que c'est la bonne facon de faire
-        if (percentageInfected >= 0.25 && percentageInfected < 0.5) {
-            this.color = new Color(255,255,0); 
-        } else if (percentageInfected >= 0.5) {
-            this.color = new Color(255,0,0);
-        } else {
-            this.color = new Color(50,205,50);
+        double p = 1.0;
+        if(population.getTotalPopulation() > 0) {
+            if(population.getInfectedPopulation() > 0) {
+                p = (population.getInfectedPopulation() + population.getDeadPopulation()) / (double)(population.getTotalPopulation() + population.getDeadPopulation());
+                if(p > 1) {
+                    p = 1;
+                }
+            } else {
+                p = 0.0;
+            }
         }
-        return this.color;
+        
+        return Utility.GetColorGradient(p);
     }
     
     public UUID GetId() {
@@ -181,32 +193,10 @@ public class Country implements Serializable  {
     
     /////////////////REGIONS////////////////////////
     
-    public void addRegion(String regionName, double popPercentage) {       
-        RegularForm form = new RegularForm(shape.GetPoints());
+    public void addRegion(List<Point> points, String regionName, double popPercentage) {       
+        RegularForm form = new RegularForm(points);
         Region region = new Region(form, regionName, population.getTotalPopulation(), popPercentage);
         regions.add(region);
-        
-        SetRegionPosition();
-    }
-    
-    private void SetRegionPosition() {
-        List<Point> pts = shape.GetPoints();
-        int regionCount = regions.size();
-        int width = Utility.Distance(pts.get(0), pts.get(1));
-        int height = Utility.Distance(pts.get(1), pts.get(2));
-        
-        int stepY = height / regionCount;
-        int heightY = stepY;
-        Point topLeft = Utility.GetTopLeftPoint(pts);
-
-        for(int y = 0; y < regionCount; y++) {
-            Point bt = new Point(topLeft.x + width, topLeft.y + (y+1) * heightY);
-            if(y == (regionCount-1)) {
-               bt.y = Utility.GetBottomRightPoint(pts).y;
-            }
-            
-            regions.get(y).ModifyShape(new Point(topLeft.x, y * stepY +  topLeft.y), bt);
-        }
     }
     
     public Region FindRegionByUUID(UUID id) {
@@ -228,13 +218,17 @@ public class Country implements Serializable  {
         }
     }
     
-    public void ValidateRegions() {
+    public void ValidateRegions() throws NotAllPopulationAssign {
         double totalPercentage = 0.0;
         for(Region r: regions) {
             totalPercentage += r.getPercentagePop();
             if(totalPercentage > 1) {
-                r.SetPercentage(population.getTotalPopulation(), 0.0);
+                throw new NotAllPopulationAssign("Les régions ont plus de population que le pays!");
             }
+        }
+        
+        if(totalPercentage != 1.0) {
+            throw new NotAllPopulationAssign("La population total n'as pas été complètement assigné.");
         }
     }
     
@@ -247,16 +241,7 @@ public class Country implements Serializable  {
     
     public void setPopulationToRegion(Population population){ //faudrait ajouter un index ou un id de la region
         for(Region region:regions){
-            //if(region.id == id){
             region.setPopulation(population);
-            //}
         }  
     }
-//    
-//    public void updateRegion(Region region) {
-//        Region r = FindRegionByUUID(region.GetId());
-//        if(r != null){
-//            r.updateRegion(region);
-//        }
-//    }
 }

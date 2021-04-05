@@ -26,7 +26,7 @@ public class Region implements Serializable {
     private boolean isSelected = false;
     
     public Region(RegularForm form, String name, int countryPopulation, double percentage) {
-        name = this.name;
+        this.name = name;
         shape = form;
         id = UUID.randomUUID();
         SetPercentage(countryPopulation, percentage);
