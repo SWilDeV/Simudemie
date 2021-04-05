@@ -5,13 +5,14 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  *
  * @author melanietremblay
  */
-public abstract class HealthMesure {
+public abstract class HealthMesure implements Serializable {
     
     protected double adhesionRate;
     protected boolean isActive = false;
