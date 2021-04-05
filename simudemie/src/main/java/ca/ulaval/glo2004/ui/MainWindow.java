@@ -1003,6 +1003,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         });
         jListMesures.setModel(listMesuresModel);
         
+        //mise è jour list liens
+        UpdateJLinkList();
+        
     }//GEN-LAST:event_jMenuItemLoadActionPerformed
 
     private void jMenuItemUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUndoActionPerformed
