@@ -6,6 +6,9 @@
 package ca.ulaval.glo2004.domain;
 
 import java.io.Serializable;
+import java.awt.Point;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -16,11 +19,34 @@ public class Region implements Serializable {
     
     private double percentagePop;
     private Population subPopulation;
+    private RegularForm shape;
     private final UUID id;
     
-    public Region(int countryPopulation, double percentage){
+    public Region(RegularForm form, int countryPopulation, double percentage) {
+        shape = form;
         id = UUID.randomUUID();
         SetPercentage(countryPopulation, percentage);
+    }
+    
+    public Region(UUID id, RegularForm form, Population population, double percentage) {
+        shape = form;
+        this.id = id;
+        subPopulation = population;
+        percentagePop = percentage;
+    }
+    
+    public void ModifyShape(Point p1, Point p2) {
+        List<Point> pts = new ArrayList<Point>(){
+            {
+                add(p1);
+                add(p2);
+            }
+        };
+        shape = new RegularForm(Utility.ToRectangle(pts));
+    }
+    
+    public RegularForm GetShape() {
+        return shape;
     }
     
     public UUID GetId() {

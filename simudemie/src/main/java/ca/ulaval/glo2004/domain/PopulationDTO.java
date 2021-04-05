@@ -23,6 +23,11 @@ public class PopulationDTO {
         deadPopulationDTO = population.getDeadPopulation();
         nonInfectedPopulationDTO = population.getNonInfectedPopulation();
     }
+    
+    public Population toPopulation() {
+        return new Population(totalPopulationDTO, infectedPopulationDTO, curedPopulationDTO, deadPopulationDTO, nonInfectedPopulationDTO);
+    }
+    
     public int getTotalPopulationDTO(){
         return totalPopulationDTO;
     }

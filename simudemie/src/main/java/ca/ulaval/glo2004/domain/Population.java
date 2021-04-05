@@ -21,6 +21,15 @@ public class Population implements Serializable {
     
     public Population(){
     }
+    
+    public Population(int totalPopulation, int infectedPopulation, int curedPopulation, int deadPopulation, int nonInfectedPopulation) {
+        this.totalPopulation = totalPopulation;
+        this.infectedPopulation = infectedPopulation;
+        this.curedPopulation = curedPopulation;
+        this.deadPopulation = deadPopulation;
+        this.nonInfectedPopulation =nonInfectedPopulation;
+    }
+    
     //   methodes
     public Population(int p_TotalPop){
         this.totalPopulation = p_TotalPop;

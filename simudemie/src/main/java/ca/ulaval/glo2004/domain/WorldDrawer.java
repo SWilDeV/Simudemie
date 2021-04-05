@@ -37,47 +37,94 @@ public class WorldDrawer implements java.io.Serializable {
         drawLinks(g);
     }
     
-    public void drawCountryInfos(Graphics g, Point mousePosition, CountryDTO country) {  
-        
-        String totalPopulation = String.valueOf(country.populationDTO.totalPopulationDTO);
+    public void drawRegionInfo(Graphics g, Point mousePosition, RegionDTO region) {
+        String totalPopulation = String.valueOf(region.SubPopulation.totalPopulationDTO);
         int boxWidth = totalPopulation.length() * 8 + 100;
         
         g.setColor(Color.WHITE);
         g.fillRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
         g.setColor(Color.BLACK);
         g.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
-        Point center = country.Shape.GetCenter();
 
         int tempY = (int)mousePosition.getY();
-        for(String str: country.toString().split("\n")) {
+        for(String str: region.toString().split("\n")) {
             g.drawString(str, (int)mousePosition.getX() + 1, tempY += g.getFontMetrics().getHeight());        
         }
     }
     
-    private void drawRegion(Graphics g, CountryDTO country) {
-        List<Point> pts = country.Shape.GetPoints();
-        int width = Utility.Distance(pts.get(0), pts.get(1));
-        int height = Utility.Distance(pts.get(1), pts.get(2));
+    public void drawCountryInfos(Graphics g, Point mousePosition, CountryDTO country) {  
         
-        int regionCount = country.Regions.size();
-        
-        if(regionCount > 0) {   
-            int stepY = height / regionCount;
-            int heightY = stepY;
-            Point topLeft = Utility.GetTopLeftPoint(pts);
-            Point bottomRight = Utility.GetBottomRightPoint(pts);
+//        String totalPopulation = String.valueOf(country.populationDTO.totalPopulationDTO);
+//        int boxWidth = totalPopulation.length() * 8 + 100;
+//        
+//        g.setColor(Color.WHITE);
+//        g.fillRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
+//        g.setColor(Color.BLACK);
+//        g.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
+//
+//        int tempY = (int)mousePosition.getY();
+//        for(String str: country.toString().split("\n")) {
+//            g.drawString(str, (int)mousePosition.getX() + 1, tempY += g.getFontMetrics().getHeight());        
+//        }
 
-            for(int y = 0; y < regionCount; y++) {
-                if(y == (regionCount-1)) {
-                    heightY = Utility.Distance(bottomRight, new Point(topLeft.x + width, y * stepY +  topLeft.y));
-                }
 
-                g.setColor(Color.green);
-                g.fillRect(topLeft.x, y * stepY +  topLeft.y, width, heightY);
-                g.setColor(Color.black);
-                g.drawRect(topLeft.x, y * stepY +  topLeft.y, width, heightY);
+        for(RegionDTO r: country.Regions) {
+            if(Utility.IsInRectangle(r.Shape.GetPoints(), mousePosition)) {
+                drawRegionInfo(g, mousePosition, r);
             }
         }
+    }
+    
+    private Polygon CreatePolygon(List<Point> pts) {
+        int size =  pts.size();
+            int[] pointsX = new int[size];
+            int[] pointsY = new int[size];
+            
+            for(int i = 0; i < size; i++) {
+                Point pt = pts.get(i);
+                pointsX[i] = (int)pt.getX();
+                pointsY[i] = (int)pt.getY();
+            }
+            
+        return new Polygon(pointsX, pointsY, size);
+    }
+    
+    private void drawRegion(Graphics g, CountryDTO country) {
+        
+        for(RegionDTO r: country.Regions) {
+            List<Point> pts = r.Shape.GetPoints();
+            
+            Polygon poly = CreatePolygon(pts);
+            
+            g.setColor(Color.green);
+            g.fillPolygon(poly);
+            g.setColor(Color.black);
+            g.drawPolygon(poly);
+        }
+        
+//        List<Point> pts = country.Shape.GetPoints();
+//        int width = Utility.Distance(pts.get(0), pts.get(1));
+//        int height = Utility.Distance(pts.get(1), pts.get(2));
+//        
+//        int regionCount = country.Regions.size();
+        
+//        if(regionCount > 0) {   
+//            int stepY = height / regionCount;
+//            int heightY = stepY;
+//            Point topLeft = Utility.GetTopLeftPoint(pts);
+//            Point bottomRight = Utility.GetBottomRightPoint(pts);
+//
+//            for(int y = 0; y < regionCount; y++) {
+//                if(y == (regionCount-1)) {
+//                    heightY = Utility.Distance(bottomRight, new Point(topLeft.x + width, y * stepY +  topLeft.y));
+//                }
+//                
+//                g.setColor(Color.green);
+//                g.fillRect(topLeft.x, y * stepY +  topLeft.y, width, heightY);
+//                g.setColor(Color.black);
+//                g.drawRect(topLeft.x, y * stepY +  topLeft.y, width, heightY);
+//            }
+//        }
     }
     
     private void drawCountries(Graphics g) {
