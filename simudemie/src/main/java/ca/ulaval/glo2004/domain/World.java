@@ -144,11 +144,10 @@ public class World implements java.io.Serializable {
     public void RemoveLink(UUID linkId) {
         Link link = FindLinkByUUID(linkId);
         if(link != null) {
-            linkList.remove(link);
             worldController.NotifyLinksUpdated();
         }
     }
-    
+        
     public Country findCountryByPosition(Point position) {
         try {
             return countryList.stream().filter(c -> Utility.IsInRectangle(c.getShape().GetPoints(), position)).findAny().get();

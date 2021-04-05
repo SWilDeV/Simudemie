@@ -391,11 +391,6 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
         jPanelCountry.add(jButtonRemoveCountry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 320, -1));
 
         jButtonEditCountry.setText("Editer le pays");
-        jButtonEditCountry.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEditCountryActionPerformed(evt);
-            }
-        });
         jPanelCountry.add(jButtonEditCountry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 320, -1));
 
         LabelCountryName.setText("Nom du pays");
@@ -1055,12 +1050,13 @@ public class main_window_Simulation extends javax.swing.JFrame implements WorldO
 
     private void jButtonRemoveLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveLinkActionPerformed
         List<LinkDTO> links = worldController.GetLinks();
-        int[] index = jlistLinks.getSelectedIndices();
+        int index = jlistLinks.getSelectedIndex();
         
-        for(int i = 0; i < index.length; i++) {
-            UUID id = links.get(index[i]).Id;
-            worldController.RemoveLink(id);
-        }
+        //for(int i = 0; i < index.length; i++) {
+            //UUID id = links.get(index[i]).Id;
+            //worldController.RemoveLink(id);
+        //}
+        
     }//GEN-LAST:event_jButtonRemoveLinkActionPerformed
 
     private void jlistLinksValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlistLinksValueChanged

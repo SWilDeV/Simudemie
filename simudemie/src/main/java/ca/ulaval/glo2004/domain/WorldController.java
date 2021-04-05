@@ -153,14 +153,9 @@ public class WorldController implements java.io.Serializable {
         world.RemoveLink(linkId);
     }
     
-    public String getLinkName(Link link) {
-        return link.linkName();
-    }
-    
     public void ActiveMesures() {
         
     }
-    
     
     public void UpdateDisease(double cureRate, double mortalityRate, double reproductionRate){
         disease.setReproductionRate(reproductionRate);
