@@ -5,7 +5,6 @@
  */
 package ca.ulaval.glo2004.ui;
 
-import ca.ulaval.glo2004.main_window_Simulation;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
