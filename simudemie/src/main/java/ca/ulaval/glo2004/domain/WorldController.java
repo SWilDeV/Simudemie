@@ -118,6 +118,12 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
+    public void NotifyOnSimulationReset() {
+        for(WorldObserver ob: observers) {
+            ob.OnSimulationReset();
+        }
+    }
+    
     public void Draw(Graphics g) {
         worldDrawer.draw(g);
     }
@@ -221,7 +227,8 @@ public class WorldController implements java.io.Serializable {
     }
     
     public void resetSimulation() {
-            simulation.Reset();
+        simulation.Reset();
+        NotifyOnSimulationReset();
     }
     
     public void save(File file) {

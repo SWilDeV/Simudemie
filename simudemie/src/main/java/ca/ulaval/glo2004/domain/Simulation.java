@@ -187,7 +187,6 @@ public class Simulation implements Serializable {
             this.isRunning=false;
         }
         elapsedDay = 0;
-        System.out.println("Timer Reset");
     }
     
     public Population UpdatePopulation(Region region){
