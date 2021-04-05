@@ -1,3 +1,5 @@
+package ca.ulaval.glo2004;
+
 import ca.ulaval.glo2004.ui.MainWindow;
 import javax.swing.*;
 

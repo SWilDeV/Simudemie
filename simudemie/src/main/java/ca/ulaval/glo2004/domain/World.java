@@ -151,6 +151,21 @@ public class World implements Serializable {
         }
     }
     
+    public void AddMesure(UUID countryId, double adhesionRate, boolean active, String mesureName) {
+       Country c = FindCountryByUUID(countryId);
+       if(c != null) {
+            HealthMesure mesure = new CustomMeasure(adhesionRate, active, mesureName);
+            c.AddMesure(mesure);
+       }
+    }
+    
+   public void RemoveMesure(UUID countryId, UUID mesureId) {
+       Country c = FindCountryByUUID(countryId);
+       if(c != null) {
+        c.RemoveMesure(mesureId);
+       }
+    }
+    
     public void UpdateSelectionStateRegion(UUID countryId, UUID regionId, boolean select) {
        Country c = FindCountryByUUID(countryId);
         if(c != null) {

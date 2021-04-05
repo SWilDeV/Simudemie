@@ -5,13 +5,14 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  *
  * @author charl
  */
-public class HealthMesureDTO {
+public class HealthMesureDTO implements Serializable {
     public double AdhesionRate;
     public boolean IsActive = false;
     public String MesureName;

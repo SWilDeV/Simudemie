@@ -7,6 +7,7 @@ package ca.ulaval.glo2004.ui;
 
 import ca.ulaval.glo2004.domain.CountryDTO;
 import ca.ulaval.glo2004.domain.DiseaseDTO;
+import ca.ulaval.glo2004.domain.HealthMesureDTO;
 import ca.ulaval.glo2004.domain.Link;
 import ca.ulaval.glo2004.domain.LinkDTO;
 import ca.ulaval.glo2004.domain.NotAllPopulationAssign;
@@ -138,6 +139,20 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         drawingPanel.repaint();
     }
     
+    private void UpdateJMesureList(UUID countryId) {
+        List<HealthMesureDTO> mesures = worldController.GetHealthMesures(countryId);
+        if(mesures != null) { 
+            System.out.println(mesures.size());
+            DefaultListModel listMesuresModel = new DefaultListModel();
+
+             mesures.forEach(m -> {
+                 listMesuresModel.addElement(m.MesureName + " " + m.IsActive + " " + m.AdhesionRate + "%");
+             });
+             jListMesures.setModel(listMesuresModel);
+             drawingPanel.repaint();
+        }
+    }
+    
     private void SelectCountry(Point mousePosition) {
         CountryDTO selected = Utility.SelectCountry(worldController.GetCountries(), mousePosition);
         SetSelectedCountry(selected);
@@ -151,6 +166,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         if(country != null) {
             countrySelected = country;
             worldController.UpdateSelectionStateCountry(countrySelected.Id, true);
+            UpdateJMesureList(countrySelected.Id);
             drawingPanel.repaint();
         } else {
             countrySelected = null;
@@ -251,6 +267,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jButtonAddMesure = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jCheckBox2 = new javax.swing.JCheckBox();
+        jButtonDeleteMesure = new javax.swing.JButton();
         jLabelTitlePopMondial = new javax.swing.JLabel();
         jLabelCured = new javax.swing.JLabel();
         jBtnChangeSimulationTimeStep = new javax.swing.JButton();
@@ -819,16 +836,22 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jCheckBox2.setText("Fermé");
 
+        jButtonDeleteMesure.setText("Supprimer mesure");
+        jButtonDeleteMesure.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteMesureActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelHealthMesuresLayout = new javax.swing.GroupLayout(jPanelHealthMesures);
         jPanelHealthMesures.setLayout(jPanelHealthMesuresLayout);
         jPanelHealthMesuresLayout.setHorizontalGroup(
             jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
                 .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelHealthMesuresLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPaneOtherMeasures, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
-                    .addComponent(jButtonAddMesure, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonAddMesure, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonDeleteMesure, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneOtherMeasures, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
             .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
                 .addContainerGap()
@@ -840,7 +863,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
                         .addComponent(jLabelAdhesionRate)
                         .addGap(25, 25, 25)
-                        .addComponent(jTextFieldAdhesionRate))
+                        .addComponent(jTextFieldAdhesionRate, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE))
                     .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
                         .addComponent(jCheckBoxActiveMesure)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -857,7 +880,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jCheckBox2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
                 .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldMesureName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelMesureName))
@@ -869,7 +892,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addComponent(jCheckBoxActiveMesure)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonAddMesure)
-                .addGap(18, 18, 18)
+                .addGap(2, 2, 2)
+                .addComponent(jButtonDeleteMesure)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPaneOtherMeasures, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(62, 62, 62))
         );
@@ -1139,15 +1164,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             worldController.load(fileChooser.getSelectedFile());
         }
-        DefaultListModel listMesuresModel = new DefaultListModel();
         
-        //mise à jour liste healthmesures
-        worldController.GetHealthMesures().forEach(m -> {
-            listMesuresModel.addElement(m.MesureName + " " + m.IsActive + " " + m.AdhesionRate + "%");
-        });
-        jListMesures.setModel(listMesuresModel);
-        
-        //mise des jour list liens
         UpdateJLinkList();
         
     }//GEN-LAST:event_jMenuItemLoadActionPerformed
@@ -1178,6 +1195,12 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         Point mousePoint = evt.getPoint();
         
         if (jTabbedMainPane.getSelectedIndex() == 1) {
+            
+            CountryDTO select = Utility.SelectCountry(worldController.GetCountries(), mousePoint);
+            if(select != null) {
+                SetSelectedCountry(select);
+            }
+            
             buttonGroupConception.clearSelection();
             mode = Mode.Idle;
         }
@@ -1399,26 +1422,24 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }//GEN-LAST:event_jListLinksValueChanged
 
     private void jButtonAddMesureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddMesureActionPerformed
-        try {
-            String mesureName = jTextFieldMesureName.getText();
-            double adhesion = Double.parseDouble(jTextFieldAdhesionRate.getText());
-            if(!Utility.StringIsNullOrEmpty(mesureName) && adhesion >= 0) { 
-                worldController.AddMesure(adhesion, jCheckBoxActiveMesure.isSelected(), mesureName);
-                DefaultListModel listMesuresModel = new DefaultListModel();
-                worldController.GetHealthMesures().forEach(m -> {
-                    listMesuresModel.addElement(m.MesureName + " " + m.IsActive + " " + m.AdhesionRate + "%");
-                });
-                jListMesures.setModel(listMesuresModel);
+        if(countrySelected != null) {
+            try {
+                String mesureName = jTextFieldMesureName.getText();
+                double adhesion = Double.parseDouble(jTextFieldAdhesionRate.getText());
+                if(!Utility.StringIsNullOrEmpty(mesureName) && adhesion >= 0) { 
+                    worldController.AddMesure(countrySelected.Id, adhesion, jCheckBoxActiveMesure.isSelected(), mesureName);
+                    UpdateJMesureList(countrySelected.Id);
 
-                jTextFieldMesureName.setBackground(Color.white);
-                jTextFieldAdhesionRate.setBackground(Color.white);
-                drawingPanel.repaint();
-            } else {
-                if (Utility.StringIsNullOrEmpty(mesureName)) jTextFieldMesureName.setBackground(Color.red);
-                if (adhesion < 0) jTextFieldAdhesionRate.setBackground(Color.red);
+                    jTextFieldMesureName.setBackground(Color.white);
+                    jTextFieldAdhesionRate.setBackground(Color.white);
+                    drawingPanel.repaint();
+                } else {
+                    if (Utility.StringIsNullOrEmpty(mesureName)) jTextFieldMesureName.setBackground(Color.red);
+                    if (adhesion < 0) jTextFieldAdhesionRate.setBackground(Color.red);
+                }
+            } catch(NumberFormatException e) {
+                jTextFieldAdhesionRate.setBackground(Color.red);
             }
-        } catch(NumberFormatException e) {
-            jTextFieldAdhesionRate.setBackground(Color.red);
         }
     }//GEN-LAST:event_jButtonAddMesureActionPerformed
 
@@ -1555,6 +1576,15 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         }
     }//GEN-LAST:event_jButtonModifyRegionActionPerformed
 
+    private void jButtonDeleteMesureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteMesureActionPerformed
+        int index = jListMesures.getSelectedIndex();
+        if(index != -1) {
+            UUID mesureId = worldController.GetHealthMesures(countrySelected.Id).get(index).Id;
+            worldController.RemoveMesure(countrySelected.Id, mesureId);
+            UpdateJMesureList(countrySelected.Id);
+        }
+    }//GEN-LAST:event_jButtonDeleteMesureActionPerformed
+
     public void Draw(Graphics g){
         worldController.Draw(g); 
         if(onHoverCountry != null) {
@@ -1610,6 +1640,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JButton jButtonBacktrack;
     private javax.swing.JButton jButtonDeleteCountry;
     private javax.swing.JButton jButtonDeleteLink;
+    private javax.swing.JButton jButtonDeleteMesure;
     private javax.swing.JButton jButtonForward;
     private javax.swing.JButton jButtonModifyRegion;
     private javax.swing.JButton jButtonRemoveRegion;

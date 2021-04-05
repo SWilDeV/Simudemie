@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
  */
 public class Country implements Serializable  {
     
+    private List<HealthMesure> mesures = new ArrayList<>();
     private List<Region> regions = new ArrayList<>();
     private Population population;
     private GeometricForm shape;
@@ -47,6 +48,26 @@ public class Country implements Serializable  {
         };
         
         addRegion(Utility.ToRectangle(pts), "Region 1", 1.0);
+    }
+    
+    public void AddMesure(HealthMesure mesure) {
+        mesures.add(mesure);
+    }
+    
+    public void RemoveMesure(UUID mesureId) {
+        HealthMesure mesure = null;
+        for(HealthMesure m: mesures) {
+            if(m.getID().equals(mesureId)) {
+                mesure = m;
+                break;
+            }
+        }
+        
+        mesures.remove(mesure);
+    }
+    
+    public List<HealthMesure> GetMesures() {
+        return mesures;
     }
     
     @Override
@@ -82,7 +103,7 @@ public class Country implements Serializable  {
         double p = 1.0;
         if(population.getTotalPopulation() > 0) {
             if(population.getInfectedPopulation() > 0) {
-                p = (population.getInfectedPopulation() + population.getDeadPopulation()) / (double)(population.getTotalPopulation() + population.getDeadPopulation());
+                p = (population.getInfectedPopulation()) / (double)(population.getTotalPopulation() + population.getDeadPopulation());
                 if(p > 1) {
                     p = 1;
                 }
