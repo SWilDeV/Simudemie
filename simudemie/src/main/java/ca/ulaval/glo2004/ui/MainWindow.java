@@ -80,7 +80,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     
     @Override
     public void OnSimulationStarted() {
-        if(countrySelected != null) {
+        if(countrySelected != null){
             UpdateJRegionList(countrySelected.Id);
         }
     }

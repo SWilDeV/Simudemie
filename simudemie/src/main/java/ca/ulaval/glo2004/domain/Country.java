@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -139,6 +140,34 @@ public class Country implements Serializable  {
     
     public void SetSelectionState(boolean select) {
         isSelected = select;
+    }
+    
+    public void splitNewInfectedInRegions(int newInfected){
+        while (newInfected >0){
+            Random rand = new Random();
+            int index = rand.nextInt(regions.size());
+
+            int counter = 0;
+            for(Region region:regions){
+                if(index == counter){
+                    Population population = region.getPopulation();
+                    int infected = population.getInfectedPopulation();
+
+                    Random randPop = new Random();
+                    int randInfected = randPop.nextInt(newInfected);
+
+                    if(randInfected == 0){
+                        newInfected = 0;
+                    }else{
+                        infected +=randInfected;
+                        population.setInfectedPopulation(infected);
+                        region.setPopulation(population);
+                        newInfected -=randInfected;
+                    }
+                }
+                counter +=1;
+            }
+        }
     }
     
     
