@@ -19,6 +19,10 @@ import java.util.stream.Collectors;
  * @author Abergel Clement
  */
 public class CountryDTO implements Serializable {
+<<<<<<< HEAD
+    public List<HealthMesureDTO> Mesures;
+=======
+>>>>>>> 51330a06a59bd12b7c29c856d9f521f0350aaed8
     public List<RegionDTO> Regions;
     public PopulationDTO populationDTO;
     public GeometricForm Shape;
@@ -28,6 +32,7 @@ public class CountryDTO implements Serializable {
     public boolean IsSelected;
     
     public CountryDTO(Country country) {
+        Mesures = country.GetMesures().stream().map(m -> new HealthMesureDTO((HealthMesure)m)).collect(Collectors.toList());
         Regions = country.GetRegions().stream().map(r -> new RegionDTO((Region)r)).collect(Collectors.toList());
         populationDTO = new PopulationDTO(country.getPopulation());
         Name = country.getName();

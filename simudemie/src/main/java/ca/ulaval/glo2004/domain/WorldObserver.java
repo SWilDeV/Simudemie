@@ -15,4 +15,5 @@ public interface WorldObserver {
     public void OnCountryCreated(CountryDTO country);
     public void OnSimulationStarted();
     public void OnProjectLoaded();
+    public void OnSimulationReset();
 }

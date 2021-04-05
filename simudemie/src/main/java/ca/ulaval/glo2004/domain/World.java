@@ -61,9 +61,9 @@ public class World implements Serializable {
         
         if(isAbleToLink) {
             linkList.add(link);
+            worldController.NotifyLinksUpdated();
         }
         
-        worldController.NotifyLinksUpdated();
     }
     
     public void addRegion(UUID countryId, List<Point> points, String name, double popPercentage) {
@@ -73,19 +73,32 @@ public class World implements Serializable {
         }
     }
     
+<<<<<<< HEAD
+    public void RemoveLink(UUID linkId) {
+        Link link = FindLinkByUUID(linkId);
+        if(link != null) {
+            worldController.NotifyLinksUpdated();
+        }
+    }
+        
+=======
     public void clearWorld() {
         countryList.clear();
         linkList.clear();
         worldPopulation = new Population();
     }
     
+>>>>>>> 13bdc09d54b0c9730dbac24f5a6f987cdc5ac053
     public Country findCountryByPosition(Point position) {
-        for(Country country: countryList) {                
-            if (Utility.IsInRectangle(country.getShape().GetPoints(), position)) {
-                return country;
-            }
+        try {
+            return countryList.stream().filter(c -> Utility.IsInRectangle(c.getShape().GetPoints(), position)).findAny().get();
+        } catch(NoSuchElementException e) {
+            return null;
         }
+<<<<<<< HEAD
+=======
         return null;
+>>>>>>> 13bdc09d54b0c9730dbac24f5a6f987cdc5ac053
     }
     
     private Country FindCountryByUUID(UUID id) {
@@ -149,6 +162,21 @@ public class World implements Serializable {
             linkList.remove(link);
             worldController.NotifyLinksUpdated();
         }
+    }
+    
+    public void AddMesure(UUID countryId, double adhesionRate, boolean active, String mesureName) {
+       Country c = FindCountryByUUID(countryId);
+       if(c != null) {
+            HealthMesure mesure = new CustomMeasure(adhesionRate, active, mesureName);
+            c.AddMesure(mesure);
+       }
+    }
+    
+   public void RemoveMesure(UUID countryId, UUID mesureId) {
+       Country c = FindCountryByUUID(countryId);
+       if(c != null) {
+        c.RemoveMesure(mesureId);
+       }
     }
     
     public void UpdateSelectionStateRegion(UUID countryId, UUID regionId, boolean select) {
