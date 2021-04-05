@@ -72,40 +72,44 @@ public class Simulation implements Serializable {
                         elapsedDay +=1;
                         //UPDATE DES PAYS ET LEURS REGIONS
                         for(Country country : countries) {
-
-                            List<Region> regions = country.GetRegions();
+                            
+                            //PRISE EN COMPTE DES LIENS ENTRE PAYS
+                            List<Link> LinkList = controller.getWorld().getLinks();
+                            if(LinkList.size()>0){
+                                for(Link link:LinkList){
+                                    updateCountriesWithLinks(link.getCountry1(),link.getCountry2());
+                                }
+                            }
+                            
+                        }   
+                        controller.getWorld().updateWorldPopulation();
+                        
+                        List<Country> countries2 = controller.GetCountriesforSimulation();
+                        for(Country country : countries2) {
+                            //boucle pour la propagation interregionale
                             if (controller.getWorld().getWorldPopulation().getInfectedPopulation() == 0){
                                 timer.cancel();
                                 System.out.println("Miracle, maladie éradiquée");
                             }
-                            //Update individuel des regions
+                            List<Region> regions = country.GetRegions();
+                            if(regions.size() >1){
+                                propagateBetweenRegions(country);
+                            }   
+                            
+                            //deuxieme  boucle pour Update individuel des regions
                             for(Region region:regions){
                                Region regionUpdated = updateRegions(region); 
-                               
                                if(controller.getWorld().getWorldPopulation().getTotalPopulation()>0){
-//                               if(regionUpdated.getPopulation().getTotalPopulation()>regionUpdated.getPopulation().getInfectedPopulation()){
                                     controller.getWorld().updateRegionFromSimulation(country, regionUpdated);
                                     System.out.println(regionUpdated.getPopulation().getInfectedPopulation());
-
                                }else{
                                     timer.cancel();
                                     System.out.println("end ! Des zombies partout!!");
                                 }
                             }
-                            //deuxieme  boucle pour la propagation interregionale
-                            if(regions.size() >1){
-                                propagateBetweenRegions(country);
-                                    //splitNewInfectedInRegions(Country country, int newInfected)
-                            }
                             controller.getWorld().updateCountryFromSimulation(country);
                         }
-                        //PRISE EN COMPTE DES LIENS ENTRE PAYS
-                        List<Link> LinkList = controller.getWorld().getLinks();
-                        if(LinkList.size()>0){
-                            for(Link link:LinkList){
-                                updateCountriesWithLinks(link.getCountry1(),link.getCountry2());
-                            }
-                        }
+                        
                         //UPDATE DE LA POPULATION MONDIALE
                         updateWorldPopulation();
                     }else{
