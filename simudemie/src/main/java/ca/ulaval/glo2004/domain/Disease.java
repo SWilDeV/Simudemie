@@ -1,5 +1,7 @@
 package ca.ulaval.glo2004.domain;
 
+import java.io.Serializable;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,7 +12,7 @@ package ca.ulaval.glo2004.domain;
  *
  * @author melanietremblay
  */
-public class Disease implements java.io.Serializable {
+public class Disease implements Serializable {
     private double infectionRate;
     private double mortalityRate;
     private double cureRate;

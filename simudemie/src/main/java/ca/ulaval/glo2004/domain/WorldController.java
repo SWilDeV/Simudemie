@@ -30,7 +30,7 @@ public class WorldController implements java.io.Serializable {
     private Simulation simulation;
     private Disease disease = new Disease(0.04, 0.02, 0.15);
     private final WorldDrawer worldDrawer;
-    private final List<HealthMesure> mesures = new ArrayList<>();
+    private List<HealthMesure> mesures = new ArrayList<>();
     private List<WorldObserver> observers = new ArrayList<>(); //TODO: Discuter de ou mettre l'observer. Ici ou dans simulation ? 
     
     public List<CountryDTO> GetCountries() {
@@ -222,6 +222,8 @@ public class WorldController implements java.io.Serializable {
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(world);
             out.writeObject(simulation);
+            //out.writeObject(disease);
+            out.writeObject(mesures);
             out.close();
             fileOut.close();
         } catch (IOException ioe) {
@@ -235,6 +237,8 @@ public class WorldController implements java.io.Serializable {
             ObjectInputStream in = new ObjectInputStream(fileIn);
             world = (World) in.readObject();
             simulation = (Simulation) in.readObject();
+            //disease = (Disease) in.readObject();
+            mesures = (ArrayList) in.readObject();
         } catch (FileNotFoundException f) {
             f.printStackTrace();
         } catch (IOException ioe) {
@@ -246,6 +250,8 @@ public class WorldController implements java.io.Serializable {
     
     public void newProjet() {
         world.clearWorld();
+        simulation.Reset();
+        mesures.clear();
     }
     
     public void CreateJEPG() {
