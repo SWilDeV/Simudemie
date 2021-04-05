@@ -6,6 +6,7 @@
 package ca.ulaval.glo2004.domain;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -14,7 +15,7 @@ import java.util.UUID;
  * @author Sean
  */
 
-public class Link {
+public class Link implements Serializable {
 //    Attributs
    public enum LinkType { TERRESTRE, MARITIME, AERIEN }; 
     
@@ -27,9 +28,10 @@ public class Link {
    private String linkName;
    
    private final UUID id;
+   private static final long serialVersionUID = 7L; 
    
    private static final Color landColor = Color.pink;
-   private static final Color airColor = Color.GREEN;
+   private static final Color airColor = new Color(191, 0, 179);
    private static final Color maritimeColor = Color.BLUE;
    
 //   methodes

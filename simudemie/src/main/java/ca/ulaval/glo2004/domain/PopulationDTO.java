@@ -5,11 +5,13 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Sean
  */
-public class PopulationDTO {
+public class PopulationDTO implements Serializable{
     public int totalPopulationDTO;
     public int infectedPopulationDTO;
     public int curedPopulationDTO;
@@ -23,6 +25,11 @@ public class PopulationDTO {
         deadPopulationDTO = population.getDeadPopulation();
         nonInfectedPopulationDTO = population.getNonInfectedPopulation();
     }
+    
+    public Population toPopulation() {
+        return new Population(totalPopulationDTO, infectedPopulationDTO, curedPopulationDTO, deadPopulationDTO, nonInfectedPopulationDTO);
+    }
+    
     public int getTotalPopulationDTO(){
         return totalPopulationDTO;
     }

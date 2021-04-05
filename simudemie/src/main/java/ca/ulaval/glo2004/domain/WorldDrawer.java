@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.util.List;
@@ -21,15 +22,21 @@ import java.util.List;
  */
 public class WorldDrawer implements java.io.Serializable {
     
-    //    Attributs
     private final WorldController controller;
-    //private Dimension initialDimension; pour le zoom ?
-    private float zoom;
+    private double zoom = 1.0;
+    private double zoomIncr = 0.025;
+    AffineTransform at = new AffineTransform();
     
 
     public WorldDrawer(WorldController p_controller){
         controller = p_controller;
-        //initialDimension = p_intialDimension;
+    }
+    
+    public void Zoom(double amount, Point mousePosition, int width, int height) {
+        zoom += amount * zoomIncr;
+        if(zoom <= 0.1) {
+            zoom = 0.1;
+        }
     }
     
     public void draw(Graphics g) {
@@ -37,20 +44,76 @@ public class WorldDrawer implements java.io.Serializable {
         drawLinks(g);
     }
     
-    public void drawCountryInfos(Graphics g, Point mousePosition, CountryDTO country) {  
-        
-        String totalPopulation = String.valueOf(country.populationDTO.totalPopulationDTO);
+    public void drawRegionInfo(Graphics g, Point mousePosition, RegionDTO region) {
+        String totalPopulation = String.valueOf(region.SubPopulation.totalPopulationDTO);
         int boxWidth = totalPopulation.length() * 8 + 100;
         
         g.setColor(Color.WHITE);
         g.fillRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
         g.setColor(Color.BLACK);
         g.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
-        Point center = country.Shape.GetCenter();
 
         int tempY = (int)mousePosition.getY();
-        for(String str: country.toString().split("\n")) {
+        for(String str: region.toString().split("\n")) {
             g.drawString(str, (int)mousePosition.getX() + 1, tempY += g.getFontMetrics().getHeight());        
+        }
+    }
+    
+    public void drawCountryInfos(Graphics g, Point mousePosition, CountryDTO country) {  
+        
+        boolean onRegion = false;
+        
+        for(RegionDTO r: country.Regions) {
+            if(Utility.IsInRectangle(r.Shape.GetPoints(), mousePosition)) {
+                drawRegionInfo(g, mousePosition, r);
+                onRegion = true;
+                break;
+            }
+        }
+        
+        if (!onRegion) {
+            String totalPopulation = String.valueOf(country.populationDTO.totalPopulationDTO);
+            int boxWidth = totalPopulation.length() * 8 + 100;
+
+            g.setColor(Color.WHITE);
+            g.fillRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
+            g.setColor(Color.BLACK);
+            g.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
+
+            int tempY = (int)mousePosition.getY();
+            for(String str: country.toString().split("\n")) {
+                g.drawString(str, (int)mousePosition.getX() + 1, tempY += g.getFontMetrics().getHeight());        
+            }
+        }
+    }
+    
+    private Polygon CreatePolygon(List<Point> pts) {
+        int size =  pts.size();
+            int[] pointsX = new int[size];
+            int[] pointsY = new int[size];
+            
+            for(int i = 0; i < size; i++) {
+                Point pt = pts.get(i);
+                pointsX[i] = (int)pt.getX();
+                pointsY[i] = (int)pt.getY();
+            }
+            
+        return new Polygon(pointsX, pointsY, size);
+    }
+    
+    private void drawRegion(Graphics g, CountryDTO country) { 
+        for(RegionDTO r: country.Regions) {
+            List<Point> pts = r.Shape.GetPoints();
+            
+            Polygon poly = CreatePolygon(pts);
+            
+            g.setColor(r.Color);
+            g.fillPolygon(poly);
+            g.setColor(Color.black);
+            if(r.IsSelected) {
+                g.setColor(Color.YELLOW);
+            }
+            g.drawPolygon(poly);
         }
     }
     
@@ -58,19 +121,12 @@ public class WorldDrawer implements java.io.Serializable {
         List<CountryDTO> countries = controller.GetCountries();
         for(CountryDTO country : countries) {
             GeometricForm form = country.Shape;
-            int size = form.GetPoints().size();
-            int[] pointsX = new int[size];
-            int[] pointsY = new int[size];
             
-            for(int i = 0; i < size; i++) {
-                Point pt = form.GetPoint(i);
-                pointsX[i] = (int)pt.getX();
-                pointsY[i] = (int)pt.getY();
-            }
-            
-            Polygon poly = new Polygon(pointsX, pointsY, size);
+            Polygon poly = CreatePolygon(form.GetPoints());
             g.setColor(country.Color);
             g.fillPolygon(poly);
+            
+            drawRegion(g, country);
             
             g.setColor(Color.BLACK);
             if(country.IsSelected) {
@@ -83,22 +139,6 @@ public class WorldDrawer implements java.io.Serializable {
             g.drawString(country.Name, (int)center.getX(), ((int)center.getY()-20));
             String totPop = Integer.toString(country.getPopulationDTO().getTotalPopulationDTO());
             g.drawString(totPop, (int)center.getX(), (int)center.getY());
-            
-            if(false) { //Show BoundingBox
-                List<Point> pts = country.Shape.GetBoundingBox();
-                int bbSize = pts.size();
-                int[] bbPointsX = new int[size];
-                int[] bbPointsY = new int[size];
-            
-                for(int i = 0; i < size; i++) {
-                    Point pt = pts.get(i);
-                    bbPointsX[i] = (int)pt.getX();
-                    bbPointsY[i] = (int)pt.getY();
-                }
-                
-                g.setColor(Color.red);
-                g.drawPolygon(bbPointsX, bbPointsY, bbSize);
-            }
         }
     }
     
@@ -148,20 +188,11 @@ public class WorldDrawer implements java.io.Serializable {
         g2.setStroke(new BasicStroke(1));
     }
     
-    public void drawRegular(Graphics g) {
-    }
-    
-    public void drawIrregular(Graphics g) {
-    }
-    
-    public void region(Graphics g){
-    }
-    
     public void setZoom(float p_zoom){
         zoom = p_zoom;
     }
     
-    public float getZoom(){
+    public double getZoom(){
         return zoom;
     }
     

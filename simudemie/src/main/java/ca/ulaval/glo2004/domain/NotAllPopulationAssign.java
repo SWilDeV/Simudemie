@@ -5,16 +5,12 @@
  */
 package ca.ulaval.glo2004.domain;
 
-import java.awt.Point;
-import java.util.List;
-
 /**
  *
- * @author charl
+ * @author Abergel Clement
  */
-public class RegularForm extends GeometricForm {
-    
-    public RegularForm(List<Point> points){
-        super(points);
+public class NotAllPopulationAssign extends Exception {
+    public NotAllPopulationAssign(String errorMessage) {
+        super(errorMessage);
     }
 }

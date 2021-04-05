@@ -6,17 +6,20 @@
 package ca.ulaval.glo2004.domain;
 
 import java.awt.Color;
+import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  *
  * @author Abergel Clement
  */
-public class CountryDTO {
-    public List<Region> Regions;
+public class CountryDTO implements Serializable {
+    public List<RegionDTO> Regions;
     public PopulationDTO populationDTO;
     public GeometricForm Shape;
     public String Name;
@@ -25,7 +28,7 @@ public class CountryDTO {
     public boolean IsSelected;
     
     public CountryDTO(Country country) {
-        Regions = new ArrayList<>(country.GetRegions());
+        Regions = country.GetRegions().stream().map(r -> new RegionDTO((Region)r)).collect(Collectors.toList());
         populationDTO = new PopulationDTO(country.getPopulation());
         Name = country.getName();
         Color = country.getColor();
@@ -49,6 +52,27 @@ public class CountryDTO {
         int population = populationDTO.getTotalPopulationDTO();
         population +=1;
         populationDTO.setTotalPopulationDTO(population);
+    }
+    
+    public void SetPosition(Point position) {
+        Point prevPosition = Shape.GetPoint(0);
+        
+        Shape.SetPosition(position);
+        
+        Point newPosition = Shape.GetPoint(0);
+        Point diff = new Point(newPosition.x - prevPosition.x, newPosition.y - prevPosition.y);
+        
+        for(RegionDTO r: Regions) {
+            
+            List<Point> pts = new ArrayList<Point>() {
+                {
+                    add(new Point(r.Shape.GetPoint(0).x + diff.x, r.Shape.GetPoint(0).y + diff.y));
+                    add(new Point(r.Shape.GetPoint(2).x + diff.x, r.Shape.GetPoint(2).y + diff.y));
+                }
+            };
+            
+            r.Shape = new RegularForm(Utility.ToRectangle(pts));
+        }
     }
     
     @Override
@@ -80,6 +104,5 @@ public class CountryDTO {
         int hash = 5;
         hash = 59 * hash + Objects.hashCode(this.Id);
         return hash;
-    }
-        
+    }       
 }

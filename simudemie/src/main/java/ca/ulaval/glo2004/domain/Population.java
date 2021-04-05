@@ -11,16 +11,26 @@ import java.io.Serializable;
  *
  * @author Sean
  */
-public class Population implements Serializable { //TODO: Faire un DTO de population :)
+public class Population implements Serializable { 
     //    Attributs
     private int totalPopulation;
-    private int infectedPopulation;
-    private int curedPopulation;
-    private int deadPopulation;
-    private int nonInfectedPopulation;
+    private int infectedPopulation =0;
+    private int curedPopulation = 0;
+    private int deadPopulation = 0;
+    private int nonInfectedPopulation =0;
+    private static final long serialVersionUID = 5L; 
     
     public Population(){
     }
+    
+    public Population(int totalPopulation, int infectedPopulation, int curedPopulation, int deadPopulation, int nonInfectedPopulation) {
+        this.totalPopulation = totalPopulation;
+        this.infectedPopulation = infectedPopulation;
+        this.curedPopulation = curedPopulation;
+        this.deadPopulation = deadPopulation;
+        this.nonInfectedPopulation =nonInfectedPopulation;
+    }
+    
     //   methodes
     public Population(int p_TotalPop){
         this.totalPopulation = p_TotalPop;

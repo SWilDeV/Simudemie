@@ -6,7 +6,9 @@
 package ca.ulaval.glo2004.domain;
 
 import static ca.ulaval.glo2004.domain.Utility.IsTouching;
+import java.awt.Color;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,6 +16,50 @@ import java.util.List;
  * @author Abergel Clement
  */
 public final class Utility {
+    
+    public static final boolean StringIsNullOrEmpty(String str) {
+        return str == null || str.trim().isEmpty();
+    }
+    
+    public static final int Distance(Point pt1, Point pt2) {
+        return (int)Math.sqrt(Math.pow(pt1.getX() - pt2.getX(), 2) + Math.pow(pt1.getY() - pt2.getY(), 2));
+    }
+    
+    public static Color GetColorGradient(double percentage) {
+        Color firstColor = Color.red;
+        Color secondColor = new Color(0, 235, 0);
+        int R = (int)((firstColor.getRed()) * percentage + (secondColor.getRed()) * (1.0 - percentage));
+        int G = (int)((firstColor.getGreen()) * percentage + (secondColor.getGreen()) * (1.0 - percentage));
+        int B = (int)((firstColor.getBlue()) * percentage + (secondColor.getBlue()) * (1.0 - percentage));
+        
+        if(R > 255) {
+            R = 255;
+        }
+        
+        if(G > 255) {
+            G = 255;
+        }
+        
+        if(B > 255) {
+            B = 255;
+        }
+        
+        return new Color(R, G, B);
+    }
+    
+    public static List<Point> ToRectangle(List<Point> pts) {
+        final Point pt1 = new Point((int)pts.get(1).getX(), (int)pts.get(0).getY());
+        final Point pt3 = new Point((int)pts.get(0).getX(), (int)pts.get(1).getY());
+
+        List<Point> arrangedPoints = new ArrayList<Point>() {{
+            add(pts.get(0));
+            add(pt1);
+            add(pts.get(1));
+            add(pt3);
+        }};
+            
+        return arrangedPoints;
+    }
     
     public static final CountryDTO SelectCountry(List<CountryDTO> countries, Point mousePosition) {
         CountryDTO country = null;
@@ -26,6 +72,30 @@ public final class Utility {
         }
         
         return country;
+    }
+    
+    public static final Point GetTopLeftPoint(List<Point> points) {
+        Point p1 = new Point(Integer.MAX_VALUE, Integer.MAX_VALUE); //En haut a gauche.
+        
+        for(Point point: points) {
+            if(point.getX() <= p1.getX() && point.getY() <= p1.getY()) {
+                p1 = point;
+            }
+        }
+        
+        return p1;
+    }
+    
+    public static final Point GetBottomRightPoint(List<Point> points) {
+        Point p1 = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE); //En haut a gauche.
+        
+        for(Point point: points) {
+            if(point.getX() >= p1.getX() && point.getY() >= p1.getY()) {
+                p1 = point;
+            }
+        }
+        
+        return p1;
     }
     
     public static final boolean IsInRectangle(List<Point> points, Point position) {        

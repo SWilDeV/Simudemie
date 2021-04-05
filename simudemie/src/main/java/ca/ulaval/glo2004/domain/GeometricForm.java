@@ -19,6 +19,7 @@ public abstract class GeometricForm implements Serializable {
     protected List<Point> points;
     protected List<Point> bounding = new ArrayList<>();
     protected Point center;
+    private static final long serialVersionUID = 3L; 
     
     public GeometricForm(List<Point> points){
         this.points = points;
@@ -29,7 +30,7 @@ public abstract class GeometricForm implements Serializable {
         float directionX = position.x - center.x;
         float directionY = position.y - center.y;
         
-        for(int i =0; i < points.size(); i++) {
+        for(int i = 0; i < points.size(); i++) {
             points.get(i).x += directionX;
             points.get(i).y += directionY;
         }

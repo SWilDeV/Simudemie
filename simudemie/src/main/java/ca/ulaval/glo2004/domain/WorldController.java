@@ -27,11 +27,15 @@ import java.util.stream.Collectors;
 public class WorldController implements java.io.Serializable {
     
     private World world = new World();
-    private final Simulation simulation;
-    private final Disease disease = new Disease(0.0, 0.0, 0.0);
+    private Simulation simulation;
+    private Disease disease = new Disease(0.04, 0.02, 0.15);
     private final WorldDrawer worldDrawer;
-    private final List<HealthMesure> mesures = new ArrayList<>();
+    private List<HealthMesure> mesures = new ArrayList<>();
     private List<WorldObserver> observers = new ArrayList<>(); //TODO: Discuter de ou mettre l'observer. Ici ou dans simulation ? 
+    
+    public int GetElapsedDay() {
+        return simulation.GetElapsedDay();
+    }
     
     public List<CountryDTO> GetCountries() {
         return (List<CountryDTO>) world.getCountries().stream().map(e -> new CountryDTO((Country) e)).collect(Collectors.toList());
@@ -53,7 +57,6 @@ public class WorldController implements java.io.Serializable {
         if(country != null) {
             return new CountryDTO(country);
         }
-        
         return null;
     }
     
@@ -88,15 +91,33 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
-    public void NotifyTick(int day, int deads,int infected) {
+    public void NotifyTick(int day, int deads,int infected,int PopTot) {
         for(WorldObserver ob: observers) {
-            ob.OnSimulationTick(day, deads, infected);
+            ob.OnSimulationTick(day, deads, infected,PopTot);
         }
     }
     
     public void NotifyLinksUpdated() {
         for(WorldObserver ob: observers) {
             ob.OnLinksUpdated();
+        }
+    }
+    
+    public void NotifyCountryCreated(CountryDTO contry) {
+        for(WorldObserver ob: observers) {
+            ob.OnCountryCreated(contry);
+        }
+    }
+    
+    public void NotifySimulationStarted() {
+        for(WorldObserver ob: observers) {
+            ob.OnSimulationStarted();
+        }
+    }
+    
+    public void NotifyProjectLoaded() {
+        for(WorldObserver ob: observers) {
+            ob.OnProjectLoaded();
         }
     }
     
@@ -125,16 +146,20 @@ public class WorldController implements java.io.Serializable {
         world.removeCountry(countryId);
     }
     
-    public void AddRegion(UUID countryId, Region region) { // Un region ID ?
-        world.addRegion(countryId, region);
+    public void UpdateSelectionStateRegion(UUID countryId, UUID regionId, boolean select) {
+        world.UpdateSelectionStateRegion(countryId, regionId, select);
     }
     
-    public void UpdateRegion() {
-        
+    public void AddRegion(UUID countryId, List<Point> points, String name, double popPercentage) { // Un region ID ?
+        world.addRegion(countryId, Utility.ToRectangle(points), name, popPercentage);
     }
     
-    public void RemoveRegion(UUID countryId) {
-        
+    public void UpdateRegion(UUID countryId, RegionDTO region) {
+        world.UpdateRegion(countryId, region);
+    }
+    
+    public void RemoveRegion(UUID countryId, UUID regionId) {
+        world.RemoveRegion(countryId, regionId);
     }
     
     public void AddLink(UUID firstCountryId, UUID secondCountryId, LinkType type) {
@@ -157,19 +182,32 @@ public class WorldController implements java.io.Serializable {
         
     }
     
+<<<<<<< HEAD
     public void UpdateDisease(double cureRate, double mortalityRate, double reproductionRate){
         disease.setReproductionRate(reproductionRate);
+=======
+    public void UpdateDiseaseFromDTO(double infectionRate, double mortalityRate, double cureRate){
+        disease.setInfectionRate(infectionRate);
+>>>>>>> 13bdc09d54b0c9730dbac24f5a6f987cdc5ac053
         disease.setMortalityRate(mortalityRate);
         disease.setCureRate(cureRate);
-        System.out.println("Update le curerate : " + cureRate);
+        System.out.println("mortalityRate: "+ disease.getMortalityRate() +", curedRate: "+ disease.getCureRate() + ", infectedtRate : " + disease.getInfectionRate());
     }
     
-    public void AddMesure(double adhesionRate, boolean active, String mesureName){
-        //TODO: limits for adhasionRate 
-        HealthMesure mesure = new CustomMeasure(adhesionRate, active, mesureName);
-        mesures.add(mesure);
+    public Disease getDisease(){
+        return disease;
     }
     
+    public DiseaseDTO GetDiseaseDTO(){
+        return new DiseaseDTO(disease);
+    }
+    
+    public void AddMesure(double adhesionRate, boolean active, String mesureName) {
+        if (adhesionRate >=0 && adhesionRate <= 100) {
+            HealthMesure mesure = new CustomMeasure(adhesionRate, active, mesureName);
+            mesures.add(mesure);
+        }
+    }
     
     public void UpdateMesure(double adhesionRate, boolean active, UUID id){
         HealthMesure mesure = FindMesureByUUID(id);
@@ -179,22 +217,27 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
-    
     public void RemoveMesure(UUID id){
         HealthMesure mesure = FindMesureByUUID(id);
         if (mesure != null){
             mesures.remove(mesure);
         }
     }
+    
+    public boolean IsRunning() {
+        return simulation.getIsRunning();
+    }
 
-    public void StartSimulation() {
+    public void StartSimulation(int timeStep) throws NotAllPopulationAssign {
         if(!simulation.getIsRunning()) {
-            simulation.Simulate(); 
+            world.ValidateRegions();
+            NotifySimulationStarted();
+            simulation.Simulate(timeStep);
         }
     }
     
     public void pauseSimulation() {
-            simulation.Pause();
+        simulation.Pause();
     }
     
     public void resetSimulation() {
@@ -205,8 +248,10 @@ public class WorldController implements java.io.Serializable {
         try {
             FileOutputStream fileOut = new FileOutputStream(file);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeInt(simulation.GetElapsedDay());
             out.writeObject(world);
-            //out.writeObject(simulation);
+            out.writeObject(disease);
+            out.writeObject(mesures);
             out.close();
             fileOut.close();
         } catch (IOException ioe) {
@@ -218,7 +263,13 @@ public class WorldController implements java.io.Serializable {
         try {
             FileInputStream fileIn = new FileInputStream(openedFile);
             ObjectInputStream in = new ObjectInputStream(fileIn);
+            int elapsedDay = in.readInt();
             world = (World) in.readObject();
+            disease = (Disease) in.readObject();
+            mesures = (ArrayList) in.readObject();
+            world.SetWorldController(this);
+            simulation = new Simulation(this, elapsedDay);
+            NotifyProjectLoaded();
         } catch (FileNotFoundException f) {
             f.printStackTrace();
         } catch (IOException ioe) {
@@ -226,11 +277,12 @@ public class WorldController implements java.io.Serializable {
         } catch (ClassNotFoundException c) {
             c.printStackTrace();
         }
-        
     }
     
     public void newProjet() {
         world.clearWorld();
+        simulation.Reset();
+        mesures.clear();
     }
     
     public void CreateJEPG() {
@@ -249,8 +301,7 @@ public class WorldController implements java.io.Serializable {
         world.getInfos(countryId);
     }
     
-    public void printDay(){
-        int day = simulation.GetElapsedDay();
-        System.out.println("Day: "+ day);
+    public void zoom(double amount, Point mousePosition, int width, int height) {
+        worldDrawer.Zoom(amount, mousePosition, width, height);
     }
 }
