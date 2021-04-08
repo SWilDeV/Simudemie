@@ -104,7 +104,6 @@ public class Country implements Serializable  {
         if(population.getTotalPopulation() > 0) {
             if(population.getInfectedPopulation() > 0) {
                 p = (population.getInfectedPopulation()) / (double)(population.getTotalPopulation() + population.getDeadPopulation());
-                p = (population.getInfectedPopulation() + population.getDeadPopulation()) / (double)(population.getTotalPopulation() + population.getDeadPopulation());
                 if(p > 1) {
                     p = 1;
                 }

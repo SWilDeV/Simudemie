@@ -19,10 +19,7 @@ import java.util.stream.Collectors;
  * @author Abergel Clement
  */
 public class CountryDTO implements Serializable {
-<<<<<<< HEAD
     public List<HealthMesureDTO> Mesures;
-=======
->>>>>>> 51330a06a59bd12b7c29c856d9f521f0350aaed8
     public List<RegionDTO> Regions;
     public PopulationDTO populationDTO;
     public GeometricForm Shape;

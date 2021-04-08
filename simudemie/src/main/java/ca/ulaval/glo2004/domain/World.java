@@ -72,13 +72,6 @@ public class World implements Serializable {
             country.addRegion(points, name, popPercentage);
         }
     }
-    
-    public void RemoveLink(UUID linkId) {
-        Link link = FindLinkByUUID(linkId);
-        if(link != null) {
-            worldController.NotifyLinksUpdated();
-        }
-    }
         
     public void clearWorld() {
         countryList.clear();
@@ -92,7 +85,6 @@ public class World implements Serializable {
         } catch(NoSuchElementException e) {
             return null;
         }
-        return null;
     }
     
     private Country FindCountryByUUID(UUID id) {
@@ -273,6 +265,4 @@ public class World implements Serializable {
         worldPopulation.setDeadPopulation(deadPop);
         worldPopulation.setTotalPopulation(totalPop);
     }
-    
-    
 }
