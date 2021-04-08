@@ -87,14 +87,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         UpdateJLinkList();
     }
     
-<<<<<<< HEAD
     private void UpdateJLinkList() {
         DefaultListModel listModel = new DefaultListModel();
         worldController.GetLinks().forEach(l -> {
             listModel.addElement(l.Id);
         });
         jlistLinks.setModel(listModel);
-=======
+        
     @Override
     public void OnCountryCreated(CountryDTO country) {
         UpdateJRegionList(country);
@@ -151,7 +150,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             listModel.addElement(String.format("%s | Pourcentage: %s | Population: %s", r.Name, r.PercentagePop * 100, r.SubPopulation.totalPopulationDTO));
         });
         jListRegionsList.setModel(listModel);
->>>>>>> 13bdc09d54b0c9730dbac24f5a6f987cdc5ac053
         drawingPanel.repaint();
     }
     
