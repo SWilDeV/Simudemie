@@ -185,13 +185,8 @@ public class WorldController implements java.io.Serializable {
         
     }
     
-<<<<<<< HEAD
-    public void UpdateDisease(double cureRate, double mortalityRate, double reproductionRate){
-        disease.setReproductionRate(reproductionRate);
-=======
     public void UpdateDiseaseFromDTO(double infectionRate, double mortalityRate, double cureRate){
         disease.setInfectionRate(infectionRate);
->>>>>>> 13bdc09d54b0c9730dbac24f5a6f987cdc5ac053
         disease.setMortalityRate(mortalityRate);
         disease.setCureRate(cureRate);
         System.out.println("mortalityRate: "+ disease.getMortalityRate() +", curedRate: "+ disease.getCureRate() + ", infectedtRate : " + disease.getInfectionRate());
@@ -205,20 +200,13 @@ public class WorldController implements java.io.Serializable {
         return new DiseaseDTO(disease);
     }
     
-<<<<<<< HEAD
     public void AddMesure(UUID countryId, double adhesionRate, boolean active, String mesureName) {
         if (adhesionRate >= 0 && adhesionRate <= 100) {
             world.AddMesure(countryId, adhesionRate, active, mesureName);
-=======
-    public void AddMesure(double adhesionRate, boolean active, String mesureName) {
-        if (adhesionRate >=0 && adhesionRate <= 100) {
-            HealthMesure mesure = new CustomMeasure(adhesionRate, active, mesureName);
-            mesures.add(mesure);
->>>>>>> 51330a06a59bd12b7c29c856d9f521f0350aaed8
         }
     }
     
-    public void RemoveMesure(UUID countryId, UUID mesureId){
+    public void RemoveMesure(UUID countryId, UUID mesureId) {
         world.RemoveMesure(countryId, mesureId);
     }
     
@@ -250,10 +238,6 @@ public class WorldController implements java.io.Serializable {
             out.writeInt(simulation.GetElapsedDay());
             out.writeObject(world);
             out.writeObject(disease);
-<<<<<<< HEAD
-=======
-            out.writeObject(mesures);
->>>>>>> 51330a06a59bd12b7c29c856d9f521f0350aaed8
             out.close();
             fileOut.close();
         } catch (IOException ioe) {
@@ -268,10 +252,6 @@ public class WorldController implements java.io.Serializable {
             int elapsedDay = in.readInt();
             world = (World) in.readObject();
             disease = (Disease) in.readObject();
-<<<<<<< HEAD
-=======
-            mesures = (ArrayList) in.readObject();
->>>>>>> 51330a06a59bd12b7c29c856d9f521f0350aaed8
             world.SetWorldController(this);
             simulation = new Simulation(this, elapsedDay);
             NotifyProjectLoaded();

@@ -72,33 +72,19 @@ public class World implements Serializable {
             country.addRegion(points, name, popPercentage);
         }
     }
-    
-<<<<<<< HEAD
-    public void RemoveLink(UUID linkId) {
-        Link link = FindLinkByUUID(linkId);
-        if(link != null) {
-            worldController.NotifyLinksUpdated();
-        }
-    }
         
-=======
     public void clearWorld() {
         countryList.clear();
         linkList.clear();
         worldPopulation = new Population();
     }
     
->>>>>>> 13bdc09d54b0c9730dbac24f5a6f987cdc5ac053
     public Country findCountryByPosition(Point position) {
         try {
             return countryList.stream().filter(c -> Utility.IsInRectangle(c.getShape().GetPoints(), position)).findAny().get();
         } catch(NoSuchElementException e) {
             return null;
         }
-<<<<<<< HEAD
-=======
-        return null;
->>>>>>> 13bdc09d54b0c9730dbac24f5a6f987cdc5ac053
     }
     
     private Country FindCountryByUUID(UUID id) {
