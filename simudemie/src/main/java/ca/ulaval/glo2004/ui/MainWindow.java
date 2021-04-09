@@ -288,6 +288,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jButtonScreenShotWorld = new javax.swing.JButton();
         jMainMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemNew = new javax.swing.JMenuItem();
@@ -1110,6 +1111,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addComponent(jLabel9)))
         );
 
+        jButtonScreenShotWorld.setText("Export vue monde");
+        jButtonScreenShotWorld.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonScreenShotWorldActionPerformed(evt);
+            }
+        });
+
         jMenu1.setText("File");
 
         jMenuItemNew.setText("Nouveau projet");
@@ -1169,17 +1177,24 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         .addComponent(jTabbedMainPane, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 570, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 437, Short.MAX_VALUE)
+                        .addComponent(jButtonScreenShotWorld)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanelLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanelLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanelLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jButtonScreenShotWorld)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTabbedMainPane, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1646,6 +1661,12 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         drawingPanel.ResetZoom();
     }//GEN-LAST:event_jButtonResetZoomActionPerformed
 
+    private void jButtonScreenShotWorldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonScreenShotWorldActionPerformed
+        // TODO add your handling code here:
+        drawingPanel.SaveScreenShot("test_now_2.png");
+       
+    }//GEN-LAST:event_jButtonScreenShotWorldActionPerformed
+
     public void Draw(Graphics2D g2d){
         worldController.Draw(g2d); 
         if(onHoverCountry != null) {
@@ -1706,6 +1727,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JButton jButtonModifyRegion;
     private javax.swing.JButton jButtonRemoveRegion;
     private javax.swing.JButton jButtonResetZoom;
+    private javax.swing.JButton jButtonScreenShotWorld;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBoxActiveMesure;
     private javax.swing.JComboBox<String> jComboBoxAddLink;

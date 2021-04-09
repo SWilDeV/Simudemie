@@ -12,6 +12,10 @@ import java.awt.Point;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
@@ -98,4 +102,17 @@ public class DrawingPanel extends JPanel  {
         
         return new Point((int)x, (int)y);
     }
+    
+    public void SaveScreenShot(String filename){
+        BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+        paint(img.getGraphics());
+        File outputfile = new File(filename);
+        try{
+            ImageIO.write(img, "png", outputfile);
+	} 
+        catch (IOException e) {
+            e.printStackTrace();
+	}
+    }
+    
 }
