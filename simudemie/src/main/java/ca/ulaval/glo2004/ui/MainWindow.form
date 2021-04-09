@@ -88,17 +88,16 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPaneMap" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jTabbedMainPane" min="-2" pref="384" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                       <Component id="jLabelTitle" min="-2" pref="303" max="-2" attributes="0"/>
-                      <EmptySpace pref="504" max="32767" attributes="0"/>
+                      <EmptySpace pref="570" max="32767" attributes="0"/>
                       <Component id="jPanelLegend" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -109,10 +108,10 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="28" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jLabelTitle" max="32767" attributes="0"/>
-                  <Component id="jPanelLegend" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jLabelTitle" min="-2" pref="63" max="-2" attributes="0"/>
+                  <Component id="jPanelLegend" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -185,14 +184,15 @@
                           <Component id="jToggleBtnAddLink" alignment="0" max="32767" attributes="0"/>
                           <Component id="jToggleBtnAddCountry" max="32767" attributes="0"/>
                           <Component id="jButtonResetZoom" max="32767" attributes="0"/>
+                          <Component id="jToggleBtnAddCountryIrregular" alignment="1" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="44" max="32767" attributes="0"/>
+                      <EmptySpace pref="20" max="32767" attributes="0"/>
                   </Group>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="jPanelConceptionOptions" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jPanelConceptionOptions" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -202,6 +202,8 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jToggleBtnAddCountry" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <Component id="jToggleBtnAddCountryIrregular" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jToggleBtnModifyCountry" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -210,13 +212,13 @@
                       <Component id="jToggleBtnModifyLink" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButtonResetZoom" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="541" max="32767" attributes="0"/>
+                      <EmptySpace pref="510" max="32767" attributes="0"/>
                   </Group>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace pref="183" max="32767" attributes="0"/>
-                          <Component id="jPanelConceptionOptions" min="-2" pref="471" max="-2" attributes="0"/>
-                          <EmptySpace pref="55" max="32767" attributes="0"/>
+                          <EmptySpace pref="230" max="32767" attributes="0"/>
+                          <Component id="jPanelConceptionOptions" min="-2" pref="420" max="-2" attributes="0"/>
+                          <EmptySpace pref="57" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -232,6 +234,17 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleBtnAddCountryActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jToggleBtnAddCountryIrregular">
+              <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="buttonGroupConception"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Ajouter pays Irregulier"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleBtnAddCountryIrregularActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JToggleButton" name="jToggleBtnModifyCountry">
@@ -281,12 +294,12 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="390" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="362" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="471" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="420" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -307,12 +320,12 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabelAddCountryName" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldAddCountryName" pref="283" max="32767" attributes="0"/>
+                                      <Component id="jTextFieldAddCountryName" pref="263" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabelAddCountryPop" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldAddCountryPop" pref="284" max="32767" attributes="0"/>
+                                      <Component id="jTextFieldAddCountryPop" pref="268" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -332,7 +345,7 @@
                                   <Component id="jLabelAddCountryPop" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jTextFieldAddCountryPop" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="321" max="32767" attributes="0"/>
+                              <EmptySpace pref="270" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -500,7 +513,7 @@
                               <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jScrollPaneRegionsList" pref="354" max="32767" attributes="0"/>
+                                      <Component id="jScrollPaneRegionsList" pref="332" max="32767" attributes="0"/>
                                       <Component id="jSeparator2" max="32767" attributes="0"/>
                                       <Group type="102" attributes="0">
                                           <Component id="jLabelTitleRegionList" min="-2" max="-2" attributes="0"/>
@@ -633,7 +646,7 @@
                                   <Component id="jScrollPaneLinks" alignment="0" pref="342" max="32767" attributes="0"/>
                                   <Component id="jButtonDeleteLink" alignment="0" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="36" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -652,7 +665,7 @@
                               <Component id="jScrollPaneLinks" min="-2" pref="112" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButtonDeleteLink" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="229" max="32767" attributes="0"/>
+                              <EmptySpace pref="178" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -743,7 +756,7 @@
                                   <Component id="jComboBoxModifyLink" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabelModifyLinkType" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="342" max="32767" attributes="0"/>
+                              <EmptySpace pref="291" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1042,7 +1055,7 @@
                                       <Component id="jButtonApplyDisease" min="-2" pref="23" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="358" max="32767" attributes="0"/>
+                              <EmptySpace pref="376" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1165,7 +1178,7 @@
                                   <Group type="102" attributes="0">
                                       <Component id="jLabelAdhesionRate" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldAdhesionRate" pref="207" max="32767" attributes="0"/>
+                                      <Component id="jTextFieldAdhesionRate" pref="226" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Component id="jCheckBoxActiveMesure" min="-2" max="-2" attributes="0"/>

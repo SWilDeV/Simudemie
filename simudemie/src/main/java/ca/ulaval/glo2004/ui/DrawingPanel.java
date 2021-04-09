@@ -14,6 +14,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 
 /**
  *
@@ -38,7 +39,7 @@ public class DrawingPanel extends JPanel  {
         this.mainWindow = mainWindow;
         setVisible(true);
         initialDimension = new Dimension(mainWindow.getWidth(),mainWindow.getHeight());
-        //setPreferredSize(initialDimension);
+        setPreferredSize(initialDimension);
     }
     
     @Override
@@ -57,7 +58,6 @@ public class DrawingPanel extends JPanel  {
             at = g2d.getTransform();
             at.translate(zoomPointX, zoomPointY);
             at.scale(zoom, zoom);
-            setSize((int)(initialDimension.width * zoom), (int)(initialDimension.height * zoom));
             at.translate(-zoomPointX, -zoomPointY);
             g2d.setTransform(at);
             mainWindow.Draw(g2d);
@@ -92,6 +92,7 @@ public class DrawingPanel extends JPanel  {
     }
     
     public Point GetPointOnPanel(Point position) throws NoninvertibleTransformException {
+        //TODO: ISSUE -> Il faut pouvoir map les coordonnes du zoom pour cliquer sur les pays.
         double x = position.getX() / zoom;
         double y = position.getY() / zoom;
         
