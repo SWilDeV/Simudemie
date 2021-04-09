@@ -39,6 +39,7 @@ public class World implements Serializable {
     public void addCountry(Country country){
          countryList.add(country);
          worldController.NotifyCountryCreated(new CountryDTO(country));
+         UpdateLandBorder(country.GetId());
     }
 
     public void addLink(Link link) {
@@ -109,14 +110,6 @@ public class World implements Serializable {
     
     public List getLinks(){
         return linkList;
-    }
-    
-    public void getInfos(UUID countryId) {
-        //Return le pays en DTO ?
-        Country country = FindCountryByUUID(countryId);
-        if(country != null) {
-            //Do something...
-        }
     }
     
     public Population getWorldPopulation(){
@@ -204,7 +197,7 @@ public class World implements Serializable {
         Country c = FindCountryByUUID(country.Id);
         if(c != null){
             c.fromCountryDTO(country);
-            UpdateLandBorder(country);
+            UpdateLandBorder(country.Id);
             c.setName(country.Name);
             c.setPopulation(new Population(country.populationDTO.totalPopulationDTO));
         }
@@ -234,10 +227,29 @@ public class World implements Serializable {
         }
     }
     
-    public void UpdateLandBorder(CountryDTO country) {
+    public boolean ExistLink(Country a, Country b, Link.LinkType type) {
+        return linkList.stream().anyMatch(l -> l.GetLinkType().equals(type) &&
+                                                   (l.getCountry1().GetId() == a.GetId() ||
+                                                    l.getCountry2().GetId() == a.GetId()) &&
+                                                   (l.getCountry1().GetId() == b.GetId() ||
+                                                    l.getCountry2().GetId() == b.GetId()));
+    }
+    
+    public void UpdateLandBorder(UUID countryId) {
+        Country country = FindCountryByUUID(countryId);
+
+        for(Country c: countryList) {
+            if(c != country) {
+                if(Utility.AsCommonLandBorder(c, country) && !ExistLink(c, country, LinkType.TERRESTRE)) {
+                    Addlink(c.GetId(), country.GetId(), LinkType.TERRESTRE);
+                }
+            }
+        }
+        
+        
         List<Link> links = linkList.stream().filter(l -> l.GetLinkType().equals(LinkType.TERRESTRE) &&
-                                                   (l.getCountry1().GetId() == country.Id ||
-                                                    l.getCountry2().GetId() == country.Id)).collect(Collectors.toList());
+                                                   (l.getCountry1().GetId() == country.GetId() ||
+                                                    l.getCountry2().GetId() == country.GetId())).collect(Collectors.toList());
         
         if(links != null) {
             for(int i = 0; i < links.size(); i++) {
@@ -246,6 +258,7 @@ public class World implements Serializable {
                 }
             }
         }
+        
         worldController.NotifyLinksUpdated();
     }
     

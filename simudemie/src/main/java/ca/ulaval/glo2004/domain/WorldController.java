@@ -7,6 +7,7 @@ package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.Link.LinkType;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.io.File;
 import java.io.FileInputStream;
@@ -124,12 +125,12 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
-    public void Draw(Graphics g) {
-        worldDrawer.draw(g);
+    public void Draw(Graphics2D g2d) {
+        worldDrawer.draw(g2d);
     }
     
-    public void DrawCountryInfo(Graphics g, Point mousePosition, CountryDTO country) {
-        worldDrawer.drawCountryInfos(g, mousePosition, country);
+    public void DrawCountryInfo(Graphics2D g2d, Point mousePosition, CountryDTO country) {
+        worldDrawer.drawCountryInfos(g2d, mousePosition, country);
     }
     
     public void AddCountry(List<Point> points, String countryName, int countryPop) {
@@ -279,10 +280,6 @@ public class WorldController implements java.io.Serializable {
     
     public void Redo() {
         
-    }
-    
-    public void GetCountryInfo(UUID countryId) { //Maybe rename: DisplayCountryInfo ?
-        world.getInfos(countryId);
     }
     
     public void zoom(double amount, Point mousePosition, int width, int height) {
