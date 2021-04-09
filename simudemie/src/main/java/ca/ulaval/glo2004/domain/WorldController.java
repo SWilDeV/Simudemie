@@ -282,10 +282,6 @@ public class WorldController implements java.io.Serializable {
         
     }
     
-    public void GetCountryInfo(UUID countryId) { //Maybe rename: DisplayCountryInfo ?
-        world.getInfos(countryId);
-    }
-    
     public void zoom(double amount, Point mousePosition, int width, int height) {
         worldDrawer.Zoom(amount, mousePosition, width, height);
     }
