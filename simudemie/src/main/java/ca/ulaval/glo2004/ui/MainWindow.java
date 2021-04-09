@@ -1662,7 +1662,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }//GEN-LAST:event_jButtonResetZoomActionPerformed
 
     private void jButtonScreenShotWorldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonScreenShotWorldActionPerformed
-        // TODO add your handling code here:
+        // TODO : ajouter un filePicker pour save a l'endroit + type qu'on veut
         drawingPanel.SaveScreenShot("test_now_2.png");
        
     }//GEN-LAST:event_jButtonScreenShotWorldActionPerformed
