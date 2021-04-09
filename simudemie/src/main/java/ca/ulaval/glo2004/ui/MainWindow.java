@@ -18,6 +18,7 @@ import ca.ulaval.glo2004.domain.WorldController;
 import ca.ulaval.glo2004.domain.WorldObserver;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -234,6 +235,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jPanelModifyLink = new javax.swing.JPanel();
         jComboBoxModifyLink = new javax.swing.JComboBox<>();
         jLabelModifyLinkType = new javax.swing.JLabel();
+        jButtonResetZoom = new javax.swing.JButton();
         jPanelSimulation = new javax.swing.JPanel();
         jBtnReset = new javax.swing.JButton();
         jBtnPause = new javax.swing.JButton();
@@ -300,6 +302,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jLabelTitle.setFont(new java.awt.Font("Academy Engraved LET", 0, 36)); // NOI18N
         jLabelTitle.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabelTitle.setText("Simudémie");
+
+        jScrollPaneMap.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPaneMap.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         jPanelDraw.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -605,14 +610,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             .addGroup(jPanelAddLinkLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelAddLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelAddLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanelAddLinkLayout.createSequentialGroup()
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBoxAddLink, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanelAddLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanelAddLinkLayout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jComboBoxAddLink, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelAddLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPaneLinks, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
                     .addComponent(jButtonDeleteLink, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(36, Short.MAX_VALUE))
@@ -665,18 +669,26 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jPanelConceptionOptions.add(jPanelModifyLink, "card3");
 
+        jButtonResetZoom.setText("Reset zoom");
+        jButtonResetZoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonResetZoomActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelConceptionLayout = new javax.swing.GroupLayout(jPanelConception);
         jPanelConception.setLayout(jPanelConceptionLayout);
         jPanelConceptionLayout.setHorizontalGroup(
             jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelConceptionLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jToggleBtnModifyCountry, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
+                    .addComponent(jToggleBtnModifyLink, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jToggleBtnAddLink, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jToggleBtnAddCountry, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jToggleBtnModifyCountry, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
-                    .addComponent(jToggleBtnModifyLink, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jToggleBtnAddLink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(jButtonResetZoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
             .addGroup(jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConceptionLayout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -694,7 +706,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addComponent(jToggleBtnAddLink)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleBtnModifyLink)
-                .addContainerGap(573, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonResetZoom)
+                .addContainerGap(541, Short.MAX_VALUE))
             .addGroup(jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConceptionLayout.createSequentialGroup()
                     .addContainerGap(183, Short.MAX_VALUE)
@@ -1156,9 +1170,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addComponent(jLabelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelLegend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTabbedMainPane, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPaneMap, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPaneMap))
                 .addContainerGap())
         );
 
@@ -1212,7 +1226,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }
     
     private void jPanelDrawMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelDrawMousePressed
-        Point mousePoint = evt.getPoint();
+        Point mousePoint = drawingPanel.GetPointOnPanel(evt.getPoint()); //evt.getPoint();
         
         if (jTabbedMainPane.getSelectedIndex() == 1) {
             
@@ -1400,8 +1414,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }//GEN-LAST:event_jTextFieldChangeCountryPopKeyPressed
 
     private void jPanelDrawMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jPanelDrawMouseWheelMoved
-        // TODO add your handling code here:
-        //Zoom à implémenter ??
+        drawingPanel.Zoom(evt);
     }//GEN-LAST:event_jPanelDrawMouseWheelMoved
 
     private void jToggleBtnModifyLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleBtnModifyLinkActionPerformed
@@ -1605,10 +1618,14 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         }
     }//GEN-LAST:event_jButtonDeleteMesureActionPerformed
 
-    public void Draw(Graphics g){
-        worldController.Draw(g); 
+    private void jButtonResetZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetZoomActionPerformed
+        drawingPanel.ResetZoom();
+    }//GEN-LAST:event_jButtonResetZoomActionPerformed
+
+    public void Draw(Graphics2D g2d){
+        worldController.Draw(g2d); 
         if(onHoverCountry != null) {
-            worldController.DrawCountryInfo(g, onHoverMousePosition, onHoverCountry);
+            worldController.DrawCountryInfo(g2d, onHoverMousePosition, onHoverCountry);
         }
     }
     
@@ -1664,6 +1681,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JButton jButtonForward;
     private javax.swing.JButton jButtonModifyRegion;
     private javax.swing.JButton jButtonRemoveRegion;
+    private javax.swing.JButton jButtonResetZoom;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBoxActiveMesure;
     private javax.swing.JComboBox<String> jComboBoxAddLink;

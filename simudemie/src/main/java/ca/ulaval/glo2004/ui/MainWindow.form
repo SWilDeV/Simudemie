@@ -115,9 +115,9 @@
                   <Component id="jPanelLegend" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jTabbedMainPane" min="-2" pref="741" max="-2" attributes="0"/>
-                  <Component id="jScrollPaneMap" min="-2" pref="741" max="-2" attributes="0"/>
+                  <Component id="jScrollPaneMap" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -135,6 +135,10 @@
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPaneMap">
+      <Properties>
+        <Property name="horizontalScrollBarPolicy" type="int" value="31"/>
+        <Property name="verticalScrollBarPolicy" type="int" value="21"/>
+      </Properties>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
@@ -175,13 +179,14 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="jToggleBtnModifyCountry" alignment="0" pref="358" max="32767" attributes="0"/>
+                          <Component id="jToggleBtnModifyLink" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jToggleBtnAddLink" alignment="0" max="32767" attributes="0"/>
                           <Component id="jToggleBtnAddCountry" max="32767" attributes="0"/>
-                          <Component id="jToggleBtnModifyCountry" pref="390" max="32767" attributes="0"/>
-                          <Component id="jToggleBtnModifyLink" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jToggleBtnAddLink" max="32767" attributes="0"/>
+                          <Component id="jButtonResetZoom" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace pref="44" max="32767" attributes="0"/>
                   </Group>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
@@ -203,7 +208,9 @@
                       <Component id="jToggleBtnAddLink" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jToggleBtnModifyLink" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="573" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButtonResetZoom" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="541" max="32767" attributes="0"/>
                   </Group>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
@@ -614,16 +621,14 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Component id="jLabel10" min="-2" pref="92" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="jComboBoxAddLink" min="-2" pref="196" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jSeparator3" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
-                                          <Component id="jLabel6" alignment="0" min="-2" pref="92" max="-2" attributes="0"/>
-                                      </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="jLabel10" min="-2" pref="92" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="jComboBoxAddLink" min="-2" pref="196" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jSeparator3" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
+                                      <Component id="jLabel6" alignment="0" min="-2" pref="92" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="jScrollPaneLinks" alignment="0" pref="342" max="32767" attributes="0"/>
                                   <Component id="jButtonDeleteLink" alignment="0" max="32767" attributes="0"/>
@@ -769,6 +774,14 @@
                 </Container>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JButton" name="jButtonResetZoom">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Reset zoom"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonResetZoomActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanelSimulation">

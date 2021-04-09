@@ -39,33 +39,33 @@ public class WorldDrawer implements java.io.Serializable {
         }
     }
     
-    public void draw(Graphics g) {
-        drawCountries(g);
-        drawLinks(g);
+    public void draw(Graphics2D g2d) {
+        drawCountries(g2d);
+        drawLinks(g2d);
     }
     
-    public void drawRegionInfo(Graphics g, Point mousePosition, RegionDTO region) {
+    public void drawRegionInfo(Graphics2D g2d, Point mousePosition, RegionDTO region) {
         String totalPopulation = String.valueOf(region.SubPopulation.totalPopulationDTO);
         int boxWidth = totalPopulation.length() * 8 + 100;
         
-        g.setColor(Color.WHITE);
-        g.fillRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
-        g.setColor(Color.BLACK);
-        g.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
 
         int tempY = (int)mousePosition.getY();
         for(String str: region.toString().split("\n")) {
-            g.drawString(str, (int)mousePosition.getX() + 1, tempY += g.getFontMetrics().getHeight());        
+            g2d.drawString(str, (int)mousePosition.getX() + 1, tempY += g2d.getFontMetrics().getHeight());        
         }
     }
     
-    public void drawCountryInfos(Graphics g, Point mousePosition, CountryDTO country) {  
+    public void drawCountryInfos(Graphics2D g2d, Point mousePosition, CountryDTO country) {  
         
         boolean onRegion = false;
         
         for(RegionDTO r: country.Regions) {
             if(Utility.IsInRectangle(r.Shape.GetPoints(), mousePosition)) {
-                drawRegionInfo(g, mousePosition, r);
+                drawRegionInfo(g2d, mousePosition, r);
                 onRegion = true;
                 break;
             }
@@ -75,14 +75,14 @@ public class WorldDrawer implements java.io.Serializable {
             String totalPopulation = String.valueOf(country.populationDTO.totalPopulationDTO);
             int boxWidth = totalPopulation.length() * 8 + 100;
 
-            g.setColor(Color.WHITE);
-            g.fillRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
-            g.setColor(Color.BLACK);
-            g.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
+            g2d.setColor(Color.WHITE);
+            g2d.fillRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
+            g2d.setColor(Color.BLACK);
+            g2d.drawRect((int)mousePosition.getX(), (int)mousePosition.getY(), boxWidth, 100);
 
             int tempY = (int)mousePosition.getY();
             for(String str: country.toString().split("\n")) {
-                g.drawString(str, (int)mousePosition.getX() + 1, tempY += g.getFontMetrics().getHeight());        
+                g2d.drawString(str, (int)mousePosition.getX() + 1, tempY += g2d.getFontMetrics().getHeight());        
             }
         }
     }
@@ -101,50 +101,49 @@ public class WorldDrawer implements java.io.Serializable {
         return new Polygon(pointsX, pointsY, size);
     }
     
-    private void drawRegion(Graphics g, CountryDTO country) { 
+    private void drawRegion(Graphics2D g2d, CountryDTO country) { 
         for(RegionDTO r: country.Regions) {
             List<Point> pts = r.Shape.GetPoints();
             
             Polygon poly = CreatePolygon(pts);
             
-            g.setColor(r.Color);
-            g.fillPolygon(poly);
-            g.setColor(Color.black);
+            g2d.setColor(r.Color);
+            g2d.fillPolygon(poly);
+            g2d.setColor(Color.black);
             if(r.IsSelected) {
-                g.setColor(Color.YELLOW);
+                g2d.setColor(Color.YELLOW);
             }
-            g.drawPolygon(poly);
+            g2d.drawPolygon(poly);
         }
     }
     
-    private void drawCountries(Graphics g) {
+    private void drawCountries(Graphics2D g2d) {
         List<CountryDTO> countries = controller.GetCountries();
         for(CountryDTO country : countries) {
             GeometricForm form = country.Shape;
             
             Polygon poly = CreatePolygon(form.GetPoints());
-            g.setColor(country.Color);
-            g.fillPolygon(poly);
+            g2d.setColor(country.Color);
+            g2d.fillPolygon(poly);
             
-            drawRegion(g, country);
+            drawRegion(g2d, country);
             
-            g.setColor(Color.BLACK);
+            g2d.setColor(Color.BLACK);
             if(country.IsSelected) {
-                g.setColor(Color.YELLOW);
+                g2d.setColor(Color.YELLOW);
             }
-            g.drawPolygon(poly);
+            g2d.drawPolygon(poly);
             
-            g.setColor(Color.BLACK);
+            g2d.setColor(Color.BLACK);
             Point center = country.Shape.GetCenter();
-            g.drawString(country.Name, (int)center.getX(), ((int)center.getY()-20));
+            g2d.drawString(country.Name, (int)center.getX(), ((int)center.getY()-20));
             String totPop = Integer.toString(country.getPopulationDTO().getTotalPopulationDTO());
-            g.drawString(totPop, (int)center.getX(), (int)center.getY());
+            g2d.drawString(totPop, (int)center.getX(), (int)center.getY());
         }
     }
     
-    private void drawLinks(Graphics g) {
+    private void drawLinks(Graphics2D g2d) {
         List<LinkDTO> links = controller.GetLinks();
-        Graphics2D g2 = (Graphics2D) g;
 
         for(LinkDTO link: links) {
             if(link.LinkType == Link.LinkType.TERRESTRE) {
@@ -152,14 +151,14 @@ public class WorldDrawer implements java.io.Serializable {
                 Line2D line = new Line2D.Float(pt.get(0).x, pt.get(0).y, pt.get(1).x, pt.get(1).y);
                 
                 if(link.IsSelected) {
-                    g2.setColor(Color.YELLOW);
-                    g2.setStroke(new BasicStroke(8));
-                    g2.draw(line);
+                    g2d.setColor(Color.YELLOW);
+                    g2d.setStroke(new BasicStroke(8));
+                    g2d.draw(line);
                 }
                 
-                g2.setColor(Color.cyan);
-                g2.setStroke(new BasicStroke(5));
-                g2.draw(line);
+                g2d.setColor(Color.cyan);
+                g2d.setStroke(new BasicStroke(5));
+                g2d.draw(line);
             } else {
                 GeneralPath path = new GeneralPath();
                 Point countryPoint1 = link.Country1.Shape.GetCenter();
@@ -174,18 +173,18 @@ public class WorldDrawer implements java.io.Serializable {
                                                  countryPoint2.getX(), countryPoint2.getY());
                 
                 if(link.IsSelected) {
-                    g2.setColor(Color.YELLOW);
-                    g2.setStroke(new BasicStroke(5));
-                    g2.draw(path);
+                    g2d.setColor(Color.YELLOW);
+                    g2d.setStroke(new BasicStroke(5));
+                    g2d.draw(path);
                 }
 
-                g2.setColor(Link.GetColor(link.LinkType));
-                g2.setStroke(new BasicStroke(2));
-                g2.draw(path);
+                g2d.setColor(Link.GetColor(link.LinkType));
+                g2d.setStroke(new BasicStroke(2));
+                g2d.draw(path);
             }
         }
         
-        g2.setStroke(new BasicStroke(1));
+        g2d.setStroke(new BasicStroke(1));
     }
     
     public void setZoom(float p_zoom){
