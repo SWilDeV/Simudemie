@@ -65,6 +65,11 @@ public class Simulation implements Serializable {
             System.out.println("demarré");
             SetRunning(true);
             
+            int undoRedoSize = GetMaxDay();
+            if(undoRedoSize > 0) {
+                undoRedoHistory.subList(undoRedoIndex, undoRedoSize).clear();
+            }
+            
             //Initialiser le patient zero
             if(controller.getWorld().getWorldPopulation().getInfectedPopulation() == 0){
                 initializePatientZero(countries);
@@ -177,27 +182,21 @@ public class Simulation implements Serializable {
         }
     }
     
-    public int nextDay() {
-        return elapsedDay +=1;
-    }
-    
     public void Pause() {
-        if(isRunning == true){
+        if(isRunning){
             timer.cancel();
             timer.purge();
             this.isRunning = false;
         }
     }
     
-    public int previousDay() {
-        return elapsedDay -=1;
-    }
-    
     public void Reset() {
-        if(isRunning == true){
-            this.isRunning=false;
+        if(isRunning){
+            this.isRunning = false;
         }
+        
         elapsedDay = 0;
+        undoRedoIndex = 0;
         ClearUndoRedo();
     }
     
@@ -325,14 +324,12 @@ public class Simulation implements Serializable {
             elapsedDay++;
         }
         
-        System.out.println("INDEX " + undoRedoIndex + " SIZE " + undoRedoHistory.size());
-        
         return GetWorld(undoRedoIndex);
     }
     
     public World SpecificRedo(int position) {
         undoRedoIndex = position;
-        elapsedDay = position + 1; // Plus 1 car on pars de 0, make sens ?
+        elapsedDay = position;
         
         return GetWorld(undoRedoIndex);
     }

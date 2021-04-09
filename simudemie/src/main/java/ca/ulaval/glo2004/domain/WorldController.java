@@ -36,6 +36,10 @@ public class WorldController implements java.io.Serializable {
         return simulation.GetElapsedDay();
     }
     
+    public int GetMaxDay() { //TODO: Peut etre changer le nom ? Cela fait reference au nombre de UNDO REDO fait.
+        return simulation.GetMaxDay();
+    }
+    
     public CountryDTO GetCountryDTO(UUID id) {
         Country c = world.FindCountryByUUID(id);
         if(c != null) {
@@ -157,6 +161,12 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
+    public void NotifiyOnSimulationStopped() {
+        for(WorldObserver ob: observers) {
+            ob.OnSimulationStopped();
+        }
+    }
+    
     public void Draw(Graphics2D g2d) {
         worldDrawer.draw(g2d);
     }
@@ -250,13 +260,14 @@ public class WorldController implements java.io.Serializable {
     public void StartSimulation(int timeStep) throws NotAllPopulationAssign {
         if(!simulation.getIsRunning()) {
             world.ValidateRegions();
-            NotifySimulationStarted();
             simulation.Simulate(timeStep);
+            NotifySimulationStarted();
         }
     }
     
     public void pauseSimulation() {
         simulation.Pause();
+        NotifiyOnSimulationStopped();
     }
     
     public void resetSimulation() {
@@ -307,6 +318,8 @@ public class WorldController implements java.io.Serializable {
     }
     
     public void Undo() {
+        simulation.Pause();
+        
         World w = simulation.Undo();
         if(w != null) {
             world.LoadWorld(w);
@@ -314,7 +327,19 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
+    public void UndoRedoAt(int position) {
+        simulation.Pause();
+        
+        World w = simulation.SpecificRedo(position);
+        if(w != null) {
+            world.LoadWorld(w);
+            NotifyOnSimulationUndoRedo();
+        }
+    }
+    
     public void Redo() {
+        simulation.Pause();
+        
         World w = simulation.Redo();
         if(w != null) {
             System.err.println("Redo");
