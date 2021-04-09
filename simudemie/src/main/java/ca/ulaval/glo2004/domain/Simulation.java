@@ -24,7 +24,7 @@ public class Simulation implements Serializable {
     
     private boolean isRunning = false;
     private int elapsedDay = 0;
-    private ArrayList<World> undoRedoHistory = new ArrayList<World>();
+    private ArrayList<UndoRedo> undoRedoHistory = new ArrayList<>();
     private transient final WorldController controller;
     private Timer timer = new Timer();
     private static final long serialVersionUID = 4L; 
@@ -44,7 +44,15 @@ public class Simulation implements Serializable {
         return this.elapsedDay;
     }
     
-    public int GetMaxDay() {
+    public void SetElapsedDay(int day) {
+        elapsedDay = day;
+    }
+    
+    public int GetUndoRedoPosition() {
+        return undoRedoIndex;
+    }
+    
+    public int GetUndoRedoSize() {
         return undoRedoHistory.size();
     }
     
@@ -65,7 +73,7 @@ public class Simulation implements Serializable {
             System.out.println("demarré");
             SetRunning(true);
             
-            int undoRedoSize = GetMaxDay();
+            int undoRedoSize = GetUndoRedoSize();
             if(undoRedoSize > 0) {
                 undoRedoHistory.subList(undoRedoIndex, undoRedoSize).clear();
             }
@@ -126,7 +134,7 @@ public class Simulation implements Serializable {
                         elapsedDay +=1;
                         
                         try {
-                            AddUndoRedoWorld(controller.getWorld().clone());
+                            AddUndoRedoWorld(controller.getWorld(), controller.getDisease());
                         } catch (CloneNotSupportedException ex) {
                             Logger.getLogger(Simulation.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -303,35 +311,31 @@ public class Simulation implements Serializable {
         return newInfectedPop;
     }
     
-    public void AddUndoRedoWorld(World world) { //TODO: Demande ce qu'il entend par undo. Undo une action, ou une jouurnee ?
-        undoRedoHistory.add(world);
+    public void AddUndoRedoWorld(World world, Disease disease) throws CloneNotSupportedException { //TODO: Demande ce qu'il entend par undo. Undo une action, ou une jouurnee ?
+        undoRedoHistory.add(new UndoRedo(world.clone(), disease.clone(), elapsedDay));
         undoRedoIndex++;
     }
     
-    public World Undo() {
+    public UndoRedo Undo() {
         if(undoRedoIndex - 1 >= 0) {
             undoRedoIndex--;
-            elapsedDay--;
         }
         
-        return GetWorld(undoRedoIndex);
+        return GetUndoRedo(undoRedoIndex);
     }
     
-    public World Redo() {
+    public UndoRedo Redo() {
         
         if(undoRedoIndex + 1 < undoRedoHistory.size()) {
             undoRedoIndex++;
-            elapsedDay++;
         }
         
-        return GetWorld(undoRedoIndex);
+        return GetUndoRedo(undoRedoIndex);
     }
     
-    public World SpecificRedo(int position) {
+    public UndoRedo SpecificRedo(int position) {
         undoRedoIndex = position;
-        elapsedDay = position;
-        
-        return GetWorld(undoRedoIndex);
+        return GetUndoRedo(undoRedoIndex);
     }
     
     public void ClearUndoRedo() {
@@ -339,7 +343,7 @@ public class Simulation implements Serializable {
         undoRedoIndex = 0;
     }
     
-    private World GetWorld(int undoPosition) {
+    private UndoRedo GetUndoRedo(int undoPosition) {
         if(undoPosition < 0 || undoRedoHistory.isEmpty() || undoPosition >= undoRedoHistory.size()) {
             return null;
         }

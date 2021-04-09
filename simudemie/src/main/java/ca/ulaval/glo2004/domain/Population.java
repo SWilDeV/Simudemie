@@ -14,10 +14,10 @@ import java.io.Serializable;
 public class Population implements Serializable, Cloneable { 
     //    Attributs
     private int totalPopulation = 0;
-    private int infectedPopulation =0;
+    private int infectedPopulation = 0;
     private int curedPopulation = 0;
     private int deadPopulation = 0;
-    private int nonInfectedPopulation =0;
+    private int nonInfectedPopulation = 0;
     private static final long serialVersionUID = 5L; 
     
     public Population(){

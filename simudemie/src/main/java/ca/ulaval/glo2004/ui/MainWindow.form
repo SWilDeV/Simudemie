@@ -1475,13 +1475,12 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelUndoRedoSliderText">
       <Properties>
-        <Property name="text" type="java.lang.String" value="1000"/>
+        <Property name="text" type="java.lang.String" value="0"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSlider" name="jSliderUndoRedo">
       <Properties>
         <Property name="maximum" type="int" value="0"/>
-        <Property name="value" type="int" value="0"/>
       </Properties>
       <Events>
         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderUndoRedoStateChanged"/>

@@ -52,6 +52,7 @@ public class World implements Serializable, Cloneable {
 
     public void addLink(Link link) {
         linkList.add(link);
+        worldController.NotifyOnLinkCreated();
     }
     
     public void Addlink(UUID firstCountryId, UUID secondCountryId, Link.LinkType type) {
@@ -70,7 +71,8 @@ public class World implements Serializable, Cloneable {
         
         if(isAbleToLink) {
             linkList.add(link);
-            worldController.NotifyLinksUpdated();
+            worldController.NotifyLinksUpdated(); //TODO: Changer!!! pour worldController.NotifyOnLinkCreated();
+            worldController.NotifyOnLinkCreated();
         }
         
     }
@@ -79,6 +81,7 @@ public class World implements Serializable, Cloneable {
         Country country = FindCountryByUUID(countryId);
         if(country != null) {
             country.addRegion(points, name, popPercentage);
+            worldController.NotifyOnRegionCreated();
         }
     }
         
@@ -140,6 +143,7 @@ public class World implements Serializable, Cloneable {
         if(country != null) {
             RemoveAllBorders(country);
             countryList.remove(country);
+            worldController.NotifyOnCountryDestroy();
         }
     }
     
@@ -147,7 +151,8 @@ public class World implements Serializable, Cloneable {
         Link link = FindLinkByUUID(linkId);
         if(link != null) {
             linkList.remove(link);
-            worldController.NotifyLinksUpdated();
+            worldController.NotifyLinksUpdated(); //TODO: Changer ca!!!
+            worldController.NotifyOnLinkDestroy();
         }
     }
     
@@ -156,6 +161,7 @@ public class World implements Serializable, Cloneable {
        if(c != null) {
             HealthMesure mesure = new CustomMeasure(adhesionRate, active, mesureName);
             c.AddMesure(mesure);
+            worldController.NotifyOnMesureCreated();
        }
     }
     
@@ -163,6 +169,7 @@ public class World implements Serializable, Cloneable {
        Country c = FindCountryByUUID(countryId);
        if(c != null) {
         c.RemoveMesure(mesureId);
+        worldController.NotifyOnMesureDestroy();
        }
     }
     
@@ -177,6 +184,7 @@ public class World implements Serializable, Cloneable {
         Country c = FindCountryByUUID(countryId);
         if(c != null) {
             c.UpdateRegion(region);
+            worldController.NotifyOnRegionUpdated();
         }
     }
     
@@ -190,6 +198,7 @@ public class World implements Serializable, Cloneable {
         Country c = FindCountryByUUID(countryId);
         if(c != null) {
             c.removeRegion(regionId);
+            worldController.NotifyOnRegionDestroy();
         }
     }
     

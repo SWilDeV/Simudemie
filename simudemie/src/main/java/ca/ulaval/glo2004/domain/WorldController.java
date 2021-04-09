@@ -36,8 +36,12 @@ public class WorldController implements java.io.Serializable {
         return simulation.GetElapsedDay();
     }
     
-    public int GetMaxDay() { //TODO: Peut etre changer le nom ? Cela fait reference au nombre de UNDO REDO fait.
-        return simulation.GetMaxDay();
+    public int GetUndoRedoSize() { //TODO: Peut etre changer le nom ? Cela fait reference au nombre de UNDO REDO fait.
+        return simulation.GetUndoRedoSize();
+    }
+    
+    public int GetUndoRedoPosition() {
+        return simulation.GetUndoRedoPosition();
     }
     
     public CountryDTO GetCountryDTO(UUID id) {
@@ -97,10 +101,12 @@ public class WorldController implements java.io.Serializable {
         return null;
     }
     
-    public WorldController() {
+    public WorldController() throws CloneNotSupportedException {
         worldDrawer = new WorldDrawer(this);
         world = new World(this);
         simulation = new Simulation(this);
+        
+        AddUndoRedo();
     }
     
     public World getWorld(){
@@ -125,9 +131,57 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
+    public void NotifyOnRegionCreated() {
+        for(WorldObserver ob: observers) {
+            ob.OnRegionCreated();
+        }
+    }
+    
+    public void NotifyOnRegionUpdated() {
+        for(WorldObserver ob: observers) {
+            ob.OnRegionUpdated();
+        }
+    }
+    
+    public void NotifyOnRegionDestroy() {
+        for(WorldObserver ob: observers) {
+            ob.OnRegionDestroy();
+        }
+    }
+    
+    public void NotifyOnMesureCreated() {
+        for(WorldObserver ob: observers) {
+            ob.OnMesuresCreated();
+        }
+    }
+    
+    public void NotifyOnMesureUpdated() {
+        for(WorldObserver ob: observers) {
+            ob.OnMesuresUpdated();
+        }
+    }
+    
+    public void NotifyOnMesureDestroy() {
+        for(WorldObserver ob: observers) {
+            ob.OnMesuresDestroy();
+        }
+    }
+    
+    public void NotifyOnLinkCreated() {
+        for(WorldObserver ob: observers) {
+            ob.OnLinkCreated();
+        }
+    }
+    
     public void NotifyLinksUpdated() {
         for(WorldObserver ob: observers) {
             ob.OnLinksUpdated();
+        }
+    }
+    
+    public void NotifyOnLinkDestroy() {
+        for(WorldObserver ob: observers) {
+            ob.OnLinkDestroyed();
         }
     }
     
@@ -137,21 +191,15 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
-    public void NotifySimulationStarted() {
+    public void NotifyOnCountryUpdated() {
         for(WorldObserver ob: observers) {
-            ob.OnSimulationStarted();
+            ob.OnCountryUpdated();
         }
     }
     
-    public void NotifyProjectLoaded() {
+    public void NotifyOnCountryDestroy() {
         for(WorldObserver ob: observers) {
-            ob.OnProjectLoaded();
-        }
-    }
-    
-    public void NotifyOnSimulationReset() {
-        for(WorldObserver ob: observers) {
-            ob.OnSimulationReset();
+            ob.OnCountryDestroy();
         }
     }
     
@@ -161,9 +209,27 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
+    public void NotifySimulationStarted() {
+        for(WorldObserver ob: observers) {
+            ob.OnSimulationStarted();
+        }
+    }
+    
+    public void NotifyOnSimulationReset() {
+        for(WorldObserver ob: observers) {
+            ob.OnSimulationReset();
+        }
+    }
+    
     public void NotifiyOnSimulationStopped() {
         for(WorldObserver ob: observers) {
             ob.OnSimulationStopped();
+        }
+    }
+    
+    public void NotifyProjectLoaded() {
+        for(WorldObserver ob: observers) {
+            ob.OnProjectLoaded();
         }
     }
     
@@ -317,35 +383,33 @@ public class WorldController implements java.io.Serializable {
         
     }
     
+    public void AddUndoRedo() throws CloneNotSupportedException {
+        simulation.AddUndoRedoWorld(world, disease);
+    }
+    
     public void Undo() {
         simulation.Pause();
-        
-        World w = simulation.Undo();
-        if(w != null) {
-            world.LoadWorld(w);
-            NotifyOnSimulationUndoRedo();
-        }
+        UndoRedo ur = simulation.Undo();
+        if(ur != null) ApplyUndoRedo(ur);
     }
     
     public void UndoRedoAt(int position) {
-        simulation.Pause();
-        
-        World w = simulation.SpecificRedo(position);
-        if(w != null) {
-            world.LoadWorld(w);
-            NotifyOnSimulationUndoRedo();
-        }
+        simulation.Pause();    
+        UndoRedo ur = simulation.SpecificRedo(position);
+        if(ur != null) ApplyUndoRedo(ur);
     }
     
     public void Redo() {
         simulation.Pause();
-        
-        World w = simulation.Redo();
-        if(w != null) {
-            System.err.println("Redo");
-            world.LoadWorld(w);
-            NotifyOnSimulationUndoRedo();
-        }
+        UndoRedo ur = simulation.Redo();
+        if(ur != null) ApplyUndoRedo(ur);
+    }
+    
+    private void ApplyUndoRedo(UndoRedo ur) {
+        world.LoadWorld(ur.World);
+        disease = ur.Disease;
+        simulation.SetElapsedDay(ur.ElapsedDay);
+        NotifyOnSimulationUndoRedo();
     }
     
     public void zoom(double amount, Point mousePosition, int width, int height) {

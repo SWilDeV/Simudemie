@@ -37,7 +37,7 @@ import javax.swing.JSlider;
 public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     
     public DrawingPanel drawingPanel;
-    public WorldController worldController = new WorldController();
+    public WorldController worldController;
     
     public List<Point> countryPts = new ArrayList<>();
     public List<Point> regionPts = new ArrayList<>();
@@ -53,8 +53,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     /**
      * Creates new form MainWindow
      */
-    public MainWindow() {
+    public MainWindow() throws CloneNotSupportedException {
         initComponents();
+        
+        this.worldController = new WorldController();
         
         drawingPanel = new DrawingPanel(this, jPanelDraw);
         jPanelDraw.add(drawingPanel);
@@ -66,15 +68,71 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     @Override
     public void OnSimulationTick(int day, int deads, int infected, int PopTot) {
         System.err.println("Jour:" + day);
-        jSliderUndoRedo.setValue(worldController.GetMaxDay());
+        jSliderUndoRedo.setValue(worldController.GetUndoRedoSize());
         UpdateSimulationUI();
     }
     
     @Override
-    public void OnSimulationReset() {
-        UpdateSimulationUI();
-        UpdateSliderUndoRedo();
-        jSliderUndoRedo.setEnabled(true);
+    public void OnRegionCreated() {
+        try {
+            AddUndoRedo();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void OnRegionUpdated() {
+        try {
+            AddUndoRedo();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void OnRegionDestroy() {
+        try {
+            AddUndoRedo();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    public void OnMesuresCreated() {
+        try {
+            AddUndoRedo();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void OnMesuresUpdated() {
+        try {
+            AddUndoRedo();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void OnMesuresDestroy() {
+        try {
+            AddUndoRedo();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    public void OnLinkCreated() {
+        try {
+            AddUndoRedo();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override
@@ -83,8 +141,40 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }
     
     @Override
+    public void OnLinkDestroyed() {
+        try {
+            AddUndoRedo();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
     public void OnCountryCreated(CountryDTO country) {
         UpdateJRegionList(country);
+        try {
+            AddUndoRedo();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    public void OnCountryUpdated() {
+        try {
+            AddUndoRedo();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    public void OnCountryDestroy() {
+        try {
+            AddUndoRedo();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override
@@ -94,6 +184,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             UpdateJRegionList(countrySelected.Id);
             UpdateSliderUndoRedo();
         }
+    }
+    
+    @Override
+    public void OnSimulationReset() {
+        UpdateSimulationUI();
+        UpdateSliderUndoRedo();
+        jSliderUndoRedo.setEnabled(true);
     }
     
     @Override
@@ -192,8 +289,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }
     
     private void UpdateSliderUndoRedo() {
-        jSliderUndoRedo.setMaximum(worldController.GetMaxDay());
-        jSliderUndoRedo.setValue(worldController.GetElapsedDay());
+        jSliderUndoRedo.setMaximum(worldController.GetUndoRedoSize());
+        jSliderUndoRedo.setValue(worldController.GetUndoRedoPosition());
         jLabelUndoRedoSliderText.setText(String.valueOf(jSliderUndoRedo.getValue()));
     }
     
@@ -215,6 +312,15 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         } else {
             countrySelected = null;
         }
+    }
+    
+    private void AddUndoRedo() throws CloneNotSupportedException {
+        worldController.AddUndoRedo();
+        UpdateJLinkList();
+        UpdateSimulationUI();
+        
+        jSliderUndoRedo.setValue(worldController.GetUndoRedoSize());
+        jLabelUndoRedoSliderText.setText(String.valueOf(jSliderUndoRedo.getValue()));
     }
 
     /**
@@ -1159,10 +1265,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
-        jLabelUndoRedoSliderText.setText("1000");
+        jLabelUndoRedoSliderText.setText("0");
 
         jSliderUndoRedo.setMaximum(0);
-        jSliderUndoRedo.setValue(0);
         jSliderUndoRedo.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSliderUndoRedoStateChanged(evt);
@@ -1785,7 +1890,11 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainWindow().setVisible(true);
+                try {
+                    new MainWindow().setVisible(true);
+                } catch (CloneNotSupportedException ex) {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
