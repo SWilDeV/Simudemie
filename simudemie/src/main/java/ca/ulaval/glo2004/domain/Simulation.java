@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.Random;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import  mathematical_model.Calculation;
 
 /**
@@ -22,10 +24,12 @@ public class Simulation implements Serializable {
     
     private boolean isRunning = false;
     private int elapsedDay = 0;
-    //private ArrayList<World> dataHistory = new ArrayList<World>(); //livrable 4
+    private ArrayList<World> undoRedoHistory = new ArrayList<World>();
     private transient final WorldController controller;
     private Timer timer = new Timer();
     private static final long serialVersionUID = 4L; 
+    
+    private int undoRedoIndex = 0;
     
     public Simulation(WorldController p_controller){
         controller = p_controller;
@@ -36,12 +40,12 @@ public class Simulation implements Serializable {
         this.elapsedDay = elapsedDay;
     }
     
-//    public ArrayList<Integer> GetDataHistory() { //livrable 4
-//        return dataHistory;
-//    }
-    
     public int GetElapsedDay() {
         return this.elapsedDay;
+    }
+    
+    public int GetMaxDay() {
+        return undoRedoHistory.size();
     }
     
     public boolean getIsRunning() {
@@ -57,7 +61,7 @@ public class Simulation implements Serializable {
         List<Country> countries = controller.GetCountriesforSimulation();
         int countryListSize = countries.size();
         
-        if(countryListSize > 0){
+        if(countryListSize > 0) {
             System.out.println("demarré");
             SetRunning(true);
             
@@ -71,8 +75,7 @@ public class Simulation implements Serializable {
             timer = new Timer();
             timer.schedule(new TimerTask() {
                 public void run() {
-                    if(getIsRunning()){
-                        elapsedDay +=1;
+                    if(getIsRunning()){                        
                         //UPDATE DES PAYS ET LEURS REGIONS
                         for(Country country : countries) {
                             
@@ -80,7 +83,7 @@ public class Simulation implements Serializable {
                             List<Link> LinkList = controller.getWorld().getLinks();
                             if(LinkList.size()>0){
                                 for(Link link:LinkList){
-                                    updateCountriesWithLinks(link.getCountry1(),link.getCountry2());
+                                    updateCountriesWithLinks(controller.GetCountry(link.getCountry1Id()), controller.GetCountry(link.getCountry2Id()));
                                 }
                             }
                             
@@ -114,6 +117,14 @@ public class Simulation implements Serializable {
                         
                         //UPDATE DE LA POPULATION MONDIALE
                         updateWorldPopulation();
+                        
+                        elapsedDay +=1;
+                        
+                        try {
+                            AddUndoRedoWorld(controller.getWorld().clone());
+                        } catch (CloneNotSupportedException ex) {
+                            Logger.getLogger(Simulation.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }else{
                         timer.cancel();
                     }
@@ -187,6 +198,7 @@ public class Simulation implements Serializable {
             this.isRunning=false;
         }
         elapsedDay = 0;
+        ClearUndoRedo();
     }
     
     public Population UpdatePopulation(Region region){
@@ -292,5 +304,49 @@ public class Simulation implements Serializable {
         return newInfectedPop;
     }
     
+    public void AddUndoRedoWorld(World world) { //TODO: Demande ce qu'il entend par undo. Undo une action, ou une jouurnee ?
+        undoRedoHistory.add(world);
+        undoRedoIndex++;
+    }
     
+    public World Undo() {
+        if(undoRedoIndex - 1 >= 0) {
+            undoRedoIndex--;
+            elapsedDay--;
+        }
+        
+        return GetWorld(undoRedoIndex);
+    }
+    
+    public World Redo() {
+        
+        if(undoRedoIndex + 1 < undoRedoHistory.size()) {
+            undoRedoIndex++;
+            elapsedDay++;
+        }
+        
+        System.out.println("INDEX " + undoRedoIndex + " SIZE " + undoRedoHistory.size());
+        
+        return GetWorld(undoRedoIndex);
+    }
+    
+    public World SpecificRedo(int position) {
+        undoRedoIndex = position;
+        elapsedDay = position + 1; // Plus 1 car on pars de 0, make sens ?
+        
+        return GetWorld(undoRedoIndex);
+    }
+    
+    public void ClearUndoRedo() {
+        undoRedoHistory.clear();
+        undoRedoIndex = 0;
+    }
+    
+    private World GetWorld(int undoPosition) {
+        if(undoPosition < 0 || undoRedoHistory.isEmpty() || undoPosition >= undoRedoHistory.size()) {
+            return null;
+        }
+        
+        return undoRedoHistory.get(undoPosition);
+    }
 }

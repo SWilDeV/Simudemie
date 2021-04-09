@@ -14,21 +14,23 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
  *
  * @author charl
  */
-public class Country implements Serializable  {
+public class Country implements Serializable, Cloneable  {
     
     private List<HealthMesure> mesures = new ArrayList<>();
     private List<Region> regions = new ArrayList<>();
     private Population population;
     private GeometricForm shape;
-    private Color color;
+    private Color color = Color.GREEN;
     private String name;
-    private final UUID id;
+    private UUID id;
     private boolean isSelected;
     private static final long serialVersionUID = 2L; 
     
@@ -264,5 +266,41 @@ public class Country implements Serializable  {
         for(Region region:regions){
             region.setPopulation(population);
         }  
+    }
+    
+    @Override
+    public Country clone() throws CloneNotSupportedException {
+        Country country = null;
+        try {
+            country = (Country) super.clone();
+        } catch(CloneNotSupportedException cnse) {
+            cnse.printStackTrace(System.err);
+        }
+        
+        country.population = population.clone();
+        country.id = id;
+        country.color = new Color(color.getRed(), color.getGreen(), color.getBlue());
+        country.shape = shape.clone();
+        
+        
+        List<Region> regionsClone = new ArrayList<>(regions.size());
+        regions.forEach(r -> { try {
+            regionsClone.add((Region) r.clone());
+            } catch (CloneNotSupportedException ex) {
+                Logger.getLogger(Country.class.getName()).log(Level.SEVERE, null, ex);
+            }
+});
+        country.regions = regionsClone;
+          
+        List<HealthMesure> mesuresClone = new ArrayList<>(mesures.size());
+        mesures.forEach(m -> { try {
+            mesuresClone.add((HealthMesure) m.clone());
+            } catch (CloneNotSupportedException ex) {
+                Logger.getLogger(Country.class.getName()).log(Level.SEVERE, null, ex);
+            }
+});
+        country.mesures = mesuresClone;
+        
+        return country;
     }
 }

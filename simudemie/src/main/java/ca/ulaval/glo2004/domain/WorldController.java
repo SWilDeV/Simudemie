@@ -6,7 +6,6 @@
 package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.Link.LinkType;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.io.File;
@@ -29,7 +28,7 @@ public class WorldController implements java.io.Serializable {
     
     private World world = new World();
     private Simulation simulation;
-    private Disease disease = new Disease(0.04, 0.02, 0.15);
+    private Disease disease = new Disease(0.04, 0.02, 0.9);
     private final WorldDrawer worldDrawer;
     private List<WorldObserver> observers = new ArrayList<>(); //TODO: Discuter de ou mettre l'observer. Ici ou dans simulation ? 
     
@@ -37,9 +36,36 @@ public class WorldController implements java.io.Serializable {
         return simulation.GetElapsedDay();
     }
     
+    public CountryDTO GetCountryDTO(UUID id) {
+        Country c = world.FindCountryByUUID(id);
+        if(c != null) {
+            return new CountryDTO(c);
+        }
+        
+        return null;
+    }
+    
+    public Country GetCountry(UUID id) {
+        return world.FindCountryByUUID(id);
+    }
+    
+    public Link GetLink(UUID id) {
+        return world.FindLinkByUUID(id);
+    }
+    
+    public LinkDTO GetLinkDTO(UUID id) {
+        Link l = world.FindLinkByUUID(id);
+        if(l != null) {
+            return new LinkDTO(l);
+        }
+        
+        return null;
+    }
+    
     public List<CountryDTO> GetCountries() {
         return (List<CountryDTO>) world.getCountries().stream().map(e -> new CountryDTO((Country) e)).collect(Collectors.toList());
     }
+    
     public List<Country> GetCountriesforSimulation() {
         return (List<Country>) world.getCountries();
     }
@@ -122,6 +148,12 @@ public class WorldController implements java.io.Serializable {
     public void NotifyOnSimulationReset() {
         for(WorldObserver ob: observers) {
             ob.OnSimulationReset();
+        }
+    }
+    
+    public void NotifyOnSimulationUndoRedo() {
+        for(WorldObserver ob: observers) {
+            ob.OnSimulationUndoRedo();
         }
     }
     
@@ -265,7 +297,7 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
-    public void newProjet() {
+    public void newProjet() throws CloneNotSupportedException {        
         world.clearWorld();
         simulation.Reset();
     }
@@ -275,11 +307,20 @@ public class WorldController implements java.io.Serializable {
     }
     
     public void Undo() {
-        
+        World w = simulation.Undo();
+        if(w != null) {
+            world.LoadWorld(w);
+            NotifyOnSimulationUndoRedo();
+        }
     }
     
     public void Redo() {
-        
+        World w = simulation.Redo();
+        if(w != null) {
+            System.err.println("Redo");
+            world.LoadWorld(w);
+            NotifyOnSimulationUndoRedo();
+        }
     }
     
     public void zoom(double amount, Point mousePosition, int width, int height) {

@@ -24,6 +24,8 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -72,16 +74,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         UpdateSimulationUI();
     }
     
-    private void UpdateSimulationUI() {
-        Population pop = worldController.getWorld().getWorldPopulation();
-        jLabelDayElapsed.setText(String.valueOf(worldController.GetElapsedDay()));
-        jLabelDead.setText(String.valueOf(pop.getDeadPopulation()));
-        jLabelCase.setText(String.valueOf(pop.getInfectedPopulation()));
-        jLabelCured.setText(String.valueOf(pop.getNonInfectedPopulation()));
-        jLabelPopMondial.setText(String.valueOf(pop.getTotalPopulation()));
-        drawingPanel.repaint();
-    }
-    
     @Override
     public void OnLinksUpdated() {
         UpdateJLinkList();
@@ -100,12 +92,16 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }
     
     @Override
+    public void OnSimulationUndoRedo() {
+        UpdateSimulationUI();
+        if(countrySelected != null) {
+            UpdateJRegionList(countrySelected.Id);
+        }
+    }
+    
+    @Override
     public void OnProjectLoaded() {
         UpdateSimulationUI();
-        DiseaseDTO disease = worldController.GetDiseaseDTO();
-        jTextFieldMortalityRate.setText(String.valueOf(disease.getMortalityRateDTO() * 100));
-        jTextFieldReproductionRate.setText(String.valueOf(disease.getInfectionRateDTO() * 100));
-        jTextFieldCuredRate.setText(String.valueOf(disease.getCureRateDTO() * 100));
     }
     
     private void UpdateJLinkList() {
@@ -124,7 +120,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     break;
             }
             
-            name += l.Country1.Name + " <-> " + l.Country2.Name;
+            String name1 = worldController.GetCountryDTO(l.Country1Id).Name;
+            String name2 = worldController.GetCountryDTO(l.Country2Id).Name;
+            
+            name += name1 + " <-> " + name2;
             listModel.addElement(name);
         }
         jListLinks.setModel(listModel);
@@ -156,6 +155,23 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
              jListMesures.setModel(listMesuresModel);
              drawingPanel.repaint();
         }
+    }
+    
+    private void UpdateSimulationUI() {
+        Population pop = worldController.getWorld().getWorldPopulation();
+        jLabelDayElapsed.setText(String.valueOf(worldController.GetElapsedDay()));
+        jLabelDead.setText(String.valueOf(pop.getDeadPopulation()));
+        jLabelCase.setText(String.valueOf(pop.getInfectedPopulation()));
+        jLabelCured.setText(String.valueOf(pop.getNonInfectedPopulation()));
+        jLabelPopMondial.setText(String.valueOf(pop.getTotalPopulation()));
+        
+        
+        DiseaseDTO disease = worldController.GetDiseaseDTO();
+        jTextFieldMortalityRate.setText(String.valueOf(disease.getMortalityRateDTO() * 100));
+        jTextFieldReproductionRate.setText(String.valueOf(disease.getInfectionRateDTO() * 100));
+        jTextFieldCuredRate.setText(String.valueOf(disease.getCureRateDTO() * 100));
+        
+        drawingPanel.repaint();
     }
     
     private void SelectCountry(Point mousePosition) {
@@ -1206,7 +1222,11 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNewActionPerformed
-        worldController.newProjet();
+        try {
+            worldController.newProjet();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }//GEN-LAST:event_jMenuItemNewActionPerformed
 

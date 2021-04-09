@@ -16,4 +16,5 @@ public interface WorldObserver {
     public void OnSimulationStarted();
     public void OnProjectLoaded();
     public void OnSimulationReset();
+    public void OnSimulationUndoRedo();
 }

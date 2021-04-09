@@ -146,8 +146,10 @@ public class WorldDrawer implements java.io.Serializable {
         List<LinkDTO> links = controller.GetLinks();
 
         for(LinkDTO link: links) {
+            CountryDTO Country1 = controller.GetCountryDTO(link.Country1Id);
+            CountryDTO Country2 = controller.GetCountryDTO(link.Country2Id);
             if(link.LinkType == Link.LinkType.TERRESTRE) {
-                List<Point> pt = Utility.GetLandBorderPoints(link.Country1, link.Country2);
+                List<Point> pt = Utility.GetLandBorderPoints(Country1, Country2);
                 Line2D line = new Line2D.Float(pt.get(0).x, pt.get(0).y, pt.get(1).x, pt.get(1).y);
                 
                 if(link.IsSelected) {
@@ -161,8 +163,8 @@ public class WorldDrawer implements java.io.Serializable {
                 g2d.draw(line);
             } else {
                 GeneralPath path = new GeneralPath();
-                Point countryPoint1 = link.Country1.Shape.GetCenter();
-                Point countryPoint2 = link.Country2.Shape.GetCenter();
+                Point countryPoint1 = Country1.Shape.GetCenter();
+                Point countryPoint2 = Country2.Shape.GetCenter();
                 int offset = Link.GetDrawOffset(link.LinkType);
                 Point mid = new Point((int)((countryPoint1.getX() + countryPoint2.getX()) * 0.5) + offset,
                                       (int)((countryPoint1.getY() + countryPoint2.getY() - 100) * 0.5) + offset);

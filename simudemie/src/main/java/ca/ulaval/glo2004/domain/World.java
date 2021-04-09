@@ -11,13 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
  *
  * @author charl
  */
-public class World implements Serializable {
+public class World implements Serializable, Cloneable {
     
     private transient WorldController worldController;
     private List<Link> linkList = new ArrayList<>();
@@ -25,7 +27,7 @@ public class World implements Serializable {
     private Population worldPopulation = new Population();
     private static final long serialVersionUID = 1L; 
     
-    public World(){
+    public World() {
     }
 
     public World(WorldController worldController) {
@@ -34,6 +36,12 @@ public class World implements Serializable {
     
     public void SetWorldController(WorldController worldController) {
         this.worldController = worldController;
+    }
+    
+    public void LoadWorld(World world) {
+        countryList = new ArrayList<>(world.getCountries());
+        linkList = new ArrayList<>(world.getLinks());
+        worldPopulation = new Population(world.getWorldPopulation());
     }
     
     public void addCountry(Country country){
@@ -47,7 +55,7 @@ public class World implements Serializable {
     }
     
     public void Addlink(UUID firstCountryId, UUID secondCountryId, Link.LinkType type) {
-        Link link = new Link(FindCountryByUUID(firstCountryId), FindCountryByUUID(secondCountryId), type);       
+        Link link = new Link(firstCountryId, secondCountryId, type);       
         boolean isAbleToLink = !linkList.stream().anyMatch(e -> e.equals(link));
  
         if(type == Link.LinkType.TERRESTRE) {
@@ -88,7 +96,7 @@ public class World implements Serializable {
         }
     }
     
-    private Country FindCountryByUUID(UUID id) {
+    public Country FindCountryByUUID(UUID id) {
         try {
             return countryList.stream().filter(c -> c.GetId().equals(id)).findAny().get();
         } catch(NoSuchElementException e) {
@@ -96,7 +104,7 @@ public class World implements Serializable {
         }
     }
     
-    private Link FindLinkByUUID(UUID id) {
+    public Link FindLinkByUUID(UUID id) {
         try {
             return linkList.stream().filter(l -> l.GetId().equals(id)).findAny().get();
         } catch(NoSuchElementException e) {
@@ -117,8 +125,8 @@ public class World implements Serializable {
     }
     
     public void RemoveAllBorders(Country country) {
-        List<Link> links = linkList.stream().filter(l -> l.getCountry1().GetId().equals(country.GetId()) ||
-                                                    l.getCountry2().GetId().equals(country.GetId())).collect(Collectors.toList());
+        List<Link> links = linkList.stream().filter(l -> l.getCountry1Id().equals(country.GetId()) ||
+                                                    l.getCountry2Id().equals(country.GetId())).collect(Collectors.toList());
         
         for(int i = 0; i < links.size(); i++) {
             linkList.remove(links.get(i));
@@ -229,10 +237,10 @@ public class World implements Serializable {
     
     public boolean ExistLink(Country a, Country b, Link.LinkType type) {
         return linkList.stream().anyMatch(l -> l.GetLinkType().equals(type) &&
-                                                   (l.getCountry1().GetId() == a.GetId() ||
-                                                    l.getCountry2().GetId() == a.GetId()) &&
-                                                   (l.getCountry1().GetId() == b.GetId() ||
-                                                    l.getCountry2().GetId() == b.GetId()));
+                                                   (l.getCountry1Id() == a.GetId() ||
+                                                    l.getCountry2Id() == a.GetId()) &&
+                                                   (l.getCountry1Id() == b.GetId() ||
+                                                    l.getCountry2Id() == b.GetId()));
     }
     
     public void UpdateLandBorder(UUID countryId) {
@@ -248,12 +256,14 @@ public class World implements Serializable {
         
         
         List<Link> links = linkList.stream().filter(l -> l.GetLinkType().equals(LinkType.TERRESTRE) &&
-                                                   (l.getCountry1().GetId() == country.GetId() ||
-                                                    l.getCountry2().GetId() == country.GetId())).collect(Collectors.toList());
+                                                   (l.getCountry1Id().equals(country.GetId()) ||
+                                                    l.getCountry2Id().equals(country.GetId()))).collect(Collectors.toList());
         
         if(links != null) {
             for(int i = 0; i < links.size(); i++) {
-                if(!Utility.AsCommonLandBorder(links.get(i).getCountry1(), links.get(i).getCountry2())) {
+                Country a = FindCountryByUUID(links.get(i).getCountry1Id());
+                Country b = FindCountryByUUID(links.get(i).getCountry2Id());
+                if(!Utility.AsCommonLandBorder(a, b)) {
                     linkList.remove(links.get(i));
                 }
             }
@@ -277,5 +287,37 @@ public class World implements Serializable {
         worldPopulation.setNonInfectedPopulation(nonInfectedPop);
         worldPopulation.setDeadPopulation(deadPop);
         worldPopulation.setTotalPopulation(totalPop);
+    }
+    
+    @Override
+    public World clone() throws CloneNotSupportedException {
+        World world = null;
+        try {
+            world = (World) super.clone();
+        } catch(CloneNotSupportedException cnse) {
+            cnse.printStackTrace(System.err);
+        }
+        
+        List<Country> countriesClone = new ArrayList<>(countryList.size());
+        countryList.forEach(c -> { try {
+            countriesClone.add((Country) c.clone());
+            } catch (CloneNotSupportedException ex) {
+                Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
+            }
+});
+        
+        List<Link> linksClone = new ArrayList<>(linkList.size());
+        linkList.forEach(l -> { try {
+            linksClone.add((Link) l.clone());
+            } catch (CloneNotSupportedException ex) {
+                Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
+            }
+});
+        
+        world.countryList = countriesClone;
+        world.linkList = linksClone;
+        world.worldPopulation = worldPopulation.clone();
+        
+        return world;
     }
 }
