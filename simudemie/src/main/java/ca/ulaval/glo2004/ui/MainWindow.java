@@ -20,6 +20,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -252,7 +254,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private void UpdateJRegionList(CountryDTO country) {
         DefaultListModel listModel = new DefaultListModel();
         country.Regions.forEach(r -> {
-            listModel.addElement(String.format("%s | Pourcentage: %s | Population: %s", r.Name, r.PercentagePop * 100, r.SubPopulation.totalPopulationDTO));
+            BigDecimal bdUp =new BigDecimal(r.PercentagePop * 100).setScale(2,RoundingMode.HALF_UP);
+            listModel.addElement(String.format("%s | Pourcentage: %s | Population: %s", r.Name, bdUp, r.SubPopulation.totalPopulationDTO));
         });
         jListRegionsList.setModel(listModel);
         drawingPanel.repaint();
@@ -1437,23 +1440,17 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         regionPts.add(mousePoint);
                         
                         if(regionPts.size() == 2) {                            
-                            try {
-                                double percentage = Double.parseDouble(jTextFieldPercentageAddRegion.getText()) / 100.0;
-                                String name = jTextFieldRegionName.getText();
-                                if(percentage > 0.0 && !Utility.StringIsNullOrEmpty(name)) {
-                                    worldController.AddRegion(select.Id, regionPts, name, percentage);
-                                    UpdateJRegionList(select.Id);
+                            String name = jTextFieldRegionName.getText();
+                            if(!Utility.StringIsNullOrEmpty(name)) {
+                                worldController.AddRegion(select.Id, regionPts, name);
+                                UpdateJRegionList(select.Id);
 
-                                    jTextFieldPercentageAddRegion.setBackground(Color.white);
-                                    jTextFieldRegionName.setBackground(Color.white);
+                                jTextFieldPercentageAddRegion.setBackground(Color.white);
+                                jTextFieldRegionName.setBackground(Color.white);
 
-                                    drawingPanel.repaint();
-                                } else {
-                                    if(percentage < 0) jTextFieldPercentageAddRegion.setBackground(Color.red);
-                                    if(Utility.StringIsNullOrEmpty(name)) jTextFieldRegionName.setBackground(Color.red);
-                                }
-                            } catch(NumberFormatException e) {
-                                    jTextFieldPercentageAddRegion.setBackground(Color.red);
+                                drawingPanel.repaint();
+                            } else {
+                                if(Utility.StringIsNullOrEmpty(name)) jTextFieldRegionName.setBackground(Color.red);
                             }
 
                             UnselectAddRegion();
@@ -1470,7 +1467,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             case AddCountry:
                 countryPts.add(mousePoint);
             
-                if(countryPts.size() == 2) { // Un peux bete de faire ca, mais on trouvera une solution
+                if(countryPts.size() == 2) {
                     try {
                         String name = jTextFieldAddCountryName.getText();
                         int population = Integer.parseInt(jTextFieldAddCountryPop.getText());
