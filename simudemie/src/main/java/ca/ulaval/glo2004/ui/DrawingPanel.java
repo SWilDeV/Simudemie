@@ -103,12 +103,11 @@ public class DrawingPanel extends JPanel  {
         return new Point((int)x, (int)y);
     }
     
-    public void SaveScreenShot(String filename){
+    public void SaveScreenShot(File file){
         BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
         paint(img.getGraphics());
-        File outputfile = new File(filename);
         try{
-            ImageIO.write(img, "png", outputfile);
+            ImageIO.write(img, "png", file);
 	} 
         catch (IOException e) {
             e.printStackTrace();
