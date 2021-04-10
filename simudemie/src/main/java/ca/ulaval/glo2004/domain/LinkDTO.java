@@ -15,25 +15,22 @@ import java.util.UUID;
 public class LinkDTO {
     
    public Link.LinkType LinkType;
-   public CountryDTO Country1;
-   public CountryDTO Country2;
+   public UUID Country1Id;
+   public UUID Country2Id;
    public double TravelRate;
    public boolean IsOpen;
    public boolean IsSelected;
-   public String name;
    
    public final UUID Id;
     
     public LinkDTO(Link link) {
         LinkType = link.GetLinkType();
-        Country1 = new CountryDTO(link.getCountry1());
-        Country2 = new CountryDTO(link.getCountry2());
+        Country1Id = link.getCountry1Id();
+        Country2Id = link.getCountry2Id();
         TravelRate = link.getTravelRate();
         IsOpen = link.isOpen();
         IsSelected = link.IsSelected();
         Id = link.GetId();
-        name = link.getlinkName();
-        
     }
     
     
@@ -50,18 +47,18 @@ public class LinkDTO {
         LinkDTO link = (LinkDTO)other;
         return Id == link.Id||
                 (LinkType.equals(link.LinkType) &&
-               ((Country1 == link.Country1 &&
-               Country2 == link.Country2) || 
-               (Country1 == link.Country2 &&
-                Country2 == link.Country1)));
+               ((Country1Id == link.Country1Id &&
+               Country2Id == link.Country2Id) || 
+               (Country1Id == link.Country2Id &&
+                Country2Id == link.Country1Id)));
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
         hash = 97 * hash + Objects.hashCode(this.LinkType);
-        hash = 97 * hash + Objects.hashCode(this.Country1);
-        hash = 97 * hash + Objects.hashCode(this.Country2);
+        hash = 97 * hash + Objects.hashCode(this.Country1Id);
+        hash = 97 * hash + Objects.hashCode(this.Country2Id);
         hash = 97 * hash + Objects.hashCode(this.Id);
         return hash;
     }

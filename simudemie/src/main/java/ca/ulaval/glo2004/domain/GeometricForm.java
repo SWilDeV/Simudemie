@@ -14,9 +14,9 @@ import java.util.List;
  *
  * @author charl
  */
-public abstract class GeometricForm implements Serializable {
+public abstract class GeometricForm implements Serializable, Cloneable {
     
-    protected List<Point> points;
+    protected List<Point> points = new ArrayList<>();
     protected List<Point> bounding = new ArrayList<>();
     protected Point center;
     private static final long serialVersionUID = 3L; 
@@ -94,5 +94,25 @@ public abstract class GeometricForm implements Serializable {
     
     public List<Point> GetBoundingBox() {
         return new ArrayList<>(bounding);
+    }
+    
+    @Override
+    public GeometricForm clone() throws CloneNotSupportedException {
+        GeometricForm form = null;
+        try {
+            form = (GeometricForm) super.clone();
+        } catch(CloneNotSupportedException cnse) {
+            cnse.printStackTrace(System.err);
+        }
+        
+        List<Point> pointsClone = new ArrayList<>(points.size());
+        points.forEach(pt -> { pointsClone.add((Point) pt.clone()); });
+        form.points = pointsClone;
+        
+        List<Point> bbClone = new ArrayList<>(bounding.size());
+        bounding.forEach(pt -> { bbClone.add((Point) pt.clone()); });
+        form.bounding = pointsClone;
+        
+        return form;
     }
 }

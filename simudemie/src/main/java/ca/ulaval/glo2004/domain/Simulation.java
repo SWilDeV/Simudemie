@@ -5,13 +5,14 @@
  */
 package ca.ulaval.glo2004.domain;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.Random;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import  mathematical_model.Calculation;
 
 /**
@@ -20,12 +21,15 @@ import  mathematical_model.Calculation;
  */
 public class Simulation implements Serializable {
     private Calculation calculation = new Calculation();
+    
     private boolean isRunning = false;
     private int elapsedDay = 0;
-    //private ArrayList<World> dataHistory = new ArrayList<World>(); //livrable 4
+    private ArrayList<UndoRedo> undoRedoHistory = new ArrayList<>();
     private transient final WorldController controller;
     private Timer timer = new Timer();
     private static final long serialVersionUID = 4L; 
+    
+    private int undoRedoIndex = 0;
     
     public Simulation(WorldController p_controller){
         controller = p_controller;
@@ -36,12 +40,20 @@ public class Simulation implements Serializable {
         this.elapsedDay = elapsedDay;
     }
     
-//    public ArrayList<Integer> GetDataHistory() { //livrable 4
-//        return dataHistory;
-//    }
-    
     public int GetElapsedDay() {
         return this.elapsedDay;
+    }
+    
+    public void SetElapsedDay(int day) {
+        elapsedDay = day;
+    }
+    
+    public int GetUndoRedoPosition() {
+        return undoRedoIndex;
+    }
+    
+    public int GetUndoRedoSize() {
+        return undoRedoHistory.size();
     }
     
     public boolean getIsRunning() {
@@ -57,9 +69,14 @@ public class Simulation implements Serializable {
         List<Country> countries = controller.GetCountriesforSimulation();
         int countryListSize = countries.size();
         
-        if(countryListSize > 0){
+        if(countryListSize > 0) {
             System.out.println("demarré");
             SetRunning(true);
+            
+            int undoRedoSize = GetUndoRedoSize();
+            if(undoRedoSize > 0) {
+                undoRedoHistory.subList(undoRedoIndex, undoRedoSize).clear();
+            }
             
             //Initialiser le patient zero
             if(controller.getWorld().getWorldPopulation().getInfectedPopulation() == 0){
@@ -71,8 +88,7 @@ public class Simulation implements Serializable {
             timer = new Timer();
             timer.schedule(new TimerTask() {
                 public void run() {
-                    if(getIsRunning()){
-                        elapsedDay +=1;
+                    if(getIsRunning()){                        
                         //UPDATE DES PAYS ET LEURS REGIONS
                         for(Country country : countries) {
                             
@@ -80,9 +96,10 @@ public class Simulation implements Serializable {
                             List<Link> LinkList = controller.getWorld().getLinks();
                             if(LinkList.size()>0){
                                 for(Link link:LinkList){
-                                    updateCountriesWithLinks(link.getCountry1(),link.getCountry2());
+                                    updateCountriesWithLinks(controller.GetCountry(link.getCountry1Id()), controller.GetCountry(link.getCountry2Id()));
                                 }
                             }
+                            
                         }   
                         controller.getWorld().updateWorldPopulation();
                         
@@ -113,6 +130,14 @@ public class Simulation implements Serializable {
                         
                         //UPDATE DE LA POPULATION MONDIALE
                         updateWorldPopulation();
+                        
+                        elapsedDay +=1;
+                        
+                        try {
+                            AddUndoRedoWorld(controller.getWorld(), controller.getDisease());
+                        } catch (CloneNotSupportedException ex) {
+                            Logger.getLogger(Simulation.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }else{
                         timer.cancel();
                     }
@@ -165,27 +190,22 @@ public class Simulation implements Serializable {
         }
     }
     
-    public int nextDay() {
-        return elapsedDay +=1;
-    }
-    
     public void Pause() {
-        if(isRunning == true){
+        if(isRunning){
             timer.cancel();
             timer.purge();
             this.isRunning = false;
         }
     }
     
-    public int previousDay() {
-        return elapsedDay -=1;
-    }
-    
     public void Reset() {
-        if(isRunning == true){
-            this.isRunning=false;
+        if(isRunning){
+            this.isRunning = false;
         }
+        
         elapsedDay = 0;
+        undoRedoIndex = 0;
+        ClearUndoRedo();
     }
     
     public Population UpdatePopulation(Region region){
@@ -291,18 +311,43 @@ public class Simulation implements Serializable {
         return newInfectedPop;
     }
     
-  
-    private void writeObject(java.io.ObjectOutputStream stream)
-        throws IOException {
-
-    int Day = elapsedDay;
-    List<Link> worlLinkList = controller.getWorld().getLinks();
-    List<Country> countryList = controller.getWorld().getCountries();
-
-    stream.writeInt(Day);
-    stream.writeObject(worlLinkList);
-    stream.writeObject(countryList);
+    public void AddUndoRedoWorld(World world, Disease disease) throws CloneNotSupportedException { //TODO: Demande ce qu'il entend par undo. Undo une action, ou une jouurnee ?
+        undoRedoHistory.add(new UndoRedo(world.clone(), disease.clone(), elapsedDay));
+        undoRedoIndex++;
     }
     
+    public UndoRedo Undo() {
+        if(undoRedoIndex - 1 >= 0) {
+            undoRedoIndex--;
+        }
+        
+        return GetUndoRedo(undoRedoIndex);
+    }
     
+    public UndoRedo Redo() {
+        
+        if(undoRedoIndex + 1 < undoRedoHistory.size()) {
+            undoRedoIndex++;
+        }
+        
+        return GetUndoRedo(undoRedoIndex);
+    }
+    
+    public UndoRedo SpecificRedo(int position) {
+        undoRedoIndex = position;
+        return GetUndoRedo(undoRedoIndex);
+    }
+    
+    public void ClearUndoRedo() {
+        undoRedoHistory.clear();
+        undoRedoIndex = 0;
+    }
+    
+    private UndoRedo GetUndoRedo(int undoPosition) {
+        if(undoPosition < 0 || undoRedoHistory.isEmpty() || undoPosition >= undoRedoHistory.size()) {
+            return null;
+        }
+        
+        return undoRedoHistory.get(undoPosition);
+    }
 }

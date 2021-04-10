@@ -11,9 +11,26 @@ package ca.ulaval.glo2004.domain;
  */
 public interface WorldObserver {
     public void OnSimulationTick(int day, int deads,int infected, int PopTot);
-    public void OnLinksUpdated();
-    public void OnCountryCreated(CountryDTO country);
     public void OnSimulationStarted();
-    public void OnProjectLoaded();
+    public void OnSimulationStopped();
+    public void OnSimulationUndoRedo();
     public void OnSimulationReset();
+    
+    public void OnLinkCreated();
+    public void OnLinksUpdated();
+    public void OnLinkDestroyed();
+    
+    public void OnCountryCreated(CountryDTO country);
+    public void OnCountryUpdated();
+    public void OnCountryDestroy();
+    
+    public void OnMesuresCreated();
+    public void OnMesuresUpdated();
+    public void OnMesuresDestroy();
+    
+    public void OnRegionCreated();
+    public void OnRegionUpdated();
+    public void OnRegionDestroy();
+    
+    public void OnProjectLoaded();
 }

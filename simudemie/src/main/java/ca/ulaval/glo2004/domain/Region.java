@@ -16,13 +16,13 @@ import java.util.UUID;
  *
  * @author charl
  */
-public class Region implements Serializable {
+public class Region implements Serializable, Cloneable {
     
     private String name;
     private double percentagePop;
     private Population subPopulation;
     private RegularForm shape;
-    private final UUID id;
+    private UUID id;
     private boolean isSelected = false;
     
     public Region(RegularForm form, String name, int countryPopulation, double percentage) {
@@ -110,5 +110,21 @@ public class Region implements Serializable {
         }
         
         return Utility.GetColorGradient(p);
+    }
+    
+    @Override
+    public Region clone() throws CloneNotSupportedException {
+        Region region = null;
+        try {
+            region = (Region) super.clone();
+        } catch(CloneNotSupportedException cnse) {
+            cnse.printStackTrace(System.err);
+        }
+        
+        region.subPopulation = subPopulation.clone();
+        region.shape = shape.clone();
+        region.id = id;
+        
+        return region;
     }
 }

@@ -9,7 +9,7 @@ public class App {
     // Vous n'aurez pas besoin d'ecrire tout ce code, il sera genere automatiquement par intellij ou netbeans
     // Par contre vous aurez a creer les actions listener pour vos boutons et etc.
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CloneNotSupportedException {
         JFrame window = new MainWindow();
         window.setVisible(true);
     }

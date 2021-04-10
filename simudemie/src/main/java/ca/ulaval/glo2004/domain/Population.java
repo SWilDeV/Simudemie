@@ -11,13 +11,13 @@ import java.io.Serializable;
  *
  * @author Sean
  */
-public class Population implements Serializable { 
+public class Population implements Serializable, Cloneable { 
     //    Attributs
-    private int totalPopulation;
-    private int infectedPopulation =0;
+    private int totalPopulation = 0;
+    private int infectedPopulation = 0;
     private int curedPopulation = 0;
     private int deadPopulation = 0;
-    private int nonInfectedPopulation =0;
+    private int nonInfectedPopulation = 0;
     private static final long serialVersionUID = 5L; 
     
     public Population(){
@@ -29,6 +29,14 @@ public class Population implements Serializable {
         this.curedPopulation = curedPopulation;
         this.deadPopulation = deadPopulation;
         this.nonInfectedPopulation =nonInfectedPopulation;
+    }
+    
+    public Population(Population population) {
+        this.totalPopulation = population.getTotalPopulation();
+        this.infectedPopulation = population.getInfectedPopulation();
+        this.curedPopulation = population.getCuredPopulation();
+        this.deadPopulation = population.getDeadPopulation();
+        this.nonInfectedPopulation = population.getNonInfectedPopulation();
     }
     
     //   methodes
@@ -78,5 +86,17 @@ public class Population implements Serializable {
     
     public void setNonInfectedPopulation(int p_NonInfectedPop){
         nonInfectedPopulation = p_NonInfectedPop;
+    }
+    
+    @Override
+    public Population clone() throws CloneNotSupportedException {
+        Population population = null;
+        try {
+            population = (Population) super.clone();
+        } catch(CloneNotSupportedException cnse) {
+            cnse.printStackTrace(System.err);
+        }
+        
+        return population;
     }
 }

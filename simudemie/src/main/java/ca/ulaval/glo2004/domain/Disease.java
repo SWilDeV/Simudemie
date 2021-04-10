@@ -12,7 +12,7 @@ import java.io.Serializable;
  *
  * @author melanietremblay
  */
-public class Disease implements Serializable {
+public class Disease implements Serializable, Cloneable {
     private double infectionRate;
     private double mortalityRate;
     private double cureRate;
@@ -20,8 +20,7 @@ public class Disease implements Serializable {
     public Disease() {
     }
     
-    public Disease(double p_cureRate, double p_mortalityRate,
-            double p_infectionRate ) {
+    public Disease(double p_cureRate, double p_mortalityRate, double p_infectionRate ) {
         infectionRate = p_infectionRate;
         mortalityRate = p_mortalityRate;
         cureRate = p_cureRate;
@@ -67,5 +66,17 @@ public class Disease implements Serializable {
         infectionRate = diseaseDTO.getInfectionRateDTO();
         mortalityRate = diseaseDTO.getMortalityRateDTO();
         cureRate = diseaseDTO.getCureRateDTO();
+    }
+    
+    @Override
+    public Disease clone() throws CloneNotSupportedException {
+        Disease disease = null;
+        try {
+            disease = (Disease) super.clone();
+        } catch(CloneNotSupportedException cnse) {
+            cnse.printStackTrace(System.err);
+        }
+        
+        return disease;
     }
 }
