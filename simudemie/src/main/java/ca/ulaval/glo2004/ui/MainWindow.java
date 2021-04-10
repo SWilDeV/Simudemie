@@ -22,6 +22,7 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -242,8 +243,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }
     
     private void UpdateJRegionList(UUID countryId) {
-        CountryDTO country = worldController.GetCountries().stream().filter(c -> c.Id.equals(countryId)).findFirst().get();
-        UpdateJRegionList(country);
+        Optional<CountryDTO> op = worldController.GetCountries().stream().filter(c -> c.Id.equals(countryId)).findFirst();
+        if(op.isPresent()) {
+            UpdateJRegionList(op.get());
+        }
     }
     
     private void UpdateJRegionList(CountryDTO country) {
@@ -1839,8 +1842,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }//GEN-LAST:event_jButtonResetZoomActionPerformed
 
     private void jButtonScreenShotWorldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonScreenShotWorldActionPerformed
-        // TODO : ajouter un filePicker pour save a l'endroit + type qu'on veut
-        drawingPanel.SaveScreenShot("test_now_2.png");
+        int returnValue = fileChooser.showSaveDialog(this);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            drawingPanel.SaveScreenShot(fileChooser.getSelectedFile());
+        }
        
     }//GEN-LAST:event_jButtonScreenShotWorldActionPerformed
 
