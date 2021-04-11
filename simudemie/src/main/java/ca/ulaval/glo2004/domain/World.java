@@ -44,6 +44,16 @@ public class World implements Serializable, Cloneable {
         worldPopulation = new Population(world.getWorldPopulation());
     }
     
+    
+    public void AddMesure(UUID countryId, double adhesionRate, boolean active, String mesureName) {
+       Country c = FindCountryByUUID(countryId);
+       if(c != null) {
+            HealthMesure mesure = new CustomMeasure(adhesionRate, active, mesureName);
+            c.AddMesure(mesure);
+            worldController.NotifyOnMesureCreated();
+       }
+    }
+    
     public void addCountry(Country country){
          countryList.add(country);
          worldController.NotifyCountryCreated(new CountryDTO(country));
@@ -89,6 +99,14 @@ public class World implements Serializable, Cloneable {
         countryList.clear();
         linkList.clear();
         worldPopulation = new Population();
+    }
+    
+    public boolean ExistLink(Country a, Country b, Link.LinkType type) {
+        return linkList.stream().anyMatch(l -> l.GetLinkType().equals(type) &&
+                                                   (l.getCountry1Id() == a.GetId() ||
+                                                    l.getCountry2Id() == a.GetId()) &&
+                                                   (l.getCountry1Id() == b.GetId() ||
+                                                    l.getCountry2Id() == b.GetId()));
     }
     
     public Country findCountryByPosition(Point position) {
@@ -156,13 +174,13 @@ public class World implements Serializable, Cloneable {
         }
     }
     
-    public void AddMesure(UUID countryId, double adhesionRate, boolean active, String mesureName) {
-       Country c = FindCountryByUUID(countryId);
-       if(c != null) {
-            HealthMesure mesure = new CustomMeasure(adhesionRate, active, mesureName);
-            c.AddMesure(mesure);
-            worldController.NotifyOnMesureCreated();
-       }
+    
+    public void RemoveRegion(UUID countryId, UUID regionId) {
+        Country c = FindCountryByUUID(countryId);
+        if(c != null) {
+            c.removeRegion(regionId);
+            worldController.NotifyOnRegionDestroy();
+        }
     }
     
    public void RemoveMesure(UUID countryId, UUID mesureId) {
@@ -188,19 +206,6 @@ public class World implements Serializable, Cloneable {
         }
     }
     
-    public void ValidateRegions() throws NotAllPopulationAssign {
-        for(Country c: countryList) {
-            c.ValidateRegions();
-        }
-    }
-    
-    public void RemoveRegion(UUID countryId, UUID regionId) {
-        Country c = FindCountryByUUID(countryId);
-        if(c != null) {
-            c.removeRegion(regionId);
-            worldController.NotifyOnRegionDestroy();
-        }
-    }
     
     public void UpdateSelectionStateCountry(UUID id, boolean select) {
         Country country = FindCountryByUUID(id);
@@ -208,7 +213,6 @@ public class World implements Serializable, Cloneable {
             country.SetSelectionState(select);
         }
     }
-    
 
     public void updateCountry(CountryDTO country) {
         Country c = FindCountryByUUID(country.Id);
@@ -219,13 +223,7 @@ public class World implements Serializable, Cloneable {
             c.setPopulation(new Population(country.populationDTO.totalPopulationDTO));
         }
     }
-    
-    public void updateCountryFromSimulation(Country country) {
-        Country c = FindCountryByUUID(country.GetId());
-        if(c != null){
-            c.updateCountryPopulation(country);
-        }
-    }
+
     
     public void updateRegionFromSimulation(Country country,Region region) {
         Country c = FindCountryByUUID(country.GetId());
@@ -244,14 +242,6 @@ public class World implements Serializable, Cloneable {
         }
     }
     
-    public boolean ExistLink(Country a, Country b, Link.LinkType type) {
-        return linkList.stream().anyMatch(l -> l.GetLinkType().equals(type) &&
-                                                   (l.getCountry1Id() == a.GetId() ||
-                                                    l.getCountry2Id() == a.GetId()) &&
-                                                   (l.getCountry1Id() == b.GetId() ||
-                                                    l.getCountry2Id() == b.GetId()));
-    }
-    
     public void UpdateLandBorder(UUID countryId) {
         Country country = FindCountryByUUID(countryId);
 
@@ -259,12 +249,15 @@ public class World implements Serializable, Cloneable {
             if(c != country) {
                 if(Utility.AsCommonLandBorder(c, country) && !ExistLink(c, country, LinkType.TERRESTRE)) {
                     Addlink(c.GetId(), country.GetId(), LinkType.TERRESTRE);
+                    //Addlink(c.getRegion0().GetId(), country.getRegion0().GetId(), LinkType.TERRESTRE);
                 }
             }
         }
         
         
         List<Link> links = linkList.stream().filter(l -> l.GetLinkType().equals(LinkType.TERRESTRE) &&
+//                                                   (l.getCountry1Id().equals(country.getRegion0().GetId()) ||
+//                                                    l.getCountry2Id().equals(country.getRegion0().GetId()))).collect(Collectors.toList());
                                                    (l.getCountry1Id().equals(country.GetId()) ||
                                                     l.getCountry2Id().equals(country.GetId()))).collect(Collectors.toList());
         
@@ -287,6 +280,7 @@ public class World implements Serializable, Cloneable {
         int deadPop = 0;
         int nonInfectedPop = 0;
         for(Country country: countryList){
+            country.updateCountryPopulation();
             totalPop += country.getPopulation().getTotalPopulation();
             infectedPop += country.getPopulation().getInfectedPopulation();
             deadPop += country.getPopulation().getDeadPopulation();
@@ -296,6 +290,13 @@ public class World implements Serializable, Cloneable {
         worldPopulation.setNonInfectedPopulation(nonInfectedPop);
         worldPopulation.setDeadPopulation(deadPop);
         worldPopulation.setTotalPopulation(totalPop);
+    }
+    
+    
+    public void ValidateRegions() throws NotAllPopulationAssign {
+        for(Country c: countryList) {
+            c.ValidateRegions();
+        }
     }
     
     @Override

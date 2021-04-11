@@ -18,6 +18,7 @@ public class Population implements Serializable, Cloneable {
     private int curedPopulation = 0;
     private int deadPopulation = 0;
     private int nonInfectedPopulation = 0;
+    private int travelingPopulation = 0;
     private static final long serialVersionUID = 5L; 
     
     public Population(){
@@ -37,6 +38,7 @@ public class Population implements Serializable, Cloneable {
         this.curedPopulation = population.getCuredPopulation();
         this.deadPopulation = population.getDeadPopulation();
         this.nonInfectedPopulation = population.getNonInfectedPopulation();
+        this.travelingPopulation = population.getTravellingPopulation();
     }
     
     //   methodes
@@ -66,6 +68,14 @@ public class Population implements Serializable, Cloneable {
     
     public int getDeadPopulation(){
         return deadPopulation;
+    }
+    
+    public int getTravellingPopulation(){
+        return travelingPopulation;
+    }
+    
+    public void setTravellingPopulation(int p_Travelling_pop){
+        travelingPopulation = p_Travelling_pop;
     }
     
     public void setInfectedPopulation(int p_InfectedPop){

@@ -1486,6 +1486,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 boolean found = false;
                 if(selected != null && countrySelected != null) {
                     int linkIndex = jComboBoxAddLink.getSelectedIndex();
+                    
                     worldController.AddLink(countrySelected.Id, selected.Id, Link.LinkType.values()[linkIndex]);
                     SetSelectedCountry(null);
                     mode = Mode.Idle;

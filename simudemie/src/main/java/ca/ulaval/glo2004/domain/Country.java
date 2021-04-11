@@ -26,6 +26,7 @@ public class Country implements Serializable, Cloneable  {
     
     private List<HealthMesure> mesures = new ArrayList<>();
     private List<Region> regions = new ArrayList<>();
+    private List<RegionLink> regionLinks = new ArrayList<>();
     private Population population;
     private GeometricForm shape;
     private Color color = Color.GREEN;
@@ -121,6 +122,10 @@ public class Country implements Serializable, Cloneable  {
         return id;
     }
     
+    public List GetLinks(){
+        return regionLinks;
+    }
+    
     public String getName() {
         return name;
     }
@@ -159,7 +164,7 @@ public class Country implements Serializable, Cloneable  {
         }
     }
     
-    public void updateCountryPopulation(Country country){
+    public void updateCountryPopulation(){
         int totalPopulation =0;
         int infectedPopulation =0;
         int nonInfectedPopulation =0;
@@ -227,6 +232,15 @@ public class Country implements Serializable, Cloneable  {
         
         RegularForm form = new RegularForm(points);
         Region region = new Region(form, regionName, population.getTotalPopulation(), lastPercentage);
+        
+        //ajout liens entre regions a chaque creation de region (sauf pour la premiere region)
+        if(regions.size()>0){
+            regions.forEach(r->{
+            RegionLink link = new RegionLink(region.GetId(),r.GetId());
+            regionLinks.add(link);
+        });
+        }
+        
         regions.add(region);
     }
     
@@ -241,6 +255,39 @@ public class Country implements Serializable, Cloneable  {
     public List<Region> GetRegions() {
         return regions;
     }
+    
+    public Region getRegion0(){
+        return regions.get(0);
+    }
+
+    
+//    public void propagateBetweenRegions(){
+//       //List<Region> regions = country.GetRegions();
+//
+//       for(RegionLink link:regionLinks){
+//           //updateRegionsWithLinks(FindRegionByUUID(link.GetRegion1Id()), FindRegionByUUID(link.GetRegion2Id()));
+//           Region region1 = FindRegionByUUID(link.GetRegion1Id());
+//           Region region2 = FindRegionByUUID(link.GetRegion2Id());
+//       }
+//
+//
+//
+//       int infectedToPropagateBetweenRegions = calculateInfected(country);
+//       Random rand = new Random();
+//       int index = rand.nextInt(regions.size());
+//       int counter = 0;
+//       for(Region region:regions){
+//           if(counter == index){
+//               Population pop = region.getPopulation();
+//               int infected = pop.getInfectedPopulation();
+//               infected += infectedToPropagateBetweenRegions;
+//               pop.setInfectedPopulation(infected);
+//               country.setPopulationToRegion(pop, region.GetId());
+//           }
+//       counter +=1;
+//       }
+//       return country;
+//   }
     
     public void UpdateRegion(RegionDTO region) {
         Region r = FindRegionByUUID(region.Id);
@@ -270,10 +317,11 @@ public class Country implements Serializable, Cloneable  {
         }
     }
     
-    public void setPopulationToRegion(Population population){ //faudrait ajouter un index ou un id de la region
-        for(Region region:regions){
-            region.setPopulation(population);
-        }  
+    public void setPopulationToRegion(Population population,UUID regionId){ 
+        Region r = FindRegionByUUID(regionId);
+        if(r != null) {
+            r.setPopulation(population);
+        } 
     }
     
     @Override

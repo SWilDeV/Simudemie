@@ -16,6 +16,7 @@ public class PopulationDTO implements Serializable{
     public int infectedPopulationDTO;
     public int curedPopulationDTO;
     public int deadPopulationDTO;
+    public int travelingPopulationDTO;
     public int nonInfectedPopulationDTO;
     
     public PopulationDTO(Population population) {
@@ -24,6 +25,7 @@ public class PopulationDTO implements Serializable{
         curedPopulationDTO = population.getCuredPopulation();
         deadPopulationDTO = population.getDeadPopulation();
         nonInfectedPopulationDTO = population.getNonInfectedPopulation();
+        travelingPopulationDTO = population.getTravellingPopulation();
     }
     
     public Population toPopulation() {
@@ -57,6 +59,14 @@ public class PopulationDTO implements Serializable{
     
     public void setInfectedPopulationDTO(int p_InfectedPop){
         infectedPopulationDTO = p_InfectedPop;
+    }
+    
+     public int getTravellingPopulationDTO(){
+        return travelingPopulationDTO;
+    }
+    
+    public void setTravellingPopulationDTO(int p_Travelling_pop){
+        travelingPopulationDTO = p_Travelling_pop;
     }
     
     public void setCuredPopulationDTO(int p_CuredPop){
