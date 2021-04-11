@@ -256,6 +256,10 @@ public class WorldController implements java.io.Serializable {
         world.updateCountry(country);
     }
     
+    public void UpdateTotalPopulation(UUID countryId, int totalPopulation) {
+        world.UpdateTotalPopulation(countryId, totalPopulation);
+    }
+    
     public void RemoveCountry(UUID countryId) {
         world.removeCountry(countryId);
     }

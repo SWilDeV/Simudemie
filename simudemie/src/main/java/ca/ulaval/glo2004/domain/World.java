@@ -220,7 +220,14 @@ public class World implements Serializable, Cloneable {
             c.fromCountryDTO(country);
             UpdateLandBorder(country.Id);
             c.setName(country.Name);
-            c.setPopulation(new Population(country.populationDTO.totalPopulationDTO));
+            c.updateTotalPopulation(country.populationDTO.totalPopulationDTO);
+        }
+    }
+    
+    public void UpdateTotalPopulation(UUID countryId, int totalPopulation) {
+        Country c = FindCountryByUUID(countryId);
+        if(c != null) {
+            c.updateTotalPopulation(totalPopulation);
         }
     }
 
