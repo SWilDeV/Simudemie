@@ -217,6 +217,37 @@ public class Country implements Serializable, Cloneable  {
         }
     }
     
+    public void removeTravellingInfectedInRegions(int newInfected){
+        while (newInfected >0){
+            Random rand = new Random();
+            int index = rand.nextInt(regions.size());
+
+            int counter = 0;
+            for(Region region:regions){
+                if(index == counter){
+                    Population population = region.getPopulation();
+                    int infected = population.getInfectedPopulation();
+
+                    Random randPop = new Random();
+                    int randInfected = randPop.nextInt(newInfected);
+
+                    if(randInfected == 0){
+                        newInfected = 0;
+                    }else{
+                        infected -=randInfected;
+                        if(infected < 0){
+                            infected = 0;
+                        }
+                        population.setInfectedPopulation(infected);
+                        region.setPopulation(population);
+                        newInfected -=randInfected;
+                    }
+                }
+                counter +=1;
+            }
+        }
+    }
+    
     
     
     /////////////////REGIONS////////////////////////
