@@ -49,7 +49,7 @@ public class Country implements Serializable, Cloneable  {
             }  
         };
         
-        addRegion(Utility.ToRectangle(pts), "Region 1", 1.0);
+        addRegion(Utility.ToRectangle(pts), "Region 1");
     }
     
     public void AddMesure(HealthMesure mesure) {
@@ -216,9 +216,17 @@ public class Country implements Serializable, Cloneable  {
     
     /////////////////REGIONS////////////////////////
     
-    public void addRegion(List<Point> points, String regionName, double popPercentage) {       
+    public void addRegion(List<Point> points, String regionName) {
+        double percentagePerRegion = ((double)population.getTotalPopulation() / (regions.size() + 1)) / (double)population.getTotalPopulation();
+        
+        regions.forEach(r -> {
+            r.SetPercentage(population.getTotalPopulation(), percentagePerRegion);
+        });
+        
+        double lastPercentage = 1.0 - (percentagePerRegion * regions.size());
+        
         RegularForm form = new RegularForm(points);
-        Region region = new Region(form, regionName, population.getTotalPopulation(), popPercentage);
+        Region region = new Region(form, regionName, population.getTotalPopulation(), lastPercentage);
         regions.add(region);
     }
     

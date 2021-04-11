@@ -77,10 +77,10 @@ public class World implements Serializable, Cloneable {
         
     }
     
-    public void addRegion(UUID countryId, List<Point> points, String name, double popPercentage) {
+    public void addRegion(UUID countryId, List<Point> points, String name) {
         Country country = FindCountryByUUID(countryId);
         if(country != null) {
-            country.addRegion(points, name, popPercentage);
+            country.addRegion(points, name);
             worldController.NotifyOnRegionCreated();
         }
     }

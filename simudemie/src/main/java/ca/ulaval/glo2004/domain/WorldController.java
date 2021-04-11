@@ -264,8 +264,8 @@ public class WorldController implements java.io.Serializable {
         world.UpdateSelectionStateRegion(countryId, regionId, select);
     }
     
-    public void AddRegion(UUID countryId, List<Point> points, String name, double popPercentage) { // Un region ID ?
-        world.addRegion(countryId, Utility.ToRectangle(points), name, popPercentage);
+    public void AddRegion(UUID countryId, List<Point> points, String name) {
+        world.addRegion(countryId, Utility.ToRectangle(points), name);
     }
     
     public void UpdateRegion(UUID countryId, RegionDTO region) {
