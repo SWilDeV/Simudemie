@@ -28,7 +28,7 @@ public class Calculation implements java.io.Serializable {
         Random rnd = new Random();
         double tolerance = 0.0001;
         BinomialDistribution binomial = new BinomialDistribution(x,y);
-        System.out.println("x:" + x + " ,y: " + y);
+        //System.out.println("x:" + x + " ,y: " + y);
         ArrayList<Double> probabilites = new ArrayList<>();
         ArrayList<Integer> numberOfSuccess = new ArrayList<>();
         

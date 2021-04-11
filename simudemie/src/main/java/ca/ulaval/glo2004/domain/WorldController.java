@@ -57,6 +57,10 @@ public class WorldController implements java.io.Serializable {
         return world.FindCountryByUUID(id);
     }
     
+    public List<LinkDTO> GetLinks() {
+        return (List<LinkDTO>) world.getLinks().stream().map(e -> new LinkDTO((Link) e)).collect(Collectors.toList());
+    }
+    
     public Link GetLink(UUID id) {
         return world.FindLinkByUUID(id);
     }
@@ -78,9 +82,7 @@ public class WorldController implements java.io.Serializable {
         return (List<Country>) world.getCountries();
     }
     
-    public List<LinkDTO> GetLinks() {
-        return (List<LinkDTO>) world.getLinks().stream().map(e -> new LinkDTO((Link) e)).collect(Collectors.toList());
-    }
+    
     
     public List<HealthMesureDTO> GetHealthMesures(UUID countryId) {
         List<Country> countries = world.getCountries();

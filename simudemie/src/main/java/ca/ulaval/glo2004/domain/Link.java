@@ -28,6 +28,7 @@ public class Link implements Serializable, Cloneable {
    private double travelRate;
    private boolean isOpen;
    private boolean isSelected;
+   private boolean alreadyCounted;
    
    private UUID id;
    private static final long serialVersionUID = 7L; 
@@ -42,6 +43,7 @@ public class Link implements Serializable, Cloneable {
        this.setCountry2Id(secondId);
        linkType = type;
        id = UUID.randomUUID();
+       alreadyCounted = false;
    }
    
    public UUID GetId() {
@@ -73,6 +75,14 @@ public class Link implements Serializable, Cloneable {
    
    public void setTravelRate(double p_travelRate){
       travelRate = p_travelRate;
+   }
+   
+   public void setAlreadyCounted(boolean bool){
+      alreadyCounted = bool;
+   }
+   
+   public boolean getAlreadyCounted(){
+      return alreadyCounted;
    }
    
    public boolean isOpen(){

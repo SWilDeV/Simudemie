@@ -88,18 +88,25 @@ public class Simulation implements Serializable {
             timer = new Timer();
             timer.schedule(new TimerTask() {
                 public void run() {
-                    if(getIsRunning()){                        
-                        //UPDATE DES PAYS ET LEURS REGIONS
+                    if(getIsRunning()){  
+                        //reset statut deja compté des links
+                        List<Link> LinkListA = controller.getWorld().getLinks();
+                        for(Link link:LinkListA){
+                            controller.GetLink(link.GetId()).setAlreadyCounted(false);
+                        }
+                        //PRISE EN COMPTE DES LIENS ENTRE PAYS
                         for(Country country : countries) {
-                            
-                            //PRISE EN COMPTE DES LIENS ENTRE PAYS
                             List<Link> LinkList = controller.getWorld().getLinks();
                             if(LinkList.size()>0){
                                 for(Link link:LinkList){
-                                    updateCountriesWithLinks(controller.GetCountry(link.getCountry1Id()), controller.GetCountry(link.getCountry2Id()));
+                                    if (link.getAlreadyCounted()==false){
+                                        updateCountriesWithLinks(controller.GetCountry(link.getCountry1Id()), controller.GetCountry(link.getCountry2Id()));
+                                        controller.GetLink(link.GetId()).setAlreadyCounted(true);
+                                    }else{
+                                        System.out.println("Link true");
+                                    }
                                 }
                             }
-                            
                         }   
                         controller.getWorld().updateWorldPopulation();
                         
@@ -129,7 +136,7 @@ public class Simulation implements Serializable {
                         }
                         
                         //UPDATE DE LA POPULATION MONDIALE
-                        updateWorldPopulation();
+                        updateUIWithWorldPopulation();
                         
                         elapsedDay +=1;
                         
@@ -295,7 +302,7 @@ public class Simulation implements Serializable {
         return region;
     }
     
-    public void updateWorldPopulation(){
+    public void updateUIWithWorldPopulation(){
         controller.getWorld().updateWorldPopulation(); 
         int globalInfected = controller.getWorld().getWorldPopulation().getInfectedPopulation();
         int globalPop = controller.getWorld().getWorldPopulation().getTotalPopulation();
