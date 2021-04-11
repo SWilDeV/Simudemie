@@ -31,7 +31,6 @@ public class Link implements Serializable, Cloneable {
    
    private UUID id;
    private static final long serialVersionUID = 7L; 
-   
    private static final Color landColor = Color.pink;
    private static final Color airColor = new Color(191, 0, 179);
    private static final Color maritimeColor = Color.BLUE;

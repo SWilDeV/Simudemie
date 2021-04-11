@@ -228,7 +228,6 @@ public class Simulation implements Serializable {
         
     }
     
-    
     public void initializePatientZero(List<Country> countries ){
         //Initialiser le patient zero
         Random rand = new Random();
@@ -348,10 +347,6 @@ public class Simulation implements Serializable {
 //            splitNewInfectedInRegions(country2, newInfectedPop2);
               country2.splitNewInfectedInRegions(newInfectedPop2);
         }
-        
-        //Update countryList in World
-//        controller.getWorld().updateCountryFromSimulation(country1);
-//        controller.getWorld().updateCountryFromSimulation(country2);
     }
     
 //    public Region updateRegions(Region region){

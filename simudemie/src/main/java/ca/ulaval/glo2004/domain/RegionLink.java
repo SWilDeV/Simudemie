@@ -60,6 +60,22 @@ public class RegionLink implements Serializable, Cloneable {
    public void setOpen(boolean open){
        isOpen = open;
    }
+   
+   @Override
+    public RegionLink clone() throws CloneNotSupportedException {
+        RegionLink link = null;
+        try {
+            link = (RegionLink) super.clone();
+        } catch(CloneNotSupportedException cnse) {
+            cnse.printStackTrace(System.err);
+        }
+        
+        link.region1Id = region1Id;
+        link.region2Id = region2Id;
+        link.id = id;
+        
+        return link;
+    }
 }
 
 
