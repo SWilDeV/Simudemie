@@ -244,9 +244,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }
     
     private void UpdateJRegionList(UUID countryId) {
-        Optional<CountryDTO> op = worldController.GetCountries().stream().filter(c -> c.Id.equals(countryId)).findFirst();
-        if(op.isPresent()) {
-            UpdateJRegionList(op.get());
+        CountryDTO c = worldController.GetCountryDTO(countryId);
+        if(c != null) {
+            UpdateJRegionList(c);
         }
     }
     
@@ -390,6 +390,11 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jSpinner3 = new javax.swing.JSpinner();
         jSeparator5 = new javax.swing.JSeparator();
         jLabel15 = new javax.swing.JLabel();
+        jSeparator7 = new javax.swing.JSeparator();
+        jLabel16 = new javax.swing.JLabel();
+        jComboBoxAllLinksType = new javax.swing.JComboBox<>();
+        jSpinnerAllLinksTravelRate = new javax.swing.JSpinner();
+        jButtonApplyAllLinksTravelRate = new javax.swing.JButton();
         jButtonResetZoom = new javax.swing.JButton();
         jPanelSimulation = new javax.swing.JPanel();
         jBtnReset = new javax.swing.JButton();
@@ -749,6 +754,17 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jLabel15.setText("Liens");
 
+        jLabel16.setText("Modifier taux de transmision a tous les liens");
+
+        jComboBoxAllLinksType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Terrestre", "Maritime", "Aérien" }));
+
+        jButtonApplyAllLinksTravelRate.setText("Appliquer");
+        jButtonApplyAllLinksTravelRate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonApplyAllLinksTravelRateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelLinkLayout = new javax.swing.GroupLayout(jPanelLink);
         jPanelLink.setLayout(jPanelLinkLayout);
         jPanelLinkLayout.setHorizontalGroup(
@@ -756,6 +772,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             .addGroup(jPanelLinkLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel16)
                     .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(jPanelLinkLayout.createSequentialGroup()
                             .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -776,9 +795,16 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                             .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jSpinner1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jSpinner2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jSpinner3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15))
+                                .addComponent(jSpinner3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelLinkLayout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jButtonApplyAllLinksTravelRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanelLinkLayout.createSequentialGroup()
+                                    .addComponent(jComboBoxAllLinksType, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jSpinnerAllLinksTravelRate, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanelLinkLayout.setVerticalGroup(
@@ -807,7 +833,17 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxAllLinksType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinnerAllLinksTravelRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonApplyAllLinksTravelRate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -815,7 +851,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addComponent(jScrollPaneLinks, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonDeleteLink)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanelConceptionOptions.add(jPanelLink, "card5");
@@ -1353,7 +1389,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jSliderUndoRedo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -1728,10 +1764,11 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
     private void jTextFieldCountryPopKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCountryPopKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            countrySelected.populationDTO.totalPopulationDTO = Integer.parseInt(jTextFieldCountryPop.getText());
-            worldController.UpdateCountry(countrySelected);
-            drawingPanel.revalidate();
-            drawingPanel.repaint();
+            if(countrySelected != null) {
+                int totalPopulation = Integer.parseInt(jTextFieldCountryPop.getText());
+                worldController.UpdateTotalPopulation(countrySelected.Id, totalPopulation);
+                UpdateJRegionList(countrySelected.Id);
+            }
         }
     }//GEN-LAST:event_jTextFieldCountryPopKeyPressed
 
@@ -1802,6 +1839,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         mode = Mode.AddCountry; //TODO: Sans doute faire un mode = Mode.AddCountryIrregular
     }//GEN-LAST:event_jButtonCreateIrregularCountryActionPerformed
 
+    private void jButtonApplyAllLinksTravelRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyAllLinksTravelRateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonApplyAllLinksTravelRateActionPerformed
+
     public void Draw(Graphics2D g2d){
         worldController.Draw(g2d); 
         if(onHoverCountry != null) {
@@ -1857,6 +1898,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JButton jBtnReset;
     private javax.swing.JButton jButtonAddMesure;
     private javax.swing.JButton jButtonAddRegion;
+    private javax.swing.JButton jButtonApplyAllLinksTravelRate;
     private javax.swing.JButton jButtonApplyDisease;
     private javax.swing.JButton jButtonBacktrack;
     private javax.swing.JButton jButtonCreateIrregularCountry;
@@ -1872,6 +1914,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBoxActiveMesure;
     private javax.swing.JComboBox<String> jComboBoxAddLink;
+    private javax.swing.JComboBox<String> jComboBoxAllLinksType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1879,6 +1922,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1947,10 +1991,12 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSlider jSliderUndoRedo;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner2;
     private javax.swing.JSpinner jSpinner3;
+    private javax.swing.JSpinner jSpinnerAllLinksTravelRate;
     private javax.swing.JTabbedPane jTabbedMainPane;
     private javax.swing.JTabbedPane jTabbedPaneSimulationOptions;
     private javax.swing.JTextField jTextFieldAdhesionRate;
