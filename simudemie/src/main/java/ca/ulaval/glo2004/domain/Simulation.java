@@ -163,7 +163,6 @@ public class Simulation implements Serializable {
                                     System.out.println("end ! Des zombies partout!!");
                                 }
                             }
-                            System.out.println(country.GetLinks());
                         }
                         
                         //UPDATE DE LA POPULATION MONDIALE
@@ -290,6 +289,9 @@ public class Simulation implements Serializable {
         int curedPop = calculation.Calculate(totalInfectedPop,curedRate);
         if(curedPop>0){
             totalInfectedPop -= curedPop;
+            if(totalInfectedPop<0){
+                totalInfectedPop=0;
+            }
         }
         
         //dead population
@@ -299,6 +301,10 @@ public class Simulation implements Serializable {
         
         //total population
         int newTotalPop = totalPop - newDeadPop;
+        if(newTotalPop<0){
+            newTotalPop=0;
+        }
+        
         int totalNonInfectedPop = newTotalPop-totalInfectedPop;
         if (totalNonInfectedPop <0){
             totalNonInfectedPop = 0;
@@ -328,8 +334,8 @@ public class Simulation implements Serializable {
         int newInfectedPop2 = calculation.Calculate(previousInfectedPop1,0.05);
         
         //Country new total infected population
-        int newTotalInfected1 = previousInfectedPop1 + newInfectedPop1 - newInfectedPop2;
-        int newTotalInfected2 = previousInfectedPop2 + newInfectedPop2 - newInfectedPop1;
+        int newTotalInfected1 = previousInfectedPop1 + newInfectedPop1;
+        int newTotalInfected2 = previousInfectedPop2 + newInfectedPop2;
         
         
         //Set country new total infected pop
@@ -342,10 +348,13 @@ public class Simulation implements Serializable {
         if(newInfectedPop1 > 0){
 //            splitNewInfectedInRegions(country1, newInfectedPop1);
             country1.splitNewInfectedInRegions(newInfectedPop1);
+            country1.removeTravellingInfectedInRegions(newInfectedPop2);
         }
         if(newInfectedPop2 > 0){
 //            splitNewInfectedInRegions(country2, newInfectedPop2);
               country2.splitNewInfectedInRegions(newInfectedPop2);
+              country2.removeTravellingInfectedInRegions(newInfectedPop1);
+
         }
     }
     
