@@ -166,7 +166,6 @@ public class Country implements Serializable, Cloneable  {
     
     public void updateTotalPopulation(int totalPopulation) {
         population.setTotalPopulation(totalPopulation);
-        System.out.println(regions.size());
         regions.forEach(r -> {
             r.SetPercentage(totalPopulation, r.getPercentagePop());
         });

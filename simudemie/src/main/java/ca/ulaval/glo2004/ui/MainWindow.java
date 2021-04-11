@@ -423,8 +423,12 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jPanelCuredRate = new javax.swing.JPanel();
         jLabelTitleCuredRate = new javax.swing.JLabel();
         jTextFieldCuredRate = new javax.swing.JTextField();
-        jPanelTransmissionRate = new javax.swing.JPanel();
         jButtonApplyDisease = new javax.swing.JButton();
+        jComboBoxDiseases = new javax.swing.JComboBox<>();
+        jLabelTitleDeseaseName = new javax.swing.JLabel();
+        jTextFieldDiseaseName = new javax.swing.JTextField();
+        jButtonSaveNewDisease = new javax.swing.JButton();
+        jButtonDeleteDisease = new javax.swing.JButton();
         jPanelHealthMesures = new javax.swing.JPanel();
         jLabelMesureName = new javax.swing.JLabel();
         jTextFieldMesureName = new javax.swing.JTextField();
@@ -440,6 +444,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jLabelTitlePopMondial = new javax.swing.JLabel();
         jLabelCured = new javax.swing.JLabel();
         jBtnChangeSimulationTimeStep = new javax.swing.JButton();
+        jLabelDiseaseReminderName = new javax.swing.JLabel();
         jPanelLegend = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -986,12 +991,30 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jTextFieldCuredRate.setText("4");
         jPanelCuredRate.add(jTextFieldCuredRate);
 
-        jPanelTransmissionRate.setLayout(new java.awt.GridLayout(1, 0));
-
-        jButtonApplyDisease.setText("Appliquer (maladie)");
+        jButtonApplyDisease.setText("Appliquer");
         jButtonApplyDisease.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonApplyDiseaseActionPerformed(evt);
+            }
+        });
+
+        jComboBoxDiseases.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabelTitleDeseaseName.setText("Nom");
+
+        jTextFieldDiseaseName.setText("jTextField1");
+
+        jButtonSaveNewDisease.setText("Savegarder");
+        jButtonSaveNewDisease.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSaveNewDiseaseActionPerformed(evt);
+            }
+        });
+
+        jButtonDeleteDisease.setText("Supprimer");
+        jButtonDeleteDisease.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteDiseaseActionPerformed(evt);
             }
         });
 
@@ -999,31 +1022,46 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jPanelDeseaseParams.setLayout(jPanelDeseaseParamsLayout);
         jPanelDeseaseParamsLayout.setHorizontalGroup(
             jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelMortalityRate, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jPanelReproductionRate, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jPanelCuredRate, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(jPanelDeseaseParamsLayout.createSequentialGroup()
-                .addComponent(jButtonApplyDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelTransmissionRate, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addGroup(jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanelDeseaseParamsLayout.createSequentialGroup()
+                        .addComponent(jButtonSaveNewDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonDeleteDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxDiseases, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanelDeseaseParamsLayout.createSequentialGroup()
+                        .addComponent(jLabelTitleDeseaseName)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextFieldDiseaseName))
+                    .addComponent(jPanelMortalityRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelReproductionRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelCuredRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonApplyDisease, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanelDeseaseParamsLayout.setVerticalGroup(
             jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDeseaseParamsLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addContainerGap()
+                .addComponent(jComboBoxDiseases, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelTitleDeseaseName)
+                    .addComponent(jTextFieldDiseaseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15)
                 .addComponent(jPanelMortalityRate, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addComponent(jPanelReproductionRate, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addComponent(jPanelCuredRate, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelDeseaseParamsLayout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(jPanelTransmissionRate, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelDeseaseParamsLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonApplyDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(376, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonApplyDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonSaveNewDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDeleteDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(299, Short.MAX_VALUE))
         );
 
         jTabbedPaneSimulationOptions.addTab("Paramètres de la maladie", jPanelDeseaseParams);
@@ -1127,6 +1165,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
+        jLabelDiseaseReminderName.setText("ReminderDiseaseName");
+
         javax.swing.GroupLayout jPanelSimulationLayout = new javax.swing.GroupLayout(jPanelSimulation);
         jPanelSimulation.setLayout(jPanelSimulationLayout);
         jPanelSimulationLayout.setHorizontalGroup(
@@ -1166,20 +1206,24 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                                 .addComponent(jLabelPopMondial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(11, 11, 11)
                         .addComponent(jLabelCured, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanelSimulationLayout.createSequentialGroup()
-                        .addComponent(jLabelTitleDayElapsed)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelDayElapsed, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonBacktrack)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonForward))
-                    .addGroup(jPanelSimulationLayout.createSequentialGroup()
-                        .addComponent(jLabelTimeLapse)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldSimulationTimeStep, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBtnChangeSimulationTimeStep)))
+                    .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanelSimulationLayout.createSequentialGroup()
+                            .addComponent(jLabelTitleDayElapsed)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabelDayElapsed, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jButtonBacktrack)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonForward)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabelDiseaseReminderName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanelSimulationLayout.createSequentialGroup()
+                            .addComponent(jLabelTimeLapse)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jTextFieldSimulationTimeStep, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jBtnChangeSimulationTimeStep)
+                            .addGap(0, 0, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanelSimulationLayout.setVerticalGroup(
@@ -1190,7 +1234,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addComponent(jLabelTitleDayElapsed, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelDayElapsed, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonBacktrack)
-                    .addComponent(jButtonForward))
+                    .addComponent(jButtonForward)
+                    .addComponent(jLabelDiseaseReminderName))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelTimeLapse)
@@ -1843,6 +1888,14 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonApplyAllLinksTravelRateActionPerformed
 
+    private void jButtonSaveNewDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveNewDiseaseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonSaveNewDiseaseActionPerformed
+
+    private void jButtonDeleteDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteDiseaseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonDeleteDiseaseActionPerformed
+
     public void Draw(Graphics2D g2d){
         worldController.Draw(g2d); 
         if(onHoverCountry != null) {
@@ -1904,17 +1957,20 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JButton jButtonCreateIrregularCountry;
     private javax.swing.JButton jButtonCreateRegularCountry;
     private javax.swing.JButton jButtonDeleteCountry;
+    private javax.swing.JButton jButtonDeleteDisease;
     private javax.swing.JButton jButtonDeleteLink;
     private javax.swing.JButton jButtonDeleteMesure;
     private javax.swing.JButton jButtonForward;
     private javax.swing.JButton jButtonModifyRegion;
     private javax.swing.JButton jButtonRemoveRegion;
     private javax.swing.JButton jButtonResetZoom;
+    private javax.swing.JButton jButtonSaveNewDisease;
     private javax.swing.JButton jButtonScreenShotWorld;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBoxActiveMesure;
     private javax.swing.JComboBox<String> jComboBoxAddLink;
     private javax.swing.JComboBox<String> jComboBoxAllLinksType;
+    private javax.swing.JComboBox<String> jComboBoxDiseases;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1936,6 +1992,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JLabel jLabelCured;
     private javax.swing.JLabel jLabelDayElapsed;
     private javax.swing.JLabel jLabelDead;
+    private javax.swing.JLabel jLabelDiseaseReminderName;
     private javax.swing.JLabel jLabelMesureName;
     private javax.swing.JLabel jLabelModCountryName;
     private javax.swing.JLabel jLabelModCountryPop;
@@ -1948,6 +2005,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JLabel jLabelTitleCuredRate;
     private javax.swing.JLabel jLabelTitleDayElapsed;
     private javax.swing.JLabel jLabelTitleDead;
+    private javax.swing.JLabel jLabelTitleDeseaseName;
     private javax.swing.JLabel jLabelTitleEditionRegion;
     private javax.swing.JLabel jLabelTitleMortalityRate;
     private javax.swing.JLabel jLabelTitlePopMondial;
@@ -1980,7 +2038,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JPanel jPanelRegionOptions;
     private javax.swing.JPanel jPanelReproductionRate;
     private javax.swing.JPanel jPanelSimulation;
-    private javax.swing.JPanel jPanelTransmissionRate;
     private javax.swing.JScrollPane jScrollPaneLinks;
     private javax.swing.JScrollPane jScrollPaneMap;
     private javax.swing.JScrollPane jScrollPaneOtherMeasures;
@@ -2003,6 +2060,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JTextField jTextFieldCountryName;
     private javax.swing.JTextField jTextFieldCountryPop;
     private javax.swing.JTextField jTextFieldCuredRate;
+    private javax.swing.JTextField jTextFieldDiseaseName;
     private javax.swing.JTextField jTextFieldMesureName;
     private javax.swing.JTextField jTextFieldMortalityRate;
     private javax.swing.JTextField jTextFieldPercentageAddRegion;
