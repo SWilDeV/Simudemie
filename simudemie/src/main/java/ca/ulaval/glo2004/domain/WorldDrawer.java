@@ -119,7 +119,7 @@ public class WorldDrawer implements java.io.Serializable {
     
     private void drawCountries(Graphics2D g2d) {
         List<CountryDTO> countries = controller.GetCountries();
-        for(CountryDTO country : countries) {
+        for(CountryDTO country : countries) {            
             GeometricForm form = country.Shape;
             
             Polygon poly = CreatePolygon(form.GetPoints());

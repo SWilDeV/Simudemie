@@ -18,19 +18,14 @@ public class CountryFactory {
         GeometricForm form = null;
         
         if(points.size() == 2) {
-//            final Point pt1 = new Point((int)points.get(1).getX(), (int)points.get(0).getY());
-//            final Point pt3 = new Point((int)points.get(0).getX(), (int)points.get(1).getY());
-//
-//            List<Point> arrangedPoints = new ArrayList<Point>() {{
-//                add(points.get(0));
-//                add(pt1);
-//                add(points.get(1));
-//                add(pt3);
-//            }};
             List<Point> pts = Utility.ToRectangle(points);
             form = new RegularForm(pts);
         } else {
-            form = new IrregularForm(points);
+            List<Point> pts = new ArrayList<>(points.size());
+            points.forEach(pt -> {
+                pts.add((Point) pt.clone());
+            });
+            form = new IrregularForm(pts);
         }
         
         return new Country(form, countryName, countryPop);

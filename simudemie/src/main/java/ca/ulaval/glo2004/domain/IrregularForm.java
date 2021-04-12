@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class IrregularForm extends GeometricForm implements Cloneable {
     
-    public IrregularForm(List<Point> points){
+    public IrregularForm(List<Point> points) {        
         super(points);
     }
     

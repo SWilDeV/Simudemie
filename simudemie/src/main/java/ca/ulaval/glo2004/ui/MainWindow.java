@@ -1563,7 +1563,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     //System.out.print("first point --- x :" + Double.toString(firstPoint.getX()) + ", y:" + Double.toString(firstPoint.getY()) + "\n");
                     //System.out.print("Last point --- x :" + Double.toString(lastPoint.getX()) + ", y:" + Double.toString(lastPoint.getY()) + "\n");
                     //Si on est a moins de 10 pixels, on va dire que le dernier point = premier point pour fermer le polygone
-                    if(Utility.Distance(firstPoint, lastPoint) < 10){
+                    if(Utility.Distance(firstPoint, lastPoint) < 50){
                         int indexLastPoint = countryPts.size()-1;
                         countryPts.set(indexLastPoint, firstPoint);
                         try {
