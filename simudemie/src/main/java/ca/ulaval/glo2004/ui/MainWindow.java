@@ -46,7 +46,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     public List<Point> regionPts = new ArrayList<>();
     public CountryDTO countrySelected = null;
 
-    public enum Mode {Idle, AddCountry, ModifyCountry, AddLink, ModifyLink, Select, AddRegion};
+    public enum Mode {Idle, AddCountry, AddCountryIrregular, ModifyCountry, AddLink, ModifyLink, Select, AddRegion};
     public Mode mode = Mode.Idle;
     private CountryDTO onHoverCountry = null; //Je sais que c'est pas bien, mais pour test, on va faire ca.
     private Point onHoverMousePosition = new Point(); //Je sais que c'est pas bien, mais pour test, on va faire ca.
@@ -1206,24 +1206,23 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                                 .addComponent(jLabelPopMondial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(11, 11, 11)
                         .addComponent(jLabelCured, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanelSimulationLayout.createSequentialGroup()
-                            .addComponent(jLabelTitleDayElapsed)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabelDayElapsed, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jButtonBacktrack)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButtonForward)
-                            .addGap(18, 18, 18)
-                            .addComponent(jLabelDiseaseReminderName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(jPanelSimulationLayout.createSequentialGroup()
-                            .addComponent(jLabelTimeLapse)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jTextFieldSimulationTimeStep, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jBtnChangeSimulationTimeStep)
-                            .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanelSimulationLayout.createSequentialGroup()
+                        .addComponent(jLabelTitleDayElapsed)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelDayElapsed, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonBacktrack)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonForward)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabelDiseaseReminderName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanelSimulationLayout.createSequentialGroup()
+                        .addComponent(jLabelTimeLapse)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextFieldSimulationTimeStep, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtnChangeSimulationTimeStep)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelSimulationLayout.setVerticalGroup(
@@ -1423,8 +1422,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         .addGap(29, 29, 29)
                         .addComponent(jButtonScreenShotWorld)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTabbedMainPane, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedMainPane, javax.swing.GroupLayout.PREFERRED_SIZE, 741, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPaneMap, javax.swing.GroupLayout.PREFERRED_SIZE, 709, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1434,7 +1433,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jSliderUndoRedo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -1552,6 +1551,61 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     mode = Mode.ModifyCountry;
                     countryPts.clear();
                 }
+                break;
+            case AddCountryIrregular:
+                //System.out.print("x :" + Double.toString(mousePoint.getX()) + ", y:" +  Double.toString(mousePoint.getY()) + "\n");
+                
+                countryPts.add(mousePoint);
+                //1. MAYDO: convertir en fonction 
+                if (countryPts != null && !countryPts.isEmpty() && countryPts.size() >= 2) {
+                    Point firstPoint = countryPts.get(0);
+                    Point lastPoint = countryPts.get(countryPts.size()-1);
+                    //System.out.print("first point --- x :" + Double.toString(firstPoint.getX()) + ", y:" + Double.toString(firstPoint.getY()) + "\n");
+                    //System.out.print("Last point --- x :" + Double.toString(lastPoint.getX()) + ", y:" + Double.toString(lastPoint.getY()) + "\n");
+                    //Si on est a moins de 10 pixels, on va dire que le dernier point = premier point pour fermer le polygone
+                    if(Utility.Distance(firstPoint, lastPoint) < 10){
+                        int indexLastPoint = countryPts.size()-1;
+                        countryPts.set(indexLastPoint, firstPoint);
+                        try {
+                            String name = jTextFieldCountryName.getText();
+                            int population = Integer.parseInt(jTextFieldCountryPop.getText());
+                            if(!Utility.StringIsNullOrEmpty(name) && population > 0) {
+                                worldController.AddCountry(countryPts, name, population);
+                                //worldController.AddCountryIrregular(countryPts, name, population);
+                                
+                                jTextFieldCountryName.setBackground(Color.white);
+                                jTextFieldCountryPop.setBackground(Color.white);
+
+                                drawingPanel.repaint();
+                                countryPts.clear();
+                            } else {
+                                if(Utility.StringIsNullOrEmpty(name)) jTextFieldCountryName.setBackground(Color.red);
+                                if(population <= 0) jTextFieldCountryPop.setBackground(Color.red);
+                            }
+                        }catch(NumberFormatException e) {
+                            jTextFieldCountryPop.setBackground(Color.red);
+                        }
+
+                        //mode = Mode.ModifyCountry;
+                        countryPts.clear();
+                    }
+                    
+//                    if ((lastPoint.getX()  <= (firstPoint.getX() + 5 )) && lastPoint.getX()  > (firstPoint.getX() - 5 ) &&
+//                            lastPoint.getY()  <= (firstPoint.getY() + 5 ) && lastPoint.getY()  > (firstPoint.getY() - 5 )){
+//                        System.out.print("Dernier points dans les enlentours du premier. On va modifier le dernier point pour le mettre egale au premier.\n");
+//                        int indexLastPoint = countryPts.size()-1;
+//                        countryPts.set(indexLastPoint, firstPoint);
+//                        System.out.print("Avant modifs = x:" + Double.toString(lastPoint.getX()) + ", y:" + Double.toString(lastPoint.getY()) + "\n");
+//                        System.out.print("MODIFICATION - NEW Last point --- x :" + Double.toString(countryPts.get(countryPts.size()-1).getX()) + ", y:" + Double.toString(countryPts.get(countryPts.size()-1).getY()) + "\n");
+//                        // À PARTIR D'ICI, ANCIEN CODE  . . . .
+//                        System.out.print("Polygone fermé.\n");
+//
+//                    }
+                   
+                }
+//                if(countryPts.size() == 2) {
+//                    //old method
+//                }
                 break;
             case ModifyCountry:
                 SelectCountry(mousePoint);
@@ -1881,7 +1935,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
     private void jButtonCreateIrregularCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateIrregularCountryActionPerformed
         SetSelectedCountry(null);
-        mode = Mode.AddCountry; //TODO: Sans doute faire un mode = Mode.AddCountryIrregular
+        mode = Mode.AddCountryIrregular; //TODO: Sans doute faire un mode = Mode.AddCountryIrregular
     }//GEN-LAST:event_jButtonCreateIrregularCountryActionPerformed
 
     private void jButtonApplyAllLinksTravelRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyAllLinksTravelRateActionPerformed

@@ -247,7 +247,12 @@ public class WorldController implements java.io.Serializable {
         Country country = CountryFactory.CreateCountry(points, countryName, countryPop);
         world.addCountry(country);
     }
-    
+        
+//    public void AddCountryIrregular(List<Point> points, String countryName, int countryPop) {
+//        Country country = CountryFactory.CreateCountry(points, countryName, countryPop);
+//        world.addCountryIrregular(country);
+//    }
+//        
     public void UpdateSelectionStateCountry(UUID id, boolean select) {
         world.UpdateSelectionStateCountry(id, select);
     }

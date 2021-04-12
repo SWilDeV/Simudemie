@@ -59,6 +59,12 @@ public class World implements Serializable, Cloneable {
          worldController.NotifyCountryCreated(new CountryDTO(country));
          UpdateLandBorder(country.GetId());
     }
+    
+//    public void addCountryIrregular(Country country){
+//         countryList.add(country);
+//         worldController.NotifyCountryCreated(new CountryDTO(country));
+//         UpdateLandBorder(country.GetId());
+//    }
 
     public void addLink(Link link) {
         linkList.add(link);
