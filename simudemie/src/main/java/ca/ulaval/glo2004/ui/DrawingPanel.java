@@ -5,6 +5,7 @@
  */
 package ca.ulaval.glo2004.ui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -44,6 +45,8 @@ public class DrawingPanel extends JPanel  {
         setVisible(true);
         initialDimension = new Dimension(mainWindow.getWidth(),mainWindow.getHeight());
         setPreferredSize(initialDimension);
+        Color ocean = new Color(0,191,255);
+        setBackground(ocean);
     }
     
     @Override
@@ -57,6 +60,8 @@ public class DrawingPanel extends JPanel  {
     {
         Graphics2D g2d = (Graphics2D) g;
         super.paintComponent(g2d);
+        //setOpaque(true);
+        //g.setColor(Color.red);
         
         if (mainWindow != null) {           
             at = g2d.getTransform();
