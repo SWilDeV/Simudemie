@@ -104,9 +104,10 @@ public class WorldDrawer implements java.io.Serializable {
     private void drawRegion(Graphics2D g2d, CountryDTO country) { 
         for(RegionDTO r: country.Regions) {
             List<Point> pts = r.Shape.GetPoints();
-            
+            //GeometricForm form = r.Shape;   // Charles: on devrait switch pour cette ligne la?
             Polygon poly = CreatePolygon(pts);
-            
+            //Polygon poly = CreatePolygon(form.GetPoints()); // Charles: on devrait switch pour cette ligne la?
+           
             g2d.setColor(r.Color);
             g2d.fillPolygon(poly);
             g2d.setColor(Color.black);

@@ -1586,7 +1586,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                             jTextFieldCountryPop.setBackground(Color.red);
                         }
 
-                        //mode = Mode.ModifyCountry;
+                        mode = Mode.ModifyCountry;
                         countryPts.clear();
                     }
                     
