@@ -38,4 +38,22 @@ public class RegularForm extends GeometricForm implements Cloneable {
         
         return form;
     }
+
+    @Override
+    public boolean Contain(Point position) {
+        return Utility.IsInRectangle(points, position);
+    }
+
+    @Override
+    public void SetPointPosition(int index, Point position) {
+        points.set(index, position);
+        List<Point> pts = new ArrayList<Point>() {
+            {
+                add(points.get(0));
+                add(points.get(2));
+            }
+        };
+        this.points = Utility.ToRectangle(pts);
+        RecalculateAll();
+    }
 }

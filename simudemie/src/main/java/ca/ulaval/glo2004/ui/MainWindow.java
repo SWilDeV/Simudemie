@@ -8,6 +8,7 @@ package ca.ulaval.glo2004.ui;
 import ca.ulaval.glo2004.domain.CountryDTO;
 import ca.ulaval.glo2004.domain.DiseaseDTO;
 import ca.ulaval.glo2004.domain.HealthMesureDTO;
+import ca.ulaval.glo2004.domain.IrregularForm;
 import ca.ulaval.glo2004.domain.Link;
 import ca.ulaval.glo2004.domain.LinkDTO;
 import ca.ulaval.glo2004.domain.NotAllPopulationAssign;
@@ -45,6 +46,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     public List<Point> countryPts = new ArrayList<>();
     public List<Point> regionPts = new ArrayList<>();
     public CountryDTO countrySelected = null;
+    public int countrySelectedPointIndex = -1;
 
     public enum Mode {Idle, AddCountry, AddCountryIrregular, ModifyCountry, AddLink, ModifyLink, Select, AddRegion};
     public Mode mode = Mode.Idle;
@@ -317,6 +319,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         } else {
             countrySelected = null;
         }
+        
+        countrySelectedPointIndex = -1;
     }
     
     private void AddUndoRedo() throws CloneNotSupportedException {
@@ -1641,10 +1645,33 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
     private void jPanelDrawMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelDrawMouseDragged
         if (mode == Mode.ModifyCountry) {
-            CountryDTO country = Utility.SelectCountry(worldController.GetCountries(), evt.getPoint());
-            if(country != null) {
-                country.SetPosition(evt.getPoint());
-                worldController.UpdateCountry(country);
+            //CountryDTO country = Utility.SelectCountry(worldController.GetCountries(), evt.getPoint());
+            if(countrySelected != null) {
+                Point mousePoint = evt.getPoint();
+                
+                List<Point> pts = countrySelected.Shape.GetPoints();
+                if(countrySelected.Shape instanceof IrregularForm) {
+                    for(int i = 0 ; i < pts.size(); i++) {
+                        if(Utility.Distance(pts.get(i), mousePoint) < 40) {
+                            countrySelectedPointIndex = i;
+                            break;
+                        }
+                    }
+                } else {
+                    if(Utility.Distance(pts.get(0), mousePoint) < 40) {
+                        countrySelectedPointIndex = 0;
+                    } else if(Utility.Distance(pts.get(2), mousePoint) < 40) {
+                        countrySelectedPointIndex = 2;
+                    }
+                }
+                
+                if(countrySelectedPointIndex != -1) {
+                    countrySelected.Shape.SetPointPosition(countrySelectedPointIndex, evt.getPoint());
+                } else {
+                    countrySelected.SetPosition(evt.getPoint());
+                }
+                
+                worldController.UpdateCountry(countrySelected);
                 drawingPanel.revalidate();
                 drawingPanel.repaint();
             }

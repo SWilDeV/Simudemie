@@ -39,4 +39,27 @@ public class IrregularForm extends GeometricForm implements Cloneable {
         
         return form;
     }
+
+    @Override
+    public boolean Contain(Point position) {
+      int i;
+      int j;
+      boolean result = false;
+      for (i = 0, j = points.size() - 1; i < points.size(); j = i++) {
+        Point pointI = points.get(i);
+        Point pointJ = points.get(j);
+        
+        if ((pointI.y > position.y) != (pointJ.y > position.y) &&
+            (position.x < (pointJ.x - pointI.x) * (position.y - pointI.y) / (pointJ.y-pointI.y) + pointI.x)) {
+          result = !result;
+         }
+      }
+      return result;
+    }
+
+    @Override
+    public void SetPointPosition(int index, Point position) {
+        points.set(index, (Point)position.clone());
+        RecalculateAll();
+    }
 }

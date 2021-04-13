@@ -87,7 +87,7 @@ public final class Utility {
         CountryDTO country = null;
         
         for(CountryDTO c: countries) {
-            if(IsInRectangle(c.Shape.GetPoints(), mousePosition)) {
+            if(c.Shape.Contain(mousePosition)) {
                 country = c;
                 break;
             }

@@ -6,7 +6,6 @@
 package ca.ulaval.glo2004.domain;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
@@ -23,20 +22,10 @@ import java.util.List;
 public class WorldDrawer implements java.io.Serializable {
     
     private final WorldController controller;
-    private double zoom = 1.0;
-    private double zoomIncr = 0.025;
-    AffineTransform at = new AffineTransform();
-    
+    private final int pointsRadius = 10;
 
     public WorldDrawer(WorldController p_controller){
         controller = p_controller;
-    }
-    
-    public void Zoom(double amount, Point mousePosition, int width, int height) {
-        zoom += amount * zoomIncr;
-        if(zoom <= 0.1) {
-            zoom = 0.1;
-        }
     }
     
     public void draw(Graphics2D g2d, List<Point> mousePoints) {
@@ -52,10 +41,7 @@ public class WorldDrawer implements java.io.Serializable {
     }
     
     public void drawMousePoints(Graphics2D g2d, List<Point> points) {
-        g2d.setColor(Color.black);
-        points.forEach(pt -> {
-            DrawCircleAtPosition(g2d, pt, 10);
-        });
+        drawPoints(g2d, points, pointsRadius);
         
         if(points.size() > 1) {
             for(int i = 1; i < points.size(); i++) {
@@ -64,6 +50,13 @@ public class WorldDrawer implements java.io.Serializable {
                 g2d.drawLine(pt1.x, pt1.y, pt2.x, pt2.y);
             }
         }
+    }
+    
+    public void drawPoints(Graphics2D g2d, List<Point> points, int radius) {
+        g2d.setColor(Color.black);
+        points.forEach(pt -> {
+            DrawCircleAtPosition(g2d, pt, radius);
+        });
     }
     
     public void drawRegionInfo(Graphics2D g2d, Point mousePosition, RegionDTO region) {
@@ -136,6 +129,7 @@ public class WorldDrawer implements java.io.Serializable {
             if(r.IsSelected) {
                 g2d.setColor(Color.YELLOW);
             }
+            
             g2d.drawPolygon(poly);
         }
     }
@@ -154,6 +148,13 @@ public class WorldDrawer implements java.io.Serializable {
             g2d.setColor(Color.BLACK);
             if(country.IsSelected) {
                 g2d.setColor(Color.YELLOW);
+                
+                if(country.Shape instanceof IrregularForm) {
+                    drawPoints(g2d, form.GetPoints(), pointsRadius);
+                } else {
+                    DrawCircleAtPosition(g2d, country.Shape.GetPoint(0), pointsRadius);
+                    DrawCircleAtPosition(g2d, country.Shape.GetPoint(2), pointsRadius);
+                }
             }
             g2d.drawPolygon(poly);
             
@@ -210,17 +211,6 @@ public class WorldDrawer implements java.io.Serializable {
         }
         
         g2d.setStroke(new BasicStroke(1));
-    }
-    
-    public void setZoom(float p_zoom){
-        zoom = p_zoom;
-    }
-    
-    public double getZoom(){
-        return zoom;
-    }
-    
-    public void displayInfoBox(){
     }
 }
     

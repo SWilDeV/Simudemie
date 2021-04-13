@@ -26,6 +26,15 @@ public abstract class GeometricForm implements Serializable, Cloneable {
         RecalculateAll();
     }
     
+    public abstract boolean Contain(Point position);
+    
+    public abstract void SetPointPosition(int index, Point position);
+    
+    public void SetPoints(List<Point> points) {
+        this.points = points;
+        RecalculateAll();
+    }
+    
     public void SetPosition(Point position) {
         float directionX = position.x - center.x;
         float directionY = position.y - center.y;
