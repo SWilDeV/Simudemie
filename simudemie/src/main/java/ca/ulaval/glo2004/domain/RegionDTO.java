@@ -20,7 +20,7 @@ public class RegionDTO implements Serializable {
     
     public String Name;
     public double PercentagePop;
-    public RegularForm Shape;
+    public IrregularForm Shape;
     public PopulationDTO SubPopulation;
     public final Color Color;
     public final UUID Id;
@@ -29,7 +29,7 @@ public class RegionDTO implements Serializable {
     public RegionDTO(Region region) {
         Name = region.GetName();
         PercentagePop = region.getPercentagePop();
-        Shape = region.GetShape();
+        Shape = new IrregularForm(region.GetShape().GetPoints());
         SubPopulation = new PopulationDTO(region.getPopulation());
         Id = region.GetId();
         Color = region.GetColor();
@@ -44,7 +44,7 @@ public class RegionDTO implements Serializable {
             }
         };
         
-        Shape = new RegularForm(Utility.ToRectangle(pts));
+        Shape = new IrregularForm(Utility.ToRectangle(pts));
     }
     
     public Region toRegion() {

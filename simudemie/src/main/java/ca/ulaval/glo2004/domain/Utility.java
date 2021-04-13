@@ -138,18 +138,18 @@ public final class Utility {
     }
     
     public static final boolean AsCommonLandBorder(CountryDTO country1, CountryDTO country2) {
-        return IsTouching(country1.Shape.GetBoundingBox(), country2.Shape.GetPoints()).Touched ||
-                IsTouching(country2.Shape.GetBoundingBox(), country1.Shape.GetPoints()).Touched;
+        return IsTouching(country1.Shape, country2.Shape).Touched ||
+                IsTouching(country2.Shape, country1.Shape).Touched;
     }
     
     public static final boolean AsCommonLandBorder(Country country1, Country country2) {        
-        return IsTouching(country1.getShape().GetBoundingBox(), country2.getShape().GetPoints()).Touched ||
-                IsTouching(country2.getShape().GetBoundingBox(), country1.getShape().GetPoints()).Touched;
+        return IsTouching(country1.getShape(), country2.getShape()).Touched ||
+                IsTouching(country2.getShape(), country1.getShape()).Touched;
     }
     
     public static final List<Point> GetLandBorderPoints(CountryDTO country1, CountryDTO country2) {
-        CountryTouchResult resultOne = IsTouching(country1.Shape.GetBoundingBox(), country2.Shape.GetPoints());
-        CountryTouchResult resultTwo = IsTouching(country2.Shape.GetBoundingBox(), country1.Shape.GetPoints());
+        CountryTouchResult resultOne = IsTouching(country1.Shape, country2.Shape);
+        CountryTouchResult resultTwo = IsTouching(country2.Shape, country1.Shape);
 
         if(resultOne.Touched) {
             return resultOne.GetPoints();
@@ -158,7 +158,10 @@ public final class Utility {
         return resultTwo.GetPoints();
     }
     
-    public static final CountryTouchResult IsTouching(List<Point> countryBb, List<Point> otherPts) {    //other est-il dans la bb de country ?
+    public static final CountryTouchResult IsTouching(GeometricForm countryShape, GeometricForm otherShape) {    //other est-il dans la bb de country ?
+        List<Point> countryBb = countryShape.GetBoundingBox();
+        List<Point> otherPts = otherShape.GetPoints();
+        
         Point borderPointOne = null;
         Point borderPointTwo = null;
         int size = otherPts.size();
@@ -174,7 +177,7 @@ public final class Utility {
                 pt2 = otherPts.get(i+1);
             }
 
-            if(Utility.IsInRectangle(countryBb, pt1) && Utility.IsInRectangle(countryBb, pt2)) {
+            if(countryShape.Contain(pt1) && countryShape.Contain(pt2)) {
                 borderPointOne = pt1;
                 borderPointTwo = pt2; 
                 touch = true;

@@ -25,7 +25,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,8 +42,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     public DrawingPanel drawingPanel;
     public WorldController worldController;
     
-    public List<Point> countryPts = new ArrayList<>();
-    public List<Point> regionPts = new ArrayList<>();
+    public List<Point> mousePoints = new ArrayList<>();
     public CountryDTO countrySelected = null;
     public int countrySelectedPointIndex = -1;
 
@@ -1477,7 +1475,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     
     private void UnselectAddRegion() {
         mode = Mode.Idle;
-        regionPts.clear();
+        mousePoints.clear();
     }
     
     private void jPanelDrawMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelDrawMousePressed
@@ -1498,24 +1496,26 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             case AddRegion:
                 CountryDTO select = Utility.SelectCountry(worldController.GetCountries(), mousePoint);
                 if(select != null) {
-                    if(regionPts.isEmpty() || select.Id == countrySelected.Id) {
+                    if(mousePoints.isEmpty() || select.Id == countrySelected.Id) {
                         SetSelectedCountry(select);
-                        regionPts.add(mousePoint);
+                        mousePoints.add(mousePoint);
                         
-                        if(regionPts.size() == 2) {                            
-                            String name = jTextFieldRegionName.getText();
-                            if(!Utility.StringIsNullOrEmpty(name)) {
-                                worldController.AddRegion(select.Id, regionPts, name);
-                                UpdateJRegionList(select.Id);
+                        if(mousePoints.size() >= 3) {
+                            if(Utility.Distance(mousePoints.get(0), mousePoint) < 10) {                           
+                                String name = jTextFieldRegionName.getText();
+                                if(!Utility.StringIsNullOrEmpty(name)) {
+                                    worldController.AddRegion(select.Id, mousePoints, name);
+                                    UpdateJRegionList(select.Id);
 
-                                jTextFieldPercentageAddRegion.setBackground(Color.white);
-                                jTextFieldRegionName.setBackground(Color.white);
-                                
-                                UnselectAddRegion();
-                                mode = Mode.ModifyCountry;
-                                drawingPanel.repaint();
-                            } else {
-                                if(Utility.StringIsNullOrEmpty(name)) jTextFieldRegionName.setBackground(Color.red);
+                                    jTextFieldPercentageAddRegion.setBackground(Color.white);
+                                    jTextFieldRegionName.setBackground(Color.white);
+
+                                    UnselectAddRegion();
+                                    mode = Mode.ModifyCountry;
+                                    drawingPanel.repaint();
+                                } else {
+                                    if(Utility.StringIsNullOrEmpty(name)) jTextFieldRegionName.setBackground(Color.red);
+                                }
                             }
                         }
                     } else {
@@ -1530,20 +1530,20 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 break;
             
             case AddCountry:
-                countryPts.add(mousePoint);
+                mousePoints.add(mousePoint);
             
-                if(countryPts.size() == 2) {
+                if(mousePoints.size() == 2) {
                     try {
                         String name = jTextFieldCountryName.getText();
                         int population = Integer.parseInt(jTextFieldCountryPop.getText());
                         if(!Utility.StringIsNullOrEmpty(name) && population > 0) {
-                            worldController.AddCountry(countryPts, name, population);
+                            worldController.AddCountry(mousePoints, name, population);
 
                             jTextFieldCountryName.setBackground(Color.white);
                             jTextFieldCountryPop.setBackground(Color.white);
                              
                             drawingPanel.repaint();
-                            countryPts.clear();
+                            mousePoints.clear();
                         } else {
                             if(Utility.StringIsNullOrEmpty(name)) jTextFieldCountryName.setBackground(Color.red);
                             if(population <= 0) jTextFieldCountryPop.setBackground(Color.red);
@@ -1553,35 +1553,28 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     }
                     
                     mode = Mode.ModifyCountry;
-                    countryPts.clear();
+                    mousePoints.clear();
                 }
                 break;
-            case AddCountryIrregular:
-                //System.out.print("x :" + Double.toString(mousePoint.getX()) + ", y:" +  Double.toString(mousePoint.getY()) + "\n");
-                
-                countryPts.add(mousePoint);
-                //1. MAYDO: convertir en fonction 
-                if (countryPts != null && !countryPts.isEmpty() && countryPts.size() >= 2) {
-                    Point firstPoint = countryPts.get(0);
-                    Point lastPoint = countryPts.get(countryPts.size()-1);
-                    //System.out.print("first point --- x :" + Double.toString(firstPoint.getX()) + ", y:" + Double.toString(firstPoint.getY()) + "\n");
-                    //System.out.print("Last point --- x :" + Double.toString(lastPoint.getX()) + ", y:" + Double.toString(lastPoint.getY()) + "\n");
-                    //Si on est a moins de 10 pixels, on va dire que le dernier point = premier point pour fermer le polygone
+            case AddCountryIrregular:                
+                mousePoints.add(mousePoint);
+                if (mousePoints != null && !mousePoints.isEmpty() && mousePoints.size() >= 3) {
+                    Point firstPoint = mousePoints.get(0);
+                    Point lastPoint = mousePoints.get(mousePoints.size()-1);
                     if(Utility.Distance(firstPoint, lastPoint) < 10){
-                        int indexLastPoint = countryPts.size()-1;
-                        countryPts.remove(indexLastPoint);
+                        int indexLastPoint = mousePoints.size()-1;
+                        mousePoints.remove(indexLastPoint);
                         try {
                             String name = jTextFieldCountryName.getText();
                             int population = Integer.parseInt(jTextFieldCountryPop.getText());
                             if(!Utility.StringIsNullOrEmpty(name) && population > 0) {
-                                worldController.AddCountry(countryPts, name, population);
-                                //worldController.AddCountryIrregular(countryPts, name, population);
+                                worldController.AddCountry(mousePoints, name, population);
                                 
                                 jTextFieldCountryName.setBackground(Color.white);
                                 jTextFieldCountryPop.setBackground(Color.white);
 
                                 drawingPanel.repaint();
-                                countryPts.clear();
+                                mousePoints.clear();
                             } else {
                                 if(Utility.StringIsNullOrEmpty(name)) jTextFieldCountryName.setBackground(Color.red);
                                 if(population <= 0) jTextFieldCountryPop.setBackground(Color.red);
@@ -1591,25 +1584,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         }
 
                         mode = Mode.ModifyCountry;
-                        countryPts.clear();
-                    }
-                    
-//                    if ((lastPoint.getX()  <= (firstPoint.getX() + 5 )) && lastPoint.getX()  > (firstPoint.getX() - 5 ) &&
-//                            lastPoint.getY()  <= (firstPoint.getY() + 5 ) && lastPoint.getY()  > (firstPoint.getY() - 5 )){
-//                        System.out.print("Dernier points dans les enlentours du premier. On va modifier le dernier point pour le mettre egale au premier.\n");
-//                        int indexLastPoint = countryPts.size()-1;
-//                        countryPts.set(indexLastPoint, firstPoint);
-//                        System.out.print("Avant modifs = x:" + Double.toString(lastPoint.getX()) + ", y:" + Double.toString(lastPoint.getY()) + "\n");
-//                        System.out.print("MODIFICATION - NEW Last point --- x :" + Double.toString(countryPts.get(countryPts.size()-1).getX()) + ", y:" + Double.toString(countryPts.get(countryPts.size()-1).getY()) + "\n");
-//                        // À PARTIR D'ICI, ANCIEN CODE  . . . .
-//                        System.out.print("Polygone fermé.\n");
-//
-//                    }
-                   
+                        mousePoints.clear();
+                    }                   
                 }
-//                if(countryPts.size() == 2) {
-//                    //old method
-//                }
                 break;
             case ModifyCountry:
                 SelectCountry(mousePoint);
@@ -1978,7 +1955,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }//GEN-LAST:event_jButtonDeleteDiseaseActionPerformed
 
     public void Draw(Graphics2D g2d){
-        worldController.Draw(g2d, countryPts); 
+        worldController.Draw(g2d, mousePoints); 
         if(onHoverCountry != null) {
             worldController.DrawCountryInfo(g2d, onHoverMousePosition, onHoverCountry);
         }

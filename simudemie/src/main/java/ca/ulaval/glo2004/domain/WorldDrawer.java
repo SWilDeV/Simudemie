@@ -9,7 +9,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.geom.AffineTransform;
+import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.util.List;
@@ -23,9 +23,16 @@ public class WorldDrawer implements java.io.Serializable {
     
     private final WorldController controller;
     private final int pointsRadius = 10;
+    
+    private Stroke dashStroke;
+    private Stroke plainStoke;
 
     public WorldDrawer(WorldController p_controller){
         controller = p_controller;
+        
+        float[] dashingPattern1 = {2f, 2f};
+        dashStroke = new BasicStroke(2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, dashingPattern1, 2.0f);
+        plainStoke = new BasicStroke(1f);
     }
     
     public void draw(Graphics2D g2d, List<Point> mousePoints) {
@@ -119,9 +126,9 @@ public class WorldDrawer implements java.io.Serializable {
     private void drawRegion(Graphics2D g2d, CountryDTO country) { 
         for(RegionDTO r: country.Regions) {
             List<Point> pts = r.Shape.GetPoints();
-            //GeometricForm form = r.Shape;   // Charles: on devrait switch pour cette ligne la?
+            g2d.setStroke(dashStroke);
+ 
             Polygon poly = CreatePolygon(pts);
-            //Polygon poly = CreatePolygon(form.GetPoints()); // Charles: on devrait switch pour cette ligne la?
            
             g2d.setColor(r.Color);
             g2d.fillPolygon(poly);
@@ -156,6 +163,8 @@ public class WorldDrawer implements java.io.Serializable {
                     DrawCircleAtPosition(g2d, country.Shape.GetPoint(2), pointsRadius);
                 }
             }
+            
+            g2d.setStroke(plainStoke);
             g2d.drawPolygon(poly);
             
             g2d.setColor(Color.BLACK);
@@ -163,6 +172,12 @@ public class WorldDrawer implements java.io.Serializable {
             g2d.drawString(country.Name, (int)center.getX(), ((int)center.getY()-20));
             String totPop = Integer.toString(country.getPopulationDTO().getTotalPopulationDTO());
             g2d.drawString(totPop, (int)center.getX(), (int)center.getY());
+            
+            if(true) {
+                g2d.setColor(Color.red);
+                poly = CreatePolygon(country.Shape.GetBoundingBox());
+                g2d.drawPolygon(poly);
+            }
         }
     }
     

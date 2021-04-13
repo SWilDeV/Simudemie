@@ -278,7 +278,12 @@ public class Country implements Serializable, Cloneable  {
         
         double lastPercentage = 1.0 - (percentagePerRegion * regions.size());
         
-        RegularForm form = new RegularForm(points);
+        List<Point> clonePts = new ArrayList<>();
+        for(Point pt: points) {
+            clonePts.add((Point)pt.clone());
+        }
+        
+        IrregularForm form = new IrregularForm(clonePts);
         Region region = new Region(form, regionName, population.getTotalPopulation(), lastPercentage);
         
         //ajout liens entre regions a chaque creation de region (sauf pour la premiere region)

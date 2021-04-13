@@ -21,18 +21,18 @@ public class Region implements Serializable, Cloneable {
     private String name;
     private double percentagePop;
     private Population subPopulation;
-    private RegularForm shape;
+    private IrregularForm shape;
     private UUID id;
     private boolean isSelected = false;
     
-    public Region(RegularForm form, String name, int countryPopulation, double percentage) {
+    public Region(IrregularForm form, String name, int countryPopulation, double percentage) {
         this.name = name;
         shape = form;
         id = UUID.randomUUID();
         SetPercentage(countryPopulation, percentage);
     }
     
-    public Region(UUID id, RegularForm form, Population population, double percentage, boolean isSelected, String name) {
+    public Region(UUID id, IrregularForm form, Population population, double percentage, boolean isSelected, String name) {
         shape = form;
         this.id = id;
         this.name = name;
@@ -60,10 +60,10 @@ public class Region implements Serializable, Cloneable {
                 add(p2);
             }
         };
-        shape = new RegularForm(Utility.ToRectangle(pts));
+        shape = new IrregularForm(Utility.ToRectangle(pts));
     }
     
-    public RegularForm GetShape() {
+    public IrregularForm GetShape() {
         return shape;
     }
     

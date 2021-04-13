@@ -274,7 +274,7 @@ public class WorldController implements java.io.Serializable {
     }
     
     public void AddRegion(UUID countryId, List<Point> points, String name) {
-        world.addRegion(countryId, Utility.ToRectangle(points), name);
+        world.addRegion(countryId, points, name);
     }
     
     public void UpdateRegion(UUID countryId, RegionDTO region) {

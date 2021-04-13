@@ -65,15 +65,14 @@ public class CountryDTO implements Serializable {
         Point diff = new Point(newPosition.x - prevPosition.x, newPosition.y - prevPosition.y);
         
         for(RegionDTO r: Regions) {
+            List<Point> pts = new ArrayList<>();
+            for(Point pt: r.Shape.GetPoints()) {
+                pt.x += diff.x;
+                pt.y += diff.y;
+                pts.add(pt);
+            }
             
-            List<Point> pts = new ArrayList<Point>() {
-                {
-                    add(new Point(r.Shape.GetPoint(0).x + diff.x, r.Shape.GetPoint(0).y + diff.y));
-                    add(new Point(r.Shape.GetPoint(2).x + diff.x, r.Shape.GetPoint(2).y + diff.y));
-                }
-            };
-            
-            r.Shape = new RegularForm(Utility.ToRectangle(pts));
+            r.Shape = new IrregularForm(pts);
         }
     }
     
