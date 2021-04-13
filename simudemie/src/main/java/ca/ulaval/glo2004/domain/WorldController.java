@@ -235,8 +235,8 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
-    public void Draw(Graphics2D g2d) {
-        worldDrawer.draw(g2d);
+    public void Draw(Graphics2D g2d, List<Point> points) {
+        worldDrawer.draw(g2d, points);
     }
     
     public void DrawCountryInfo(Graphics2D g2d, Point mousePosition, CountryDTO country) {

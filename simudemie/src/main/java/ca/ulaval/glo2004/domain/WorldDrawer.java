@@ -39,9 +39,31 @@ public class WorldDrawer implements java.io.Serializable {
         }
     }
     
-    public void draw(Graphics2D g2d) {
+    public void draw(Graphics2D g2d, List<Point> mousePoints) {
         drawCountries(g2d);
         drawLinks(g2d);
+        drawMousePoints(g2d, mousePoints);
+    }
+    
+    private void DrawCircleAtPosition(Graphics2D g2d, Point position, int radius) {
+        int x = position.x-(radius/2);
+        int y = position.y-(radius/2);
+        g2d.fillOval(x, y, radius, radius);
+    }
+    
+    public void drawMousePoints(Graphics2D g2d, List<Point> points) {
+        g2d.setColor(Color.black);
+        points.forEach(pt -> {
+            DrawCircleAtPosition(g2d, pt, 10);
+        });
+        
+        if(points.size() > 1) {
+            for(int i = 1; i < points.size(); i++) {
+                Point pt1 = points.get(i-1);
+                Point pt2 = points.get(i);
+                g2d.drawLine(pt1.x, pt1.y, pt2.x, pt2.y);
+            }
+        }
     }
     
     public void drawRegionInfo(Graphics2D g2d, Point mousePosition, RegionDTO region) {
