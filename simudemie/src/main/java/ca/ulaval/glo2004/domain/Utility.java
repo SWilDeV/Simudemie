@@ -47,6 +47,28 @@ public final class Utility {
         return new Color(R, G, B);
     }
     
+        public static Color GetColorGradientSrcDest(Color src, Color dest, double percentage) {
+        Color toColor = dest;
+        Color fromColor = src;
+        int R = (int)((toColor.getRed()) * percentage + (fromColor.getRed()) * (1.0 - percentage));
+        int G = (int)((toColor.getGreen()) * percentage + (fromColor.getGreen()) * (1.0 - percentage));
+        int B = (int)((toColor.getBlue()) * percentage + (fromColor.getBlue()) * (1.0 - percentage));
+        
+        if(R > 255) {
+            R = 255;
+        }
+        
+        if(G > 255) {
+            G = 255;
+        }
+        
+        if(B > 255) {
+            B = 255;
+        }
+        
+        return new Color(R, G, B);
+    }
+    
     public static List<Point> ToRectangle(List<Point> pts) {
         final Point pt1 = new Point((int)pts.get(1).getX(), (int)pts.get(0).getY());
         final Point pt3 = new Point((int)pts.get(0).getX(), (int)pts.get(1).getY());

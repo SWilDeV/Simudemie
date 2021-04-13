@@ -100,7 +100,7 @@ public class Region implements Serializable, Cloneable {
         double p = 1.0;
         if(subPopulation.getTotalPopulation() > 0) {
             if(subPopulation.getInfectedPopulation() > 0) {
-                p = (subPopulation.getInfectedPopulation()) / (double)(subPopulation.getTotalPopulation() + subPopulation.getDeadPopulation());
+                p = (subPopulation.getInfectedPopulation()) / (double)subPopulation.getTotalPopulation();
                 if(p > 1) {
                     p = 1;
                 }

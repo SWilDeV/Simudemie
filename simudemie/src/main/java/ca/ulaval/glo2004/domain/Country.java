@@ -104,18 +104,28 @@ public class Country implements Serializable, Cloneable  {
     
     public Color getColor() {
         double p = 1.0;
+        double p_dead;
         if(population.getTotalPopulation() > 0) {
             if(population.getInfectedPopulation() > 0) {
-                p = (population.getInfectedPopulation()) / (double)(population.getTotalPopulation() + population.getDeadPopulation());
+                p = (population.getInfectedPopulation() ) / (double)population.getTotalPopulation() ;
                 if(p > 1) {
                     p = 1;
+                }
+                if(population.getDeadPopulation() > 0){
+                    p_dead = (population.getInfectedPopulation() ) / (double)(population.getTotalPopulation() + population.getDeadPopulation());
+                }
+                else {
+                    p_dead = 0.0;
                 }
             } else {
                 p = 0.0;
             }
         }
         
-        return Utility.GetColorGradient(p);
+        Color variance_rouge_vert = Utility.GetColorGradient(p);
+        //return Utility.GetColorGradientSrcDest(variance_rouge_vert, Color.black, p);    // marche mais cest pas beau
+        return variance_rouge_vert;
+        
     }
     
     public UUID GetId() {
