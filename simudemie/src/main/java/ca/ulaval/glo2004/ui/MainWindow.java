@@ -1569,7 +1569,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     //Si on est a moins de 10 pixels, on va dire que le dernier point = premier point pour fermer le polygone
                     if(Utility.Distance(firstPoint, lastPoint) < 10){
                         int indexLastPoint = countryPts.size()-1;
-                        countryPts.set(indexLastPoint, firstPoint);
+                        countryPts.remove(indexLastPoint);
                         try {
                             String name = jTextFieldCountryName.getText();
                             int population = Integer.parseInt(jTextFieldCountryPop.getText());
