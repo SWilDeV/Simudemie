@@ -119,4 +119,16 @@ public class DrawingPanel extends JPanel  {
 	}
     }
     
+    public void loadImageBackground(File bgImage){ 
+        try {
+            BufferedImage img = ImageIO.read(bgImage);
+            //g.drawImage(img, 0, 0, this);  // ????? appel a quoi?
+        }
+        catch(IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+    
+    
+    
 }

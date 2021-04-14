@@ -28,10 +28,13 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JSlider;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -51,6 +54,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private CountryDTO onHoverCountry = null; //Je sais que c'est pas bien, mais pour test, on va faire ca.
     private Point onHoverMousePosition = new Point(); //Je sais que c'est pas bien, mais pour test, on va faire ca.
     private final JFileChooser fileChooser;
+    private final JFileChooser imageChooser;
  
     /**
      * Creates new form MainWindow
@@ -63,6 +67,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         drawingPanel = new DrawingPanel(this, jPanelDraw);
         jPanelDraw.add(drawingPanel);
         fileChooser = new JFileChooser();
+        imageChooser = new JFileChooser();
+        FileFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
+        imageChooser.setFileFilter(imageFilter);
         
         worldController.Subscribe(this);
     }
@@ -457,6 +464,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jButtonScreenShotWorld = new javax.swing.JButton();
         jLabelUndoRedoSliderText = new javax.swing.JLabel();
         jSliderUndoRedo = new javax.swing.JSlider();
+        jButtonChangeBackgroundImage = new javax.swing.JButton();
         jMainMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemNew = new javax.swing.JMenuItem();
@@ -1341,6 +1349,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
+        jButtonChangeBackgroundImage.setText("Importer Image");
+        jButtonChangeBackgroundImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonChangeBackgroundImageActionPerformed(evt);
+            }
+        });
+
         jMenu1.setText("File");
 
         jMenuItemNew.setText("Nouveau projet");
@@ -1406,7 +1421,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 442, Short.MAX_VALUE)
-                        .addComponent(jButtonScreenShotWorld)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jButtonScreenShotWorld)
+                            .addComponent(jButtonChangeBackgroundImage))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanelLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -1414,18 +1431,18 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanelLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jButtonScreenShotWorld)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedMainPane, javax.swing.GroupLayout.PREFERRED_SIZE, 741, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jButtonChangeBackgroundImage)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonScreenShotWorld)))
+                    .addComponent(jPanelLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedMainPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPaneMap, javax.swing.GroupLayout.PREFERRED_SIZE, 709, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1954,6 +1971,14 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonDeleteDiseaseActionPerformed
 
+    private void jButtonChangeBackgroundImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChangeBackgroundImageActionPerformed
+        // TODO add your handling code here:
+        int returnValue = imageChooser.showOpenDialog(this);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            drawingPanel.loadImageBackground(fileChooser.getSelectedFile());
+        }
+    }//GEN-LAST:event_jButtonChangeBackgroundImageActionPerformed
+
     public void Draw(Graphics2D g2d){
         worldController.Draw(g2d, mousePoints); 
         if(onHoverCountry != null) {
@@ -2012,6 +2037,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JButton jButtonApplyAllLinksTravelRate;
     private javax.swing.JButton jButtonApplyDisease;
     private javax.swing.JButton jButtonBacktrack;
+    private javax.swing.JButton jButtonChangeBackgroundImage;
     private javax.swing.JButton jButtonCreateIrregularCountry;
     private javax.swing.JButton jButtonCreateRegularCountry;
     private javax.swing.JButton jButtonDeleteCountry;
