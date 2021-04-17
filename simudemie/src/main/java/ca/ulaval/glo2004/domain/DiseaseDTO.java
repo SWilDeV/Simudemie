@@ -5,6 +5,8 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import java.util.UUID;
+
 /**
  *
  * @author Sean
@@ -13,11 +15,15 @@ public class DiseaseDTO {
     private double infectionRateDTO;
     private double mortalityRateDTO;
     private double cureRateDTO;
+    private UUID id;
+    private String name;
     
     public DiseaseDTO(Disease disease) {
         infectionRateDTO = disease.getInfectionRate();
         mortalityRateDTO = disease.getMortalityRate();
         cureRateDTO = disease.getCureRate();
+        name = disease.getName();
+        id = disease.getId();
     }
     
     public double getInfectionRateDTO() {
@@ -30,6 +36,18 @@ public class DiseaseDTO {
     
     public double getCureRateDTO() {
         return cureRateDTO;
+    }
+    
+    public UUID getId(){
+        return id;
+    }
+
+    public String getName(){
+        return name;
+    }
+    
+    public void set(String name,double infectionRate, double mortalityRate, double cureRate){
+        
     }
     
     public void setInfectionRateDTO(double newReproductionRate) {

@@ -151,6 +151,7 @@ public class World implements Serializable, Cloneable {
         return worldPopulation;
     }
     
+    
     public void RemoveAllBorders(Country country) {
         List<Link> links = linkList.stream().filter(l -> l.getCountry1Id().equals(country.GetId()) ||
                                                     l.getCountry2Id().equals(country.GetId())).collect(Collectors.toList());
@@ -211,7 +212,6 @@ public class World implements Serializable, Cloneable {
             worldController.NotifyOnRegionUpdated();
         }
     }
-    
     
     public void UpdateSelectionStateCountry(UUID id, boolean select) {
         Country country = FindCountryByUUID(id);

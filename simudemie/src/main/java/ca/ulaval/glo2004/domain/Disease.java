@@ -1,6 +1,7 @@
 package ca.ulaval.glo2004.domain;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,11 +17,15 @@ public class Disease implements Serializable, Cloneable {
     private double infectionRate;
     private double mortalityRate;
     private double cureRate;
+    private String name;
+    private UUID id;
     
     public Disease() {
     }
     
-    public Disease(double p_cureRate, double p_mortalityRate, double p_infectionRate ) {
+    public Disease(String p_name, double p_cureRate, double p_mortalityRate, double p_infectionRate ) {
+        id = UUID.randomUUID();
+        name = p_name;
         infectionRate = p_infectionRate;
         mortalityRate = p_mortalityRate;
         cureRate = p_cureRate;
@@ -34,8 +39,16 @@ public class Disease implements Serializable, Cloneable {
         return infectionRate;
     }
     
+    public UUID getId() {
+        return id;
+    }
+    
     public double getMortalityRate() {
         return mortalityRate;
+    }
+    
+    public String getName(){
+        return name;
     }
     
     public void setCureRate(double newCureRate) {
@@ -62,7 +75,12 @@ public class Disease implements Serializable, Cloneable {
         }
     }
     
+    public void setName(String p_name){
+        name= p_name;
+    }
+    
     public void updateFromDTO(DiseaseDTO diseaseDTO){
+        name = diseaseDTO.getName();
         infectionRate = diseaseDTO.getInfectionRateDTO();
         mortalityRate = diseaseDTO.getMortalityRateDTO();
         cureRate = diseaseDTO.getCureRateDTO();

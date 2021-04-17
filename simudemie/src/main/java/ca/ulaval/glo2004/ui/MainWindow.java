@@ -48,7 +48,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     public List<Point> mousePoints = new ArrayList<>();
     public CountryDTO countrySelected = null;
     public int countrySelectedPointIndex = -1;
-
+    
+    public DiseaseDTO diseaseSelected = null;
     public enum Mode {Idle, AddCountry, AddCountryIrregular, ModifyCountry, AddLink, ModifyLink, Select, AddRegion};
     public Mode mode = Mode.Idle;
     private CountryDTO onHoverCountry = null; //Je sais que c'est pas bien, mais pour test, on va faire ca.
@@ -224,6 +225,21 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jSliderUndoRedo.setEnabled(true);
     }
     
+    @Override
+    public void OnDiseaseCreated(DiseaseDTO disease){
+        jComboBoxDiseases.addItem(disease.getName());
+    }
+    
+    @Override
+    public void OnDiseaseUpdated(){
+        
+    }
+    
+    @Override
+    public void OnDiseaseDestroyed(){
+        
+    }
+    
     private void UpdateJLinkList() {
         DefaultListModel listModel = new DefaultListModel();
         for(LinkDTO l: worldController.GetLinks()) {
@@ -289,7 +305,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jLabelPopMondial.setText(String.valueOf(pop.getTotalPopulation()));
         
         
-        DiseaseDTO disease = worldController.GetDiseaseDTO();
+        DiseaseDTO disease = worldController.getSimulation().GetDiseaseDTO();
+//        DiseaseDTO disease = worldController.GetDiseaseDTO();
         jTextFieldMortalityRate.setText(String.valueOf(disease.getMortalityRateDTO() * 100));
         jTextFieldReproductionRate.setText(String.valueOf(disease.getInfectionRateDTO() * 100));
         jTextFieldCuredRate.setText(String.valueOf(disease.getCureRateDTO() * 100));
@@ -1008,7 +1025,12 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
-        jComboBoxDiseases.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxDiseases.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3" }));
+        jComboBoxDiseases.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxDiseasesActionPerformed(evt);
+            }
+        });
 
         jLabelTitleDeseaseName.setText("Nom");
 
@@ -1433,12 +1455,12 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jButtonChangeBackgroundImage)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonScreenShotWorld)))
+                            .addComponent(jButtonScreenShotWorld))
+                        .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanelLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1716,25 +1738,29 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }//GEN-LAST:event_jButtonAddMesureActionPerformed
 
     private void jButtonApplyDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyDiseaseActionPerformed
-        try {
-            double infectionRate = Double.parseDouble(jTextFieldReproductionRate.getText())/100;
-            double mortalityRate = Double.parseDouble(jTextFieldMortalityRate.getText())/100;
-            double cureRate = Double.parseDouble(jTextFieldCuredRate.getText())/100;
-            if(infectionRate >= 0 && infectionRate <=1 && mortalityRate >=0 && mortalityRate <=1 && 
-                cureRate >= 0 && cureRate <=1) {
-                    worldController.UpdateDiseaseFromDTO(infectionRate, mortalityRate, cureRate);
-                    jTextFieldReproductionRate.setBackground(Color.white);
-                    jTextFieldMortalityRate.setBackground(Color.white);
-                    jTextFieldCuredRate.setBackground(Color.white);
-                }
-            else{
-                if(infectionRate < 0) jTextFieldReproductionRate.setBackground(Color.red);
-                if(mortalityRate < 0) jTextFieldMortalityRate.setBackground(Color.red);
-                if(cureRate < 0) jTextFieldCuredRate.setBackground(Color.red);
-            }
-        } catch(NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Un des champs n'est pas valide");
-        }
+                
+
+//        try {
+//            double infectionRate = Double.parseDouble(jTextFieldReproductionRate.getText())/100;
+//            double mortalityRate = Double.parseDouble(jTextFieldMortalityRate.getText())/100;
+//            double cureRate = Double.parseDouble(jTextFieldCuredRate.getText())/100;
+//            if(infectionRate >= 0 && infectionRate <=1 && mortalityRate >=0 && mortalityRate <=1 && 
+//                cureRate >= 0 && cureRate <=1) {
+//                    worldController.UpdateDiseaseFromDTO(infectionRate, mortalityRate, cureRate);
+////                    DiseaseDTO disease = new DiseaseDTO()
+////                    worldController.getSimulation().UpdateDiseaseFromDTO(infectionRate, mortalityRate, cureRate);
+//                    jTextFieldReproductionRate.setBackground(Color.white);
+//                    jTextFieldMortalityRate.setBackground(Color.white);
+//                    jTextFieldCuredRate.setBackground(Color.white);
+//                }
+//            else{
+//                if(infectionRate < 0) jTextFieldReproductionRate.setBackground(Color.red);
+//                if(mortalityRate < 0) jTextFieldMortalityRate.setBackground(Color.red);
+//                if(cureRate < 0) jTextFieldCuredRate.setBackground(Color.red);
+//            }
+//        } catch(NumberFormatException e) {
+//            JOptionPane.showMessageDialog(this, "Un des champs n'est pas valide");
+//        }
     }//GEN-LAST:event_jButtonApplyDiseaseActionPerformed
 
     private void jTextFieldMortalityRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMortalityRateActionPerformed
@@ -1964,7 +1990,29 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }//GEN-LAST:event_jButtonApplyAllLinksTravelRateActionPerformed
 
     private void jButtonSaveNewDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveNewDiseaseActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here
+         try {
+            double infectionRate = Double.parseDouble(jTextFieldReproductionRate.getText())/100;
+            double mortalityRate = Double.parseDouble(jTextFieldMortalityRate.getText())/100;
+            double cureRate = Double.parseDouble(jTextFieldCuredRate.getText())/100;
+            String diseaseName = (jTextFieldDiseaseName.getText());
+            if(diseaseName.length()>0 && infectionRate >= 0 && infectionRate <=1 && mortalityRate >=0 && mortalityRate <=1 && 
+                cureRate >= 0 && cureRate <=1) {
+                    worldController.getSimulation().UpdateDisease(diseaseName,infectionRate, mortalityRate, cureRate);
+                    //diseaseSelected.setCureRateDTO(cureRate);
+//                    worldController.getSimulation().UpdateDiseaseFromDTO(infectionRate, mortalityRate, cureRate);
+                    jTextFieldReproductionRate.setBackground(Color.white);
+                    jTextFieldMortalityRate.setBackground(Color.white);
+                    jTextFieldCuredRate.setBackground(Color.white);
+                }
+            else{
+                if(infectionRate < 0) jTextFieldReproductionRate.setBackground(Color.red);
+                if(mortalityRate < 0) jTextFieldMortalityRate.setBackground(Color.red);
+                if(cureRate < 0) jTextFieldCuredRate.setBackground(Color.red);
+            }
+        } catch(NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Un des champs n'est pas valide");
+        }
     }//GEN-LAST:event_jButtonSaveNewDiseaseActionPerformed
 
     private void jButtonDeleteDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteDiseaseActionPerformed
@@ -1978,6 +2026,11 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             drawingPanel.loadImageBackground(fileChooser.getSelectedFile());
         }
     }//GEN-LAST:event_jButtonChangeBackgroundImageActionPerformed
+
+    private void jComboBoxDiseasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDiseasesActionPerformed
+        // TODO add your handling code here:
+        System.out.println();
+    }//GEN-LAST:event_jComboBoxDiseasesActionPerformed
 
     public void Draw(Graphics2D g2d){
         worldController.Draw(g2d, mousePoints); 

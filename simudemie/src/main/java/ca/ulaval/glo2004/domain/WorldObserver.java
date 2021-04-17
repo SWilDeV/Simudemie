@@ -20,6 +20,10 @@ public interface WorldObserver {
     public void OnLinksUpdated();
     public void OnLinkDestroyed();
     
+    public void OnDiseaseCreated(DiseaseDTO disease);
+    public void OnDiseaseUpdated();
+    public void OnDiseaseDestroyed();
+    
     public void OnCountryCreated(CountryDTO country);
     public void OnCountryUpdated();
     public void OnCountryDestroy();

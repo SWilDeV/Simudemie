@@ -28,9 +28,18 @@ public class WorldController implements java.io.Serializable {
     
     private World world = new World();
     private Simulation simulation;
-    private Disease disease = new Disease(0.04, 0.02, 0.9);
+    private Disease disease = new Disease("ebola",0.04, 0.02, 0.9);
     private final WorldDrawer worldDrawer;
     private List<WorldObserver> observers = new ArrayList<>(); //TODO: Discuter de ou mettre l'observer. Ici ou dans simulation ? 
+    
+    public WorldController() throws CloneNotSupportedException {
+        worldDrawer = new WorldDrawer(this);
+        world = new World(this);
+        simulation = new Simulation(this);
+        
+        AddUndoRedo();
+    }
+    
     
     public int GetElapsedDay() {
         return simulation.GetElapsedDay();
@@ -82,8 +91,6 @@ public class WorldController implements java.io.Serializable {
         return (List<Country>) world.getCountries();
     }
     
-    
-    
     public List<HealthMesureDTO> GetHealthMesures(UUID countryId) {
         List<Country> countries = world.getCountries();
         for(Country c: countries) {
@@ -103,12 +110,8 @@ public class WorldController implements java.io.Serializable {
         return null;
     }
     
-    public WorldController() throws CloneNotSupportedException {
-        worldDrawer = new WorldDrawer(this);
-        world = new World(this);
-        simulation = new Simulation(this);
-        
-        AddUndoRedo();
+    public Simulation getSimulation(){
+        return simulation;
     }
     
     public World getWorld(){
@@ -133,6 +136,7 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
+    //Regions
     public void NotifyOnRegionCreated() {
         for(WorldObserver ob: observers) {
             ob.OnRegionCreated();
@@ -150,7 +154,7 @@ public class WorldController implements java.io.Serializable {
             ob.OnRegionDestroy();
         }
     }
-    
+    //Measures
     public void NotifyOnMesureCreated() {
         for(WorldObserver ob: observers) {
             ob.OnMesuresCreated();
@@ -169,6 +173,7 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
+    //Links
     public void NotifyOnLinkCreated() {
         for(WorldObserver ob: observers) {
             ob.OnLinkCreated();
@@ -187,6 +192,26 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
+    //Disease
+    public void NotifyDiseaseCreated(DiseaseDTO disease) {
+        for(WorldObserver ob: observers) {
+            ob.OnDiseaseCreated(disease);
+        }
+    }
+    
+    public void NotifyOnDiseaseUpdated() {
+        for(WorldObserver ob: observers) {
+            ob.OnDiseaseUpdated();
+        }
+    }
+    
+    public void NotifyOnDiseaseDestroy() {
+        for(WorldObserver ob: observers) {
+            ob.OnDiseaseDestroyed();
+        }
+    }
+    
+    //Country
     public void NotifyCountryCreated(CountryDTO contry) {
         for(WorldObserver ob: observers) {
             ob.OnCountryCreated(contry);
@@ -205,6 +230,7 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
+    //Simulation
     public void NotifyOnSimulationUndoRedo() {
         for(WorldObserver ob: observers) {
             ob.OnSimulationUndoRedo();
@@ -305,7 +331,8 @@ public class WorldController implements java.io.Serializable {
         
     }
     
-    public void UpdateDiseaseFromDTO(double infectionRate, double mortalityRate, double cureRate){
+    public void UpdateDisease(String name,double infectionRate, double mortalityRate, double cureRate){
+        //simulation.updateDisease(disease);
         disease.setInfectionRate(infectionRate);
         disease.setMortalityRate(mortalityRate);
         disease.setCureRate(cureRate);

@@ -8,6 +8,7 @@ package ca.ulaval.glo2004.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Timer;
 import java.util.Random;
 import java.util.TimerTask;
@@ -22,7 +23,9 @@ import  mathematical_model.Calculation;
  */
 public class Simulation implements Serializable {
     private Calculation calculation = new Calculation();
-    
+    private List<Disease> diseaseList = new ArrayList<>();
+    private int currentDiseaseIndex = 0;
+    private Disease currentDisease;
     private boolean isRunning = false;
     private int elapsedDay = 0;
     private ArrayList<UndoRedo> undoRedoHistory = new ArrayList<>();
@@ -30,10 +33,14 @@ public class Simulation implements Serializable {
     private Timer timer = new Timer();
     private static final long serialVersionUID = 4L; 
     
+    
     private int undoRedoIndex = 0;
     
     public Simulation(WorldController p_controller){
         controller = p_controller;
+        diseaseList.add(new Disease("ebola",0.04, 0.02, 0.9));
+        setcurrentDisease(currentDiseaseIndex);
+//        printdiseases();
     }
     
     public Simulation(WorldController p_controller, int elapsedDay) {
@@ -41,9 +48,16 @@ public class Simulation implements Serializable {
         this.elapsedDay = elapsedDay;
     }
     
+    public void printdiseases(){
+        for (Disease d : diseaseList){
+            System.out.println(d.getName());
+        }
+    }
+    
     public int GetElapsedDay() {
         return this.elapsedDay;
     }
+    
     
     public void SetElapsedDay(int day) {
         elapsedDay = day;
@@ -64,6 +78,8 @@ public class Simulation implements Serializable {
     private void SetRunning(boolean running) {
         this.isRunning = running;
     }
+    
+    
     
     public void Simulate(int timeStep) {
         
@@ -90,45 +106,9 @@ public class Simulation implements Serializable {
             timer.schedule(new TimerTask() {
                 public void run() {
                     if(getIsRunning()){  
+                        //set disease
                         
-                        //PRISE EN COMPTE DES LIENS ENTRE PAYS
                         
-//                        List<Link> LinkList = controller.getWorld().getLinks();
-//                        List<Country> countries = controller.GetCountriesforSimulation();
-//                        if(LinkList.size()>0){
-//                            for(Link link:LinkList){
-//                                UUID region1ID = UUID.randomUUID();
-//                                UUID region2ID= UUID.randomUUID();
-//                                UUID country1ID= UUID.randomUUID();
-//                                UUID country2ID= UUID.randomUUID();
-//                                
-//                                Boolean region1Found = false;
-//                                Boolean region2Found = false;
-//                                for(Country country:countries){
-//                                    if(link.getCountry1Id() == country.getRegion0().GetId()){
-//                                        region1Found = true;
-//                                        region1ID = link.getCountry1Id();
-//                                        country1ID = country.GetId();
-//                                    }
-//                                }
-//                                if (region1Found){
-//                                    for(Country country:countries){
-//                                        if(link.getCountry2Id() == country.getRegion0().GetId()){
-//                                        region2Found = true;
-//                                        region2ID = link.getCountry2Id();
-//                                        country2ID = country.GetId();
-//                                        }
-//                                    }
-//                                }
-//                                if (region1Found && region2Found){
-//                                    updateRegionsWithLinks(controller.getWorld().FindCountryByUUID(country1ID).FindRegionByUUID(region1ID), controller.getWorld().FindCountryByUUID(country2ID).FindRegionByUUID(region2ID));
-//                                }
-//                                region1Found = false;
-//                                region2Found = false;
-////                                updateCountriesWithLinks(controller.GetCountry(link.getCountry1Id()), controller.GetCountry(link.getCountry2Id()));
-//                                   
-//                            }
-//                        }
                         //controller.getWorld().updateWorldPopulation();
                         List<Link> LinkList = controller.getWorld().getLinks();
                         if(LinkList.size()>0){
@@ -136,8 +116,6 @@ public class Simulation implements Serializable {
                             updateCountriesWithLinks(controller.GetCountry(link.getCountry1Id()), controller.GetCountry(link.getCountry2Id()));
                             }
                         }
-                        
-                        
                         
                         List<Country> countries2 = controller.GetCountriesforSimulation();
                         for(Country country : countries2) {
@@ -183,26 +161,6 @@ public class Simulation implements Serializable {
         }else{
             System.out.println("Veuillez ajouter au moins un pays");
         }
-    }
-    public void update(){
-        /* 
-        Sources d'infections : 
-        Region elle-meme 
-            UpdateRegion() 
-            ->region qui est updatee individuellement : OK
-        
-        Interregional
-            updateRegionsWithLinks()
-            ->prend deux regions et propage en en fonction des liens
-            
-        
-        Interpays    
-            UpdateCountriesWithLinks
-            prend deux pays, determine un montant aleatoire de pop qui
-            peu voyager,
-        
-        */
-        
     }
     
     public void updateRegionsWithLinks(Region region1, Region region2){
@@ -270,12 +228,11 @@ public class Simulation implements Serializable {
     }
     
     public void UpdatePopulation(Region region){
-//    public Population UpdatePopulation(Region region){
-        Disease disease = controller.getDisease();
-        double infectionRate = disease.getInfectionRate();
-        double curedRate = disease.getCureRate();
-        double mortalityRate = disease.getMortalityRate();
         
+        double infectionRate = currentDisease.getInfectionRate();
+        double curedRate = currentDisease.getCureRate();
+        double mortalityRate = currentDisease.getMortalityRate();
+    
         //population
         Population population = region.getPopulation();
         int totalPop = population.getTotalPopulation();
@@ -417,4 +374,109 @@ public class Simulation implements Serializable {
         
         return undoRedoHistory.get(undoPosition);
     }
+   
+    public void addDisease(Disease disease){
+        diseaseList.add(disease);
+        controller.NotifyDiseaseCreated(new DiseaseDTO(disease));
+    }
+    
+    public Disease FindDiseaseByUUID(UUID diseaseId){
+         try {
+            return diseaseList.stream().filter(d -> d.getId().equals(diseaseId)).findAny().get();
+        } catch(NoSuchElementException e) {
+            return null;
+        }
+     }
+     
+    public List<Disease> getDiseaseList(){
+         return diseaseList;
+     }
+     
+    public int getCurrentDiseaseIndex(){
+         return currentDiseaseIndex;
+     }
+     
+    public Disease getCurrentDisease(){
+         return currentDisease;
+     }
+     
+    public DiseaseDTO GetDiseaseDTO(){
+        return new DiseaseDTO(currentDisease);
+    }
+     
+    public void removeDisease(UUID diseaseId){
+        Disease disease = FindDiseaseByUUID(diseaseId);
+        if(disease != null) {
+            diseaseList.remove(disease);
+            controller.NotifyOnDiseaseDestroy();
+        }
+    }
+     
+    public void setcurrentDisease(int index){
+        currentDisease = diseaseList.get(index);
+    }
+     
+    public void setCurrentDiseaseIndex(int index){
+         currentDiseaseIndex = index;
+     }
+     
+    public void updateDisease(DiseaseDTO disease) {
+        Disease d = FindDiseaseByUUID(disease.getId());
+        if(d != null){
+            d.updateFromDTO(disease);
+        }
+    }
+    public void UpdateDisease(String name,double infectionRate, double mortalityRate, double cureRate){
+         
+        currentDisease.setName(name);
+        currentDisease.setInfectionRate(infectionRate);
+        currentDisease.setMortalityRate(mortalityRate);
+        currentDisease.setCureRate(cureRate);
+        System.out.println("mortalityRate: "+ currentDisease.getMortalityRate() +", curedRate: "+ currentDisease.getCureRate() + ", infectedtRate : " + currentDisease.getInfectionRate());
+    }
+ 
+    
+     
+     //getDisease(indexDropdown)
+    //setDisease(int indexDropdown)
 }
+
+
+                        //PRISE EN COMPTE DES LIENS ENTRE PAYS
+                        
+//                        List<Link> LinkList = controller.getWorld().getLinks();
+//                        List<Country> countries = controller.GetCountriesforSimulation();
+//                        if(LinkList.size()>0){
+//                            for(Link link:LinkList){
+//                                UUID region1ID = UUID.randomUUID();
+//                                UUID region2ID= UUID.randomUUID();
+//                                UUID country1ID= UUID.randomUUID();
+//                                UUID country2ID= UUID.randomUUID();
+//                                
+//                                Boolean region1Found = false;
+//                                Boolean region2Found = false;
+//                                for(Country country:countries){
+//                                    if(link.getCountry1Id() == country.getRegion0().GetId()){
+//                                        region1Found = true;
+//                                        region1ID = link.getCountry1Id();
+//                                        country1ID = country.GetId();
+//                                    }
+//                                }
+//                                if (region1Found){
+//                                    for(Country country:countries){
+//                                        if(link.getCountry2Id() == country.getRegion0().GetId()){
+//                                        region2Found = true;
+//                                        region2ID = link.getCountry2Id();
+//                                        country2ID = country.GetId();
+//                                        }
+//                                    }
+//                                }
+//                                if (region1Found && region2Found){
+//                                    updateRegionsWithLinks(controller.getWorld().FindCountryByUUID(country1ID).FindRegionByUUID(region1ID), controller.getWorld().FindCountryByUUID(country2ID).FindRegionByUUID(region2ID));
+//                                }
+//                                region1Found = false;
+//                                region2Found = false;
+////                                updateCountriesWithLinks(controller.GetCountry(link.getCountry1Id()), controller.GetCountry(link.getCountry2Id()));
+//                                   
+//                            }
+//                        }
