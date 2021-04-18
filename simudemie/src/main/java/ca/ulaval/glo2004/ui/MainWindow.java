@@ -13,6 +13,7 @@ import ca.ulaval.glo2004.domain.Link;
 import ca.ulaval.glo2004.domain.LinkDTO;
 import ca.ulaval.glo2004.domain.NotAllPopulationAssign;
 import ca.ulaval.glo2004.domain.Population;
+import ca.ulaval.glo2004.domain.Disease;
 import ca.ulaval.glo2004.domain.RegionDTO;
 import ca.ulaval.glo2004.domain.Utility;
 import ca.ulaval.glo2004.domain.WorldController;
@@ -79,8 +80,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         imageChooser = new JFileChooser();
         FileFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
         imageChooser.setFileFilter(imageFilter);
-        
         worldController.Subscribe(this);
+        updateDiseasesUI();
     }
     
     @Override
@@ -306,6 +307,20 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
              jListMesures.setModel(listMesuresModel);
              drawingPanel.repaint();
         }
+    }
+    
+    private void updateDiseasesUI(){
+        jComboBoxDiseases.removeAllItems();
+        for(Disease d: worldController.getSimulation().getDiseaseList()){
+            jComboBoxDiseases.addItem(d.getName());
+        }
+        DiseaseDTO dis = new DiseaseDTO(worldController.getSimulation().getCurrentDisease());
+        jTextFieldMortalityRate.setText(String.valueOf(dis.getMortalityRateDTO() * 100));
+        jTextFieldReproductionRate.setText(String.valueOf(dis.getInfectionRateDTO() * 100));
+        jTextFieldCuredRate.setText(String.valueOf(dis.getCureRateDTO() * 100));
+        jTextFieldDiseaseName.setText(String.valueOf(dis.getName()));
+        
+        jComboBoxDiseases.getModel().setSelectedItem(jComboBoxDiseases.getItemAt(worldController.getSimulation().getCurrentDiseaseIndex()));
     }
     
     private void UpdateSimulationUI() {
@@ -1044,10 +1059,14 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
-        jComboBoxDiseases.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3" }));
         jComboBoxDiseases.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxDiseasesActionPerformed(evt);
+            }
+        });
+        jComboBoxDiseases.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jComboBoxDiseasesPropertyChange(evt);
             }
         });
 
@@ -1112,7 +1131,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addGroup(jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonSaveNewDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonDeleteDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(299, Short.MAX_VALUE))
+                .addContainerGap(309, Short.MAX_VALUE))
         );
 
         jTabbedPaneSimulationOptions.addTab("Paramètres de la maladie", jPanelDeseaseParams);
@@ -2095,25 +2114,40 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
     private void jButtonSaveNewDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveNewDiseaseActionPerformed
         // TODO add your handling code here
+        
+        
          try {
             double infectionRate = Double.parseDouble(jTextFieldReproductionRate.getText())/100;
             double mortalityRate = Double.parseDouble(jTextFieldMortalityRate.getText())/100;
             double cureRate = Double.parseDouble(jTextFieldCuredRate.getText())/100;
+            boolean found = false; 
+            UUID id = UUID.randomUUID();
             String diseaseName = (jTextFieldDiseaseName.getText());
+            
             if(diseaseName.length()>0 && infectionRate >= 0 && infectionRate <=1 && mortalityRate >=0 && mortalityRate <=1 && 
                 cureRate >= 0 && cureRate <=1) {
-                    worldController.getSimulation().UpdateDisease(diseaseName,infectionRate, mortalityRate, cureRate);
+                for(Disease n : worldController.getDiseaseList()){
+                    if(n.getName().equals(diseaseName)){
+                        found = true;
+                        id=n.getId();
+                        break;
+                    }
+                } 
+                if(found){
+                    worldController.UpdateDisease(id, diseaseName,infectionRate, mortalityRate, cureRate);
                     //diseaseSelected.setCureRateDTO(cureRate);
 //                    worldController.getSimulation().UpdateDiseaseFromDTO(infectionRate, mortalityRate, cureRate);
-                    jTextFieldReproductionRate.setBackground(Color.white);
-                    jTextFieldMortalityRate.setBackground(Color.white);
-                    jTextFieldCuredRate.setBackground(Color.white);
+                }else{
+                    worldController.createDisease(diseaseName,infectionRate, mortalityRate, cureRate);
                 }
-            else{
+                  jTextFieldReproductionRate.setBackground(Color.white);
+                  jTextFieldMortalityRate.setBackground(Color.white);
+                  jTextFieldCuredRate.setBackground(Color.white);
+            }else{
                 if(infectionRate < 0) jTextFieldReproductionRate.setBackground(Color.red);
                 if(mortalityRate < 0) jTextFieldMortalityRate.setBackground(Color.red);
                 if(cureRate < 0) jTextFieldCuredRate.setBackground(Color.red);
-            }
+            }  
         } catch(NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Un des champs n'est pas valide");
         }
@@ -2133,8 +2167,21 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
     private void jComboBoxDiseasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDiseasesActionPerformed
         // TODO add your handling code here:
-        System.out.println();
+        int index = jComboBoxDiseases.getSelectedIndex();
+        if(index !=-1){
+            worldController.setCurrentDiseaseIndex(index);
+            updateDiseasesUI();
+        }
     }//GEN-LAST:event_jComboBoxDiseasesActionPerformed
+
+
+    private void jComboBoxDiseasesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jComboBoxDiseasesPropertyChange
+//        int index = jComboBoxDiseases.getSelectedIndex();
+//        if(index !=-1){
+//            worldController.setCurrentDiseaseIndex(index);
+//            updateDiseasesUI();
+//        }
+    }//GEN-LAST:event_jComboBoxDiseasesPropertyChange
 
     private void jButtonCreateGraphicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateGraphicActionPerformed
         // TODO add your handling code here:
@@ -2167,6 +2214,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             
         }
     }//GEN-LAST:event_jCheckBoxCloseLinkActionPerformed
+
 
     public void Draw(Graphics2D g2d){
         worldController.Draw(g2d, mousePoints); 

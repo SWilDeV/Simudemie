@@ -27,10 +27,11 @@ import java.util.stream.Collectors;
 public class WorldController implements java.io.Serializable {
     
     private World world = new World();
-    private Simulation simulation;
-    private Disease disease = new Disease("ebola",0.04, 0.02, 0.9);
-    private final WorldDrawer worldDrawer;
     private List<WorldObserver> observers = new ArrayList<>(); //TODO: Discuter de ou mettre l'observer. Ici ou dans simulation ? 
+    private Simulation simulation;
+    private Disease disease = new Disease("ebola",0.04, 0.02, 0.9); //TODO Fix undo/redo
+    private final WorldDrawer worldDrawer;
+    
     
     public WorldController() throws CloneNotSupportedException {
         worldDrawer = new WorldDrawer(this);
@@ -331,20 +332,36 @@ public class WorldController implements java.io.Serializable {
         
     }
     
-    public void UpdateDisease(String name,double infectionRate, double mortalityRate, double cureRate){
-        //simulation.updateDisease(disease);
-        disease.setInfectionRate(infectionRate);
-        disease.setMortalityRate(mortalityRate);
-        disease.setCureRate(cureRate);
-        System.out.println("mortalityRate: "+ disease.getMortalityRate() +", curedRate: "+ disease.getCureRate() + ", infectedtRate : " + disease.getInfectionRate());
-    }
-    
+//    public void UpdateDisease(String name,double infectionRate, double mortalityRate, double cureRate){
+//        //simulation.updateDisease(disease);
+//        disease.setInfectionRate(infectionRate);
+//        disease.setMortalityRate(mortalityRate);
+//        disease.setCureRate(cureRate);
+//        System.out.println("mortalityRate: "+ disease.getMortalityRate() +", curedRate: "+ disease.getCureRate() + ", infectedtRate : " + disease.getInfectionRate());
+//    }
+//    
     public Disease getDisease(){
         return disease;
     }
+//    
+//    public DiseaseDTO GetDiseaseDTO(){
+//        return new DiseaseDTO(disease);
+//    }
+    public List<Disease> getDiseaseList(){
+        return simulation.getDiseaseList();
+    }
     
-    public DiseaseDTO GetDiseaseDTO(){
-        return new DiseaseDTO(disease);
+    public void UpdateDisease(UUID id, String diseaseName, double infectionRate,double mortalityRate,double cureRate){
+        simulation.UpdateDisease(id, diseaseName, infectionRate, mortalityRate, cureRate);
+    }
+    
+    public void createDisease(String diseaseName,double infectionRate,double mortalityRate,double cureRate){
+        simulation.createDisease(diseaseName,infectionRate, mortalityRate, cureRate);
+    }
+    
+    public void setCurrentDiseaseIndex(int index){
+        simulation.setCurrentDiseaseIndex(index);
+        simulation.setcurrentDisease(index);
     }
     
     public void AddMesure(UUID countryId, double adhesionRate, boolean active, String mesureName, double threshold) {

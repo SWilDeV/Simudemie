@@ -86,6 +86,13 @@ public class Disease implements Serializable, Cloneable {
         cureRate = diseaseDTO.getCureRateDTO();
     }
     
+    public void update(String p_name,double p_infectionRate, double p_mortalityRate, double p_cureRate){
+        name = p_name;
+        infectionRate = p_infectionRate;
+        mortalityRate = p_mortalityRate;
+        cureRate = p_cureRate;
+    }
+    
     @Override
     public Disease clone() throws CloneNotSupportedException {
         Disease disease = null;
