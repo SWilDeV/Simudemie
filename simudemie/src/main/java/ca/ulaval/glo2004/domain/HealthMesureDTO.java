@@ -17,6 +17,7 @@ public class HealthMesureDTO implements Serializable {
     public boolean IsActive = false;
     public String MesureName;
     public final UUID Id; 
+    public double threshold;
     
     
     public HealthMesureDTO(HealthMesure mesure){
@@ -24,6 +25,7 @@ public class HealthMesureDTO implements Serializable {
         IsActive = mesure.getActive();
         MesureName = new String(mesure.getName());   
         Id = mesure.getID();
+        threshold = mesure.getThreshold();
     }
     
 }

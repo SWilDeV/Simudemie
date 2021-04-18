@@ -17,14 +17,16 @@ public class HealthMesure implements Serializable, Cloneable {
     protected double adhesionRate;
     protected boolean isActive = false;
     protected String mesureName;
+    protected double threshold;
     private UUID id; 
     private static final long serialVersionUID = 6L; 
     
-    public HealthMesure(double p_adhesionRate, boolean p_isActive, String p_mesureName) {
+    public HealthMesure(double p_adhesionRate, boolean p_isActive, String p_mesureName, double p_threshold) {
         id = UUID.randomUUID();
         adhesionRate = p_adhesionRate;
         isActive = p_isActive;
         mesureName = p_mesureName;
+        threshold = p_threshold;
     }
     
     public double getAdhesionRate() {
@@ -49,6 +51,10 @@ public class HealthMesure implements Serializable, Cloneable {
     
     public String getName() {
         return mesureName;
+    }
+    
+    public double getThreshold() {
+        return threshold;
     }
     
     public void activateMesure() {

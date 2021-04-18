@@ -15,8 +15,8 @@ public class CloseLink extends HealthMesure {
     
     private Link concernedLink;
     
-    public CloseLink(double p_adhesionRate, Link p_concernedLink) {
-        super(p_adhesionRate, true, "bidon");
+    public CloseLink(double p_adhesionRate, Link p_concernedLink, double p_threshold) {
+        super(p_adhesionRate, true, "bidon", p_threshold);
         concernedLink = p_concernedLink;
     }
     

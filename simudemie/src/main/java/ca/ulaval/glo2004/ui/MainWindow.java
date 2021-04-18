@@ -433,7 +433,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jComboBoxAllLinksType = new javax.swing.JComboBox<>();
         jSpinnerAllLinksTravelRate = new javax.swing.JSpinner();
         jButtonApplyAllLinksTravelRate = new javax.swing.JButton();
-        jCheckBoxCloseLink = new javax.swing.JCheckBox();
         jButtonResetZoom = new javax.swing.JButton();
         jPanelSimulation = new javax.swing.JPanel();
         jBtnReset = new javax.swing.JButton();
@@ -479,6 +478,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jButtonAddMesure = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButtonDeleteMesure = new javax.swing.JButton();
+        jCheckBoxCloseLink = new javax.swing.JCheckBox();
+        jLabelThreshold = new javax.swing.JLabel();
+        jTextFieldThreshold = new javax.swing.JTextField();
         jPanelStatistics = new javax.swing.JPanel();
         jButtonCreateGraphic = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -813,13 +815,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
-        jCheckBoxCloseLink.setText("Fermé");
-        jCheckBoxCloseLink.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxCloseLinkActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanelLinkLayout = new javax.swing.GroupLayout(jPanelLink);
         jPanelLink.setLayout(jPanelLinkLayout);
         jPanelLinkLayout.setHorizontalGroup(
@@ -858,11 +853,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jSpinnerAllLinksTravelRate, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelLinkLayout.createSequentialGroup()
-                            .addComponent(jLabel15)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jCheckBoxCloseLink))
+                    .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -903,9 +895,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonApplyAllLinksTravelRate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, Short.MAX_VALUE)
-                .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15)
-                    .addComponent(jCheckBoxCloseLink))
+                .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1160,6 +1150,17 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
+        jCheckBoxCloseLink.setText("Fermé");
+        jCheckBoxCloseLink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxCloseLinkActionPerformed(evt);
+            }
+        });
+
+        jLabelThreshold.setText("Seuil (%):");
+
+        jTextFieldThreshold.setText("10");
+
         javax.swing.GroupLayout jPanelHealthMesuresLayout = new javax.swing.GroupLayout(jPanelHealthMesures);
         jPanelHealthMesures.setLayout(jPanelHealthMesuresLayout);
         jPanelHealthMesuresLayout.setHorizontalGroup(
@@ -1183,17 +1184,25 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         .addComponent(jTextFieldAdhesionRate, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
                     .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
                         .addComponent(jCheckBoxActiveMesure)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextFieldThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(16, 313, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jCheckBoxCloseLink)
+                        .addGap(21, 21, 21))))
         );
         jPanelHealthMesuresLayout.setVerticalGroup(
             jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+                .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jCheckBoxCloseLink))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
                 .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldMesureName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelMesureName))
@@ -1202,7 +1211,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addComponent(jLabelAdhesionRate)
                     .addComponent(jTextFieldAdhesionRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBoxActiveMesure)
+                .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBoxActiveMesure)
+                    .addComponent(jLabelThreshold)
+                    .addComponent(jTextFieldThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonAddMesure)
                 .addGap(2, 2, 2)
@@ -1804,9 +1816,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         if(countrySelected != null) {
             try {
                 String mesureName = jTextFieldMesureName.getText();
+                double threshold = Double.parseDouble(jTextFieldThreshold.getText());
                 double adhesion = Double.parseDouble(jTextFieldAdhesionRate.getText());
                 if(!Utility.StringIsNullOrEmpty(mesureName) && adhesion >= 0) { 
-                    worldController.AddMesure(countrySelected.Id, adhesion, jCheckBoxActiveMesure.isSelected(), mesureName);
+                    worldController.AddMesure(countrySelected.Id, adhesion, jCheckBoxActiveMesure.isSelected(), mesureName, threshold);
                     UpdateJMesureList(countrySelected.Id);
 
                     jTextFieldMesureName.setBackground(Color.white);
@@ -2258,6 +2271,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JLabel jLabelModCountryName;
     private javax.swing.JLabel jLabelModCountryPop;
     private javax.swing.JLabel jLabelPopMondial;
+    private javax.swing.JLabel jLabelThreshold;
     private javax.swing.JLabel jLabelTimeLapse;
     private javax.swing.JLabel jLabelTitle;
     private javax.swing.JLabel jLabelTitleCase;
@@ -2331,6 +2345,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JTextField jTextFieldRegionName;
     private javax.swing.JTextField jTextFieldReproductionRate;
     private javax.swing.JTextField jTextFieldSimulationTimeStep;
+    private javax.swing.JTextField jTextFieldThreshold;
     private javax.swing.JToggleButton jToggleBtnAddLink;
     private javax.swing.JToggleButton jToggleBtnModifyCountry;
     // End of variables declaration//GEN-END:variables

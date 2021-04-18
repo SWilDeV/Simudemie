@@ -347,9 +347,9 @@ public class WorldController implements java.io.Serializable {
         return new DiseaseDTO(disease);
     }
     
-    public void AddMesure(UUID countryId, double adhesionRate, boolean active, String mesureName) {
+    public void AddMesure(UUID countryId, double adhesionRate, boolean active, String mesureName, double threshold) {
         if (adhesionRate >= 0 && adhesionRate <= 100) {
-            world.AddMesure(countryId, adhesionRate, active, mesureName);
+            world.AddMesure(countryId, adhesionRate, active, mesureName, threshold);
         }
     }
     
