@@ -2161,7 +2161,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         }
     }//GEN-LAST:event_jComboBoxDiseasesActionPerformed
 
-<<<<<<< HEAD
+
     private void jComboBoxDiseasesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jComboBoxDiseasesPropertyChange
 //        int index = jComboBoxDiseases.getSelectedIndex();
 //        if(index !=-1){
@@ -2169,7 +2169,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 //            updateDiseasesUI();
 //        }
     }//GEN-LAST:event_jComboBoxDiseasesPropertyChange
-=======
+
     private void jButtonCreateGraphicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateGraphicActionPerformed
         // TODO add your handling code here:
         
@@ -2201,7 +2201,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             
         }
     }//GEN-LAST:event_jCheckBoxCloseLinkActionPerformed
->>>>>>> 3f42e494157c68e82dfafbe70e1d1ca82453de82
+
 
     public void Draw(Graphics2D g2d){
         worldController.Draw(g2d, mousePoints); 
