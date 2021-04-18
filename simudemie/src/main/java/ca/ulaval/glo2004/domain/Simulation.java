@@ -24,8 +24,9 @@ import  mathematical_model.Calculation;
 public class Simulation implements Serializable {
     private Calculation calculation = new Calculation();
     private List<Disease> diseaseList = new ArrayList<>();
-    private int currentDiseaseIndex = 0;
+    private Disease defaultDisease = new Disease("ebola",0.01, 0.10, 0.20);
     private Disease currentDisease;
+    private int currentDiseaseIndex = 0;
     private boolean isRunning = false;
     private int elapsedDay = 0;
     private ArrayList<UndoRedo> undoRedoHistory = new ArrayList<>();
@@ -38,9 +39,8 @@ public class Simulation implements Serializable {
     
     public Simulation(WorldController p_controller){
         controller = p_controller;
-        diseaseList.add(new Disease("ebola",0.04, 0.02, 0.9));
+        addDisease(defaultDisease);
         setcurrentDisease(currentDiseaseIndex);
-//        printdiseases();
     }
     
     public Simulation(WorldController p_controller, int elapsedDay) {
@@ -294,7 +294,6 @@ public class Simulation implements Serializable {
         int newTotalInfected1 = previousInfectedPop1 + newInfectedPop1;
         int newTotalInfected2 = previousInfectedPop2 + newInfectedPop2;
         
-        
         //Set country new total infected pop
         population1.setInfectedPopulation(newTotalInfected1);
         population2.setInfectedPopulation(newTotalInfected2);
@@ -374,10 +373,16 @@ public class Simulation implements Serializable {
         
         return undoRedoHistory.get(undoPosition);
     }
+    
+    public void createDisease(String diseaseName,double infectionRate,double mortalityRate,double cureRate){
+        Disease d = new Disease(diseaseName,infectionRate, mortalityRate, cureRate);
+        addDisease(d);
+    }
    
     public void addDisease(Disease disease){
         diseaseList.add(disease);
         controller.NotifyDiseaseCreated(new DiseaseDTO(disease));
+        System.out.println("Simulation : " + disease.getName());
     }
     
     public Disease FindDiseaseByUUID(UUID diseaseId){
@@ -415,24 +420,33 @@ public class Simulation implements Serializable {
     public void setcurrentDisease(int index){
         currentDisease = diseaseList.get(index);
     }
+    public void setCurrentDiseaseByUUID(UUID id){
+        Disease d = FindDiseaseByUUID(id);
+        if(d != null){
+            currentDisease.setName(d.getName());
+            currentDisease.setInfectionRate(d.getInfectionRate());
+            currentDisease.setMortalityRate(d.getMortalityRate());
+            currentDisease.setCureRate(d.getCureRate());
+            System.out.println("mortalityRate: "+ currentDisease.getMortalityRate() +", curedRate: "+ currentDisease.getCureRate() + ", infectedtRate : " + currentDisease.getInfectionRate());
+
+        }
+    }
      
     public void setCurrentDiseaseIndex(int index){
          currentDiseaseIndex = index;
      }
      
-    public void updateDisease(DiseaseDTO disease) {
+    public void updateDiseaseDTO(DiseaseDTO disease) {
         Disease d = FindDiseaseByUUID(disease.getId());
         if(d != null){
             d.updateFromDTO(disease);
         }
     }
-    public void UpdateDisease(String name,double infectionRate, double mortalityRate, double cureRate){
-         
-        currentDisease.setName(name);
-        currentDisease.setInfectionRate(infectionRate);
-        currentDisease.setMortalityRate(mortalityRate);
-        currentDisease.setCureRate(cureRate);
-        System.out.println("mortalityRate: "+ currentDisease.getMortalityRate() +", curedRate: "+ currentDisease.getCureRate() + ", infectedtRate : " + currentDisease.getInfectionRate());
+    public void UpdateDisease(UUID id, String name,double infectionRate, double mortalityRate, double cureRate){
+        Disease d = FindDiseaseByUUID(id);
+        if(d != null){
+            d.update(name,infectionRate, mortalityRate, cureRate);
+        }
     }
  
     
