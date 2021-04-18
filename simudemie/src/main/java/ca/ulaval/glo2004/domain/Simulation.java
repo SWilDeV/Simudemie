@@ -239,6 +239,15 @@ public class Simulation implements Serializable {
         
         //infectedPop
         int previousDayInfectedPop = population.getInfectedPopulation();
+        
+        if (!region.GetMesures().isEmpty()) {
+            for (HealthMesure mesure: region.GetMesures()) {
+                if (mesure.isActive) {
+                    infectionRate = infectionRate * (1 - (mesure.getAdhesionRate()/100));
+                }
+            }
+        }
+        
         int newInfectedPop = calculation.Calculate(previousDayInfectedPop,infectionRate);
         int totalInfectedPop = newInfectedPop + previousDayInfectedPop;
         

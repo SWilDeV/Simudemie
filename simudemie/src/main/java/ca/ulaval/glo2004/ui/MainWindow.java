@@ -35,6 +35,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JSlider;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -43,6 +48,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     
     public DrawingPanel drawingPanel;
+    public JFreeChart chart;
     public WorldController worldController;
     
     public List<Point> mousePoints = new ArrayList<>();
@@ -56,6 +62,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private Point onHoverMousePosition = new Point(); //Je sais que c'est pas bien, mais pour test, on va faire ca.
     private final JFileChooser fileChooser;
     private final JFileChooser imageChooser;
+    public XYSeries deathsNum = new XYSeries("Morts");
+    public XYSeries infectedNum = new XYSeries("Infectés");
  
     /**
      * Creates new form MainWindow
@@ -78,6 +86,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     @Override
     public void OnSimulationTick(int day, int deads, int infected, int PopTot) {
         System.err.println("Jour:" + day);
+
+        deathsNum.add(day, deads);
+        infectedNum.add(day, infected);
+        
         jSliderUndoRedo.setValue(worldController.GetUndoRedoSize());
         UpdateSimulationUI();
     }
@@ -467,6 +479,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jLabel1 = new javax.swing.JLabel();
         jCheckBox2 = new javax.swing.JCheckBox();
         jButtonDeleteMesure = new javax.swing.JButton();
+        jPanelStatistics = new javax.swing.JPanel();
+        jButtonCreateGraphic = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         jLabelTitlePopMondial = new javax.swing.JLabel();
         jLabelCured = new javax.swing.JLabel();
         jBtnChangeSimulationTimeStep = new javax.swing.JButton();
@@ -1070,7 +1086,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addComponent(jPanelReproductionRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelCuredRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonApplyDisease, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanelDeseaseParamsLayout.setVerticalGroup(
             jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1107,6 +1123,11 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jTextFieldAdhesionRate.setText("80");
 
         jCheckBoxActiveMesure.setText("Mesure active");
+        jCheckBoxActiveMesure.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxActiveMesureActionPerformed(evt);
+            }
+        });
 
         jScrollPaneOtherMeasures.setViewportView(jListMesures);
 
@@ -1148,7 +1169,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
                         .addComponent(jLabelAdhesionRate)
                         .addGap(25, 25, 25)
-                        .addComponent(jTextFieldAdhesionRate, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE))
+                        .addComponent(jTextFieldAdhesionRate, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
                     .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
                         .addComponent(jCheckBoxActiveMesure)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -1186,6 +1207,63 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jTabbedPaneSimulationOptions.addTab("Mesures sanitaires", jPanelHealthMesures);
 
+        jButtonCreateGraphic.setText("Créer graphique");
+        jButtonCreateGraphic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCreateGraphicActionPerformed(evt);
+            }
+        });
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Jour", "Infectés sans mesures", "Morts sans mesures", "Infectés avec mesures", "Morts avec mesures"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable2);
+
+        javax.swing.GroupLayout jPanelStatisticsLayout = new javax.swing.GroupLayout(jPanelStatistics);
+        jPanelStatistics.setLayout(jPanelStatisticsLayout);
+        jPanelStatisticsLayout.setHorizontalGroup(
+            jPanelStatisticsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelStatisticsLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonCreateGraphic)
+                .addGap(103, 103, 103))
+            .addGroup(jPanelStatisticsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanelStatisticsLayout.setVerticalGroup(
+            jPanelStatisticsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelStatisticsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addComponent(jButtonCreateGraphic)
+                .addGap(40, 40, 40))
+        );
+
+        jTabbedPaneSimulationOptions.addTab("Statistiques", jPanelStatistics);
+
         jLabelTitlePopMondial.setText("Pop. Mondiale:");
 
         jLabelCured.setText("-");
@@ -1203,9 +1281,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jPanelSimulation.setLayout(jPanelSimulationLayout);
         jPanelSimulationLayout.setHorizontalGroup(
             jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSimulationLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jTabbedPaneSimulationOptions, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanelSimulationLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1249,11 +1324,14 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         .addGap(18, 18, 18)
                         .addComponent(jLabelDiseaseReminderName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanelSimulationLayout.createSequentialGroup()
-                        .addComponent(jLabelTimeLapse)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldSimulationTimeStep, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBtnChangeSimulationTimeStep)
+                        .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelSimulationLayout.createSequentialGroup()
+                                .addComponent(jLabelTimeLapse)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextFieldSimulationTimeStep, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBtnChangeSimulationTimeStep))
+                            .addComponent(jTabbedPaneSimulationOptions, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -1289,9 +1367,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addGroup(jPanelSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelTitlePopMondial, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelPopMondial, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTabbedPaneSimulationOptions, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jTabbedMainPane.addTab("Simulation", jPanelSimulation);
@@ -2032,6 +2110,26 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         System.out.println();
     }//GEN-LAST:event_jComboBoxDiseasesActionPerformed
 
+    private void jButtonCreateGraphicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateGraphicActionPerformed
+        // TODO add your handling code here:
+        
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(deathsNum);
+        dataset.addSeries(infectedNum);
+        
+
+        JFreeChart chart = ChartFactory.createXYLineChart("Stats de la pandémie", "jours", "nombre", dataset);
+        chart.setBackgroundPaint(Color.GRAY);
+        chart.getTitle().setPaint(Color.RED);
+        ChartFrame frame = new ChartFrame("stats", chart);
+        frame.setVisible(true);
+        frame.setSize(450, 350);
+    }//GEN-LAST:event_jButtonCreateGraphicActionPerformed
+
+    private void jCheckBoxActiveMesureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxActiveMesureActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBoxActiveMesureActionPerformed
+
     public void Draw(Graphics2D g2d){
         worldController.Draw(g2d, mousePoints); 
         if(onHoverCountry != null) {
@@ -2091,6 +2189,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JButton jButtonApplyDisease;
     private javax.swing.JButton jButtonBacktrack;
     private javax.swing.JButton jButtonChangeBackgroundImage;
+    private javax.swing.JButton jButtonCreateGraphic;
     private javax.swing.JButton jButtonCreateIrregularCountry;
     private javax.swing.JButton jButtonCreateRegularCountry;
     private javax.swing.JButton jButtonDeleteCountry;
@@ -2175,6 +2274,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JPanel jPanelRegionOptions;
     private javax.swing.JPanel jPanelReproductionRate;
     private javax.swing.JPanel jPanelSimulation;
+    private javax.swing.JPanel jPanelStatistics;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPaneLinks;
     private javax.swing.JScrollPane jScrollPaneMap;
     private javax.swing.JScrollPane jScrollPaneOtherMeasures;
@@ -2193,6 +2294,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JSpinner jSpinnerAllLinksTravelRate;
     private javax.swing.JTabbedPane jTabbedMainPane;
     private javax.swing.JTabbedPane jTabbedPaneSimulationOptions;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextFieldAdhesionRate;
     private javax.swing.JTextField jTextFieldCountryName;
     private javax.swing.JTextField jTextFieldCountryPop;

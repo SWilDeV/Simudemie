@@ -55,6 +55,9 @@ public class Country implements Serializable, Cloneable  {
     
     public void AddMesure(HealthMesure mesure) {
         mesures.add(mesure);
+        for (Region region: regions) {
+            region.AddMesure(mesure);
+        }
     }
     
     public void RemoveMesure(UUID mesureId) {
@@ -67,6 +70,9 @@ public class Country implements Serializable, Cloneable  {
         }
         
         mesures.remove(mesure);
+        for (Region region: regions) {
+            region.RemoveMesure(mesure);
+        }
     }
     
     public List<HealthMesure> GetMesures() {

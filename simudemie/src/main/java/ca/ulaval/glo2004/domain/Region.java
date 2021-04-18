@@ -18,6 +18,7 @@ import java.util.UUID;
  */
 public class Region implements Serializable, Cloneable {
     
+    private List<HealthMesure> mesures = new ArrayList<>();
     private String name;
     private double percentagePop;
     private Population subPopulation;
@@ -110,6 +111,18 @@ public class Region implements Serializable, Cloneable {
         }
         
         return Utility.GetColorGradient(p);
+    }
+    
+    public void AddMesure(HealthMesure mesure) {
+        mesures.add(mesure);
+    }
+    
+    public void RemoveMesure(HealthMesure mesure) {
+        mesures.remove(mesure);
+    }
+    
+    public List<HealthMesure> GetMesures() {
+        return mesures;
     }
     
     @Override
