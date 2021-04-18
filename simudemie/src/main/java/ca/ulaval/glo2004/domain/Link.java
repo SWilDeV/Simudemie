@@ -26,7 +26,7 @@ public class Link implements Serializable, Cloneable {
    private UUID country1Id;
    private UUID country2Id;
    private double travelRate;
-   private boolean isOpen;
+   private boolean isOpen = true;
    private boolean isSelected;
    
    private UUID id;
@@ -99,6 +99,14 @@ public class Link implements Serializable, Cloneable {
        }
        
        return airColor;
+   }
+   
+   public void closeLink() {
+       isOpen = false;
+   }
+   
+   public void openLink() {
+       isOpen = true;
    }
    
    public static int GetDrawOffset(LinkType type) {

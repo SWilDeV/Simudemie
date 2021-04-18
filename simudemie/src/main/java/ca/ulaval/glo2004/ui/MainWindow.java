@@ -433,6 +433,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jComboBoxAllLinksType = new javax.swing.JComboBox<>();
         jSpinnerAllLinksTravelRate = new javax.swing.JSpinner();
         jButtonApplyAllLinksTravelRate = new javax.swing.JButton();
+        jCheckBoxCloseLink = new javax.swing.JCheckBox();
         jButtonResetZoom = new javax.swing.JButton();
         jPanelSimulation = new javax.swing.JPanel();
         jBtnReset = new javax.swing.JButton();
@@ -477,7 +478,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jListMesures = new javax.swing.JList<>();
         jButtonAddMesure = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jCheckBox2 = new javax.swing.JCheckBox();
         jButtonDeleteMesure = new javax.swing.JButton();
         jPanelStatistics = new javax.swing.JPanel();
         jButtonCreateGraphic = new javax.swing.JButton();
@@ -561,7 +561,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jPanelBlank.setLayout(jPanelBlankLayout);
         jPanelBlankLayout.setHorizontalGroup(
             jPanelBlankLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 372, Short.MAX_VALUE)
+            .addGap(0, 370, Short.MAX_VALUE)
         );
         jPanelBlankLayout.setVerticalGroup(
             jPanelBlankLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -813,6 +813,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
+        jCheckBoxCloseLink.setText("Fermé");
+        jCheckBoxCloseLink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxCloseLinkActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelLinkLayout = new javax.swing.GroupLayout(jPanelLink);
         jPanelLink.setLayout(jPanelLinkLayout);
         jPanelLinkLayout.setHorizontalGroup(
@@ -820,8 +827,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             .addGroup(jPanelLinkLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15)
                     .addComponent(jLabel16)
                     .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(jPanelLinkLayout.createSequentialGroup()
@@ -852,8 +857,14 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                                     .addComponent(jComboBoxAllLinksType, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jSpinnerAllLinksTravelRate, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                    .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelLinkLayout.createSequentialGroup()
+                            .addComponent(jLabel15)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jCheckBoxCloseLink))
+                        .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelLinkLayout.setVerticalGroup(
             jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -892,11 +903,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonApplyAllLinksTravelRate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(jLabel15)
+                .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(jCheckBoxCloseLink))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPaneLinks, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPaneLinks, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonDeleteLink)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -921,7 +934,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addComponent(jToggleBtnModifyCountry, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
                     .addComponent(jToggleBtnAddLink, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonResetZoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
             .addGroup(jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelConceptionLayout.createSequentialGroup()
                     .addContainerGap()
@@ -937,10 +950,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addComponent(jToggleBtnAddLink)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonResetZoom)
-                .addContainerGap(605, Short.MAX_VALUE))
+                .addContainerGap(594, Short.MAX_VALUE))
             .addGroup(jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConceptionLayout.createSequentialGroup()
-                    .addContainerGap(151, Short.MAX_VALUE)
+                    .addContainerGap(150, Short.MAX_VALUE)
                     .addComponent(jPanelConceptionOptions, javax.swing.GroupLayout.PREFERRED_SIZE, 543, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
         );
@@ -1140,8 +1153,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jLabel1.setText("Liens");
 
-        jCheckBox2.setText("Fermé");
-
         jButtonDeleteMesure.setText("Supprimer mesure");
         jButtonDeleteMesure.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1175,18 +1186,14 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCheckBox2)
-                        .addGap(16, 16, 16))))
+                        .addGap(16, 313, Short.MAX_VALUE))))
         );
         jPanelHealthMesuresLayout.setVerticalGroup(
             jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jCheckBox2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
                 .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldMesureName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelMesureName))
@@ -1520,7 +1527,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         .addComponent(jTabbedMainPane, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 442, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 453, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jButtonScreenShotWorld)
                             .addComponent(jButtonChangeBackgroundImage))
@@ -1536,7 +1543,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jButtonChangeBackgroundImage)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                             .addComponent(jButtonScreenShotWorld))
                         .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanelLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1550,7 +1557,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabelUndoRedoSliderText))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                                 .addComponent(jSliderUndoRedo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
@@ -1916,11 +1923,17 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         List<LinkDTO> links = worldController.GetLinks();
         links.stream().filter(l -> (l.IsSelected)).forEachOrdered(l -> {
             worldController.UpdateSelectionStateLink(l.Id, false);
+            if (l.IsOpen) {
+                jCheckBoxCloseLink.setSelected(false);
+            } else {
+                jCheckBoxCloseLink.setSelected(true);
+            }
         });
 
         int[] index = jListLinks.getSelectedIndices();
         for(int i = 0; i < index.length; i++) {
             UUID id = links.get(index[i]).Id;
+            
             worldController.UpdateSelectionStateLink(id, true);
         }
 
@@ -2130,6 +2143,18 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBoxActiveMesureActionPerformed
 
+    private void jCheckBoxCloseLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCloseLinkActionPerformed
+        // TODO add your handling code here:
+        List<LinkDTO> links = worldController.GetLinks();
+        int[] index = jListLinks.getSelectedIndices();
+
+        for(int i = 0; i < index.length; i++) {
+            UUID id = links.get(index[i]).Id;
+            worldController. updateCloseLink(id);
+            
+        }
+    }//GEN-LAST:event_jCheckBoxCloseLinkActionPerformed
+
     public void Draw(Graphics2D g2d){
         worldController.Draw(g2d, mousePoints); 
         if(onHoverCountry != null) {
@@ -2202,8 +2227,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JButton jButtonResetZoom;
     private javax.swing.JButton jButtonSaveNewDisease;
     private javax.swing.JButton jButtonScreenShotWorld;
-    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBoxActiveMesure;
+    private javax.swing.JCheckBox jCheckBoxCloseLink;
     private javax.swing.JComboBox<String> jComboBoxAddLink;
     private javax.swing.JComboBox<String> jComboBoxAllLinksType;
     private javax.swing.JComboBox<String> jComboBoxDiseases;
