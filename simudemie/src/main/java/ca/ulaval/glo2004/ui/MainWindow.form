@@ -104,7 +104,7 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="jLabelTitle" min="-2" pref="303" max="-2" attributes="0"/>
-                      <EmptySpace pref="442" max="32767" attributes="0"/>
+                      <EmptySpace pref="453" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="2" attributes="0">
                           <Component id="jButtonScreenShotWorld" alignment="2" min="-2" max="-2" attributes="0"/>
                           <Component id="jButtonChangeBackgroundImage" alignment="2" min="-2" max="-2" attributes="0"/>
@@ -125,7 +125,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jButtonChangeBackgroundImage" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="11" max="32767" attributes="0"/>
                           <Component id="jButtonScreenShotWorld" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jLabelTitle" min="-2" pref="63" max="-2" attributes="0"/>
@@ -143,7 +143,7 @@
                               <Component id="jLabelUndoRedoSliderText" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="11" max="32767" attributes="0"/>
                               <Component id="jSliderUndoRedo" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -214,7 +214,7 @@
                           <Component id="jToggleBtnAddLink" alignment="0" max="32767" attributes="0"/>
                           <Component id="jButtonResetZoom" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="26" max="32767" attributes="0"/>
+                      <EmptySpace pref="18" max="32767" attributes="0"/>
                   </Group>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
@@ -234,11 +234,11 @@
                       <Component id="jToggleBtnAddLink" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButtonResetZoom" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="605" max="32767" attributes="0"/>
+                      <EmptySpace pref="594" max="32767" attributes="0"/>
                   </Group>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace pref="151" max="32767" attributes="0"/>
+                          <EmptySpace pref="150" max="32767" attributes="0"/>
                           <Component id="jPanelConceptionOptions" min="-2" pref="543" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -283,7 +283,7 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="372" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="370" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -603,8 +603,6 @@
                           <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jSeparator5" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
-                                  <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                                       <Group type="102" alignment="1" attributes="0">
@@ -644,8 +642,16 @@
                                       </Group>
                                   </Group>
                                   <Component id="jSeparator7" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="jCheckBoxCloseLink" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="jSeparator5" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <EmptySpace pref="18" max="32767" attributes="0"/>
+                              <EmptySpace min="40" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -691,11 +697,14 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButtonApplyAllLinksTravelRate" min="-2" pref="25" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="32767" attributes="0"/>
-                              <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCheckBoxCloseLink" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jSeparator5" min="-2" pref="13" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPaneLinks" min="-2" pref="112" max="-2" attributes="0"/>
+                              <Component id="jScrollPaneLinks" min="-2" pref="106" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButtonDeleteLink" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
@@ -826,6 +835,14 @@
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonApplyAllLinksTravelRateActionPerformed"/>
                       </Events>
                     </Component>
+                    <Component class="javax.swing.JCheckBox" name="jCheckBoxCloseLink">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Ferm&#xe9;"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxCloseLinkActionPerformed"/>
+                      </Events>
+                    </Component>
                   </SubComponents>
                 </Container>
               </SubComponents>
@@ -852,10 +869,6 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="jTabbedPaneSimulationOptions" min="-2" pref="373" max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -909,12 +922,17 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jLabelDiseaseReminderName" max="32767" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabelTimeLapse" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jTextFieldSimulationTimeStep" min="-2" pref="54" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jBtnChangeSimulationTimeStep" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabelTimeLapse" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="jTextFieldSimulationTimeStep" min="-2" pref="54" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jBtnChangeSimulationTimeStep" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jTabbedPaneSimulationOptions" alignment="0" min="-2" pref="373" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -959,9 +977,9 @@
                           <Component id="jLabelTitlePopMondial" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="jLabelPopMondial" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jTabbedPaneSimulationOptions" min="-2" pref="553" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jTabbedPaneSimulationOptions" min="-2" pref="553" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1092,7 +1110,7 @@
                                   <Component id="jPanelCuredRate" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jButtonApplyDisease" alignment="0" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="20" max="32767" attributes="0"/>
+                              <EmptySpace pref="11" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1275,7 +1293,7 @@
                                   <Group type="102" attributes="0">
                                       <Component id="jLabelAdhesionRate" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldAdhesionRate" pref="226" max="32767" attributes="0"/>
+                                      <Component id="jTextFieldAdhesionRate" pref="193" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Component id="jCheckBoxActiveMesure" min="-2" max="-2" attributes="0"/>
@@ -1283,9 +1301,7 @@
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="jCheckBox2" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                                      <EmptySpace min="16" pref="313" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -1295,11 +1311,8 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox2" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace pref="165" max="32767" attributes="0"/>
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="147" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jTextFieldMesureName" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabelMesureName" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1347,6 +1360,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Mesure active"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxActiveMesureActionPerformed"/>
+                      </Events>
                     </Component>
                     <Container class="javax.swing.JScrollPane" name="jScrollPaneOtherMeasures">
                       <AuxValues>
@@ -1380,11 +1396,6 @@
                         <Property name="text" type="java.lang.String" value="Liens"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JCheckBox" name="jCheckBox2">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Ferm&#xe9;"/>
-                      </Properties>
-                    </Component>
                     <Component class="javax.swing.JButton" name="jButtonDeleteMesure">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Supprimer mesure"/>
@@ -1393,6 +1404,107 @@
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDeleteMesureActionPerformed"/>
                       </Events>
                     </Component>
+                  </SubComponents>
+                </Container>
+                <Container class="javax.swing.JPanel" name="jPanelStatistics">
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                      <JTabbedPaneConstraints tabName="Statistiques">
+                        <Property name="tabTitle" type="java.lang.String" value="Statistiques"/>
+                      </JTabbedPaneConstraints>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout>
+                    <DimensionLayout dim="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jButtonCreateGraphic" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jScrollPane2" min="-2" pref="367" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                    <DimensionLayout dim="1">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jScrollPane2" min="-2" pref="368" max="-2" attributes="0"/>
+                              <EmptySpace pref="64" max="32767" attributes="0"/>
+                              <Component id="jButtonCreateGraphic" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                  </Layout>
+                  <SubComponents>
+                    <Component class="javax.swing.JButton" name="jButtonCreateGraphic">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Cr&#xe9;er graphique"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCreateGraphicActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+                      <AuxValues>
+                        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                      </AuxValues>
+
+                      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                      <SubComponents>
+                        <Component class="javax.swing.JTable" name="jTable2">
+                          <Properties>
+                            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                              <Table columnCount="5" rowCount="0">
+                                <Column editable="false" title="Jour" type="java.lang.Integer"/>
+                                <Column editable="false" title="Infect&#xe9;s sans mesures" type="java.lang.Integer"/>
+                                <Column editable="false" title="Morts sans mesures" type="java.lang.Integer"/>
+                                <Column editable="false" title="Infect&#xe9;s avec mesures" type="java.lang.Integer"/>
+                                <Column editable="false" title="Morts avec mesures" type="java.lang.Integer"/>
+                              </Table>
+                            </Property>
+                            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                              <TableColumnModel selectionModel="0">
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                              </TableColumnModel>
+                            </Property>
+                            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                            </Property>
+                          </Properties>
+                        </Component>
+                      </SubComponents>
+                    </Container>
                   </SubComponents>
                 </Container>
               </SubComponents>

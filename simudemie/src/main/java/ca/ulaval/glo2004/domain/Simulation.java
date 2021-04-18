@@ -113,7 +113,7 @@ public class Simulation implements Serializable {
                         List<Link> LinkList = controller.getWorld().getLinks();
                         if(LinkList.size()>0){
                             for(Link link:LinkList) {
-                            updateCountriesWithLinks(controller.GetCountry(link.getCountry1Id()), controller.GetCountry(link.getCountry2Id()));
+                            updateCountriesWithLinks(controller.GetCountry(link.getCountry1Id()), controller.GetCountry(link.getCountry2Id()), link.isOpen());
                             }
                         }
                         
@@ -127,7 +127,7 @@ public class Simulation implements Serializable {
                             
                             List<RegionLink> regionLinks = country.GetLinks();
                             for(RegionLink link:regionLinks){
-                                updateRegionsWithLinks(country.FindRegionByUUID(link.GetRegion1Id()),country.FindRegionByUUID(link.GetRegion2Id()));
+                                updateRegionsWithLinks(country.FindRegionByUUID(link.GetRegion1Id()),country.FindRegionByUUID(link.GetRegion2Id()), link.isOpen());
                             }
                             
                             //deuxieme  boucle pour Update individuel des regions
@@ -163,7 +163,13 @@ public class Simulation implements Serializable {
         }
     }
     
-    public void updateRegionsWithLinks(Region region1, Region region2){
+    public void updateRegionsWithLinks(Region region1, Region region2, boolean isOpen){
+        double transportRate = 0.05; 
+        
+        if (!isOpen) {
+            transportRate = transportRate * 0.95;    //a changer PRN si on introduit taux d'adhésion pour close link
+        }
+        
         Population pop1 = region1.getPopulation();
         Population pop2 = region2.getPopulation();
         
@@ -172,8 +178,8 @@ public class Simulation implements Serializable {
         int previousInfectedPop2 = pop2.getInfectedPopulation();
         
         //Calculate region new total infected that could go in other region
-        int newInfectedPop1 = calculation.Calculate(previousInfectedPop2,0.05);
-        int newInfectedPop2 = calculation.Calculate(previousInfectedPop1,0.05);
+        int newInfectedPop1 = calculation.Calculate(previousInfectedPop2, transportRate);
+        int newInfectedPop2 = calculation.Calculate(previousInfectedPop1, transportRate);
         
         //region new total infected population
         int newTotalInfected1 = previousInfectedPop1 + newInfectedPop1 - newInfectedPop2;
@@ -239,6 +245,15 @@ public class Simulation implements Serializable {
         
         //infectedPop
         int previousDayInfectedPop = population.getInfectedPopulation();
+        
+        if (!region.GetMesures().isEmpty()) {
+            for (HealthMesure mesure: region.GetMesures()) {
+                if (mesure.isActive) {
+                    infectionRate = infectionRate * (1 - (mesure.getAdhesionRate()/100));
+                }
+            }
+        }
+        
         int newInfectedPop = calculation.Calculate(previousDayInfectedPop,infectionRate);
         int totalInfectedPop = newInfectedPop + previousDayInfectedPop;
         
@@ -277,8 +292,12 @@ public class Simulation implements Serializable {
 //        return population;
     }
     
-    public void updateCountriesWithLinks(Country country1, Country country2){
-        double tauxAdhesion =1.0; 
+    public void updateCountriesWithLinks(Country country1, Country country2, boolean isOpen){
+        double transportRate = 0.05; 
+        
+        if (!isOpen) {
+            transportRate = transportRate * 0.95;    //a changer PRN si on introduit taux d'adhésion pour close link
+        }
         
         //Get populations
         Population population1 = country1.getPopulation();
@@ -287,8 +306,8 @@ public class Simulation implements Serializable {
         int previousInfectedPop2 = population2.getInfectedPopulation();
         
         //Calculate country new total infected that could go in other country
-        int newInfectedPop1 = calculation.Calculate(previousInfectedPop2,0.05);
-        int newInfectedPop2 = calculation.Calculate(previousInfectedPop1,0.05);
+        int newInfectedPop1 = calculation.Calculate(previousInfectedPop2, transportRate);
+        int newInfectedPop2 = calculation.Calculate(previousInfectedPop1, transportRate);
         
         //Country new total infected population
         int newTotalInfected1 = previousInfectedPop1 + newInfectedPop1;
