@@ -113,7 +113,7 @@ public class Simulation implements Serializable {
                         List<Link> LinkList = controller.getWorld().getLinks();
                         if(LinkList.size()>0){
                             for(Link link:LinkList) {
-                            updateCountriesWithLinks(controller.GetCountry(link.getCountry1Id()), controller.GetCountry(link.getCountry2Id()), link.isOpen());
+                            updateCountriesWithLinks(controller.GetCountry(link.getCountry1Id()), controller.GetCountry(link.getCountry2Id()));
                             }
                         }
                         
@@ -127,7 +127,7 @@ public class Simulation implements Serializable {
                             
                             List<RegionLink> regionLinks = country.GetLinks();
                             for(RegionLink link:regionLinks){
-                                updateRegionsWithLinks(country.FindRegionByUUID(link.GetRegion1Id()),country.FindRegionByUUID(link.GetRegion2Id()), link.isOpen());
+                                updateRegionsWithLinks(country.FindRegionByUUID(link.GetRegion1Id()),country.FindRegionByUUID(link.GetRegion2Id()));
                             }
                             
                             //deuxieme  boucle pour Update individuel des regions
@@ -163,12 +163,12 @@ public class Simulation implements Serializable {
         }
     }
     
-    public void updateRegionsWithLinks(Region region1, Region region2, boolean isOpen){
+    public void updateRegionsWithLinks(Region region1, Region region2){
         double transportRate = 0.05; 
         
-        if (!isOpen) {                          //je vais le changer pour inclure le closeLink (healthmesure)
-            transportRate = transportRate * 0.95;    //a changer PRN si on introduit taux d'adhésion pour close link
-        }
+        //if (!isOpen) {                          //je vais le changer pour inclure le closeLink (healthmesure)
+            //transportRate = transportRate * 0.95;    //a changer PRN si on introduit taux d'adhésion pour close link
+        //}
         
         Population pop1 = region1.getPopulation();
         Population pop2 = region2.getPopulation();
@@ -304,12 +304,12 @@ public class Simulation implements Serializable {
 //        return population;
     }
     
-    public void updateCountriesWithLinks(Country country1, Country country2, boolean isOpen){
+    public void updateCountriesWithLinks(Country country1, Country country2){
         double transportRate = 0.05; 
         
-        if (!isOpen) {
-            transportRate = transportRate * 0.95;    //a changer PRN si on introduit taux d'adhésion pour close link
-        }
+        //if (!isOpen) {
+            //transportRate = transportRate * 0.95;    //a changer PRN si on introduit taux d'adhésion pour close link
+        //}
         
         //Get populations
         Population population1 = country1.getPopulation();

@@ -339,6 +339,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jTextFieldCuredRate.setText(String.valueOf(disease.getCureRateDTO() * 100));
         
         double reproductionRate = disease.getInfectionRateDTO()/disease.getCureRateDTO();
+        jLabelR.setText(String.valueOf(reproductionRate));
         jLabelMaxRRate.setText("(Valeur max: " + String.valueOf(reproductionRate) + ")");
         
         UpdateSliderUndoRedo();
@@ -484,9 +485,25 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jTextFieldDiseaseName = new javax.swing.JTextField();
         jButtonSaveNewDisease = new javax.swing.JButton();
         jButtonDeleteDisease = new javax.swing.JButton();
+        jLabelReproductionRate = new javax.swing.JLabel();
+        jLabelR = new javax.swing.JLabel();
         jPanelFermetureLiens = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jCheckBoxCloseLink = new javax.swing.JCheckBox();
+        jCheckBoxCloseBorder = new javax.swing.JCheckBox();
+        jCheckBoxCloseAirports = new javax.swing.JCheckBox();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jTextFieldBorderAR = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jTextFieldBorderAR1 = new javax.swing.JTextField();
+        jLabelCloseAirportAR = new javax.swing.JLabel();
+        jLabelAirportThreshold = new javax.swing.JLabel();
+        jLabelPortThreshold = new javax.swing.JLabel();
+        jLabelPortAR = new javax.swing.JLabel();
+        jTextFieldAirportAR = new javax.swing.JTextField();
+        jTextFieldAirportThreshold = new javax.swing.JTextField();
+        jTextFieldPortRA = new javax.swing.JTextField();
+        jTextFieldPortThreshold = new javax.swing.JTextField();
         jPanelStatistics = new javax.swing.JPanel();
         jButtonCreateGraphic = new javax.swing.JButton();
         jPanelHealthMesures = new javax.swing.JPanel();
@@ -1093,27 +1110,33 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
+        jLabelReproductionRate.setText("Taux de reproduction (calculé): ");
+
         javax.swing.GroupLayout jPanelDeseaseParamsLayout = new javax.swing.GroupLayout(jPanelDeseaseParams);
         jPanelDeseaseParams.setLayout(jPanelDeseaseParamsLayout);
         jPanelDeseaseParamsLayout.setHorizontalGroup(
             jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDeseaseParamsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanelDeseaseParamsLayout.createSequentialGroup()
-                        .addComponent(jButtonSaveNewDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabelReproductionRate, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabelR, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelDeseaseParamsLayout.createSequentialGroup()
+                        .addComponent(jButtonSaveNewDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonDeleteDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jComboBoxDiseases, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanelDeseaseParamsLayout.createSequentialGroup()
+                    .addComponent(jComboBoxDiseases, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelDeseaseParamsLayout.createSequentialGroup()
                         .addComponent(jLabelTitleDeseaseName)
                         .addGap(18, 18, 18)
                         .addComponent(jTextFieldDiseaseName))
-                    .addComponent(jPanelMortalityRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelReproductionRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelCuredRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonApplyDisease, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanelMortalityRate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelReproductionRate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelCuredRate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonApplyDisease, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanelDeseaseParamsLayout.setVerticalGroup(
             jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1130,45 +1153,147 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addComponent(jPanelReproductionRate, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addComponent(jPanelCuredRate, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanelDeseaseParamsLayout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(jLabelReproductionRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanelDeseaseParamsLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonApplyDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonSaveNewDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonDeleteDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonDeleteDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonSaveNewDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(251, Short.MAX_VALUE))
         );
 
         jTabbedPaneSimulationOptions.addTab("Paramètres de la maladie", jPanelDeseaseParams);
 
         jLabel1.setText("Liens");
 
-        jCheckBoxCloseLink.setText("Fermé");
-        jCheckBoxCloseLink.addActionListener(new java.awt.event.ActionListener() {
+        jCheckBoxCloseBorder.setText("Fermer les frontières");
+        jCheckBoxCloseBorder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxCloseLinkActionPerformed(evt);
+                jCheckBoxCloseBorderActionPerformed(evt);
             }
         });
+
+        jCheckBoxCloseAirports.setText("Fermer les aéroports");
+        jCheckBoxCloseAirports.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxCloseAirportsActionPerformed(evt);
+            }
+        });
+
+        jCheckBox1.setText("Fermer les ports");
+
+        jTextFieldBorderAR.setText("0.0");
+
+        jLabel17.setText("Taux d'adhésion (%):");
+
+        jLabel18.setText("Seuil (%):");
+
+        jTextFieldBorderAR1.setText("0.0");
+
+        jLabelCloseAirportAR.setText("Taux d'adhésion (%):");
+
+        jLabelAirportThreshold.setText("Seuil (%):");
+
+        jLabelPortThreshold.setText("Seuil (%):");
+
+        jLabelPortAR.setText("Taux d'adhésion (%):");
+
+        jTextFieldAirportAR.setText("0.0");
+
+        jTextFieldAirportThreshold.setText("0.0");
+
+        jTextFieldPortRA.setText("0.0");
+
+        jTextFieldPortThreshold.setText("0.0");
 
         javax.swing.GroupLayout jPanelFermetureLiensLayout = new javax.swing.GroupLayout(jPanelFermetureLiens);
         jPanelFermetureLiens.setLayout(jPanelFermetureLiensLayout);
         jPanelFermetureLiensLayout.setHorizontalGroup(
             jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
-                .addComponent(jCheckBoxCloseLink)
-                .addGap(27, 27, 27))
+                .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
+                                .addComponent(jLabelAirportThreshold)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextFieldAirportThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
+                                .addComponent(jLabel18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextFieldBorderAR1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
+                                .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabelCloseAirportAR)
+                                    .addComponent(jLabel17))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldBorderAR, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFieldAirportAR, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jCheckBoxCloseBorder)
+                            .addComponent(jCheckBoxCloseAirports)
+                            .addComponent(jCheckBox1))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabelPortAR)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
+                        .addComponent(jTextFieldPortRA, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabelPortThreshold)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextFieldPortThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jPanelFermetureLiensLayout.setVerticalGroup(
             jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(47, 47, 47)
+                .addComponent(jCheckBoxCloseBorder)
+                .addGap(9, 9, 9)
                 .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jCheckBoxCloseLink))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jTextFieldBorderAR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(jTextFieldBorderAR1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jCheckBoxCloseAirports)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelCloseAirportAR)
+                    .addComponent(jTextFieldAirportAR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelAirportThreshold)
+                    .addComponent(jTextFieldAirportThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
+                .addComponent(jCheckBox1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelPortAR)
+                    .addComponent(jTextFieldPortRA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelPortThreshold)
+                    .addComponent(jTextFieldPortThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
 
         jTabbedPaneSimulationOptions.addTab("Fermeture Liens", jPanelFermetureLiens);
@@ -1876,36 +2001,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         }
     }//GEN-LAST:event_jButtonAddMesureActionPerformed
 
-    private void jButtonApplyDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyDiseaseActionPerformed
-                
-
-//        try {
-//            double infectionRate = Double.parseDouble(jTextFieldReproductionRate.getText())/100;
-//            double mortalityRate = Double.parseDouble(jTextFieldMortalityRate.getText())/100;
-//            double cureRate = Double.parseDouble(jTextFieldCuredRate.getText())/100;
-//            if(infectionRate >= 0 && infectionRate <=1 && mortalityRate >=0 && mortalityRate <=1 && 
-//                cureRate >= 0 && cureRate <=1) {
-//                    worldController.UpdateDiseaseFromDTO(infectionRate, mortalityRate, cureRate);
-////                    DiseaseDTO disease = new DiseaseDTO()
-////                    worldController.getSimulation().UpdateDiseaseFromDTO(infectionRate, mortalityRate, cureRate);
-//                    jTextFieldReproductionRate.setBackground(Color.white);
-//                    jTextFieldMortalityRate.setBackground(Color.white);
-//                    jTextFieldCuredRate.setBackground(Color.white);
-//                }
-//            else{
-//                if(infectionRate < 0) jTextFieldReproductionRate.setBackground(Color.red);
-//                if(mortalityRate < 0) jTextFieldMortalityRate.setBackground(Color.red);
-//                if(cureRate < 0) jTextFieldCuredRate.setBackground(Color.red);
-//            }
-//        } catch(NumberFormatException e) {
-//            JOptionPane.showMessageDialog(this, "Un des champs n'est pas valide");
-//        }
-    }//GEN-LAST:event_jButtonApplyDiseaseActionPerformed
-
-    private void jTextFieldMortalityRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMortalityRateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldMortalityRateActionPerformed
-
     private void jButtonForwardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonForwardActionPerformed
         worldController.Redo();
         UpdateSliderUndoRedo();
@@ -1977,11 +2072,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         List<LinkDTO> links = worldController.GetLinks();
         links.stream().filter(l -> (l.IsSelected)).forEachOrdered(l -> {
             worldController.UpdateSelectionStateLink(l.Id, false);
-            if (l.IsOpen) {
-                jCheckBoxCloseLink.setSelected(false);
-            } else {
-                jCheckBoxCloseLink.setSelected(true);
-            }
+            
         });
 
         int[] index = jListLinks.getSelectedIndices();
@@ -2134,51 +2225,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonApplyAllLinksTravelRateActionPerformed
 
-    private void jButtonSaveNewDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveNewDiseaseActionPerformed
-        // TODO add your handling code here
-        
-        
-         try {
-            double infectionRate = Double.parseDouble(jTextFieldReproductionRate.getText())/100;
-            double mortalityRate = Double.parseDouble(jTextFieldMortalityRate.getText())/100;
-            double cureRate = Double.parseDouble(jTextFieldCuredRate.getText())/100;
-            boolean found = false; 
-            UUID id = UUID.randomUUID();
-            String diseaseName = (jTextFieldDiseaseName.getText());
-            
-            if(diseaseName.length()>0 && infectionRate >= 0 && infectionRate <=1 && mortalityRate >=0 && mortalityRate <=1 && 
-                cureRate >= 0 && cureRate <=1) {
-                for(Disease n : worldController.getDiseaseList()){
-                    if(n.getName().equals(diseaseName)){
-                        found = true;
-                        id=n.getId();
-                        break;
-                    }
-                } 
-                if(found){
-                    worldController.UpdateDisease(id, diseaseName,infectionRate, mortalityRate, cureRate);
-                    //diseaseSelected.setCureRateDTO(cureRate);
-//                    worldController.getSimulation().UpdateDiseaseFromDTO(infectionRate, mortalityRate, cureRate);
-                }else{
-                    worldController.createDisease(diseaseName,infectionRate, mortalityRate, cureRate);
-                }
-                  jTextFieldReproductionRate.setBackground(Color.white);
-                  jTextFieldMortalityRate.setBackground(Color.white);
-                  jTextFieldCuredRate.setBackground(Color.white);
-            }else{
-                if(infectionRate < 0) jTextFieldReproductionRate.setBackground(Color.red);
-                if(mortalityRate < 0) jTextFieldMortalityRate.setBackground(Color.red);
-                if(cureRate < 0) jTextFieldCuredRate.setBackground(Color.red);
-            }  
-        } catch(NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Un des champs n'est pas valide");
-        }
-    }//GEN-LAST:event_jButtonSaveNewDiseaseActionPerformed
-
-    private void jButtonDeleteDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteDiseaseActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonDeleteDiseaseActionPerformed
-
     private void jButtonChangeBackgroundImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChangeBackgroundImageActionPerformed
         // TODO add your handling code here:
         int returnValue = imageChooser.showOpenDialog(this);
@@ -2187,23 +2233,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         }
     }//GEN-LAST:event_jButtonChangeBackgroundImageActionPerformed
 
-    private void jComboBoxDiseasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDiseasesActionPerformed
-        // TODO add your handling code here:
-        int index = jComboBoxDiseases.getSelectedIndex();
-        if(index !=-1){
-            worldController.setCurrentDiseaseIndex(index);
-            updateDiseasesUI();
-        }
-    }//GEN-LAST:event_jComboBoxDiseasesActionPerformed
-
-
-    private void jComboBoxDiseasesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jComboBoxDiseasesPropertyChange
-//        int index = jComboBoxDiseases.getSelectedIndex();
-//        if(index !=-1){
-//            worldController.setCurrentDiseaseIndex(index);
-//            updateDiseasesUI();
-//        }
-    }//GEN-LAST:event_jComboBoxDiseasesPropertyChange
 
     private void jButtonCreateGraphicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateGraphicActionPerformed
         // TODO add your handling code here:
@@ -2226,17 +2255,103 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         
     }//GEN-LAST:event_jCheckBoxActiveMesureActionPerformed
 
-    private void jCheckBoxCloseLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCloseLinkActionPerformed
+    private void jCheckBoxCloseBorderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCloseBorderActionPerformed
         // TODO add your handling code here:
-        List<LinkDTO> links = worldController.GetLinks();
-        int[] index = jListLinks.getSelectedIndices();
+    }//GEN-LAST:event_jCheckBoxCloseBorderActionPerformed
 
-        for(int i = 0; i < index.length; i++) {
-            UUID id = links.get(index[i]).Id;
-            worldController. updateCloseLink(id);
-            
+    private void jCheckBoxCloseAirportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCloseAirportsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBoxCloseAirportsActionPerformed
+
+    private void jButtonDeleteDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteDiseaseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonDeleteDiseaseActionPerformed
+
+    private void jButtonSaveNewDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveNewDiseaseActionPerformed
+        // TODO add your handling code here
+
+        try {
+            double infectionRate = Double.parseDouble(jTextFieldReproductionRate.getText())/100;
+            double mortalityRate = Double.parseDouble(jTextFieldMortalityRate.getText())/100;
+            double cureRate = Double.parseDouble(jTextFieldCuredRate.getText())/100;
+            boolean found = false;
+            UUID id = UUID.randomUUID();
+            String diseaseName = (jTextFieldDiseaseName.getText());
+
+            if(diseaseName.length()>0 && infectionRate >= 0 && infectionRate <=1 && mortalityRate >=0 && mortalityRate <=1 &&
+                cureRate >= 0 && cureRate <=1) {
+                for(Disease n : worldController.getDiseaseList()){
+                    if(n.getName().equals(diseaseName)){
+                        found = true;
+                        id=n.getId();
+                        break;
+                    }
+                }
+                if(found){
+                    worldController.UpdateDisease(id, diseaseName,infectionRate, mortalityRate, cureRate);
+                    //diseaseSelected.setCureRateDTO(cureRate);
+                    //                    worldController.getSimulation().UpdateDiseaseFromDTO(infectionRate, mortalityRate, cureRate);
+                }else{
+                    worldController.createDisease(diseaseName,infectionRate, mortalityRate, cureRate);
+                }
+                jTextFieldReproductionRate.setBackground(Color.white);
+                jTextFieldMortalityRate.setBackground(Color.white);
+                jTextFieldCuredRate.setBackground(Color.white);
+            }else{
+                if(infectionRate < 0) jTextFieldReproductionRate.setBackground(Color.red);
+                if(mortalityRate < 0) jTextFieldMortalityRate.setBackground(Color.red);
+                if(cureRate < 0) jTextFieldCuredRate.setBackground(Color.red);
+            }
+        } catch(NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Un des champs n'est pas valide");
         }
-    }//GEN-LAST:event_jCheckBoxCloseLinkActionPerformed
+    }//GEN-LAST:event_jButtonSaveNewDiseaseActionPerformed
+
+    private void jComboBoxDiseasesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jComboBoxDiseasesPropertyChange
+        //        int index = jComboBoxDiseases.getSelectedIndex();
+        //        if(index !=-1){
+            //            worldController.setCurrentDiseaseIndex(index);
+            //            updateDiseasesUI();
+            //        }
+    }//GEN-LAST:event_jComboBoxDiseasesPropertyChange
+
+    private void jComboBoxDiseasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDiseasesActionPerformed
+        // TODO add your handling code here:
+        int index = jComboBoxDiseases.getSelectedIndex();
+        if(index !=-1){
+            worldController.setCurrentDiseaseIndex(index);
+            updateDiseasesUI();
+        }
+    }//GEN-LAST:event_jComboBoxDiseasesActionPerformed
+
+    private void jButtonApplyDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyDiseaseActionPerformed
+
+        //        try {
+            //            double infectionRate = Double.parseDouble(jTextFieldReproductionRate.getText())/100;
+            //            double mortalityRate = Double.parseDouble(jTextFieldMortalityRate.getText())/100;
+            //            double cureRate = Double.parseDouble(jTextFieldCuredRate.getText())/100;
+            //            if(infectionRate >= 0 && infectionRate <=1 && mortalityRate >=0 && mortalityRate <=1 &&
+                //                cureRate >= 0 && cureRate <=1) {
+                //                    worldController.UpdateDiseaseFromDTO(infectionRate, mortalityRate, cureRate);
+                ////                    DiseaseDTO disease = new DiseaseDTO()
+                ////                    worldController.getSimulation().UpdateDiseaseFromDTO(infectionRate, mortalityRate, cureRate);
+                //                    jTextFieldReproductionRate.setBackground(Color.white);
+                //                    jTextFieldMortalityRate.setBackground(Color.white);
+                //                    jTextFieldCuredRate.setBackground(Color.white);
+                //                }
+            //            else{
+                //                if(infectionRate < 0) jTextFieldReproductionRate.setBackground(Color.red);
+                //                if(mortalityRate < 0) jTextFieldMortalityRate.setBackground(Color.red);
+                //                if(cureRate < 0) jTextFieldCuredRate.setBackground(Color.red);
+                //            }
+            //        } catch(NumberFormatException e) {
+            //            JOptionPane.showMessageDialog(this, "Un des champs n'est pas valide");
+            //        }
+    }//GEN-LAST:event_jButtonApplyDiseaseActionPerformed
+
+    private void jTextFieldMortalityRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMortalityRateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldMortalityRateActionPerformed
 
 
     public void Draw(Graphics2D g2d){
@@ -2311,8 +2426,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JButton jButtonResetZoom;
     private javax.swing.JButton jButtonSaveNewDisease;
     private javax.swing.JButton jButtonScreenShotWorld;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBoxActiveMesure;
-    private javax.swing.JCheckBox jCheckBoxCloseLink;
+    private javax.swing.JCheckBox jCheckBoxCloseAirports;
+    private javax.swing.JCheckBox jCheckBoxCloseBorder;
     private javax.swing.JComboBox<String> jComboBoxAddLink;
     private javax.swing.JComboBox<String> jComboBoxAllLinksType;
     private javax.swing.JComboBox<String> jComboBoxDiseases;
@@ -2324,6 +2441,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -2333,7 +2452,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelAdhesionRate;
+    private javax.swing.JLabel jLabelAirportThreshold;
     private javax.swing.JLabel jLabelCase;
+    private javax.swing.JLabel jLabelCloseAirportAR;
     private javax.swing.JLabel jLabelCured;
     private javax.swing.JLabel jLabelDayElapsed;
     private javax.swing.JLabel jLabelDead;
@@ -2345,6 +2466,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JLabel jLabelModCountryName;
     private javax.swing.JLabel jLabelModCountryPop;
     private javax.swing.JLabel jLabelPopMondial;
+    private javax.swing.JLabel jLabelPortAR;
+    private javax.swing.JLabel jLabelPortThreshold;
+    private javax.swing.JLabel jLabelR;
+    private javax.swing.JLabel jLabelReproductionRate;
     private javax.swing.JLabel jLabelThreshold;
     private javax.swing.JLabel jLabelTimeLapse;
     private javax.swing.JLabel jLabelTitle;
@@ -2408,6 +2533,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JTabbedPane jTabbedMainPane;
     private javax.swing.JTabbedPane jTabbedPaneSimulationOptions;
     private javax.swing.JTextField jTextFieldAdhesionRate;
+    private javax.swing.JTextField jTextFieldAirportAR;
+    private javax.swing.JTextField jTextFieldAirportThreshold;
+    private javax.swing.JTextField jTextFieldBorderAR;
+    private javax.swing.JTextField jTextFieldBorderAR1;
     private javax.swing.JTextField jTextFieldCountryName;
     private javax.swing.JTextField jTextFieldCountryPop;
     private javax.swing.JTextField jTextFieldCuredRate;
@@ -2417,6 +2546,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JTextField jTextFieldMesureName;
     private javax.swing.JTextField jTextFieldMortalityRate;
     private javax.swing.JTextField jTextFieldPercentageAddRegion;
+    private javax.swing.JTextField jTextFieldPortRA;
+    private javax.swing.JTextField jTextFieldPortThreshold;
     private javax.swing.JTextField jTextFieldRegionName;
     private javax.swing.JTextField jTextFieldReproductionRate;
     private javax.swing.JTextField jTextFieldSimulationTimeStep;
