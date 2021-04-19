@@ -367,7 +367,11 @@ public class WorldController implements java.io.Serializable {
     public void AddMesure(UUID countryId, double adhesionRate, boolean active, String mesureName, double threshold,
                           double effectTransmissionRate, double effectReproductionRate) 
     {
-        if (adhesionRate >= 0 && adhesionRate <= 100 && threshold >= 0 && threshold <=100) {
+        double reproductionRate = disease.getInfectionRate()/disease.getCureRate();
+        
+        if (adhesionRate >= 0 && adhesionRate <= 100 && threshold >= 0 && threshold <=100 && 
+            effectTransmissionRate >=0 && effectTransmissionRate <=100 && effectReproductionRate >= 0 && effectReproductionRate < reproductionRate) 
+        {
             world.AddMesure(countryId, adhesionRate, active, mesureName, threshold, effectTransmissionRate, effectReproductionRate);
         }
     }
