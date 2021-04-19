@@ -113,7 +113,7 @@ public class Simulation implements Serializable {
                         List<Link> LinkList = controller.getWorld().getLinks();
                         if(LinkList.size()>0){
                             for(Link link:LinkList) {
-                            updateCountriesWithLinks(controller.GetCountry(link.getCountry1Id()), controller.GetCountry(link.getCountry2Id()));
+                            updateCountriesWithLinks(link, controller.GetCountry(link.getCountry1Id()), controller.GetCountry(link.getCountry2Id()));
                             }
                         }
                         
@@ -127,7 +127,7 @@ public class Simulation implements Serializable {
                             
                             List<RegionLink> regionLinks = country.GetLinks();
                             for(RegionLink link:regionLinks){
-                                updateRegionsWithLinks(country.FindRegionByUUID(link.GetRegion1Id()),country.FindRegionByUUID(link.GetRegion2Id()));
+                                updateRegionsWithLinks(link, country.FindRegionByUUID(link.GetRegion1Id()),country.FindRegionByUUID(link.GetRegion2Id()));
                             }
                             
                             //deuxieme  boucle pour Update individuel des regions
@@ -163,12 +163,10 @@ public class Simulation implements Serializable {
         }
     }
     
-    public void updateRegionsWithLinks(Region region1, Region region2){
-        double transportRate = 0.05; 
+    public void updateRegionsWithLinks(RegionLink link, Region region1, Region region2){ 
+        //double transmissionRate = link.getTransmissionRate();
+        double transmissionRate = 0.05; 
         
-        //if (!isOpen) {                          //je vais le changer pour inclure le closeLink (healthmesure)
-            //transportRate = transportRate * 0.95;    //a changer PRN si on introduit taux d'adhésion pour close link
-        //}
         
         Population pop1 = region1.getPopulation();
         Population pop2 = region2.getPopulation();
@@ -177,9 +175,16 @@ public class Simulation implements Serializable {
         int previousInfectedPop1 = pop1.getInfectedPopulation();
         int previousInfectedPop2 = pop2.getInfectedPopulation();
         
+        //for (CloseLink closeLink: world.getClosedLinks()) {
+            //boolean thresholdMet = (previousInfectedPop1/pop1 >= closeLink.getThreshold()) && (previousInfectedPop2/pop2 >= closeLink.getThreshold());
+            //if (link == closeLink.getConcernedLink() && thresholdMet) {
+                //transmission rate = transmission rate * closeLink.getAdhesionRate();
+            //}
+        //}
+        
         //Calculate region new total infected that could go in other region
-        int newInfectedPop1 = calculation.Calculate(previousInfectedPop2, transportRate);
-        int newInfectedPop2 = calculation.Calculate(previousInfectedPop1, transportRate);
+        int newInfectedPop1 = calculation.Calculate(previousInfectedPop2, transmissionRate);
+        int newInfectedPop2 = calculation.Calculate(previousInfectedPop1, transmissionRate);
         
         //region new total infected population
         int newTotalInfected1 = previousInfectedPop1 + newInfectedPop1 - newInfectedPop2;
@@ -304,12 +309,9 @@ public class Simulation implements Serializable {
 //        return population;
     }
     
-    public void updateCountriesWithLinks(Country country1, Country country2){
-        double transportRate = 0.05; 
-        
-        //if (!isOpen) {
-            //transportRate = transportRate * 0.95;    //a changer PRN si on introduit taux d'adhésion pour close link
-        //}
+    public void updateCountriesWithLinks(Link link, Country country1, Country country2){
+        //double transmissionRate = link.getTransmissionRate();
+        double transmissionRate = 0.05;    
         
         //Get populations
         Population population1 = country1.getPopulation();
@@ -317,9 +319,17 @@ public class Simulation implements Serializable {
         Population population2 = country2.getPopulation();
         int previousInfectedPop2 = population2.getInfectedPopulation();
         
+        //for (CloseLink closeLink: world.getClosedLinks()) {
+            //boolean thresholdMet = (previousInfectedPop1/population1 >= closeLink.getThreshold()) && 
+                                     //(previousInfectedPop2/population2 >= closeLink.getThreshold());
+            //if (link == closeLink.getConcernedLink && thresholdMet) {
+                //transmission rate = transmission rate * closeLink.getAdhesionRate();
+            //}
+        //}
+        
         //Calculate country new total infected that could go in other country
-        int newInfectedPop1 = calculation.Calculate(previousInfectedPop2, transportRate);
-        int newInfectedPop2 = calculation.Calculate(previousInfectedPop1, transportRate);
+        int newInfectedPop1 = calculation.Calculate(previousInfectedPop2, transmissionRate);
+        int newInfectedPop2 = calculation.Calculate(previousInfectedPop1, transmissionRate);
         
         //Country new total infected population
         int newTotalInfected1 = previousInfectedPop1 + newInfectedPop1;

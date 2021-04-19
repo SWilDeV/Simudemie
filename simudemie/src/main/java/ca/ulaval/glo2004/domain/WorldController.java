@@ -380,15 +380,15 @@ public class WorldController implements java.io.Serializable {
         world.RemoveMesure(countryId, mesureId);
     }
     
-    public void updateCloseLink(UUID linkId) {
+    //public void updateCloseLink(UUID linkId) {
         
-        if (world.FindLinkByUUID(linkId).isOpen()) {
-            world.FindLinkByUUID(linkId).closeLink();
-        } else {
-            world.FindLinkByUUID(linkId).openLink();
-        }
+        //if (world.FindLinkByUUID(linkId).isOpen()) {
+            //world.FindLinkByUUID(linkId).closeLink();
+        //} else {
+            //world.FindLinkByUUID(linkId).openLink();
+       // }
         //CloseLink closedLink = new CloseLink(0.95, world.FindLinkByUUID(linkId));
-    }
+    //}
     
     public boolean IsRunning() {
         return simulation.getIsRunning();

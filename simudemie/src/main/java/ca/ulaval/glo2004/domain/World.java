@@ -23,6 +23,7 @@ public class World implements Serializable, Cloneable {
     
     private transient WorldController worldController;
     private List<Link> linkList = new ArrayList<>();
+    private List<CloseLink> closedLinks = new ArrayList<>();
     private List<Country> countryList = new ArrayList<>();
     private Population worldPopulation = new Population();
     private static final long serialVersionUID = 1L; 
@@ -139,6 +140,15 @@ public class World implements Serializable, Cloneable {
             return null;
         }
     }
+    
+    public void AddCloseLink(double adhesionRate, Link link, double threshold) {
+        CloseLink closelink = new CloseLink(adhesionRate, link, threshold);
+        closedLinks.add(closelink);
+    }
+    
+    //public void removeCloseLink() {
+        
+    //}
     
     public List getCountries(){
         return countryList;
