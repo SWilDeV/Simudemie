@@ -498,8 +498,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jTextFieldThreshold = new javax.swing.JTextField();
         jPanelStatistics = new javax.swing.JPanel();
         jButtonCreateGraphic = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
         jLabelTitlePopMondial = new javax.swing.JLabel();
         jLabelCured = new javax.swing.JLabel();
         jBtnChangeSimulationTimeStep = new javax.swing.JButton();
@@ -868,9 +866,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jSpinnerAllLinksTravelRate, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel15)
+                    .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelLinkLayout.setVerticalGroup(
@@ -1205,9 +1202,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         .addComponent(jCheckBoxActiveMesure)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jTextFieldThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1252,50 +1249,19 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Jour", "Infectés sans mesures", "Morts sans mesures", "Infectés avec mesures", "Morts avec mesures"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(jTable2);
-
         javax.swing.GroupLayout jPanelStatisticsLayout = new javax.swing.GroupLayout(jPanelStatistics);
         jPanelStatistics.setLayout(jPanelStatisticsLayout);
         jPanelStatisticsLayout.setHorizontalGroup(
             jPanelStatisticsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelStatisticsLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(105, Short.MAX_VALUE)
                 .addComponent(jButtonCreateGraphic)
                 .addGap(103, 103, 103))
-            .addGroup(jPanelStatisticsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelStatisticsLayout.setVerticalGroup(
             jPanelStatisticsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelStatisticsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addContainerGap(438, Short.MAX_VALUE)
                 .addComponent(jButtonCreateGraphic)
                 .addGap(40, 40, 40))
         );
@@ -1835,8 +1801,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         if(countrySelected != null) {
             try {
                 String mesureName = jTextFieldMesureName.getText();
-                double threshold = Double.parseDouble(jTextFieldThreshold.getText());
-                double adhesion = Double.parseDouble(jTextFieldAdhesionRate.getText());
+                double threshold = Double.parseDouble(jTextFieldThreshold.getText())/100;
+                double adhesion = Double.parseDouble(jTextFieldAdhesionRate.getText())/100;
                 if(!Utility.StringIsNullOrEmpty(mesureName) && adhesion >= 0) { 
                     worldController.AddMesure(countrySelected.Id, adhesion, jCheckBoxActiveMesure.isSelected(), mesureName, threshold);
                     UpdateJMesureList(countrySelected.Id);
@@ -2362,7 +2328,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JPanel jPanelReproductionRate;
     private javax.swing.JPanel jPanelSimulation;
     private javax.swing.JPanel jPanelStatistics;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPaneLinks;
     private javax.swing.JScrollPane jScrollPaneMap;
     private javax.swing.JScrollPane jScrollPaneOtherMeasures;
@@ -2381,7 +2346,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JSpinner jSpinnerAllLinksTravelRate;
     private javax.swing.JTabbedPane jTabbedMainPane;
     private javax.swing.JTabbedPane jTabbedPaneSimulationOptions;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextFieldAdhesionRate;
     private javax.swing.JTextField jTextFieldCountryName;
     private javax.swing.JTextField jTextFieldCountryPop;
