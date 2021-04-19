@@ -166,7 +166,7 @@ public class Simulation implements Serializable {
     public void updateRegionsWithLinks(Region region1, Region region2, boolean isOpen){
         double transportRate = 0.05; 
         
-        if (!isOpen) {
+        if (!isOpen) {                          //je vais le changer pour inclure le closeLink (healthmesure)
             transportRate = transportRate * 0.95;    //a changer PRN si on introduit taux d'adhésion pour close link
         }
         
@@ -247,13 +247,21 @@ public class Simulation implements Serializable {
         int previousDayInfectedPop = population.getInfectedPopulation();
         
         //percentage infected
-        double percentInfected = totalPop/previousDayInfectedPop;
+        double percentInfected = previousDayInfectedPop/totalPop;
         
+        //ajout effet des mesures s'ils sont actives
         if (!region.GetMesures().isEmpty()) {
             for (HealthMesure mesure: region.GetMesures()) {
-                if (percentInfected >= mesure.getThreshold()) {
-                   mesure.activateMesure();
-                   infectionRate = infectionRate * (1 - (mesure.getAdhesionRate()));
+                if (percentInfected >= mesure.getThreshold() && mesure.getActive()) {
+                    
+                    double reproductionRate = infectionRate/curedRate;
+                    double newReproductionRate = reproductionRate - mesure.getEffectReproductionRate();   //check que c'est pas négatif a faire
+                    curedRate = (infectionRate/newReproductionRate) * (1 - mesure.getAdhesionRate());  //mise à jour du cure rate en tenant compte de l'adhésion
+                    
+                    infectionRate = infectionRate * (1 - mesure.getEffectTransmissionRate()); //diminution du taux de transmission 
+                    infectionRate = infectionRate * (1 - mesure.getAdhesionRate()); //prise en compte de l'adhésion
+                    
+                    
                 }
             }
         }

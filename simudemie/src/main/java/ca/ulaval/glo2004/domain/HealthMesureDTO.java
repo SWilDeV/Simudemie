@@ -18,6 +18,8 @@ public class HealthMesureDTO implements Serializable {
     public String MesureName;
     public final UUID Id; 
     public double threshold;
+    public double effectTransmissionRate;
+    public double effectReproductionRate;
     
     
     public HealthMesureDTO(HealthMesure mesure){
@@ -26,6 +28,8 @@ public class HealthMesureDTO implements Serializable {
         MesureName = new String(mesure.getName());   
         Id = mesure.getID();
         threshold = mesure.getThreshold();
+        effectTransmissionRate = mesure.getEffectTransmissionRate();
+        effectReproductionRate = mesure.getEffectReproductionRate();
     }
     
 }

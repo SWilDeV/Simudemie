@@ -45,10 +45,11 @@ public class World implements Serializable, Cloneable {
     }
     
     
-    public void AddMesure(UUID countryId, double adhesionRate, boolean active, String mesureName, double threshold) {
+    public void AddMesure(UUID countryId, double adhesionRate, boolean active, String mesureName, double threshold,
+                          double effectTransmissionRate, double effectReproductionRate) {
        Country c = FindCountryByUUID(countryId);
        if(c != null) {
-            HealthMesure mesure = new CustomMeasure(adhesionRate, active, mesureName, threshold);
+            HealthMesure mesure = new CustomMeasure(adhesionRate, active, mesureName, threshold, effectTransmissionRate, effectReproductionRate);
             c.AddMesure(mesure);
             worldController.NotifyOnMesureCreated();
        }

@@ -302,7 +302,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             DefaultListModel listMesuresModel = new DefaultListModel();
 
              mesures.forEach(m -> {
-                 listMesuresModel.addElement(m.MesureName + " " + m.IsActive + " " + m.AdhesionRate + "%");
+                 listMesuresModel.addElement(m.MesureName + " " + m.IsActive + " " + m.AdhesionRate + "% - " + m.threshold + "%");
              });
              jListMesures.setModel(listMesuresModel);
              drawingPanel.repaint();
@@ -338,6 +338,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jTextFieldReproductionRate.setText(String.valueOf(disease.getInfectionRateDTO() * 100));
         jTextFieldCuredRate.setText(String.valueOf(disease.getCureRateDTO() * 100));
         
+        double reproductionRate = disease.getInfectionRateDTO()/disease.getCureRateDTO();
+        jLabelMaxRRate.setText("(Valeur max: " + String.valueOf(reproductionRate) + ")");
         
         UpdateSliderUndoRedo();
         
@@ -482,6 +484,11 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jTextFieldDiseaseName = new javax.swing.JTextField();
         jButtonSaveNewDisease = new javax.swing.JButton();
         jButtonDeleteDisease = new javax.swing.JButton();
+        jPanelFermetureLiens = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jCheckBoxCloseLink = new javax.swing.JCheckBox();
+        jPanelStatistics = new javax.swing.JPanel();
+        jButtonCreateGraphic = new javax.swing.JButton();
         jPanelHealthMesures = new javax.swing.JPanel();
         jLabelMesureName = new javax.swing.JLabel();
         jTextFieldMesureName = new javax.swing.JTextField();
@@ -491,13 +498,14 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jScrollPaneOtherMeasures = new javax.swing.JScrollPane();
         jListMesures = new javax.swing.JList<>();
         jButtonAddMesure = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jButtonDeleteMesure = new javax.swing.JButton();
-        jCheckBoxCloseLink = new javax.swing.JCheckBox();
         jLabelThreshold = new javax.swing.JLabel();
         jTextFieldThreshold = new javax.swing.JTextField();
-        jPanelStatistics = new javax.swing.JPanel();
-        jButtonCreateGraphic = new javax.swing.JButton();
+        jLabelEffetTransmission = new javax.swing.JLabel();
+        jLabelEffectReproductionRate = new javax.swing.JLabel();
+        jTextFieldEffectTransmission = new javax.swing.JTextField();
+        jTextFieldEffectReproductionRate = new javax.swing.JTextField();
+        jLabelMaxRRate = new javax.swing.JLabel();
         jLabelTitlePopMondial = new javax.swing.JLabel();
         jLabelCured = new javax.swing.JLabel();
         jBtnChangeSimulationTimeStep = new javax.swing.JButton();
@@ -1105,7 +1113,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addComponent(jPanelReproductionRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelCuredRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonApplyDisease, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelDeseaseParamsLayout.setVerticalGroup(
             jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1128,43 +1136,12 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addGroup(jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonSaveNewDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonDeleteDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(309, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPaneSimulationOptions.addTab("Paramètres de la maladie", jPanelDeseaseParams);
 
-        jLabelMesureName.setText("Nom mesure:");
-
-        jTextFieldMesureName.setText("Nom");
-
-        jLabelAdhesionRate.setText("Taux d'adhésion (%):");
-
-        jTextFieldAdhesionRate.setText("80");
-
-        jCheckBoxActiveMesure.setText("Mesure active");
-        jCheckBoxActiveMesure.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxActiveMesureActionPerformed(evt);
-            }
-        });
-
-        jScrollPaneOtherMeasures.setViewportView(jListMesures);
-
-        jButtonAddMesure.setText("Ajouter mesure");
-        jButtonAddMesure.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAddMesureActionPerformed(evt);
-            }
-        });
-
         jLabel1.setText("Liens");
-
-        jButtonDeleteMesure.setText("Supprimer mesure");
-        jButtonDeleteMesure.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDeleteMesureActionPerformed(evt);
-            }
-        });
 
         jCheckBoxCloseLink.setText("Fermé");
         jCheckBoxCloseLink.addActionListener(new java.awt.event.ActionListener() {
@@ -1173,74 +1150,28 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
-        jLabelThreshold.setText("Seuil (%):");
-
-        jTextFieldThreshold.setText("10");
-
-        javax.swing.GroupLayout jPanelHealthMesuresLayout = new javax.swing.GroupLayout(jPanelHealthMesures);
-        jPanelHealthMesures.setLayout(jPanelHealthMesuresLayout);
-        jPanelHealthMesuresLayout.setHorizontalGroup(
-            jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
-                .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonAddMesure, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonDeleteMesure, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPaneOtherMeasures, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
-            .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelFermetureLiensLayout = new javax.swing.GroupLayout(jPanelFermetureLiens);
+        jPanelFermetureLiens.setLayout(jPanelFermetureLiensLayout);
+        jPanelFermetureLiensLayout.setHorizontalGroup(
+            jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
-                        .addComponent(jLabelMesureName)
-                        .addGap(48, 48, 48)
-                        .addComponent(jTextFieldMesureName))
-                    .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
-                        .addComponent(jLabelAdhesionRate)
-                        .addGap(25, 25, 25)
-                        .addComponent(jTextFieldAdhesionRate, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
-                    .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
-                        .addComponent(jCheckBoxActiveMesure)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextFieldThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCheckBoxCloseLink)
-                        .addGap(21, 21, 21))))
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
+                .addComponent(jCheckBoxCloseLink)
+                .addGap(27, 27, 27))
         );
-        jPanelHealthMesuresLayout.setVerticalGroup(
-            jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
+        jPanelFermetureLiensLayout.setVerticalGroup(
+            jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jCheckBoxCloseLink))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
-                .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldMesureName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelMesureName))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelAdhesionRate)
-                    .addComponent(jTextFieldAdhesionRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBoxActiveMesure)
-                    .addComponent(jLabelThreshold)
-                    .addComponent(jTextFieldThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonAddMesure)
-                .addGap(2, 2, 2)
-                .addComponent(jButtonDeleteMesure)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPaneOtherMeasures, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPaneSimulationOptions.addTab("Mesures sanitaires", jPanelHealthMesures);
+        jTabbedPaneSimulationOptions.addTab("Fermeture Liens", jPanelFermetureLiens);
 
         jButtonCreateGraphic.setText("Créer graphique");
         jButtonCreateGraphic.addActionListener(new java.awt.event.ActionListener() {
@@ -1267,6 +1198,123 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         );
 
         jTabbedPaneSimulationOptions.addTab("Statistiques", jPanelStatistics);
+
+        jLabelMesureName.setText("Nom mesure:");
+
+        jTextFieldMesureName.setText("Nom");
+
+        jLabelAdhesionRate.setText("Taux d'adhésion (%):");
+
+        jTextFieldAdhesionRate.setText("80");
+
+        jCheckBoxActiveMesure.setText("Mesure active");
+        jCheckBoxActiveMesure.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxActiveMesureActionPerformed(evt);
+            }
+        });
+
+        jScrollPaneOtherMeasures.setViewportView(jListMesures);
+
+        jButtonAddMesure.setText("Ajouter mesure");
+        jButtonAddMesure.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddMesureActionPerformed(evt);
+            }
+        });
+
+        jButtonDeleteMesure.setText("Supprimer mesure");
+        jButtonDeleteMesure.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteMesureActionPerformed(evt);
+            }
+        });
+
+        jLabelThreshold.setText("Seuil (%):");
+
+        jTextFieldThreshold.setText("10");
+
+        jLabelEffetTransmission.setText("Diminution du taux de transmission (%): ");
+
+        jLabelEffectReproductionRate.setText("Diminution du taux de reproduction:");
+
+        jTextFieldEffectTransmission.setText("0.0");
+
+        jTextFieldEffectReproductionRate.setText("0.0");
+
+        javax.swing.GroupLayout jPanelHealthMesuresLayout = new javax.swing.GroupLayout(jPanelHealthMesures);
+        jPanelHealthMesures.setLayout(jPanelHealthMesuresLayout);
+        jPanelHealthMesuresLayout.setHorizontalGroup(
+            jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelAdhesionRate)
+                .addGap(25, 25, 25)
+                .addComponent(jTextFieldAdhesionRate))
+            .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
+                .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonDeleteMesure, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneOtherMeasures, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
+                        .addComponent(jCheckBoxActiveMesure)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextFieldThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
+                        .addComponent(jLabelMesureName)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addComponent(jTextFieldMesureName, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
+                        .addComponent(jLabelEffetTransmission, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldEffectTransmission, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
+                        .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelEffectReproductionRate)
+                            .addComponent(jLabelMaxRRate, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextFieldEffectReproductionRate, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonAddMesure, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanelHealthMesuresLayout.setVerticalGroup(
+            jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
+                .addContainerGap(57, Short.MAX_VALUE)
+                .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelMesureName)
+                    .addComponent(jTextFieldMesureName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelEffetTransmission)
+                    .addComponent(jTextFieldEffectTransmission, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldEffectReproductionRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
+                        .addComponent(jLabelEffectReproductionRate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelMaxRRate, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(17, 17, 17)
+                .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelAdhesionRate)
+                    .addComponent(jTextFieldAdhesionRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBoxActiveMesure)
+                    .addComponent(jLabelThreshold)
+                    .addComponent(jTextFieldThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonAddMesure)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonDeleteMesure)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPaneOtherMeasures, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62))
+        );
+
+        jTabbedPaneSimulationOptions.addTab("Mesures sanitaires", jPanelHealthMesures);
 
         jLabelTitlePopMondial.setText("Pop. Mondiale:");
 
@@ -1803,8 +1851,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 String mesureName = jTextFieldMesureName.getText();
                 double threshold = Double.parseDouble(jTextFieldThreshold.getText())/100;
                 double adhesion = Double.parseDouble(jTextFieldAdhesionRate.getText())/100;
-                if(!Utility.StringIsNullOrEmpty(mesureName) && adhesion >= 0) { 
-                    worldController.AddMesure(countrySelected.Id, adhesion, jCheckBoxActiveMesure.isSelected(), mesureName, threshold);
+                double effectTransmissionRate = Double.parseDouble(jTextFieldEffectTransmission.getText())/100;
+                double effectReproductionRate = Double.parseDouble(jTextFieldEffectReproductionRate.getText());
+                if(!Utility.StringIsNullOrEmpty(mesureName) && adhesion >= 0 && threshold >=0 && 
+                        effectTransmissionRate >=0 && effectReproductionRate >=0) 
+                { 
+                    worldController.AddMesure(countrySelected.Id, adhesion, jCheckBoxActiveMesure.isSelected(), mesureName, threshold,
+                                              effectTransmissionRate, effectReproductionRate);
                     UpdateJMesureList(countrySelected.Id);
 
                     jTextFieldMesureName.setBackground(Color.white);
@@ -1813,6 +1866,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 } else {
                     if (Utility.StringIsNullOrEmpty(mesureName)) jTextFieldMesureName.setBackground(Color.red);
                     if (adhesion < 0) jTextFieldAdhesionRate.setBackground(Color.red);
+                    if (threshold < 0) jTextFieldThreshold.setBackground(Color.red);
+                    if (effectTransmissionRate < 0) jTextFieldEffectTransmission.setBackground(Color.red);
+                    if (effectReproductionRate < 0) jTextFieldEffectReproductionRate.setBackground(Color.red);
                 }
             } catch(NumberFormatException e) {
                 jTextFieldAdhesionRate.setBackground(Color.red);
@@ -2167,6 +2223,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
     private void jCheckBoxActiveMesureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxActiveMesureActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_jCheckBoxActiveMesureActionPerformed
 
     private void jCheckBoxCloseLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCloseLinkActionPerformed
@@ -2281,6 +2338,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JLabel jLabelDayElapsed;
     private javax.swing.JLabel jLabelDead;
     private javax.swing.JLabel jLabelDiseaseReminderName;
+    private javax.swing.JLabel jLabelEffectReproductionRate;
+    private javax.swing.JLabel jLabelEffetTransmission;
+    private javax.swing.JLabel jLabelMaxRRate;
     private javax.swing.JLabel jLabelMesureName;
     private javax.swing.JLabel jLabelModCountryName;
     private javax.swing.JLabel jLabelModCountryPop;
@@ -2320,6 +2380,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JPanel jPanelCuredRate;
     private javax.swing.JPanel jPanelDeseaseParams;
     private javax.swing.JPanel jPanelDraw;
+    private javax.swing.JPanel jPanelFermetureLiens;
     private javax.swing.JPanel jPanelHealthMesures;
     private javax.swing.JPanel jPanelLegend;
     private javax.swing.JPanel jPanelLink;
@@ -2351,6 +2412,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JTextField jTextFieldCountryPop;
     private javax.swing.JTextField jTextFieldCuredRate;
     private javax.swing.JTextField jTextFieldDiseaseName;
+    private javax.swing.JTextField jTextFieldEffectReproductionRate;
+    private javax.swing.JTextField jTextFieldEffectTransmission;
     private javax.swing.JTextField jTextFieldMesureName;
     private javax.swing.JTextField jTextFieldMortalityRate;
     private javax.swing.JTextField jTextFieldPercentageAddRegion;
