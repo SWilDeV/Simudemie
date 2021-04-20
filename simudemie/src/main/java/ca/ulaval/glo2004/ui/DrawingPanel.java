@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
@@ -29,6 +30,7 @@ public class DrawingPanel extends JPanel  {
     
     public Dimension initialDimension;
     private MainWindow mainWindow;
+    private BufferedImage image_background = null;
     
     private AffineTransform at;
     private double zoom = 1.0;
@@ -45,8 +47,10 @@ public class DrawingPanel extends JPanel  {
         setVisible(true);
         initialDimension = new Dimension(mainWindow.getWidth(),mainWindow.getHeight());
         setPreferredSize(initialDimension);
-        Color ocean = new Color(0,191,255);
-        setBackground(ocean);
+        
+        //Enlever pour image en background
+        Color ocean = new Color(0,191,255); //à changer ? 
+        setBackground(ocean); //a changer ?
     }
     
     @Override
@@ -60,6 +64,14 @@ public class DrawingPanel extends JPanel  {
     {
         Graphics2D g2d = (Graphics2D) g;
         super.paintComponent(g2d);
+        //charles: need help pour afficher image
+        if (image_background != null){
+            //int x = this.getParent().getWidth()/2 - iWidth2;
+            //int y = this.getParent().getHeight()/2 - iHeight2;
+            g2d.drawImage(image_background, 0, 0, this);
+            g2d.dispose();
+            //g.drawImage(image_background,0,0,this);
+        }
         //setOpaque(true);
         //g.setColor(Color.red);
         
@@ -70,6 +82,7 @@ public class DrawingPanel extends JPanel  {
             at.translate(-zoomPointX, -zoomPointY);
             g2d.setTransform(at);
             mainWindow.Draw(g2d);
+
         }
     }
     
@@ -121,8 +134,10 @@ public class DrawingPanel extends JPanel  {
     
     public void loadImageBackground(File bgImage){ 
         try {
-            BufferedImage img = ImageIO.read(bgImage);
-            //g.drawImage(img, 0, 0, this);  // ????? appel a quoi?
+            //image_background = bgImage;
+            BufferedImage image_background = ImageIO.read(bgImage);
+            //this.image_background = ImageIO.read(bgImage);
+            repaint();   
         }
         catch(IOException e1) {
             e1.printStackTrace();

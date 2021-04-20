@@ -598,7 +598,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         );
         jPanelBlankLayout.setVerticalGroup(
             jPanelBlankLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 543, Short.MAX_VALUE)
+            .addGap(0, 601, Short.MAX_VALUE)
         );
 
         jPanelConceptionOptions.add(jPanelBlank, "card6");
@@ -783,7 +783,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addComponent(jButtonCreateIrregularCountry))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonDeleteCountry)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
                 .addComponent(jLabelTitleEditionRegion)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -954,7 +954,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addComponent(jToggleBtnModifyCountry, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
                     .addComponent(jToggleBtnAddLink, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonResetZoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
             .addGroup(jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelConceptionLayout.createSequentialGroup()
                     .addContainerGap()
@@ -970,11 +970,11 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addComponent(jToggleBtnAddLink)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonResetZoom)
-                .addContainerGap(594, Short.MAX_VALUE))
+                .addContainerGap(628, Short.MAX_VALUE))
             .addGroup(jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConceptionLayout.createSequentialGroup()
-                    .addContainerGap(150, Short.MAX_VALUE)
-                    .addComponent(jPanelConceptionOptions, javax.swing.GroupLayout.PREFERRED_SIZE, 543, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(108, Short.MAX_VALUE)
+                    .addComponent(jPanelConceptionOptions, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
         );
 
@@ -1633,9 +1633,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 453, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jButtonScreenShotWorld)
-                            .addComponent(jButtonChangeBackgroundImage))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonChangeBackgroundImage, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButtonScreenShotWorld, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanelLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -1645,14 +1645,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jButtonChangeBackgroundImage)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                            .addComponent(jButtonScreenShotWorld))
-                        .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonChangeBackgroundImage)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonScreenShotWorld))
+                    .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanelLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTabbedMainPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
@@ -1662,7 +1661,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabelUndoRedoSliderText))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                                 .addComponent(jSliderUndoRedo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
@@ -2153,7 +2152,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
     private void jButtonCreateIrregularCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateIrregularCountryActionPerformed
         SetSelectedCountry(null);
-        mode = Mode.AddCountryIrregular; //TODO: Sans doute faire un mode = Mode.AddCountryIrregular
+        mode = Mode.AddCountryIrregular; 
     }//GEN-LAST:event_jButtonCreateIrregularCountryActionPerformed
 
     private void jButtonApplyAllLinksTravelRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyAllLinksTravelRateActionPerformed
@@ -2162,10 +2161,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
     private void jButtonChangeBackgroundImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChangeBackgroundImageActionPerformed
         // TODO add your handling code here:
+        //drawingPanel.loadImageBackground(fileChooser.getSelectedFile());
         int returnValue = imageChooser.showOpenDialog(this);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
+            
             drawingPanel.loadImageBackground(fileChooser.getSelectedFile());
         }
+
     }//GEN-LAST:event_jButtonChangeBackgroundImageActionPerformed
 
 
