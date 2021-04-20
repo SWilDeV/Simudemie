@@ -61,8 +61,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     public Mode mode = Mode.Idle;
     private CountryDTO onHoverCountry = null; //Je sais que c'est pas bien, mais pour test, on va faire ca.
     private Point onHoverMousePosition = new Point(); //Je sais que c'est pas bien, mais pour test, on va faire ca.
-    private final JFileChooser fileChooser;
-    private final JFileChooser imageChooser;
+    private final JFileChooser fileChooser = new JFileChooser();
+    private final JFileChooser imageChooser = new JFileChooser();
     public XYSeries deathsNum = new XYSeries("Morts");
     public XYSeries infectedNum = new XYSeries("Infectés");
  
@@ -76,8 +76,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         
         drawingPanel = new DrawingPanel(this, jPanelDraw);
         jPanelDraw.add(drawingPanel);
-        fileChooser = new JFileChooser();
-        imageChooser = new JFileChooser();
         FileFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
         imageChooser.setFileFilter(imageFilter);
         worldController.Subscribe(this);
@@ -2160,20 +2158,14 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }//GEN-LAST:event_jButtonApplyAllLinksTravelRateActionPerformed
 
     private void jButtonChangeBackgroundImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChangeBackgroundImageActionPerformed
-        // TODO add your handling code here:
-        //drawingPanel.loadImageBackground(fileChooser.getSelectedFile());
         int returnValue = imageChooser.showOpenDialog(this);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            
-            drawingPanel.loadImageBackground(fileChooser.getSelectedFile());
+            drawingPanel.loadImageBackground(imageChooser.getSelectedFile());
         }
-
     }//GEN-LAST:event_jButtonChangeBackgroundImageActionPerformed
 
 
     private void jButtonCreateGraphicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateGraphicActionPerformed
-        // TODO add your handling code here:
-        
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(deathsNum);
         dataset.addSeries(infectedNum);

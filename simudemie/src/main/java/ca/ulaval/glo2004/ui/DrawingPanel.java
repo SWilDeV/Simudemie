@@ -47,10 +47,7 @@ public class DrawingPanel extends JPanel  {
         setVisible(true);
         initialDimension = new Dimension(mainWindow.getWidth(),mainWindow.getHeight());
         setPreferredSize(initialDimension);
-        
-        //Enlever pour image en background
-        Color ocean = new Color(0,191,255); //à changer ? 
-        setBackground(ocean); //a changer ?
+        setBackground(new Color(0, 172, 230));
     }
     
     @Override
@@ -64,16 +61,10 @@ public class DrawingPanel extends JPanel  {
     {
         Graphics2D g2d = (Graphics2D) g;
         super.paintComponent(g2d);
-        //charles: need help pour afficher image
+        
         if (image_background != null){
-            //int x = this.getParent().getWidth()/2 - iWidth2;
-            //int y = this.getParent().getHeight()/2 - iHeight2;
             g2d.drawImage(image_background, 0, 0, this);
-            g2d.dispose();
-            //g.drawImage(image_background,0,0,this);
         }
-        //setOpaque(true);
-        //g.setColor(Color.red);
         
         if (mainWindow != null) {           
             at = g2d.getTransform();
@@ -134,9 +125,7 @@ public class DrawingPanel extends JPanel  {
     
     public void loadImageBackground(File bgImage){ 
         try {
-            //image_background = bgImage;
-            BufferedImage image_background = ImageIO.read(bgImage);
-            //this.image_background = ImageIO.read(bgImage);
+            image_background = ImageIO.read(bgImage);
             repaint();   
         }
         catch(IOException e1) {
