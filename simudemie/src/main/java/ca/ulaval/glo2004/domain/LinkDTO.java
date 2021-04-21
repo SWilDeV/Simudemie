@@ -17,7 +17,7 @@ public class LinkDTO {
    public Link.LinkType LinkType;
    public UUID Country1Id;
    public UUID Country2Id;
-   public double TravelRate;
+   public double TransmissionRate;
    public boolean IsOpen;
    public boolean IsSelected;
    
@@ -27,7 +27,7 @@ public class LinkDTO {
         LinkType = link.GetLinkType();
         Country1Id = link.getCountry1Id();
         Country2Id = link.getCountry2Id();
-        TravelRate = link.getTravelRate();
+        TransmissionRate = link.getTransmissionRate();
         IsOpen = link.isOpen();
         IsSelected = link.IsSelected();
         Id = link.GetId();

@@ -15,7 +15,7 @@ import java.util.UUID;
 public class RegionLink implements Serializable, Cloneable {
    private UUID region1Id;
    private UUID region2Id;
-   private double travelRate;
+   private double transmissionRate;
    private boolean isOpen;
    private UUID id;
    
@@ -46,11 +46,11 @@ public class RegionLink implements Serializable, Cloneable {
    }
    
    public double getTravelRate(){
-       return travelRate;
+       return transmissionRate;
    }
    
-   public void setTravelRate(double p_travelRate){
-      travelRate = p_travelRate;
+   public void setTravelRate(double p_transmissionRate){
+      transmissionRate = p_transmissionRate;
    }
    
    public boolean isOpen(){

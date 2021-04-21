@@ -73,8 +73,8 @@ public class World implements Serializable, Cloneable {
         worldController.NotifyOnLinkCreated();
     }
     
-    public void Addlink(UUID firstCountryId, UUID secondCountryId, Link.LinkType type) {
-        Link link = new Link(firstCountryId, secondCountryId, type);       
+    public void Addlink(UUID firstCountryId, UUID secondCountryId, Link.LinkType type, double transmissionRate) {
+        Link link = new Link(firstCountryId, secondCountryId, type, transmissionRate);       
         boolean isAbleToLink = !linkList.stream().anyMatch(e -> e.equals(link));
  
         if(type == Link.LinkType.TERRESTRE) {
@@ -156,6 +156,18 @@ public class World implements Serializable, Cloneable {
     
     public List getLinks(){
         return linkList;
+    }
+    
+    public void setLinksTransmissionRate(double borderTransmissionRate, double waterTransmissionRate,double airTransmissionRate) {
+        for (Link link : linkList) {
+            if (link.GetLinkType() == LinkType.TERRESTRE) {
+                link.setTransmissionRate(borderTransmissionRate);
+            } else if (link.GetLinkType() == LinkType.MARITIME) {
+                link.setTransmissionRate(waterTransmissionRate);
+            } else {
+                link.setTransmissionRate(airTransmissionRate);
+            }
+        }
     }
     
     public Population getWorldPopulation(){
@@ -272,7 +284,7 @@ public class World implements Serializable, Cloneable {
         for(Country c: countryList) {
             if(c != country) {
                 if(Utility.AsCommonLandBorder(c, country) && !ExistLink(c, country, LinkType.TERRESTRE)) {
-                    Addlink(c.GetId(), country.GetId(), LinkType.TERRESTRE);
+                    Addlink(c.GetId(), country.GetId(), LinkType.TERRESTRE, 0);
                     //Addlink(c.getRegion0().GetId(), country.getRegion0().GetId(), LinkType.TERRESTRE);
                 }
             }

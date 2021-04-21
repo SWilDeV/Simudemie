@@ -312,9 +312,9 @@ public class WorldController implements java.io.Serializable {
         world.RemoveRegion(countryId, regionId);
     }
     
-    public void AddLink(UUID firstCountryId, UUID secondCountryId, LinkType type) {
-        if(firstCountryId != secondCountryId) {
-            world.Addlink(firstCountryId, secondCountryId, type);
+    public void AddLink(UUID firstCountryId, UUID secondCountryId, LinkType type, double transmissionRate) {
+        if(firstCountryId != secondCountryId && transmissionRate >=0 && transmissionRate <= 100) {
+            world.Addlink(firstCountryId, secondCountryId, type, transmissionRate);
         } else {
             System.out.println("Impossible de link le meme pays!");
         }
@@ -326,6 +326,20 @@ public class WorldController implements java.io.Serializable {
     
     public void RemoveLink(UUID linkId) {
         world.RemoveLink(linkId);
+    }
+    
+    public void setAllLinksTransmissionRate(double borderTransmissionRate, double waterTransmissionRate, 
+                                            double airTransmissionRate, double regionTransmissionRate) {
+        
+        if (borderTransmissionRate >=0 && borderTransmissionRate >= 100 && 
+            waterTransmissionRate >=0 && waterTransmissionRate >= 100 &&
+            airTransmissionRate >=0 && airTransmissionRate >= 100 && 
+            regionTransmissionRate >=0 && regionTransmissionRate >= 100) 
+        {
+            world.setLinksTransmissionRate(borderTransmissionRate, waterTransmissionRate,airTransmissionRate);
+            //world.setRegionLinkTransmissionRate(regionTransmissionRate);
+        }
+        
     }
     
     public void ActiveMesures() {

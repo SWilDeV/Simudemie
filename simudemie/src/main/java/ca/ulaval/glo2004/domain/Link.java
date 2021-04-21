@@ -25,10 +25,10 @@ public class Link implements Serializable, Cloneable {
    private final LinkType linkType;
    private UUID country1Id;
    private UUID country2Id;
-   private double travelRate;
+   private double transmissionRate;
    private boolean isOpen = true;
    private boolean isSelected;
-   
+ 
    private UUID id;
    private static final long serialVersionUID = 7L; 
    private static final Color landColor = Color.pink;
@@ -36,11 +36,12 @@ public class Link implements Serializable, Cloneable {
    private static final Color maritimeColor = Color.BLUE;
    
 //   methodes
-   public Link(UUID firstId, UUID secondId, LinkType type){
+   public Link(UUID firstId, UUID secondId, LinkType type, double p_transmissionRate){
        this.setCountry1Id(firstId);
        this.setCountry2Id(secondId);
        linkType = type;
        id = UUID.randomUUID();
+       transmissionRate = p_transmissionRate;
    }
    
    public UUID GetId() {
@@ -66,12 +67,12 @@ public class Link implements Serializable, Cloneable {
        country2Id = id;
    }
    
-   public double getTravelRate(){
-       return travelRate;
+   public double getTransmissionRate(){
+       return transmissionRate;
    }
    
-   public void setTravelRate(double p_travelRate){
-      travelRate = p_travelRate;
+   public void setTransmissionRate(double p_transmissionRate){
+      transmissionRate = p_transmissionRate;
    }
    
    

@@ -310,8 +310,8 @@ public class Simulation implements Serializable {
     }
     
     public void updateCountriesWithLinks(Link link, Country country1, Country country2){
-        //double transmissionRate = link.getTransmissionRate();
-        double transmissionRate = 0.05;    
+        double transmissionRate = link.getTransmissionRate();
+           
         
         //Get populations
         Population population1 = country1.getPopulation();
