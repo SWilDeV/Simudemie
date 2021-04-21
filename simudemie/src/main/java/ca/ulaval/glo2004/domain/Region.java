@@ -109,8 +109,13 @@ public class Region implements Serializable, Cloneable {
                 p = 0.0;
             }
         }
+        if(subPopulation.getTotalPopulation() == 0){
+            return new Color(100,0,0);
+        }
+        else{
+            return Utility.GetColorGradient(p);
+        }        
         
-        return Utility.GetColorGradient(p);
     }
     
     public void AddMesure(HealthMesure mesure) {

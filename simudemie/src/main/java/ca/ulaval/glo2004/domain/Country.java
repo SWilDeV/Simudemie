@@ -122,15 +122,23 @@ public class Country implements Serializable, Cloneable  {
                 }
                 else {
                     p_dead = 0.0;
-                }
+                } 
             } else {
                 p = 0.0;
             }
         }
         
-        Color variance_rouge_vert = Utility.GetColorGradient(p);
+        if(population.getTotalPopulation() == 0){
+            return new Color(100,0,0);
+        }
+        else{
+            return Utility.GetColorGradient(p);
+        
+        }
+        
+        
         //return Utility.GetColorGradientSrcDest(variance_rouge_vert, Color.black, p);    // marche mais cest pas beau
-        return variance_rouge_vert;
+        //return variance_rouge_vert;
         
     }
     
