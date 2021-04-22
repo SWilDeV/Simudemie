@@ -98,7 +98,8 @@ public class Simulation implements Serializable {
             
             //Initialiser le patient zero
             if(controller.getWorld().getWorldPopulation().getInfectedPopulation() == 0){
-                initializePatientZero(countries);
+                //initializePatientZero(countries);
+                initializePatientZeroV2(countries, getCurrentCountryPatientZeroIndex());
                 controller.getWorld().updateWorldPopulation(); 
             }
                     
@@ -204,6 +205,30 @@ public class Simulation implements Serializable {
         Random rand = new Random();
         int maxRand = countries.size();
         int index = rand.nextInt(maxRand); // a changer pour getSelectedCountries
+        int counter = 0;
+        for(Country country : countries) {
+            if(index == counter){
+                List<Region>regionList = country.GetRegions();
+                int maxRand2 = regionList.size();
+                int index2 = rand.nextInt(maxRand2);
+                int counter2 = 0;
+                
+                for (Region region:regionList){
+                    if (index2 == counter2){
+                        region.getPopulation().addPatientZero();
+                    }
+                    counter2 +=1;
+                }                
+            }
+            counter +=1;
+        }
+    }
+    
+        public void initializePatientZeroV2(List<Country> countries, int idx ){
+        //Initialiser le patient zero
+        Random rand = new Random();
+        int maxRand = countries.size();
+        int index = idx; 
         int counter = 0;
         for(Country country : countries) {
             if(index == counter){
@@ -450,6 +475,9 @@ public class Simulation implements Serializable {
          return currentDiseaseIndex;
      }
     
+    public int getCurrentCountryPatientZeroIndex(){
+         return currentCountryPatientZeroIndex;
+     }
     public Disease getCurrentDisease(){
          return currentDisease;
      }
