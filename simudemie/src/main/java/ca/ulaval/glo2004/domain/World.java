@@ -141,14 +141,22 @@ public class World implements Serializable, Cloneable {
         }
     }
     
-    public void AddCloseLink(double adhesionRate, Link link, double threshold) {
-        CloseLink closelink = new CloseLink(adhesionRate, link, threshold);
+    public void addCloseLink(UUID linkId, double adhesionRate, double threshold) {
+        CloseLink closelink = new CloseLink(adhesionRate, linkId, threshold);
         closedLinks.add(closelink);
     }
     
-    //public void removeCloseLink() {
-        
-    //}
+    public void removeCloseLink(UUID linkId) {
+        for (CloseLink closedLink: closedLinks) {
+            if (linkId == closedLink.getConcernedLink()) {
+                closedLinks.remove(closedLink);
+            }
+        }
+    }
+    
+    public List getClosedLinks() {
+        return closedLinks;
+    }
     
     public List getCountries(){
         return countryList;

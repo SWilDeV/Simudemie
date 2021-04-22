@@ -5,6 +5,7 @@
  */
 package ca.ulaval.glo2004.ui;
 
+import ca.ulaval.glo2004.domain.CloseLinkDTO;
 import ca.ulaval.glo2004.domain.CountryDTO;
 import ca.ulaval.glo2004.domain.DiseaseDTO;
 import ca.ulaval.glo2004.domain.HealthMesureDTO;
@@ -308,6 +309,38 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         }
     }
     
+    private void UpdateJListClosedLinks() {
+        DefaultListModel listModel = new DefaultListModel();
+        
+        List<CloseLinkDTO> closedLinks = worldController.getClosedLinks();
+        
+        for(LinkDTO l: worldController.GetLinks()) {
+            closedLinks.forEach(cl -> {
+                if (l.Id == cl.ConcernedLink) {
+                    String name = "";
+                    switch (l.LinkType) {
+                        case TERRESTRE:
+                            name = "T - ";
+                            break;
+                        case MARITIME:
+                            name = "M - ";
+                            break;
+                        default:
+                            name = "A - ";
+                            break;
+                    }
+            
+                    String name1 = worldController.GetCountryDTO(l.Country1Id).Name;
+                    String name2 = worldController.GetCountryDTO(l.Country2Id).Name;
+            
+                    name += name1 + " <-> " + name2 + " - FERME";
+                    listModel.addElement(name);
+                }
+            });     
+        }
+        jListClosedLinks.setModel(listModel);
+    }
+    
     private void updateDiseasesUI(){
         jComboBoxDiseases.removeAllItems();
         for(Disease d: worldController.getSimulation().getDiseaseList()){
@@ -490,13 +523,18 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jLabelR = new javax.swing.JLabel();
         jPanelFermetureLiens = new javax.swing.JPanel();
         jLabelLinksSimTitle = new javax.swing.JLabel();
-        jCheckBoxCloseLink = new javax.swing.JCheckBox();
         jTextFieldCloseLinkAR = new javax.swing.JTextField();
         jLabelCloseLinkAR = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jTextFieldCloseLinkThreshold = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListLinksSim = new javax.swing.JList<>();
+        jLabel1 = new javax.swing.JLabel();
+        jButtonAddCloseLink = new javax.swing.JButton();
+        jScrollPaneClosedLinks = new javax.swing.JScrollPane();
+        jListClosedLinks = new javax.swing.JList<>();
+        jButtonModifyCloseLink = new javax.swing.JButton();
+        jButtonDeleteCloseLink = new javax.swing.JButton();
         jPanelStatistics = new javax.swing.JPanel();
         jButtonCreateGraphic = new javax.swing.JButton();
         jPanelHealthMesures = new javax.swing.JPanel();
@@ -1186,13 +1224,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jLabelLinksSimTitle.setText("Fermeture des liens");
 
-        jCheckBoxCloseLink.setText("Fermer le lien");
-        jCheckBoxCloseLink.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxCloseLinkActionPerformed(evt);
-            }
-        });
-
         jTextFieldCloseLinkAR.setText("0.0");
 
         jLabelCloseLinkAR.setText("Taux d'adhésion (%):");
@@ -1208,6 +1239,26 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         });
         jScrollPane1.setViewportView(jListLinksSim);
 
+        jLabel1.setText("Sélectionner le lien:");
+
+        jButtonAddCloseLink.setText("Ajouter fermeture");
+        jButtonAddCloseLink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddCloseLinkActionPerformed(evt);
+            }
+        });
+
+        jScrollPaneClosedLinks.setViewportView(jListClosedLinks);
+
+        jButtonModifyCloseLink.setText("Modifier");
+
+        jButtonDeleteCloseLink.setText("Retirer");
+        jButtonDeleteCloseLink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteCloseLinkActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelFermetureLiensLayout = new javax.swing.GroupLayout(jPanelFermetureLiens);
         jPanelFermetureLiens.setLayout(jPanelFermetureLiensLayout);
         jPanelFermetureLiensLayout.setHorizontalGroup(
@@ -1215,22 +1266,32 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
                 .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
+                    .addComponent(jButtonAddCloseLink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneClosedLinks, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabelCloseLinkAR)
-                        .addGap(99, 99, 99)
-                        .addComponent(jTextFieldCloseLinkAR, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
+                        .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
+                                .addComponent(jLabelCloseLinkAR)
+                                .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
+                                        .addGap(99, 99, 99)
+                                        .addComponent(jTextFieldCloseLinkAR, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
+                                    .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
+                                        .addGap(32, 32, 32)
+                                        .addComponent(jLabel18)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTextFieldCloseLinkThreshold))))
+                            .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
+                                .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelLinksSimTitle)
+                                    .addComponent(jLabel1))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
-                        .addComponent(jCheckBoxCloseLink)
-                        .addGap(49, 49, 49)
-                        .addComponent(jLabel18)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldCloseLinkThreshold)))
+                        .addComponent(jButtonModifyCloseLink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonDeleteCloseLink, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(jPanelFermetureLiensLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelLinksSimTitle)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelFermetureLiensLayout.setVerticalGroup(
             jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1244,11 +1305,20 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldCloseLinkThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBoxCloseLink)
                     .addComponent(jLabel18))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonAddCloseLink)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(248, Short.MAX_VALUE))
+                .addComponent(jScrollPaneClosedLinks, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonModifyCloseLink)
+                    .addComponent(jButtonDeleteCloseLink))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         jTabbedPaneSimulationOptions.addTab("Fermeture Liens", jPanelFermetureLiens);
@@ -2219,10 +2289,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         
     }//GEN-LAST:event_jCheckBoxActiveMesureActionPerformed
 
-    private void jCheckBoxCloseLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCloseLinkActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBoxCloseLinkActionPerformed
-
     private void jButtonDeleteDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteDiseaseActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonDeleteDiseaseActionPerformed
@@ -2331,6 +2397,33 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         drawingPanel.repaint();
     }//GEN-LAST:event_jListLinksSimValueChanged
 
+    private void jButtonAddCloseLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddCloseLinkActionPerformed
+        // TODO add your handling code here:
+        List<LinkDTO> links = worldController.GetLinks();
+        //List<CloseLinkDTO> closedLinks = worldController.getClosedLinks();
+        
+        int[] index = jListLinksSim.getSelectedIndices();
+
+        for(int i = 0; i < index.length; i++) {
+            UUID id = links.get(index[i]).Id;
+            worldController.addCloseLink(id, Double.parseDouble(jTextFieldCloseLinkAR.getText())/100, 
+                                         Double.parseDouble(jTextFieldCloseLinkThreshold.getText())/100);
+            UpdateJListClosedLinks();
+        }
+    }//GEN-LAST:event_jButtonAddCloseLinkActionPerformed
+
+    private void jButtonDeleteCloseLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteCloseLinkActionPerformed
+        //à débugger
+        //int index = jListClosedLinks.getSelectedIndex();
+        //if(index != -1) {
+           // UUID closeLinkId = worldController.getClosedLinks().get(index).ConcernedLink;
+           // worldController.removeCloseLink(closeLinkId);   
+        //}
+       
+        //UpdateJListClosedLinks();
+        
+    }//GEN-LAST:event_jButtonDeleteCloseLinkActionPerformed
+
 
     public void Draw(Graphics2D g2d){
         worldController.Draw(g2d, mousePoints); 
@@ -2385,6 +2478,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JButton jBtnPause;
     private javax.swing.JButton jBtnPlay;
     private javax.swing.JButton jBtnReset;
+    private javax.swing.JButton jButtonAddCloseLink;
     private javax.swing.JButton jButtonAddMesure;
     private javax.swing.JButton jButtonAddRegion;
     private javax.swing.JButton jButtonApplyAllLinksTravelRate;
@@ -2394,21 +2488,23 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JButton jButtonCreateGraphic;
     private javax.swing.JButton jButtonCreateIrregularCountry;
     private javax.swing.JButton jButtonCreateRegularCountry;
+    private javax.swing.JButton jButtonDeleteCloseLink;
     private javax.swing.JButton jButtonDeleteCountry;
     private javax.swing.JButton jButtonDeleteDisease;
     private javax.swing.JButton jButtonDeleteLink;
     private javax.swing.JButton jButtonDeleteMesure;
     private javax.swing.JButton jButtonForward;
+    private javax.swing.JButton jButtonModifyCloseLink;
     private javax.swing.JButton jButtonModifyRegion;
     private javax.swing.JButton jButtonRemoveRegion;
     private javax.swing.JButton jButtonResetZoom;
     private javax.swing.JButton jButtonSaveNewDisease;
     private javax.swing.JButton jButtonScreenShotWorld;
     private javax.swing.JCheckBox jCheckBoxActiveMesure;
-    private javax.swing.JCheckBox jCheckBoxCloseLink;
     private javax.swing.JComboBox<String> jComboBoxAddLink;
     private javax.swing.JComboBox<String> jComboBoxAllLinksType;
     private javax.swing.JComboBox<String> jComboBoxDiseases;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -2460,6 +2556,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JLabel jLabelTitleRegionName;
     private javax.swing.JLabel jLabelTitleReproductionRate;
     private javax.swing.JLabel jLabelUndoRedoSliderText;
+    private javax.swing.JList<String> jListClosedLinks;
     private javax.swing.JList<String> jListLinks;
     private javax.swing.JList<String> jListLinksSim;
     private javax.swing.JList<String> jListMesures;
@@ -2489,6 +2586,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JPanel jPanelSimulation;
     private javax.swing.JPanel jPanelStatistics;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPaneClosedLinks;
     private javax.swing.JScrollPane jScrollPaneLinks;
     private javax.swing.JScrollPane jScrollPaneMap;
     private javax.swing.JScrollPane jScrollPaneOtherMeasures;

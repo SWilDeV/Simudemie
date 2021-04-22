@@ -103,6 +103,10 @@ public class WorldController implements java.io.Serializable {
         return null;
     }
     
+    public List<CloseLinkDTO> getClosedLinks() {
+        return (List<CloseLinkDTO>) world.getClosedLinks().stream().map(e -> new CloseLinkDTO((CloseLink) e)).collect(Collectors.toList());
+    }
+    
     public CountryDTO FindCountryByPosition(Point position) {
         Country country = world.findCountryByPosition(position);
         if(country != null) {
@@ -314,7 +318,7 @@ public class WorldController implements java.io.Serializable {
     
     public void AddLink(UUID firstCountryId, UUID secondCountryId, LinkType type, double transmissionRate) {
         if(firstCountryId != secondCountryId && transmissionRate >=0 && transmissionRate <= 100) {
-            world.Addlink(firstCountryId, secondCountryId, type, transmissionRate);
+            world.Addlink(firstCountryId, secondCountryId, type, transmissionRate/100);
         } else {
             System.out.println("Impossible de link le meme pays!");
         }
@@ -383,8 +387,8 @@ public class WorldController implements java.io.Serializable {
     {
         double reproductionRate = disease.getInfectionRate()/disease.getCureRate();
         
-        if (adhesionRate >= 0 && adhesionRate <= 100 && threshold >= 0 && threshold <=100 && 
-            effectTransmissionRate >=0 && effectTransmissionRate <=100 && effectReproductionRate >= 0 && effectReproductionRate < reproductionRate) 
+        if (adhesionRate >= 0 && adhesionRate <= 1 && threshold >= 0 && threshold <=1 && 
+            effectTransmissionRate >=0 && effectTransmissionRate <=1 && effectReproductionRate >= 0 && effectReproductionRate < reproductionRate) 
         {
             world.AddMesure(countryId, adhesionRate, active, mesureName, threshold, effectTransmissionRate, effectReproductionRate);
         }
@@ -392,6 +396,16 @@ public class WorldController implements java.io.Serializable {
     
     public void RemoveMesure(UUID countryId, UUID mesureId) {
         world.RemoveMesure(countryId, mesureId);
+    }
+    
+    public void addCloseLink(UUID linkId, double adhesionRate, double threshold) {
+        if (adhesionRate >= 0 && adhesionRate <= 1 && threshold >= 0 && threshold <=1) {
+            world.addCloseLink(linkId, adhesionRate, threshold);
+        }
+    }
+    
+    public void removeCloseLink(UUID linkId) {
+        world.removeCloseLink(linkId);
     }
     
     //public void updateCloseLink(UUID linkId) {

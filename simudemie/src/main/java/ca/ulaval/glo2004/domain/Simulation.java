@@ -319,13 +319,19 @@ public class Simulation implements Serializable {
         Population population2 = country2.getPopulation();
         int previousInfectedPop2 = population2.getInfectedPopulation();
         
-        //for (CloseLink closeLink: world.getClosedLinks()) {
-            //boolean thresholdMet = (previousInfectedPop1/population1 >= closeLink.getThreshold()) && 
-                                     //(previousInfectedPop2/population2 >= closeLink.getThreshold());
-            //if (link == closeLink.getConcernedLink && thresholdMet) {
-                //transmission rate = transmission rate * closeLink.getAdhesionRate();
-            //}
-        //}
+        
+        double percentageInfected1 = previousInfectedPop1/population1.getTotalPopulation();
+        double percentageInfected2 = previousInfectedPop2/population2.getTotalPopulation();
+        
+        List <CloseLink> closedLinks = controller.getWorld().getClosedLinks();
+        for (CloseLink closeLink: closedLinks) {
+            boolean thresholdMet = (percentageInfected1 >= closeLink.getThreshold()) || 
+                                     (percentageInfected2 >= closeLink.getThreshold());
+            if (link.GetId() == closeLink.getConcernedLink() && thresholdMet) {
+                transmissionRate = transmissionRate * closeLink.getAdhesionRate();
+                System.out.println("mesure applied");
+            }
+        }
         
         //Calculate country new total infected that could go in other country
         int newInfectedPop1 = calculation.Calculate(previousInfectedPop2, transmissionRate);

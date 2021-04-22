@@ -6,6 +6,9 @@
 package ca.ulaval.glo2004.domain;
 //import Link from Link.java;
 
+import java.util.UUID;
+
+
 
 /**
  *
@@ -13,18 +16,15 @@ package ca.ulaval.glo2004.domain;
  */
 public class CloseLink extends HealthMesure {
     
-    private Link concernedLink;
-    
-    public CloseLink(double p_adhesionRate, Link p_concernedLink, double p_threshold) {
+    private UUID concernedLink;
+ 
+    public CloseLink(double p_adhesionRate, UUID linkId, double p_threshold) {
         super(p_adhesionRate, true, "bidon", p_threshold, 0.0, 0.0);
-        concernedLink = p_concernedLink;
+        concernedLink = linkId;
+        
     }
     
-    public Link getConcernedLink() {
+    public UUID getConcernedLink() {
         return concernedLink;
     }
-    
-    public void setConcernedLink(Link newLink) {
-        concernedLink = newLink;
-    }
-}
+}    
