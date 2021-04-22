@@ -281,7 +281,7 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="370" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="368" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -650,7 +650,7 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="22" max="32767" attributes="0"/>
+                              <EmptySpace pref="16" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1129,8 +1129,9 @@
                                   <Component id="jComboBoxCountryPatientZero" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jLabelSelectionCountryPatientZero" max="32767" attributes="0"/>
                                   <Component id="jPanelNumberOfZeroPatients" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jButtonApplyPatientZero" alignment="0" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="23" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1150,7 +1151,7 @@
                               <Component id="jPanelReproductionRate" min="-2" pref="23" max="-2" attributes="0"/>
                               <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
                               <Component id="jPanelCuredRate" min="-2" pref="23" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
@@ -1158,12 +1159,6 @@
                                   </Group>
                                   <Component id="jLabelR" min="-2" pref="19" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jLabelSelectionCountryPatientZero" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jComboBoxCountryPatientZero" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jPanelNumberOfZeroPatients" min="-2" pref="23" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButtonApplyDisease" min="-2" pref="23" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -1171,7 +1166,15 @@
                                   <Component id="jButtonDeleteDisease" min="-2" pref="23" max="-2" attributes="0"/>
                                   <Component id="jButtonSaveNewDisease" alignment="0" min="-2" pref="23" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="208" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jLabelSelectionCountryPatientZero" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jComboBoxCountryPatientZero" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jPanelNumberOfZeroPatients" min="-2" pref="23" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jButtonApplyPatientZero" min="-2" pref="23" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="243" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1311,9 +1314,9 @@
                         <Component class="javax.swing.JLabel" name="jLabelTitleNumberOfZeroPatients">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Tahoma" size="14" style="0"/>
+                              <Font name="Tahoma" size="12" style="0"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Nombre de patients z&#xe9;ro"/>
+                            <Property name="text" type="java.lang.String" value="Nombre de patient(s) z&#xe9;ro(s)"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="jTextFieldNumberOfZeroPatients">
@@ -1328,7 +1331,10 @@
                     </Container>
                     <Component class="javax.swing.JLabel" name="jLabelSelectionCountryPatientZero">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Selection du pays avec patient z&#xe9;ro"/>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Tahoma" size="14" style="0"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Selection du pays avec patient(s) z&#xe9;ro(s)"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JComboBox" name="jComboBoxCountryPatientZero">
@@ -1346,6 +1352,14 @@
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                       </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="jButtonApplyPatientZero">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Appliquer"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonApplyPatientZeroActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -1431,7 +1445,7 @@
                                   <Component id="jButtonModifyCloseLink" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jButtonDeleteCloseLink" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="149" max="32767" attributes="0"/>
+                              <EmptySpace pref="147" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1553,7 +1567,7 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="503" max="32767" attributes="0"/>
+                              <EmptySpace pref="501" max="32767" attributes="0"/>
                               <Component id="jButtonCreateGraphic" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
@@ -1627,7 +1641,7 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace pref="156" max="32767" attributes="0"/>
+                              <EmptySpace pref="154" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabelMesureName" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jTextFieldMesureName" alignment="3" min="-2" max="-2" attributes="0"/>

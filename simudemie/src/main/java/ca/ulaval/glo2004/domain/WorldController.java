@@ -386,6 +386,11 @@ public class WorldController implements java.io.Serializable {
         simulation.setCurrentCountryPatientZeroIndex(index);
     }
     
+    public void setNbOfPatientZero(int nbOfPatient){
+        simulation.setNbOfPatientZero(nbOfPatient);
+    }
+    
+        
     public void AddMesure(UUID countryId, double adhesionRate, boolean active, String mesureName, double threshold,
                           double effectTransmissionRate, double effectReproductionRate) 
     {

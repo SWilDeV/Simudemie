@@ -28,6 +28,7 @@ public class Simulation implements Serializable {
     private Disease currentDisease;
     private int currentDiseaseIndex = 0;
     private int currentCountryPatientZeroIndex = 0;
+    private int nbOfPatientZero = 1;
     private boolean isRunning = false;
     private int elapsedDay = 0;
     private ArrayList<UndoRedo> undoRedoHistory = new ArrayList<>();
@@ -99,7 +100,8 @@ public class Simulation implements Serializable {
             //Initialiser le patient zero
             if(controller.getWorld().getWorldPopulation().getInfectedPopulation() == 0){
                 //initializePatientZero(countries);
-                initializePatientZeroV2(countries, getCurrentCountryPatientZeroIndex());
+                //initializePatientZeroV2(countries, getCurrentCountryPatientZeroIndex());
+                initializePatientZeroV3(countries, getCurrentCountryPatientZeroIndex(), getCurrentNbOfPatientZero());
                 controller.getWorld().updateWorldPopulation(); 
             }
                     
@@ -240,6 +242,30 @@ public class Simulation implements Serializable {
                 for (Region region:regionList){
                     if (index2 == counter2){
                         region.getPopulation().addPatientZero();
+                    }
+                    counter2 +=1;
+                }                
+            }
+            counter +=1;
+        }
+    }
+        
+    public void initializePatientZeroV3(List<Country> countries, int idx, int nbOfPatientZero){
+        //Initialiser le patient zero
+        Random rand = new Random();
+        int maxRand = countries.size();
+        int index = idx; 
+        int counter = 0;
+        for(Country country : countries) {
+            if(index == counter){
+                List<Region>regionList = country.GetRegions();
+                int maxRand2 = regionList.size();
+                int index2 = rand.nextInt(maxRand2);
+                int counter2 = 0;
+                
+                for (Region region:regionList){
+                    if (index2 == counter2){
+                        region.getPopulation().addPatientZeroV2(nbOfPatientZero);
                     }
                     counter2 +=1;
                 }                
@@ -478,6 +504,11 @@ public class Simulation implements Serializable {
     public int getCurrentCountryPatientZeroIndex(){
          return currentCountryPatientZeroIndex;
      }
+    
+    public int getCurrentNbOfPatientZero(){
+         return nbOfPatientZero;
+     }
+    
     public Disease getCurrentDisease(){
          return currentDisease;
      }
@@ -506,6 +537,10 @@ public class Simulation implements Serializable {
         currentCountryPatientZeroIndex = index;
     }
     
+    public void setNbOfPatientZero(int nbPatient){
+        nbOfPatientZero = nbPatient;
+    }
+                
     public void setCurrentDiseaseByUUID(UUID id){
         Disease d = FindDiseaseByUUID(id);
         if(d != null){

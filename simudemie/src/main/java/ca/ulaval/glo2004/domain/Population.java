@@ -58,6 +58,10 @@ public class Population implements Serializable, Cloneable {
         infectedPopulation = 1;
     }
     
+    public void addPatientZeroV2(int nbOfPatient){
+        infectedPopulation = nbOfPatient;
+    }
+    
     public int getInfectedPopulation(){
         return infectedPopulation;
     }
