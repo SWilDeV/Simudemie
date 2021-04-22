@@ -175,8 +175,10 @@ public class Simulation implements Serializable {
         int previousInfectedPop1 = pop1.getInfectedPopulation();
         int previousInfectedPop2 = pop2.getInfectedPopulation();
         
-        //for (CloseLink closeLink: world.getClosedLinks()) {
-            //boolean thresholdMet = (previousInfectedPop1/pop1 >= closeLink.getThreshold()) && (previousInfectedPop2/pop2 >= closeLink.getThreshold());
+        //(if !link.isOpen()) {
+            //double infectedPop1 = (double)previousInfectedPop1/(double)pop1;
+            //double infectedPop2 = (double)previousInfectedPop2/(double)pop2;
+            //boolean thresholdMet = (infectedPop1 >= closeLink.getThreshold()) && (infectedPop2 >= closeLink.getThreshold());
             //if (link == closeLink.getConcernedLink() && thresholdMet) {
                 //transmission rate = transmission rate * closeLink.getAdhesionRate();
             //}
