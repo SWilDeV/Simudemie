@@ -270,8 +270,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             
             String name1 = worldController.GetCountryDTO(l.Country1Id).Name;
             String name2 = worldController.GetCountryDTO(l.Country2Id).Name;
+            String transmissionRate = String.valueOf(l.TransmissionRate);
             
-            name += name1 + " <-> " + name2;
+            name += name1 + " <-> " + name2 + " -- " + transmissionRate;
             listModel.addElement(name);
         }
         jListLinks.setModel(listModel);
