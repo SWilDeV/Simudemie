@@ -175,6 +175,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     @Override
     public void OnCountryCreated(CountryDTO country) {
         UpdateJRegionList(country);
+        updateCountryListUI();
         try {
             AddUndoRedo();
         } catch (CloneNotSupportedException ex) {
@@ -1176,7 +1177,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jLabelReproductionRate.setText("Taux de reproduction (calculé): ");
 
-        jPanelNumberOfZeroPatients.setLayout(new java.awt.GridLayout());
+        jPanelNumberOfZeroPatients.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabelTitleNumberOfZeroPatients.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabelTitleNumberOfZeroPatients.setText("Nombre de patients zéro");
@@ -1192,6 +1193,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jLabelSelectionCountryPatientZero.setText("Selection du pays avec patient zéro");
 
+        jComboBoxCountryPatientZero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Veuillez sélectionner un pays" }));
         jComboBoxCountryPatientZero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxCountryPatientZeroActionPerformed(evt);
@@ -1366,7 +1368,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addGroup(jPanelFermetureLiensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonModifyCloseLink)
                     .addComponent(jButtonDeleteCloseLink))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
 
         jTabbedPaneSimulationOptions.addTab("Fermeture Liens", jPanelFermetureLiens);
@@ -1390,7 +1392,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jPanelStatisticsLayout.setVerticalGroup(
             jPanelStatisticsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelStatisticsLayout.createSequentialGroup()
-                .addContainerGap(446, Short.MAX_VALUE)
+                .addContainerGap(503, Short.MAX_VALUE)
                 .addComponent(jButtonCreateGraphic)
                 .addGap(40, 40, 40))
         );
@@ -1479,7 +1481,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jPanelHealthMesuresLayout.setVerticalGroup(
             jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelHealthMesuresLayout.createSequentialGroup()
-                .addContainerGap(99, Short.MAX_VALUE)
+                .addContainerGap(156, Short.MAX_VALUE)
                 .addGroup(jPanelHealthMesuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelMesureName)
                     .addComponent(jTextFieldMesureName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -2392,7 +2394,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         if(index !=-1){
             //worldController.setPatientZeroCountryIndex(index);
             //updateCountryListUI();
-            //ecrrire dans le log
         }
     }//GEN-LAST:event_jComboBoxCountryPatientZeroActionPerformed
 

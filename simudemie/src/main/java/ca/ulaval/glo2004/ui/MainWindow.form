@@ -1334,7 +1334,9 @@
                     <Component class="javax.swing.JComboBox" name="jComboBoxCountryPatientZero">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="0"/>
+                          <StringArray count="1">
+                            <StringItem index="0" value="Veuillez s&#xe9;lectionner un pays"/>
+                          </StringArray>
                         </Property>
                       </Properties>
                       <Events>
@@ -1429,7 +1431,7 @@
                                   <Component id="jButtonModifyCloseLink" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jButtonDeleteCloseLink" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="92" max="32767" attributes="0"/>
+                              <EmptySpace pref="149" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1551,7 +1553,7 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="446" max="32767" attributes="0"/>
+                              <EmptySpace pref="503" max="32767" attributes="0"/>
                               <Component id="jButtonCreateGraphic" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
@@ -1625,7 +1627,7 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace pref="99" max="32767" attributes="0"/>
+                              <EmptySpace pref="156" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabelMesureName" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jTextFieldMesureName" alignment="3" min="-2" max="-2" attributes="0"/>

@@ -444,7 +444,7 @@ public class Simulation implements Serializable {
     public List<Disease> getDiseaseList(){
          return diseaseList;
      }
-     
+    
     public int getCurrentDiseaseIndex(){
          return currentDiseaseIndex;
      }
