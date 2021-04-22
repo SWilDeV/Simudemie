@@ -2257,9 +2257,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
     private void jButtonApplyAllLinksTravelRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyAllLinksTravelRateActionPerformed
         // TODO add your handling code here:
-        worldController.setAllLinksTransmissionRate(Double.parseDouble(jTextFieldBorderTransRate.getText()), 
-                Double.parseDouble(jTextFieldPortTransRate.getText()), Double.parseDouble(jTextFieldAirportTransRate.getText()),
-                Double.parseDouble(jTextFieldRegionLinkTrans.getText()));
+        worldController.setAllLinksTransmissionRate(Double.parseDouble(jTextFieldBorderTransRate.getText())/100, 
+                Double.parseDouble(jTextFieldPortTransRate.getText())/100, Double.parseDouble(jTextFieldAirportTransRate.getText())/100,
+                Double.parseDouble(jTextFieldRegionLinkTrans.getText())/100);
     }//GEN-LAST:event_jButtonApplyAllLinksTravelRateActionPerformed
 
     private void jButtonChangeBackgroundImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChangeBackgroundImageActionPerformed

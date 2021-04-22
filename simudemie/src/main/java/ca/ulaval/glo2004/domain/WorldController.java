@@ -335,10 +335,10 @@ public class WorldController implements java.io.Serializable {
     public void setAllLinksTransmissionRate(double borderTransmissionRate, double waterTransmissionRate, 
                                             double airTransmissionRate, double regionTransmissionRate) {
         
-        if (borderTransmissionRate >=0 && borderTransmissionRate >= 100 && 
-            waterTransmissionRate >=0 && waterTransmissionRate >= 100 &&
-            airTransmissionRate >=0 && airTransmissionRate >= 100 && 
-            regionTransmissionRate >=0 && regionTransmissionRate >= 100) 
+        if (borderTransmissionRate >=0 && borderTransmissionRate <= 1 && 
+            waterTransmissionRate >=0 && waterTransmissionRate <= 1 &&
+            airTransmissionRate >=0 && airTransmissionRate <= 1 && 
+            regionTransmissionRate >=0 && regionTransmissionRate <= 1) 
         {
             world.setLinksTransmissionRate(borderTransmissionRate, waterTransmissionRate,airTransmissionRate);
             //world.setRegionLinkTransmissionRate(regionTransmissionRate);

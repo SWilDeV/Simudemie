@@ -327,7 +327,7 @@ public class Simulation implements Serializable {
         for (CloseLink closeLink: closedLinks) {
             boolean thresholdMet = (percentageInfected1 >= closeLink.getThreshold()) || 
                                      (percentageInfected2 >= closeLink.getThreshold());
-            if (link.GetId() == closeLink.getConcernedLink() && thresholdMet) {
+            if ((link.GetId() == closeLink.getConcernedLink()) && thresholdMet) {
                 transmissionRate = transmissionRate * closeLink.getAdhesionRate();
                 System.out.println("mesure applied");
             }
