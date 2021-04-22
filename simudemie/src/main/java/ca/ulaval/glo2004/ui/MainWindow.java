@@ -2392,7 +2392,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         // TODO add your handling code here:
         int index = jComboBoxCountryPatientZero.getSelectedIndex();
         if(index !=-1){
-            //worldController.setPatientZeroCountryIndex(index);
+            worldController.setCurrentCountryPatientZeroIndex(index);
             //updateCountryListUI();
         }
     }//GEN-LAST:event_jComboBoxCountryPatientZeroActionPerformed

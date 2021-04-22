@@ -27,6 +27,7 @@ public class Simulation implements Serializable {
     private Disease defaultDisease = new Disease("ebola",0.01, 0.10, 0.20);
     private Disease currentDisease;
     private int currentDiseaseIndex = 0;
+    private int currentCountryPatientZeroIndex = 0;
     private boolean isRunning = false;
     private int elapsedDay = 0;
     private ArrayList<UndoRedo> undoRedoHistory = new ArrayList<>();
@@ -202,7 +203,7 @@ public class Simulation implements Serializable {
         //Initialiser le patient zero
         Random rand = new Random();
         int maxRand = countries.size();
-        int index = rand.nextInt(maxRand);
+        int index = rand.nextInt(maxRand); // a changer pour getSelectedCountries
         int counter = 0;
         for(Country country : countries) {
             if(index == counter){
@@ -448,7 +449,7 @@ public class Simulation implements Serializable {
     public int getCurrentDiseaseIndex(){
          return currentDiseaseIndex;
      }
-     
+    
     public Disease getCurrentDisease(){
          return currentDisease;
      }
@@ -468,6 +469,15 @@ public class Simulation implements Serializable {
     public void setcurrentDisease(int index){
         currentDisease = diseaseList.get(index);
     }
+    
+    public void setCurrentCountryPatientZero(int index){
+        //currentCountryPatientZero = controller.GetCountries(index);
+    }
+    
+    public void setCurrentCountryPatientZeroIndex(int index){
+        currentCountryPatientZeroIndex = index;
+    }
+    
     public void setCurrentDiseaseByUUID(UUID id){
         Disease d = FindDiseaseByUUID(id);
         if(d != null){
