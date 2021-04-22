@@ -252,7 +252,7 @@ public class Simulation implements Serializable {
         int previousDayInfectedPop = population.getInfectedPopulation();
         
         //percentage infected
-        double percentInfected = previousDayInfectedPop/totalPop;
+        double percentInfected = (double)previousDayInfectedPop/(double)totalPop;
         
         //ajout effet des mesures s'ils sont actives
         if (!region.GetMesures().isEmpty()) {
@@ -319,9 +319,8 @@ public class Simulation implements Serializable {
         Population population2 = country2.getPopulation();
         int previousInfectedPop2 = population2.getInfectedPopulation();
         
-        
-        double percentageInfected1 = previousInfectedPop1/population1.getTotalPopulation();
-        double percentageInfected2 = previousInfectedPop2/population2.getTotalPopulation();
+        double percentageInfected1 = (double)previousInfectedPop1/(double)population1.getTotalPopulation();
+        double percentageInfected2 = (double)previousInfectedPop2/(double)population2.getTotalPopulation();
         
         List <CloseLink> closedLinks = controller.getWorld().getClosedLinks();
         for (CloseLink closeLink: closedLinks) {
