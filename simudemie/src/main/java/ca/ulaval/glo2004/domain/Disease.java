@@ -23,7 +23,7 @@ public class Disease implements Serializable, Cloneable {
     public Disease() {
     }
     
-    public Disease(String p_name, double p_cureRate, double p_mortalityRate, double p_infectionRate ) {
+    public Disease(String p_name, double p_cureRate, double p_mortalityRate, double p_infectionRate) {
         id = UUID.randomUUID();
         name = p_name;
         infectionRate = p_infectionRate;

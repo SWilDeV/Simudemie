@@ -2429,17 +2429,17 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 for(Disease n : worldController.getDiseaseList()){
                     if(n.getName().equals(diseaseName)){
                         found = true;
-                        id=n.getId();
+                        id = n.getId();
                         break;
                     }
                 }
+                
                 if(found){
-                    worldController.UpdateDisease(id, diseaseName,infectionRate, mortalityRate, cureRate);
-                    //diseaseSelected.setCureRateDTO(cureRate);
-                    //                    worldController.getSimulation().UpdateDiseaseFromDTO(infectionRate, mortalityRate, cureRate);
+                    worldController.UpdateDisease(id, diseaseName, infectionRate, mortalityRate, cureRate);
                 }else{
-                    worldController.createDisease(diseaseName,infectionRate, mortalityRate, cureRate);
+                    worldController.createDisease(diseaseName, infectionRate, mortalityRate, cureRate);
                 }
+
                 jTextFieldReproductionRate.setBackground(Color.white);
                 jTextFieldMortalityRate.setBackground(Color.white);
                 jTextFieldCuredRate.setBackground(Color.white);

@@ -369,12 +369,12 @@ public class WorldController implements java.io.Serializable {
         return simulation.getDiseaseList();
     }
     
-    public void UpdateDisease(UUID id, String diseaseName, double infectionRate,double mortalityRate,double cureRate){
+    public void UpdateDisease(UUID id, String diseaseName, double infectionRate, double mortalityRate, double cureRate){
         simulation.UpdateDisease(id, diseaseName, infectionRate, mortalityRate, cureRate);
     }
     
-    public void createDisease(String diseaseName,double infectionRate,double mortalityRate,double cureRate){
-        simulation.createDisease(diseaseName,infectionRate, mortalityRate, cureRate);
+    public void createDisease(String diseaseName, double infectionRate, double mortalityRate, double cureRate){
+        simulation.createDisease(diseaseName, infectionRate, mortalityRate, cureRate);
     }
     
     public void setCurrentDiseaseIndex(int index){

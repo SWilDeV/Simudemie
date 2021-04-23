@@ -474,8 +474,9 @@ public class Simulation implements Serializable {
         return undoRedoHistory.get(undoPosition);
     }
     
-    public void createDisease(String diseaseName,double infectionRate,double mortalityRate,double cureRate){
-        Disease d = new Disease(diseaseName,infectionRate, mortalityRate, cureRate);
+    public void createDisease(String diseaseName,double infectionRate, double mortalityRate, double cureRate){
+        //Disease d = new Disease(diseaseName,infectionRate, mortalityRate, cureRate);
+        Disease d = new Disease(diseaseName,cureRate, mortalityRate, infectionRate);
         addDisease(d);
     }
    
