@@ -186,6 +186,12 @@ public class World implements Serializable, Cloneable {
         }
     }
     
+    public void setRegionLinkTransmissionRate(double transmissionRate) {
+        for (Country country : countryList) {
+            country.setRegionLinkTransmissionRate(transmissionRate);
+        }
+    }
+    
     public Population getWorldPopulation(){
         return worldPopulation;
     }

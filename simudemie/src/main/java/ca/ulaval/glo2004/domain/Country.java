@@ -181,6 +181,12 @@ public class Country implements Serializable, Cloneable  {
         this.population = population;
     }
     
+    public void setRegionLinkTransmissionRate(double transmissionRate) {
+        for (RegionLink link : regionLinks) {
+            link.setTransmissionRate(transmissionRate);
+        }
+    }
+    
     public void UpdateSelectionStateRegion(UUID regionId, boolean select) {
         Region region = regions.stream().filter(r -> r.GetId().equals(regionId)).findFirst().get();
         if(region != null) {

@@ -2191,7 +2191,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         links.stream().filter(l -> (l.IsSelected)).forEachOrdered(l -> {
             worldController.UpdateSelectionStateLink(l.Id, false);
             
-            jTextFieldLinkTransRate.setText(Double.toString(l.TransmissionRate));
+            jTextFieldLinkTransRate.setText(Double.toString(l.TransmissionRate*100));
         });
 
         int[] index = jListLinks.getSelectedIndices();
@@ -2559,7 +2559,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             int index = jListLinks.getSelectedIndex();
         
             UUID id = listLinks.get(index).Id;
-            double transmissionRate = Double.parseDouble(jTextFieldLinkTransRate.getText());
+            double transmissionRate = Double.parseDouble(jTextFieldLinkTransRate.getText())/100;
             
             worldController.setLinkTransmissionRate(id, transmissionRate);
             UpdateJLinkList();

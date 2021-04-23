@@ -197,9 +197,7 @@ public class Simulation implements Serializable {
     }
     
     public void updateRegionsWithLinks(RegionLink link, Region region1, Region region2){ 
-        //double transmissionRate = link.getTransmissionRate();
-        double transmissionRate = 0.05; 
-        
+        double transmissionRate = link.getTransmissionRate(); 
         
         Population pop1 = region1.getPopulation();
         Population pop2 = region2.getPopulation();

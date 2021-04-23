@@ -340,13 +340,15 @@ public class WorldController implements java.io.Serializable {
             regionTransmissionRate >=0 && regionTransmissionRate <= 1) 
         {
             world.setLinksTransmissionRate(borderTransmissionRate, waterTransmissionRate,airTransmissionRate);
-            //world.setRegionLinkTransmissionRate(regionTransmissionRate);
+            world.setRegionLinkTransmissionRate(regionTransmissionRate);
         }
         
     }
     
     public void setLinkTransmissionRate(UUID id, double transmissionRate) {
-        world.setLinkTransmissionRate(id, transmissionRate);
+        if (transmissionRate >=0 && transmissionRate <=1 ) {
+            world.setLinkTransmissionRate(id, transmissionRate);
+        } 
     }
     
     public void ActiveMesures() {
