@@ -231,6 +231,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         if(countrySelected != null) {
             UpdateJRegionList(countrySelected.Id);
         }
+        
+        updateDiseasesUI();
     }
     
     @Override
@@ -352,17 +354,26 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }
     
     private void updateDiseasesUI(){
+        jTextFieldMortalityRate.setText("");
+        jTextFieldReproductionRate.setText("");
+        jTextFieldCuredRate.setText("");
+        jTextFieldDiseaseName.setText("");
+        
+        
         jComboBoxDiseases.removeAllItems();
-        for(Disease d: worldController.getSimulation().getDiseaseList()){
+        for(DiseaseDTO d: worldController.getDiseasesDTO()) {
             jComboBoxDiseases.addItem(d.getName());
         }
-        DiseaseDTO dis = new DiseaseDTO(worldController.getSimulation().getCurrentDisease());
-        jTextFieldMortalityRate.setText(String.valueOf(dis.getMortalityRateDTO() * 100));
-        jTextFieldReproductionRate.setText(String.valueOf(dis.getInfectionRateDTO() * 100));
-        jTextFieldCuredRate.setText(String.valueOf(dis.getCureRateDTO() * 100));
-        jTextFieldDiseaseName.setText(String.valueOf(dis.getName()));
         
-        jComboBoxDiseases.getModel().setSelectedItem(jComboBoxDiseases.getItemAt(worldController.getSimulation().getCurrentDiseaseIndex()));
+        if(worldController.HasDesease()) {
+            DiseaseDTO dis = worldController.GetDiseaseDTO();
+            jTextFieldMortalityRate.setText(String.valueOf(dis.getMortalityRateDTO() * 100));
+            jTextFieldReproductionRate.setText(String.valueOf(dis.getInfectionRateDTO() * 100));
+            jTextFieldCuredRate.setText(String.valueOf(dis.getCureRateDTO() * 100));
+            jTextFieldDiseaseName.setText(String.valueOf(dis.getName()));
+
+            jComboBoxDiseases.getModel().setSelectedItem(jComboBoxDiseases.getItemAt(worldController.getSimulation().getCurrentDiseaseIndex()));
+        }
     }
     
     private void UpdateSimulationUI() {
@@ -2410,7 +2421,12 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }//GEN-LAST:event_jComboBoxCountryPatientZeroActionPerformed
 
     private void jButtonDeleteDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteDiseaseActionPerformed
-        // TODO add your handling code here:
+        int index = jComboBoxDiseases.getSelectedIndex();
+        if(index != -1) {
+            worldController.RemoveDisease(index);
+            worldController.AddUndoRedo();
+            updateDiseasesUI();
+        }  
     }//GEN-LAST:event_jButtonDeleteDiseaseActionPerformed
 
     private void jButtonSaveNewDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveNewDiseaseActionPerformed
@@ -2438,11 +2454,15 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     worldController.UpdateDisease(id, diseaseName, infectionRate, mortalityRate, cureRate);
                 }else{
                     worldController.createDisease(diseaseName, infectionRate, mortalityRate, cureRate);
+                    updateDiseasesUI();
                 }
+                
+                worldController.AddUndoRedo();
+                UpdateSliderUndoRedo();
 
                 jTextFieldReproductionRate.setBackground(Color.white);
                 jTextFieldMortalityRate.setBackground(Color.white);
-                jTextFieldCuredRate.setBackground(Color.white);
+                jTextFieldCuredRate.setBackground(Color.white); 
             }else{
                 if(infectionRate < 0) jTextFieldReproductionRate.setBackground(Color.red);
                 if(mortalityRate < 0) jTextFieldMortalityRate.setBackground(Color.red);

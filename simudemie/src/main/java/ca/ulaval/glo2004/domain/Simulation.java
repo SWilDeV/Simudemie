@@ -24,21 +24,21 @@ import  mathematical_model.Calculation;
 public class Simulation implements Serializable {
     private Calculation calculation = new Calculation();
     private List<Disease> diseaseList = new ArrayList<>();
-    private Disease defaultDisease = new Disease("ebola",0.01, 0.10, 0.20);
+    private final Disease defaultDisease = new Disease("ebola",0.01, 0.10, 0.20);
+    
     private Disease currentDisease;
     private int currentDiseaseIndex = 0;
     private int currentCountryPatientZeroIndex = 0;
     private int nbOfPatientZero = 1;
     private boolean isRunning = false;
     private int elapsedDay = 0;
-    private ArrayList<UndoRedo> undoRedoHistory = new ArrayList<>();
     private transient final WorldController controller;
     private Timer timer = new Timer();
     private static final long serialVersionUID = 4L; 
     
+    
+    private ArrayList<UndoRedo> undoRedoHistory = new ArrayList<>();
     private UndoRedo defaultState = null;
-    
-    
     private int undoRedoIndex = 0;
     
     public Simulation(WorldController p_controller){
@@ -50,6 +50,16 @@ public class Simulation implements Serializable {
     public Simulation(WorldController p_controller, int elapsedDay) {
         controller = p_controller;
         this.elapsedDay = elapsedDay;
+    }
+    
+    public Simulation(WorldController p_controller, List<Disease> diseases, int elapsedDay) {
+        controller = p_controller;
+        diseaseList = diseases;
+        this.elapsedDay = elapsedDay;
+    }
+    
+    public boolean HasDisease() {
+        return currentDiseaseIndex != -1;
     }
     
     public void SetDefaultState(UndoRedo ur) {
@@ -91,6 +101,18 @@ public class Simulation implements Serializable {
         this.isRunning = running;
     }
     
+    public void SetDiseases(List<Disease> diseases) {
+        diseaseList = diseases;
+    }
+    
+    public void RemoveCurrentDisease() {
+        diseaseList.remove(currentDiseaseIndex);
+        if(diseaseList.isEmpty()) {
+            currentDiseaseIndex = -1;
+        } else {
+            setCurrentDiseaseIndex(currentDiseaseIndex);
+        }
+    }
     
     
     public void Simulate(int timeStep) {               
@@ -160,7 +182,7 @@ public class Simulation implements Serializable {
                         elapsedDay +=1;
                         
                         try {
-                            AddUndoRedoWorld(controller.getWorld(), controller.getDisease());
+                            AddUndoRedoWorld(controller.getWorld());
                         } catch (CloneNotSupportedException ex) {
                             Logger.getLogger(Simulation.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -393,13 +415,13 @@ public class Simulation implements Serializable {
         return newInfectedPop;
     }
     
-    public void AddUndoRedoWorld(World world, Disease disease) throws CloneNotSupportedException { //TODO: Demande ce qu'il entend par undo. Undo une action, ou une jouurnee ?
-        undoRedoHistory.add(CreateUndoRedo(world, disease));
+    public void AddUndoRedoWorld(World world) throws CloneNotSupportedException { //TODO: Demande ce qu'il entend par undo. Undo une action, ou une jouurnee ?
+        undoRedoHistory.add(CreateUndoRedo(world));
         undoRedoIndex++;
     }
     
-    public UndoRedo CreateUndoRedo(World world, Disease disease) throws CloneNotSupportedException {
-        return new UndoRedo(world.clone(), disease.clone(), elapsedDay);
+    public UndoRedo CreateUndoRedo(World world) throws CloneNotSupportedException {
+        return new UndoRedo(world.clone(), diseaseList, currentDiseaseIndex, elapsedDay);
     }
     
     public UndoRedo Undo() {
@@ -446,7 +468,6 @@ public class Simulation implements Serializable {
     }
     
     public void createDisease(String diseaseName,double infectionRate, double mortalityRate, double cureRate){
-        //Disease d = new Disease(diseaseName,infectionRate, mortalityRate, cureRate);
         Disease d = new Disease(diseaseName,cureRate, mortalityRate, infectionRate);
         addDisease(d);
     }
@@ -454,7 +475,7 @@ public class Simulation implements Serializable {
     public void addDisease(Disease disease){
         diseaseList.add(disease);
         controller.NotifyDiseaseCreated(new DiseaseDTO(disease));
-        System.out.println("Simulation : " + disease.getName());
+        System.out.println("Create disease : " + disease.getName());
     }
     
     public Disease FindDiseaseByUUID(UUID diseaseId){
@@ -541,7 +562,6 @@ public class Simulation implements Serializable {
             d.update(name,infectionRate, mortalityRate, cureRate);
         }
     }
- 
     
      
      //getDisease(indexDropdown)
