@@ -66,6 +66,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private final JFileChooser imageChooser = new JFileChooser();
     public XYSeries deathsNum = new XYSeries("Morts");
     public XYSeries infectedNum = new XYSeries("Infectés");
+    public XYSeries nonInfectedNum = new XYSeries("Non Infectés");
  
     /**
      * Creates new form MainWindow
@@ -90,6 +91,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         deathsNum.add(day, deads);
         infectedNum.add(day, infected);
+        int nonInfected = PopTot - deads - infected;
+        nonInfectedNum.add(day, nonInfected);
         
         jSliderUndoRedo.setValue(worldController.GetUndoRedoSize());
         UpdateSimulationUI();
@@ -2347,12 +2350,12 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(deathsNum);
         dataset.addSeries(infectedNum);
-        
+        dataset.addSeries(nonInfectedNum);
 
-        JFreeChart chart = ChartFactory.createXYLineChart("Stats de la pandémie", "jours", "nombre", dataset);
+        JFreeChart chart = ChartFactory.createXYLineChart("Statistiques de la pandémie", "jours", "nombre", dataset);
         chart.setBackgroundPaint(Color.GRAY);
         chart.getTitle().setPaint(Color.RED);
-        ChartFrame frame = new ChartFrame("stats", chart);
+        ChartFrame frame = new ChartFrame("Statistiques de la pandémie", chart);
         frame.setVisible(true);
         frame.setSize(450, 350);
     }//GEN-LAST:event_jButtonCreateGraphicActionPerformed
