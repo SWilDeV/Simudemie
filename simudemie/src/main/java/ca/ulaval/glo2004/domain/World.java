@@ -178,6 +178,14 @@ public class World implements Serializable, Cloneable {
         }
     }
     
+    public void setLinkTransmissionRate(UUID id, double transmissionRate) {
+        for (Link link : linkList) {
+            if (link.GetId() == id) {
+                link.setTransmissionRate(transmissionRate);
+            }
+        }
+    }
+    
     public Population getWorldPopulation(){
         return worldPopulation;
     }

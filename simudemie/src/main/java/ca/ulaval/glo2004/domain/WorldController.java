@@ -345,6 +345,10 @@ public class WorldController implements java.io.Serializable {
         
     }
     
+    public void setLinkTransmissionRate(UUID id, double transmissionRate) {
+        world.setLinkTransmissionRate(id, transmissionRate);
+    }
+    
     public void ActiveMesures() {
         
     }

@@ -501,14 +501,14 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jLabel15 = new javax.swing.JLabel();
         jSeparator7 = new javax.swing.JSeparator();
         jLabel16 = new javax.swing.JLabel();
-        jComboBoxAllLinksType = new javax.swing.JComboBox<>();
-        jSpinnerAllLinksTravelRate = new javax.swing.JSpinner();
         jButtonApplyAllLinksTravelRate = new javax.swing.JButton();
         jLabelRegionLink = new javax.swing.JLabel();
         jTextFieldRegionLinkTrans = new javax.swing.JTextField();
         jTextFieldPortTransRate = new javax.swing.JTextField();
         jTextFieldBorderTransRate = new javax.swing.JTextField();
         jTextFieldAirportTransRate = new javax.swing.JTextField();
+        jTextFieldLinkTransRate = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
         jButtonResetZoom = new javax.swing.JButton();
         jPanelSimulation = new javax.swing.JPanel();
         jBtnReset = new javax.swing.JButton();
@@ -903,11 +903,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jLabel15.setText("Liens");
 
-        jLabel16.setText("Modifier taux de transmision a tous les liens");
+        jLabel16.setText("Modifier le taux de transmision d'un lien spécifique");
 
-        jComboBoxAllLinksType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Terrestre", "Maritime", "Aérien" }));
-
-        jButtonApplyAllLinksTravelRate.setText("Appliquer");
+        jButtonApplyAllLinksTravelRate.setText("Mettre à jour");
         jButtonApplyAllLinksTravelRate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonApplyAllLinksTravelRateActionPerformed(evt);
@@ -924,52 +922,62 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jTextFieldAirportTransRate.setText("0.0");
 
+        jTextFieldLinkTransRate.setText("0.0");
+        jTextFieldLinkTransRate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldLinkTransRateKeyPressed(evt);
+            }
+        });
+
+        jLabel11.setText("(Sélectionner, modifier et cliquer Enter)");
+
         javax.swing.GroupLayout jPanelLinkLayout = new javax.swing.GroupLayout(jPanelLink);
         jPanelLink.setLayout(jPanelLinkLayout);
         jPanelLinkLayout.setHorizontalGroup(
             jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLinkLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel16)
-                    .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanelLinkLayout.createSequentialGroup()
-                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGap(54, 54, 54)
-                            .addComponent(jComboBoxAddLink, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPaneLinks, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
-                        .addComponent(jButtonDeleteLink, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabelModifyLinkTrans, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelLinkLayout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButtonApplyAllLinksTravelRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanelLinkLayout.createSequentialGroup()
-                                    .addComponent(jComboBoxAllLinksType, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jSpinnerAllLinksTravelRate, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addComponent(jLabelRegionLink, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelLinkLayout.createSequentialGroup()
-                            .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextFieldAirportTransRate, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                                .addComponent(jTextFieldBorderTransRate)))
-                        .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel15)
+                .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLinkLayout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(54, 54, 54)
+                        .addComponent(jComboBoxAddLink, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPaneLinks, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
+                    .addComponent(jButtonDeleteLink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelModifyLinkTrans)
+                    .addGroup(jPanelLinkLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jButtonApplyAllLinksTravelRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabelRegionLink, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelLinkLayout.createSequentialGroup()
+                        .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextFieldAirportTransRate, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                            .addComponent(jTextFieldBorderTransRate)))
+                    .addComponent(jSeparator7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelLinkLayout.createSequentialGroup()
+                        .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15)
+                            .addGroup(jPanelLinkLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel11)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextFieldLinkTransRate))
                     .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelLinkLayout.createSequentialGroup()
                         .addGap(254, 254, 254)
                         .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextFieldRegionLinkTrans, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                            .addComponent(jTextFieldPortTransRate))))
-                .addContainerGap(16, Short.MAX_VALUE))
+                            .addComponent(jTextFieldPortTransRate)))
+                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanelLinkLayout.setVerticalGroup(
             jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1009,9 +1017,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBoxAllLinksType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSpinnerAllLinksTravelRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
+                    .addComponent(jTextFieldLinkTransRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1041,7 +1049,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addComponent(jToggleBtnModifyCountry, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
                     .addComponent(jToggleBtnAddLink, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonResetZoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
             .addGroup(jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelConceptionLayout.createSequentialGroup()
                     .addContainerGap()
@@ -1057,7 +1065,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addComponent(jToggleBtnAddLink)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonResetZoom)
-                .addContainerGap(628, Short.MAX_VALUE))
+                .addContainerGap(612, Short.MAX_VALUE))
             .addGroup(jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConceptionLayout.createSequentialGroup()
                     .addContainerGap(108, Short.MAX_VALUE)
@@ -2183,6 +2191,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         links.stream().filter(l -> (l.IsSelected)).forEachOrdered(l -> {
             worldController.UpdateSelectionStateLink(l.Id, false);
             
+            jTextFieldLinkTransRate.setText(Double.toString(l.TransmissionRate));
         });
 
         int[] index = jListLinks.getSelectedIndices();
@@ -2190,6 +2199,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             UUID id = links.get(index[i]).Id;
             
             worldController.UpdateSelectionStateLink(id, true);
+            
         }
 
         drawingPanel.repaint();
@@ -2336,6 +2346,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         worldController.setAllLinksTransmissionRate(Double.parseDouble(jTextFieldBorderTransRate.getText())/100, 
                 Double.parseDouble(jTextFieldPortTransRate.getText())/100, Double.parseDouble(jTextFieldAirportTransRate.getText())/100,
                 Double.parseDouble(jTextFieldRegionLinkTrans.getText())/100);
+        UpdateJLinkList();
     }//GEN-LAST:event_jButtonApplyAllLinksTravelRateActionPerformed
 
     private void jButtonChangeBackgroundImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChangeBackgroundImageActionPerformed
@@ -2540,6 +2551,22 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         }
     }//GEN-LAST:event_jButtonApplyPatientZeroActionPerformed
 
+    private void jTextFieldLinkTransRateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldLinkTransRateKeyPressed
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            List <LinkDTO> listLinks = worldController.GetLinks();
+        
+            int index = jListLinks.getSelectedIndex();
+        
+            UUID id = listLinks.get(index).Id;
+            double transmissionRate = Double.parseDouble(jTextFieldLinkTransRate.getText());
+            
+            worldController.setLinkTransmissionRate(id, transmissionRate);
+            UpdateJLinkList();
+        }
+        
+    }//GEN-LAST:event_jTextFieldLinkTransRateKeyPressed
+
 
     public void Draw(Graphics2D g2d){
         worldController.Draw(g2d, mousePoints); 
@@ -2619,11 +2646,11 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JButton jButtonScreenShotWorld;
     private javax.swing.JCheckBox jCheckBoxActiveMesure;
     private javax.swing.JComboBox<String> jComboBoxAddLink;
-    private javax.swing.JComboBox<String> jComboBoxAllLinksType;
     private javax.swing.JComboBox<String> jComboBoxCountryPatientZero;
     private javax.swing.JComboBox<String> jComboBoxDiseases;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -2720,7 +2747,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSlider jSliderUndoRedo;
-    private javax.swing.JSpinner jSpinnerAllLinksTravelRate;
     private javax.swing.JTabbedPane jTabbedMainPane;
     private javax.swing.JTabbedPane jTabbedPaneSimulationOptions;
     private javax.swing.JTextField jTextFieldAdhesionRate;
@@ -2734,6 +2760,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JTextField jTextFieldDiseaseName;
     private javax.swing.JTextField jTextFieldEffectReproductionRate;
     private javax.swing.JTextField jTextFieldEffectTransmission;
+    private javax.swing.JTextField jTextFieldLinkTransRate;
     private javax.swing.JTextField jTextFieldMesureName;
     private javax.swing.JTextField jTextFieldMortalityRate;
     private javax.swing.JTextField jTextFieldNumberOfZeroPatients;
