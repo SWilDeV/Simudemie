@@ -252,12 +252,9 @@ public class Simulation implements Serializable {
         
     public void initializePatientZeroV3(List<Country> countries, int idx, int nbOfPatientZero){
         //Initialiser le patient zero
-        Random rand = new Random();
-        int maxRand = countries.size();
-        int index = idx; 
         int counter = 0;
         for(Country country : countries) {
-            if(index == counter){
+            if(idx == counter){
                 List<Region>regionList = country.GetRegions();
                 int maxRand2 = regionList.size();
                 int index2 = rand.nextInt(maxRand2);
