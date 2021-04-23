@@ -36,6 +36,8 @@ public class Simulation implements Serializable {
     private Timer timer = new Timer();
     private static final long serialVersionUID = 4L; 
     
+    private UndoRedo defaultState = null;
+    
     
     private int undoRedoIndex = 0;
     
@@ -48,6 +50,14 @@ public class Simulation implements Serializable {
     public Simulation(WorldController p_controller, int elapsedDay) {
         controller = p_controller;
         this.elapsedDay = elapsedDay;
+    }
+    
+    public void SetDefaultState(UndoRedo ur) {
+        defaultState = ur;
+    }
+    
+    public UndoRedo GetDefaultState() {
+        return defaultState;
     }
     
     public void printdiseases(){
@@ -83,8 +93,7 @@ public class Simulation implements Serializable {
     
     
     
-    public void Simulate(int timeStep) {
-        
+    public void Simulate(int timeStep) {               
         List<Country> countries = controller.GetCountriesforSimulation();
         int countryListSize = countries.size();
         
@@ -99,9 +108,7 @@ public class Simulation implements Serializable {
             
             //Initialiser le patient zero
             if(controller.getWorld().getWorldPopulation().getInfectedPopulation() == 0){
-                //initializePatientZero(countries);
-                //initializePatientZeroV2(countries, getCurrentCountryPatientZeroIndex());
-                initializePatientZeroV3(countries, getCurrentCountryPatientZeroIndex(), getCurrentNbOfPatientZero());
+                initializePatientZero(countries, getCurrentCountryPatientZeroIndex(), getCurrentNbOfPatientZero());
                 controller.getWorld().updateWorldPopulation(); 
             }
                     
@@ -201,56 +208,8 @@ public class Simulation implements Serializable {
         pop2.setInfectedPopulation(newTotalInfected2);
         
     }
-    
-    public void initializePatientZero(List<Country> countries ){
-        //Initialiser le patient zero
-        Random rand = new Random();
-        int maxRand = countries.size();
-        int index = rand.nextInt(maxRand); // a changer pour getSelectedCountries
-        int counter = 0;
-        for(Country country : countries) {
-            if(index == counter){
-                List<Region>regionList = country.GetRegions();
-                int maxRand2 = regionList.size();
-                int index2 = rand.nextInt(maxRand2);
-                int counter2 = 0;
-                
-                for (Region region:regionList){
-                    if (index2 == counter2){
-                        region.getPopulation().addPatientZero();
-                    }
-                    counter2 +=1;
-                }                
-            }
-            counter +=1;
-        }
-    }
-    
-        public void initializePatientZeroV2(List<Country> countries, int idx ){
-        //Initialiser le patient zero
-        Random rand = new Random();
-        int maxRand = countries.size();
-        int index = idx; 
-        int counter = 0;
-        for(Country country : countries) {
-            if(index == counter){
-                List<Region>regionList = country.GetRegions();
-                int maxRand2 = regionList.size();
-                int index2 = rand.nextInt(maxRand2);
-                int counter2 = 0;
-                
-                for (Region region:regionList){
-                    if (index2 == counter2){
-                        region.getPopulation().addPatientZero();
-                    }
-                    counter2 +=1;
-                }                
-            }
-            counter +=1;
-        }
-    }
         
-    public void initializePatientZeroV3(List<Country> countries, int idx, int nbOfPatientZero){
+    public void initializePatientZero(List<Country> countries, int idx, int nbOfPatientZero){
         //Initialiser le patient zero
         Random rand = new Random();
         int maxRand = countries.size();
@@ -435,8 +394,12 @@ public class Simulation implements Serializable {
     }
     
     public void AddUndoRedoWorld(World world, Disease disease) throws CloneNotSupportedException { //TODO: Demande ce qu'il entend par undo. Undo une action, ou une jouurnee ?
-        undoRedoHistory.add(new UndoRedo(world.clone(), disease.clone(), elapsedDay));
+        undoRedoHistory.add(CreateUndoRedo(world, disease));
         undoRedoIndex++;
+    }
+    
+    public UndoRedo CreateUndoRedo(World world, Disease disease) throws CloneNotSupportedException {
+        return new UndoRedo(world.clone(), disease.clone(), elapsedDay);
     }
     
     public UndoRedo Undo() {
@@ -472,6 +435,14 @@ public class Simulation implements Serializable {
         }
         
         return undoRedoHistory.get(undoPosition);
+    }
+    
+    public UndoRedo GetLastUndoRedo() {
+        if(undoRedoHistory.isEmpty()) {
+            return null;
+        }
+        
+        return undoRedoHistory.get(undoRedoHistory.size() - 1);
     }
     
     public void createDisease(String diseaseName,double infectionRate, double mortalityRate, double cureRate){

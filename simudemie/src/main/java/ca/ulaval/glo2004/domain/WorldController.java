@@ -433,6 +433,13 @@ public class WorldController implements java.io.Serializable {
 
     public void StartSimulation(int timeStep) throws NotAllPopulationAssign {
         if(!simulation.getIsRunning()) {
+            try {
+                UndoRedo dur = simulation.CreateUndoRedo(world, disease);
+                simulation.SetDefaultState(dur);
+            } catch(CloneNotSupportedException e){
+                System.out.println(e);
+            }
+            
             world.ValidateRegions();
             simulation.Simulate(timeStep);
             NotifySimulationStarted();
@@ -445,6 +452,8 @@ public class WorldController implements java.io.Serializable {
     }
     
     public void resetSimulation() {
+        UndoRedo ur = simulation.GetDefaultState();
+        if(ur != null) ApplyUndoRedo(simulation.GetDefaultState());
         simulation.Reset();
         NotifyOnSimulationReset();
     }
@@ -485,10 +494,6 @@ public class WorldController implements java.io.Serializable {
     public void newProjet() throws CloneNotSupportedException {        
         world.clearWorld();
         simulation.Reset();
-    }
-    
-    public void CreateJEPG() {
-        
     }
     
     public void AddUndoRedo() throws CloneNotSupportedException {

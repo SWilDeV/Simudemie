@@ -2508,8 +2508,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         // TODO add your handling code here:
         try{
             int nbOfPatient = (int)Double.parseDouble(jTextFieldReproductionRate.getText());
-            worldController.setNbOfPatientZero(nbOfPatient);
-                
+            if(nbOfPatient > 0) {
+                worldController.setNbOfPatientZero(nbOfPatient);
+            }  
         }
         catch(NumberFormatException nfe){
             

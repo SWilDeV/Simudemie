@@ -19,4 +19,10 @@ public class UndoRedo {
         Disease = disease;
         ElapsedDay = elapsedDay;
     }
+    
+    public UndoRedo(UndoRedo ur) throws CloneNotSupportedException {
+        World = ur.World.clone();
+        Disease = ur.Disease.clone();
+        ElapsedDay = ur.ElapsedDay;
+    }
 }
