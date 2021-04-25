@@ -253,6 +253,7 @@ public class Simulation implements Serializable {
     public void initializePatientZeroV3(List<Country> countries, int idx, int nbOfPatientZero){
         //Initialiser le patient zero
         int counter = 0;
+        Random rand = new Random();
         for(Country country : countries) {
             if(idx == counter){
                 List<Region>regionList = country.GetRegions();
