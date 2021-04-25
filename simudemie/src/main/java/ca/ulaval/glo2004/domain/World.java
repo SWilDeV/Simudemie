@@ -150,17 +150,7 @@ public class World implements Serializable, Cloneable {
         }
     }
     
-    public void addCloseLink(UUID linkId, double adhesionRate, double threshold) {
-        CloseLink closelink = new CloseLink(adhesionRate, linkId, threshold);
-        closedLinks.add(closelink);
-    }
     
-    public void removeCloseLink(UUID linkId) {
-        CloseLink closedLink = FindCloseLinkByUUID(linkId);
-        if(closedLink != null) {
-            closedLinks.remove(closedLink);
-        }
-    }
     
     public List getClosedLinks() {
         return closedLinks;
@@ -199,6 +189,24 @@ public class World implements Serializable, Cloneable {
         for (Country country : countryList) {
             country.setRegionLinkTransmissionRate(transmissionRate);
         }
+    }
+    
+    public void addCloseLink(UUID linkId, double adhesionRate, double threshold) {
+        CloseLink closelink = new CloseLink(adhesionRate, linkId, threshold);
+        closedLinks.add(closelink);
+    }
+    
+    public void removeCloseLink(UUID linkId) {
+        CloseLink closedLink = FindCloseLinkByUUID(linkId);
+        if(closedLink != null) {
+            closedLinks.remove(closedLink);
+        }
+    }
+    
+    public void setCloseLinkParams(UUID id, double threshold, double adhesionRate) {
+        CloseLink closedLink = FindCloseLinkByUUID(id);
+        closedLink.setAdhesionRate(adhesionRate);
+        closedLink.setThreshold(threshold);
     }
     
     public Population getWorldPopulation(){

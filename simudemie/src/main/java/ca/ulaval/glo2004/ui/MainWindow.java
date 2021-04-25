@@ -341,7 +341,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     String name1 = worldController.GetCountryDTO(l.Country1Id).Name;
                     String name2 = worldController.GetCountryDTO(l.Country2Id).Name;
             
-                    name += name1 + " <-> " + name2 + " - FERME";
+                    name += name1 + " <-> " + name2 + " - FERME -- (TA: " + cl.AdhesionRate + ", S: " + cl.Threshold +")";
                     listModel.addElement(name);
                 }
             });     
@@ -1336,6 +1336,11 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jScrollPaneClosedLinks.setViewportView(jListClosedLinks);
 
         jButtonModifyCloseLink.setText("Modifier");
+        jButtonModifyCloseLink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonModifyCloseLinkActionPerformed(evt);
+            }
+        });
 
         jButtonDeleteCloseLink.setText("Retirer");
         jButtonDeleteCloseLink.addActionListener(new java.awt.event.ActionListener() {
@@ -2591,6 +2596,21 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         frame.setVisible(true);
         frame.setSize(450, 350);
     }//GEN-LAST:event_jButtonStatsCountryActionPerformed
+
+    private void jButtonModifyCloseLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModifyCloseLinkActionPerformed
+        double threshold = Double.parseDouble(jTextFieldCloseLinkThreshold.getText())/100;
+        double adhesionRate = Double.parseDouble(jTextFieldCloseLinkAR.getText())/100;
+        
+        int index = jListClosedLinks.getSelectedIndex();
+        if(index != -1) {
+            UUID id = worldController.getClosedLinks().get(index).ConcernedLink;
+            worldController.setCloseLinkParams(id, threshold, adhesionRate);
+            
+        }
+       
+        UpdateJListClosedLinks();
+        
+    }//GEN-LAST:event_jButtonModifyCloseLinkActionPerformed
 
 
     public void Draw(Graphics2D g2d){
