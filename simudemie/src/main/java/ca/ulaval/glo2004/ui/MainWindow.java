@@ -2373,21 +2373,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }//GEN-LAST:event_jButtonChangeBackgroundImageActionPerformed
 
 
-    private void jButtonCreateGraphicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateGraphicActionPerformed
-        //XYSeriesCollection dataset = worldController.getWorldStats();
-        XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(deathsNum);
-        dataset.addSeries(infectedNum);
-        dataset.addSeries(nonInfectedNum);
-
-        JFreeChart chart = ChartFactory.createXYLineChart("Statistiques de la pandémie", "jours", "nombre", dataset);
-        chart.setBackgroundPaint(Color.GRAY);
-        chart.getTitle().setPaint(Color.RED);
-        ChartFrame frame = new ChartFrame("Statistiques de la pandémie", chart);
-        frame.setVisible(true);
-        frame.setSize(450, 350);
-    }//GEN-LAST:event_jButtonCreateGraphicActionPerformed
-
     private void jCheckBoxActiveMesureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxActiveMesureActionPerformed
         // TODO add your handling code here:
         
@@ -2585,19 +2570,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         
     }//GEN-LAST:event_jTextFieldLinkTransRateKeyPressed
 
-    private void jButtonStatsCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStatsCountryActionPerformed
-        UUID id = countrySelected.Id;
-        String name = countrySelected.Name;
-        XYSeriesCollection dataset = worldController.getCountryStats(id);
-        
-        JFreeChart chart = ChartFactory.createXYLineChart("Statistiques pour " + name, "jours", "nombre", dataset);
-        chart.setBackgroundPaint(Color.GRAY);
-        chart.getTitle().setPaint(Color.RED);
-        ChartFrame frame = new ChartFrame("Statistiques pour " + name, chart);
-        frame.setVisible(true);
-        frame.setSize(450, 350);
-    }//GEN-LAST:event_jButtonStatsCountryActionPerformed
-
     private void jButtonModifyCloseLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModifyCloseLinkActionPerformed
         double threshold = Double.parseDouble(jTextFieldCloseLinkThreshold.getText())/100;
         double adhesionRate = Double.parseDouble(jTextFieldCloseLinkAR.getText())/100;
@@ -2612,6 +2584,35 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         UpdateJListClosedLinks();
         
     }//GEN-LAST:event_jButtonModifyCloseLinkActionPerformed
+
+    private void jButtonStatsCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStatsCountryActionPerformed
+        UUID id = countrySelected.Id;
+        String name = countrySelected.Name;
+        XYSeriesCollection dataset = worldController.getCountryStats(id);
+
+        JFreeChart chart = ChartFactory.createXYLineChart("Statistiques pour " + name, "jours", "nombre", dataset);
+        chart.setBackgroundPaint(Color.GRAY);
+        chart.getTitle().setPaint(Color.YELLOW);
+
+        ChartFrame frame = new ChartFrame("Statistiques pour " + name, chart);
+        frame.setVisible(true);
+        frame.setSize(450, 350);
+    }//GEN-LAST:event_jButtonStatsCountryActionPerformed
+
+    private void jButtonCreateGraphicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateGraphicActionPerformed
+        //XYSeriesCollection dataset = worldController.getWorldStats();
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(deathsNum);
+        dataset.addSeries(infectedNum);
+        dataset.addSeries(nonInfectedNum);
+
+        JFreeChart chart = ChartFactory.createXYLineChart("Statistiques de la pandémie", "jours", "nombre", dataset);
+        chart.setBackgroundPaint(Color.GRAY);
+        chart.getTitle().setPaint(Color.YELLOW);
+        ChartFrame frame = new ChartFrame("Statistiques de la pandémie", chart);
+        frame.setVisible(true);
+        frame.setSize(450, 350);
+    }//GEN-LAST:event_jButtonCreateGraphicActionPerformed
 
 
     public void Draw(Graphics2D g2d){
