@@ -56,6 +56,8 @@ public class Simulation implements Serializable {
         controller = p_controller;
         diseaseList = diseases;
         this.elapsedDay = elapsedDay;
+        
+        setcurrentDisease(currentDiseaseIndex);
     }
     
     public boolean HasDisease() {
