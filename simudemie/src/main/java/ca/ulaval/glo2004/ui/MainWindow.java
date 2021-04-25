@@ -91,7 +91,14 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         deathsNum.add(day, deads);
         infectedNum.add(day, infected);
-        int nonInfected = PopTot - deads - infected;
+        
+        int nonInfected;
+        if (PopTot > 0) {
+            nonInfected = PopTot - deads - infected;
+        } else {
+            nonInfected = 0;
+        }
+        
         nonInfectedNum.add(day, nonInfected);
         
         jSliderUndoRedo.setValue(worldController.GetUndoRedoSize());
@@ -544,7 +551,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jPanelCuredRate = new javax.swing.JPanel();
         jLabelTitleCuredRate = new javax.swing.JLabel();
         jTextFieldCuredRate = new javax.swing.JTextField();
-        jButtonApplyDisease = new javax.swing.JButton();
         jComboBoxDiseases = new javax.swing.JComboBox<>();
         jLabelTitleDeseaseName = new javax.swing.JLabel();
         jTextFieldDiseaseName = new javax.swing.JTextField();
@@ -699,7 +705,12 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
-        jTextFieldCountryPop.setText("10000");
+        jTextFieldCountryPop.setText("10000000");
+        jTextFieldCountryPop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldCountryPopActionPerformed(evt);
+            }
+        });
         jTextFieldCountryPop.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextFieldCountryPopKeyPressed(evt);
@@ -924,13 +935,19 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jLabelRegionLink.setText("Régional (%)");
 
-        jTextFieldRegionLinkTrans.setText("0.0");
+        jTextFieldRegionLinkTrans.setText("8.0");
+        jTextFieldRegionLinkTrans.setToolTipText("");
 
-        jTextFieldPortTransRate.setText("0.0");
+        jTextFieldPortTransRate.setText("1.0");
 
-        jTextFieldBorderTransRate.setText("0.0");
+        jTextFieldBorderTransRate.setText("2.0");
+        jTextFieldBorderTransRate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldBorderTransRateActionPerformed(evt);
+            }
+        });
 
-        jTextFieldAirportTransRate.setText("0.0");
+        jTextFieldAirportTransRate.setText("3.0");
 
         jTextFieldLinkTransRate.setText("0.0");
         jTextFieldLinkTransRate.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -960,7 +977,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addGroup(jPanelLinkLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jButtonApplyAllLinksTravelRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabelRegionLink, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelLinkLayout.createSequentialGroup()
+                        .addComponent(jLabelRegionLink, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextFieldRegionLinkTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelLinkLayout.createSequentialGroup()
                         .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -970,7 +990,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextFieldAirportTransRate, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                            .addComponent(jTextFieldBorderTransRate)))
+                            .addComponent(jTextFieldBorderTransRate)
+                            .addComponent(jTextFieldPortTransRate, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addComponent(jSeparator7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelLinkLayout.createSequentialGroup()
                         .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -981,11 +1002,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         .addGap(18, 18, 18)
                         .addComponent(jTextFieldLinkTransRate))
                     .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelLinkLayout.createSequentialGroup()
-                        .addGap(254, 254, 254)
-                        .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldRegionLinkTrans, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                            .addComponent(jTextFieldPortTransRate)))
                     .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
@@ -1037,7 +1053,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addComponent(jScrollPaneLinks, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonDeleteLink)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         jPanelConceptionOptions.add(jPanelLink, "card5");
@@ -1172,13 +1188,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jTextFieldCuredRate.setText("4");
         jPanelCuredRate.add(jTextFieldCuredRate);
 
-        jButtonApplyDisease.setText("Appliquer");
-        jButtonApplyDisease.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonApplyDiseaseActionPerformed(evt);
-            }
-        });
-
         jComboBoxDiseases.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxDiseasesActionPerformed(evt);
@@ -1194,7 +1203,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jTextFieldDiseaseName.setText("Nom maladie");
 
-        jButtonSaveNewDisease.setText("Savegarder");
+        jButtonSaveNewDisease.setText("Sauvegarder");
         jButtonSaveNewDisease.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSaveNewDiseaseActionPerformed(evt);
@@ -1269,12 +1278,11 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addComponent(jPanelMortalityRate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelReproductionRate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelCuredRate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonApplyDisease, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboBoxCountryPatientZero, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabelSelectionCountryPatientZero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelNumberOfZeroPatients, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonApplyPatientZero, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanelDeseaseParamsLayout.setVerticalGroup(
             jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1297,9 +1305,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         .addGap(5, 5, 5)
                         .addComponent(jLabelReproductionRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jLabelR, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonApplyDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(35, 35, 35)
                 .addGroup(jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonDeleteDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonSaveNewDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -2531,31 +2537,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         }
     }//GEN-LAST:event_jComboBoxDiseasesActionPerformed
 
-    private void jButtonApplyDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyDiseaseActionPerformed
-
-        //        try {
-            //            double infectionRate = Double.parseDouble(jTextFieldReproductionRate.getText())/100;
-            //            double mortalityRate = Double.parseDouble(jTextFieldMortalityRate.getText())/100;
-            //            double cureRate = Double.parseDouble(jTextFieldCuredRate.getText())/100;
-            //            if(infectionRate >= 0 && infectionRate <=1 && mortalityRate >=0 && mortalityRate <=1 &&
-                //                cureRate >= 0 && cureRate <=1) {
-                //                    worldController.UpdateDiseaseFromDTO(infectionRate, mortalityRate, cureRate);
-                ////                    DiseaseDTO disease = new DiseaseDTO()
-                ////                    worldController.getSimulation().UpdateDiseaseFromDTO(infectionRate, mortalityRate, cureRate);
-                //                    jTextFieldReproductionRate.setBackground(Color.white);
-                //                    jTextFieldMortalityRate.setBackground(Color.white);
-                //                    jTextFieldCuredRate.setBackground(Color.white);
-                //                }
-            //            else{
-                //                if(infectionRate < 0) jTextFieldReproductionRate.setBackground(Color.red);
-                //                if(mortalityRate < 0) jTextFieldMortalityRate.setBackground(Color.red);
-                //                if(cureRate < 0) jTextFieldCuredRate.setBackground(Color.red);
-                //            }
-            //        } catch(NumberFormatException e) {
-            //            JOptionPane.showMessageDialog(this, "Un des champs n'est pas valide");
-            //        }
-    }//GEN-LAST:event_jButtonApplyDiseaseActionPerformed
-
     private void jTextFieldMortalityRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMortalityRateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldMortalityRateActionPerformed
@@ -2655,6 +2636,14 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         frame.setSize(450, 350);
     }//GEN-LAST:event_jButtonStatsRegionActionPerformed
 
+    private void jTextFieldBorderTransRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBorderTransRateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldBorderTransRateActionPerformed
+
+    private void jTextFieldCountryPopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCountryPopActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldCountryPopActionPerformed
+
 
     public void Draw(Graphics2D g2d){
         worldController.Draw(g2d, mousePoints); 
@@ -2713,7 +2702,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JButton jButtonAddMesure;
     private javax.swing.JButton jButtonAddRegion;
     private javax.swing.JButton jButtonApplyAllLinksTravelRate;
-    private javax.swing.JButton jButtonApplyDisease;
     private javax.swing.JButton jButtonApplyPatientZero;
     private javax.swing.JButton jButtonBacktrack;
     private javax.swing.JButton jButtonChangeBackgroundImage;
