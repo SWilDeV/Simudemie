@@ -36,6 +36,14 @@ public class UndoRedo {
         CurrentDiseaseIndex = currentDiseaseIndex;
     }
     
+    public World getUndoRedoWorld() {
+        return World;
+    }
+    
+    public int getElapsedDay() {
+        return ElapsedDay;
+    }
+    
     public UndoRedo(UndoRedo ur) throws CloneNotSupportedException {
         World = ur.World.clone();
         Diseases = new ArrayList<>(ur.Diseases.size());

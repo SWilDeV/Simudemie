@@ -567,6 +567,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jButtonDeleteCloseLink = new javax.swing.JButton();
         jPanelStatistics = new javax.swing.JPanel();
         jButtonCreateGraphic = new javax.swing.JButton();
+        jButtonStatsCountry = new javax.swing.JButton();
         jPanelHealthMesures = new javax.swing.JPanel();
         jLabelMesureName = new javax.swing.JLabel();
         jTextFieldMesureName = new javax.swing.JTextField();
@@ -1407,10 +1408,17 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jTabbedPaneSimulationOptions.addTab("Fermeture Liens", jPanelFermetureLiens);
 
-        jButtonCreateGraphic.setText("Créer graphique");
+        jButtonCreateGraphic.setText("Obtenir statistiques pour le monde");
         jButtonCreateGraphic.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCreateGraphicActionPerformed(evt);
+            }
+        });
+
+        jButtonStatsCountry.setText("Obtenir statistiques pour le pays");
+        jButtonStatsCountry.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonStatsCountryActionPerformed(evt);
             }
         });
 
@@ -1418,17 +1426,20 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jPanelStatistics.setLayout(jPanelStatisticsLayout);
         jPanelStatisticsLayout.setHorizontalGroup(
             jPanelStatisticsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelStatisticsLayout.createSequentialGroup()
-                .addContainerGap(105, Short.MAX_VALUE)
-                .addComponent(jButtonCreateGraphic)
-                .addGap(103, 103, 103))
+            .addGroup(jPanelStatisticsLayout.createSequentialGroup()
+                .addGroup(jPanelStatisticsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonCreateGraphic, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
+                    .addComponent(jButtonStatsCountry, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanelStatisticsLayout.setVerticalGroup(
             jPanelStatisticsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelStatisticsLayout.createSequentialGroup()
-                .addContainerGap(501, Short.MAX_VALUE)
+            .addGroup(jPanelStatisticsLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
                 .addComponent(jButtonCreateGraphic)
-                .addGap(40, 40, 40))
+                .addGap(53, 53, 53)
+                .addComponent(jButtonStatsCountry)
+                .addContainerGap(375, Short.MAX_VALUE))
         );
 
         jTabbedPaneSimulationOptions.addTab("Statistiques", jPanelStatistics);
@@ -2567,6 +2578,19 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         
     }//GEN-LAST:event_jTextFieldLinkTransRateKeyPressed
 
+    private void jButtonStatsCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStatsCountryActionPerformed
+        UUID id = countrySelected.Id;
+        String name = countrySelected.Name;
+        XYSeriesCollection dataset = worldController.getCountryStats(id);
+        
+        JFreeChart chart = ChartFactory.createXYLineChart("Statistiques pour " + name, "jours", "nombre", dataset);
+        chart.setBackgroundPaint(Color.GRAY);
+        chart.getTitle().setPaint(Color.RED);
+        ChartFrame frame = new ChartFrame("Statistiques pour " + name, chart);
+        frame.setVisible(true);
+        frame.setSize(450, 350);
+    }//GEN-LAST:event_jButtonStatsCountryActionPerformed
+
 
     public void Draw(Graphics2D g2d){
         worldController.Draw(g2d, mousePoints); 
@@ -2644,6 +2668,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JButton jButtonResetZoom;
     private javax.swing.JButton jButtonSaveNewDisease;
     private javax.swing.JButton jButtonScreenShotWorld;
+    private javax.swing.JButton jButtonStatsCountry;
     private javax.swing.JCheckBox jCheckBoxActiveMesure;
     private javax.swing.JComboBox<String> jComboBoxAddLink;
     private javax.swing.JComboBox<String> jComboBoxCountryPatientZero;

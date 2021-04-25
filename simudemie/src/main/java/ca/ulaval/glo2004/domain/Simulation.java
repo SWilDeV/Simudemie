@@ -418,6 +418,10 @@ public class Simulation implements Serializable {
         undoRedoIndex++;
     }
     
+    public ArrayList GetUndoRedoHistory() {
+        return undoRedoHistory;
+    }
+    
     public UndoRedo CreateUndoRedo(World world) throws CloneNotSupportedException {
         return new UndoRedo(world.clone(), diseaseList, currentDiseaseIndex, elapsedDay);
     }

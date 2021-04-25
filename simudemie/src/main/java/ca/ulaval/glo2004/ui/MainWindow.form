@@ -1555,19 +1555,23 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="105" max="32767" attributes="0"/>
-                              <Component id="jButtonCreateGraphic" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jButtonCreateGraphic" pref="346" max="32767" attributes="0"/>
+                                  <Component id="jButtonStatsCountry" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="501" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                               <Component id="jButtonCreateGraphic" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+                              <Component id="jButtonStatsCountry" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="375" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1575,10 +1579,18 @@
                   <SubComponents>
                     <Component class="javax.swing.JButton" name="jButtonCreateGraphic">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Cr&#xe9;er graphique"/>
+                        <Property name="text" type="java.lang.String" value="Obtenir statistiques pour le monde"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCreateGraphicActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="jButtonStatsCountry">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Obtenir statistiques pour le pays"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonStatsCountryActionPerformed"/>
                       </Events>
                     </Component>
                   </SubComponents>

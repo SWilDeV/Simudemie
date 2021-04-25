@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -516,6 +517,12 @@ public class WorldController implements java.io.Serializable {
         simulation.Reset();
     }
     
+    public XYSeriesCollection getCountryStats(UUID id) {
+        SimulationStats stats = new SimulationStats(simulation);
+        
+        return stats.getCountryStats(id);
+    }
+    
     public void AddUndoRedo() {
         try {
         simulation.AddUndoRedoWorld(world);
@@ -549,4 +556,6 @@ public class WorldController implements java.io.Serializable {
         simulation.SetElapsedDay(ur.ElapsedDay);
         NotifyOnSimulationUndoRedo();
     }
+    
+    
 }
