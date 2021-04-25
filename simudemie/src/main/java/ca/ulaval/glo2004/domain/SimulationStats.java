@@ -24,6 +24,33 @@ public class SimulationStats {
         undoRedoHistory = simulation.GetUndoRedoHistory();
     }
     
+    public XYSeriesCollection getWorldStats() {
+        XYSeries deathNum = new XYSeries("Morts");
+        XYSeries infectedNum = new XYSeries("Infectés");
+        XYSeries uninfectedNum = new XYSeries("Sains");
+        
+        for (UndoRedo undoRedo : undoRedoHistory) {
+            World world = undoRedo.getUndoRedoWorld();
+            Population worldPop = world.getWorldPopulation();
+            int elapsedDay = undoRedo.getElapsedDay();
+            int dead = worldPop.getDeadPopulation();
+            int infected = worldPop.getInfectedPopulation();
+            int uninfected = worldPop.getTotalPopulation() - dead - infected;
+            System.out.println(elapsedDay + " " + worldPop.getTotalPopulation());
+            
+            deathNum.add(elapsedDay, dead);
+            infectedNum.add(elapsedDay, infected);
+            uninfectedNum.add(elapsedDay, uninfected);
+        }
+        deathNum.remove(0);
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(deathNum);
+        dataset.addSeries(infectedNum);
+        dataset.addSeries(uninfectedNum);
+
+        return dataset;
+    }
+    
     public XYSeriesCollection getCountryStats(UUID id) {
         XYSeries deathNum = new XYSeries("Morts");
         XYSeries infectedNum = new XYSeries("Infectés");
@@ -42,7 +69,7 @@ public class SimulationStats {
                     Population population = country.getPopulation();
                     dead = population.getDeadPopulation();
                     infected = population.getInfectedPopulation();
-                    uninfected = population.getNonInfectedPopulation();
+                    uninfected = population.getTotalPopulation() - dead - infected;
                     
                     deathNum.add(elapsedDay, dead);
                     infectedNum.add(elapsedDay, infected);

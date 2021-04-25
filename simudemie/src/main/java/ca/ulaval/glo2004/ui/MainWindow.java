@@ -2374,6 +2374,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
 
     private void jButtonCreateGraphicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateGraphicActionPerformed
+        //XYSeriesCollection dataset = worldController.getWorldStats();
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(deathsNum);
         dataset.addSeries(infectedNum);
