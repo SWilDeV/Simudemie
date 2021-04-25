@@ -84,4 +84,42 @@ public class SimulationStats {
 
         return dataset;
     }
+    
+    public XYSeriesCollection getRegionStats(UUID id) {
+        XYSeries deathNum = new XYSeries("Morts");
+        XYSeries infectedNum = new XYSeries("Infectés");
+        XYSeries uninfectedNum = new XYSeries("Sains");
+        
+        for (UndoRedo undoRedo : undoRedoHistory) {
+            World world = undoRedo.getUndoRedoWorld();
+            int elapsedDay = undoRedo.getElapsedDay();
+            int dead;
+            int infected;
+            int uninfected;
+            
+            List<Country> countryList = world.getCountries();
+            for (Country country : countryList) {
+                List<Region> regions = country.GetRegions();
+                for (Region region : regions) {
+                    if (region.GetId() == id) {
+                        Population population = country.getPopulation();
+                        dead = population.getDeadPopulation();
+                        infected = population.getInfectedPopulation();
+                        uninfected = population.getTotalPopulation() - dead - infected;
+                    
+                        deathNum.add(elapsedDay, dead);
+                        infectedNum.add(elapsedDay, infected);
+                        uninfectedNum.add(elapsedDay, uninfected);
+                    }
+                }
+                
+            }  
+        }
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(deathNum);
+        dataset.addSeries(infectedNum);
+        dataset.addSeries(uninfectedNum);
+
+        return dataset;
+    }
 }
