@@ -41,16 +41,6 @@ public class Country implements Serializable, Cloneable  {
         name = countryName;
         
         population = new Population(countryPop);
-        
-        Point topLeft = Utility.GetTopLeftPoint(shape.GetPoints());
-        List<Point> pts = new ArrayList<Point>(){
-            {
-                add(new Point(topLeft.x + 10, topLeft.y + 10));
-                add(new Point(topLeft.x + 50, topLeft.y + 50));
-            }  
-        };
-        
-        addRegion(Utility.ToRectangle(pts), "Region 1");
     }
     
     public void AddMesure(HealthMesure mesure) {
