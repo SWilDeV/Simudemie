@@ -46,6 +46,10 @@ public class HealthMesure implements Serializable, Cloneable {
         adhesionRate = newAdhesionRate;
     }
     
+    public void setThreshold(double newThreshold) {
+        threshold = newThreshold;
+    }
+    
     public void setActive(boolean active) {
         isActive = active;
     }

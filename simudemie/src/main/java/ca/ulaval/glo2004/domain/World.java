@@ -26,6 +26,7 @@ public class World implements Serializable, Cloneable {
     private List<CloseLink> closedLinks = new ArrayList<>();
     private List<Country> countryList = new ArrayList<>();
     private Population worldPopulation = new Population();
+    private double borderTransmission;
     private static final long serialVersionUID = 1L; 
     
     public World() {
@@ -141,18 +142,15 @@ public class World implements Serializable, Cloneable {
         }
     }
     
-    public void addCloseLink(UUID linkId, double adhesionRate, double threshold) {
-        CloseLink closelink = new CloseLink(adhesionRate, linkId, threshold);
-        closedLinks.add(closelink);
-    }
-    
-    public void removeCloseLink(UUID linkId) {
-        for (CloseLink closedLink: closedLinks) {
-            if (linkId == closedLink.getConcernedLink()) {
-                closedLinks.remove(closedLink);
-            }
+    public CloseLink FindCloseLinkByUUID (UUID id) {
+        try {
+            return closedLinks.stream().filter(cl -> cl.getConcernedLink().equals(id)).findAny().get();
+        } catch(NoSuchElementException e) {
+            return null;
         }
     }
+    
+    
     
     public List getClosedLinks() {
         return closedLinks;
@@ -167,6 +165,7 @@ public class World implements Serializable, Cloneable {
     }
     
     public void setLinksTransmissionRate(double borderTransmissionRate, double waterTransmissionRate,double airTransmissionRate) {
+        borderTransmission = borderTransmissionRate;
         for (Link link : linkList) {
             if (link.GetLinkType() == LinkType.TERRESTRE) {
                 link.setTransmissionRate(borderTransmissionRate);
@@ -176,6 +175,38 @@ public class World implements Serializable, Cloneable {
                 link.setTransmissionRate(airTransmissionRate);
             }
         }
+    }
+    
+    public void setLinkTransmissionRate(UUID id, double transmissionRate) {
+        for (Link link : linkList) {
+            if (link.GetId() == id) {
+                link.setTransmissionRate(transmissionRate);
+            }
+        }
+    }
+    
+    public void setRegionLinkTransmissionRate(double transmissionRate) {
+        for (Country country : countryList) {
+            country.setRegionLinkTransmissionRate(transmissionRate);
+        }
+    }
+    
+    public void addCloseLink(UUID linkId, double adhesionRate, double threshold) {
+        CloseLink closelink = new CloseLink(adhesionRate, linkId, threshold);
+        closedLinks.add(closelink);
+    }
+    
+    public void removeCloseLink(UUID linkId) {
+        CloseLink closedLink = FindCloseLinkByUUID(linkId);
+        if(closedLink != null) {
+            closedLinks.remove(closedLink);
+        }
+    }
+    
+    public void setCloseLinkParams(UUID id, double threshold, double adhesionRate) {
+        CloseLink closedLink = FindCloseLinkByUUID(id);
+        closedLink.setAdhesionRate(adhesionRate);
+        closedLink.setThreshold(threshold);
     }
     
     public Population getWorldPopulation(){
@@ -292,8 +323,9 @@ public class World implements Serializable, Cloneable {
         for(Country c: countryList) {
             if(c != country) {
                 if(Utility.AsCommonLandBorder(c, country) && !ExistLink(c, country, LinkType.TERRESTRE)) {
-                    Addlink(c.GetId(), country.GetId(), LinkType.TERRESTRE, 0);
+                    Addlink(c.GetId(), country.GetId(), LinkType.TERRESTRE, borderTransmission);
                     //Addlink(c.getRegion0().GetId(), country.getRegion0().GetId(), LinkType.TERRESTRE);
+                    
                 }
             }
         }

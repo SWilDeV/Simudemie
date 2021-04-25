@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -29,7 +30,6 @@ public class WorldController implements java.io.Serializable {
     private World world = new World();
     private List<WorldObserver> observers = new ArrayList<>(); //TODO: Discuter de ou mettre l'observer. Ici ou dans simulation ? 
     private Simulation simulation;
-    private Disease disease = new Disease("ebola",0.04, 0.02, 0.9); //TODO Fix undo/redo
     private final WorldDrawer worldDrawer;
     
     
@@ -341,9 +341,15 @@ public class WorldController implements java.io.Serializable {
             regionTransmissionRate >=0 && regionTransmissionRate <= 1) 
         {
             world.setLinksTransmissionRate(borderTransmissionRate, waterTransmissionRate,airTransmissionRate);
-            //world.setRegionLinkTransmissionRate(regionTransmissionRate);
+            world.setRegionLinkTransmissionRate(regionTransmissionRate);
         }
         
+    }
+    
+    public void setLinkTransmissionRate(UUID id, double transmissionRate) {
+        if (transmissionRate >=0 && transmissionRate <=1 ) {
+            world.setLinkTransmissionRate(id, transmissionRate);
+        } 
     }
     
     public void ActiveMesures() {
@@ -358,13 +364,23 @@ public class WorldController implements java.io.Serializable {
 //        System.out.println("mortalityRate: "+ disease.getMortalityRate() +", curedRate: "+ disease.getCureRate() + ", infectedtRate : " + disease.getInfectionRate());
 //    }
 //    
-    public Disease getDisease(){
-        return disease;
-    }
 //    
 //    public DiseaseDTO GetDiseaseDTO(){
 //        return new DiseaseDTO(disease);
 //    }
+    
+    public boolean HasDesease() {
+        return simulation.HasDisease();
+    }
+    
+    public DiseaseDTO GetDiseaseDTO() {
+        return new DiseaseDTO(simulation.getCurrentDisease());
+    }
+    
+    public List<DiseaseDTO> getDiseasesDTO() {
+        return (List<DiseaseDTO>) simulation.getDiseaseList().stream().map(e -> new DiseaseDTO((Disease) e)).collect(Collectors.toList());
+    }
+    
     public List<Disease> getDiseaseList(){
         return simulation.getDiseaseList();
     }
@@ -382,6 +398,10 @@ public class WorldController implements java.io.Serializable {
         simulation.setcurrentDisease(index);
     }
     
+    public void RemoveDisease(int index) {
+        simulation.RemoveCurrentDisease();
+    }
+    
     public void setCurrentCountryPatientZeroIndex(int index){
         simulation.setCurrentCountryPatientZeroIndex(index);
     }
@@ -394,6 +414,7 @@ public class WorldController implements java.io.Serializable {
     public void AddMesure(UUID countryId, double adhesionRate, boolean active, String mesureName, double threshold,
                           double effectTransmissionRate, double effectReproductionRate) 
     {
+        Disease disease = simulation.getCurrentDisease();
         double reproductionRate = disease.getInfectionRate()/disease.getCureRate();
         
         if (adhesionRate >= 0 && adhesionRate <= 1 && threshold >= 0 && threshold <=1 && 
@@ -413,26 +434,27 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
-    public void removeCloseLink(UUID linkId) {
-        world.removeCloseLink(linkId);
+    public void removeCloseLink(UUID CloseLinkId) {
+        world.removeCloseLink(CloseLinkId);
     }
     
-    //public void updateCloseLink(UUID linkId) {
-        
-        //if (world.FindLinkByUUID(linkId).isOpen()) {
-            //world.FindLinkByUUID(linkId).closeLink();
-        //} else {
-            //world.FindLinkByUUID(linkId).openLink();
-       // }
-        //CloseLink closedLink = new CloseLink(0.95, world.FindLinkByUUID(linkId));
-    //}
+    public void setCloseLinkParams(UUID id, double threshold, double adhesionRate) {
+        world.setCloseLinkParams(id, threshold, adhesionRate);
+    }
     
     public boolean IsRunning() {
         return simulation.getIsRunning();
     }
 
     public void StartSimulation(int timeStep) throws NotAllPopulationAssign {
-        if(!simulation.getIsRunning()) {
+        if(!simulation.getIsRunning() && simulation.HasDisease()) {
+            try {
+                UndoRedo dur = simulation.CreateUndoRedo(world);
+                simulation.SetDefaultState(dur);
+            } catch(CloneNotSupportedException e){
+                System.out.println(e);
+            }
+            
             world.ValidateRegions();
             simulation.Simulate(timeStep);
             NotifySimulationStarted();
@@ -445,6 +467,8 @@ public class WorldController implements java.io.Serializable {
     }
     
     public void resetSimulation() {
+        UndoRedo ur = simulation.GetDefaultState();
+        if(ur != null) ApplyUndoRedo(simulation.GetDefaultState());
         simulation.Reset();
         NotifyOnSimulationReset();
     }
@@ -455,7 +479,7 @@ public class WorldController implements java.io.Serializable {
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeInt(simulation.GetElapsedDay());
             out.writeObject(world);
-            out.writeObject(disease);
+            out.writeObject(simulation.getDiseaseList());
             out.close();
             fileOut.close();
         } catch (IOException ioe) {
@@ -469,9 +493,9 @@ public class WorldController implements java.io.Serializable {
             ObjectInputStream in = new ObjectInputStream(fileIn);
             int elapsedDay = in.readInt();
             world = (World) in.readObject();
-            disease = (Disease) in.readObject();
+            List<Disease> diseases = (List<Disease>) in.readObject();
             world.SetWorldController(this);
-            simulation = new Simulation(this, elapsedDay);
+            simulation = new Simulation(this, diseases, elapsedDay);
             NotifyProjectLoaded();
         } catch (FileNotFoundException f) {
             f.printStackTrace();
@@ -487,12 +511,28 @@ public class WorldController implements java.io.Serializable {
         simulation.Reset();
     }
     
-    public void CreateJEPG() {
+    public XYSeriesCollection getCountryStats(UUID id) {
+        SimulationStats stats = new SimulationStats(simulation);
         
+        return stats.getCountryStats(id);
     }
     
-    public void AddUndoRedo() throws CloneNotSupportedException {
-        simulation.AddUndoRedoWorld(world, disease);
+    public XYSeriesCollection getWorldStats() {
+        SimulationStats stats = new SimulationStats(simulation);
+        return stats.getWorldStats();
+    }
+    
+    public XYSeriesCollection getRegionStats(UUID id) {
+        SimulationStats stats = new SimulationStats(simulation);
+        return stats.getRegionStats(id);
+    }
+    
+    public void AddUndoRedo() {
+        try {
+        simulation.AddUndoRedoWorld(world);
+        } catch (CloneNotSupportedException e) {
+            System.out.println("ca.ulaval.glo2004.domain.WorldController.AddUndoRedo()");
+        }
     }
     
     public void Undo() {
@@ -515,8 +555,11 @@ public class WorldController implements java.io.Serializable {
     
     private void ApplyUndoRedo(UndoRedo ur) {
         world.LoadWorld(ur.World);
-        disease = ur.Disease;
+        simulation.SetDiseases(ur.Diseases);
+        simulation.setcurrentDisease(ur.CurrentDiseaseIndex);
         simulation.SetElapsedDay(ur.ElapsedDay);
         NotifyOnSimulationUndoRedo();
     }
+    
+    
 }

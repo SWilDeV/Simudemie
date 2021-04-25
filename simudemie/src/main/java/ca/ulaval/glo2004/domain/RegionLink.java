@@ -45,11 +45,11 @@ public class RegionLink implements Serializable, Cloneable {
        region2Id = id;
    }
    
-   public double getTravelRate(){
+   public double getTransmissionRate(){
        return transmissionRate;
    }
    
-   public void setTravelRate(double p_transmissionRate){
+   public void setTransmissionRate(double p_transmissionRate){
       transmissionRate = p_transmissionRate;
    }
    

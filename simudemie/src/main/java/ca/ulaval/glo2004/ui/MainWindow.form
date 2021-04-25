@@ -212,7 +212,7 @@
                           <Component id="jToggleBtnAddLink" alignment="0" max="32767" attributes="0"/>
                           <Component id="jButtonResetZoom" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="20" max="32767" attributes="0"/>
+                      <EmptySpace pref="18" max="32767" attributes="0"/>
                   </Group>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
@@ -232,7 +232,7 @@
                       <Component id="jToggleBtnAddLink" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButtonResetZoom" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="628" max="32767" attributes="0"/>
+                      <EmptySpace pref="612" max="32767" attributes="0"/>
                   </Group>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
@@ -600,47 +600,47 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Component id="jLabel10" max="32767" attributes="0"/>
-                                          <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
-                                          <Component id="jComboBoxAddLink" min="-2" pref="196" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="jScrollPaneLinks" alignment="0" pref="342" max="32767" attributes="0"/>
-                                      <Component id="jButtonDeleteLink" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jSeparator3" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
-                                      <Component id="jLabel6" alignment="0" min="-2" pref="92" max="-2" attributes="0"/>
-                                      <Component id="jLabelModifyLinkTrans" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jButtonApplyAllLinksTravelRate" max="32767" attributes="0"/>
-                                              <Group type="102" attributes="0">
-                                                  <Component id="jComboBoxAllLinksType" min="-2" pref="113" max="-2" attributes="0"/>
-                                                  <EmptySpace max="32767" attributes="0"/>
-                                                  <Component id="jSpinnerAllLinksTravelRate" min="-2" pref="88" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                      </Group>
-                                      <Component id="jLabelRegionLink" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
-                                      <Component id="jSeparator4" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                              <Component id="jLabel14" max="32767" attributes="0"/>
-                                              <Component id="jLabel13" max="32767" attributes="0"/>
-                                              <Component id="jLabel12" pref="135" max="32767" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="jTextFieldAirportTransRate" pref="80" max="32767" attributes="0"/>
-                                              <Component id="jTextFieldBorderTransRate" max="32767" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <Component id="jSeparator7" alignment="1" min="-2" pref="334" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="jLabel10" max="32767" attributes="0"/>
+                                      <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                                      <Component id="jComboBoxAddLink" min="-2" pref="196" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jScrollPaneLinks" alignment="0" pref="342" max="32767" attributes="0"/>
+                                  <Component id="jButtonDeleteLink" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jSeparator3" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
+                                  <Component id="jLabel6" alignment="0" min="-2" pref="92" max="-2" attributes="0"/>
+                                  <Component id="jLabelModifyLinkTrans" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                                      <Component id="jButtonApplyAllLinksTravelRate" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Component id="jLabelRegionLink" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
+                                  <Component id="jSeparator4" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="jLabel14" max="32767" attributes="0"/>
+                                          <Component id="jLabel13" max="32767" attributes="0"/>
+                                          <Component id="jLabel12" pref="135" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jTextFieldAirportTransRate" pref="80" max="32767" attributes="0"/>
+                                          <Component id="jTextFieldBorderTransRate" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Component id="jSeparator7" alignment="1" min="-2" pref="334" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                                              <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="jTextFieldLinkTransRate" max="32767" attributes="0"/>
+                                  </Group>
                                   <Component id="jSeparator5" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <EmptySpace min="254" pref="254" max="-2" attributes="0"/>
@@ -649,8 +649,9 @@
                                           <Component id="jTextFieldPortTransRate" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
+                                  <Component id="jLabel16" alignment="0" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="16" max="32767" attributes="0"/>
+                              <EmptySpace pref="22" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -697,10 +698,10 @@
                               <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jComboBoxAllLinksType" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jSpinnerAllLinksTravelRate" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldLinkTransRate" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel11" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                               <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jSeparator5" min="-2" pref="13" max="-2" attributes="0"/>
@@ -803,28 +804,12 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel16">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Modifier taux de transmision a tous les liens"/>
+                        <Property name="text" type="java.lang.String" value="Modifier le taux de transmision d&apos;un lien sp&#xe9;cifique"/>
                       </Properties>
-                    </Component>
-                    <Component class="javax.swing.JComboBox" name="jComboBoxAllLinksType">
-                      <Properties>
-                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="3">
-                            <StringItem index="0" value="Terrestre"/>
-                            <StringItem index="1" value="Maritime"/>
-                            <StringItem index="2" value="A&#xe9;rien"/>
-                          </StringArray>
-                        </Property>
-                      </Properties>
-                      <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                      </AuxValues>
-                    </Component>
-                    <Component class="javax.swing.JSpinner" name="jSpinnerAllLinksTravelRate">
                     </Component>
                     <Component class="javax.swing.JButton" name="jButtonApplyAllLinksTravelRate">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Appliquer"/>
+                        <Property name="text" type="java.lang.String" value="Mettre &#xe0; jour"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonApplyAllLinksTravelRateActionPerformed"/>
@@ -853,6 +838,19 @@
                     <Component class="javax.swing.JTextField" name="jTextFieldAirportTransRate">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="0.0"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="jTextFieldLinkTransRate">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="0.0"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldLinkTransRateKeyPressed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabel11">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="(S&#xe9;lectionner, modifier et cliquer Enter)"/>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -1534,6 +1532,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Modifier"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonModifyCloseLinkActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="jButtonDeleteCloseLink">
                       <Properties>
@@ -1557,19 +1558,29 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="105" max="32767" attributes="0"/>
-                              <Component id="jButtonCreateGraphic" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jButtonCreateGraphic" max="32767" attributes="0"/>
+                                  <Component id="jButtonStatsCountry" max="32767" attributes="0"/>
+                                  <Component id="jButtonStatsRegion" pref="346" max="32767" attributes="0"/>
+                                  <Component id="jComboBoxRegionsStats" alignment="1" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="501" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                               <Component id="jButtonCreateGraphic" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+                              <Component id="jButtonStatsCountry" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                              <Component id="jComboBoxRegionsStats" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jButtonStatsRegion" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="272" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1577,10 +1588,38 @@
                   <SubComponents>
                     <Component class="javax.swing.JButton" name="jButtonCreateGraphic">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Cr&#xe9;er graphique"/>
+                        <Property name="text" type="java.lang.String" value="Obtenir statistiques pour le monde"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCreateGraphicActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="jButtonStatsCountry">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Obtenir statistiques pour le pays"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonStatsCountryActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JComboBox" name="jComboBoxRegionsStats">
+                      <Properties>
+                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                          <StringArray count="1">
+                            <StringItem index="0" value="Veuillez s&#xe9;lectionner une r&#xe9;gion"/>
+                          </StringArray>
+                        </Property>
+                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="jButtonStatsRegion">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Obtenir statistiques pour cette r&#xe9;gion"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonStatsRegionActionPerformed"/>
                       </Events>
                     </Component>
                   </SubComponents>
