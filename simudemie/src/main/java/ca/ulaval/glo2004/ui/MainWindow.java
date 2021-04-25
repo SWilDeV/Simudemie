@@ -92,13 +92,11 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         deathsNum.add(day, deads);
         infectedNum.add(day, infected);
         
-        int nonInfected;
-        if (PopTot > 0) {
-            nonInfected = PopTot - deads - infected;
-        } else {
+        int nonInfected = PopTot - deads - infected;
+        if (nonInfected < 0) {
             nonInfected = 0;
-        }
-        
+        } 
+       
         nonInfectedNum.add(day, nonInfected);
         
         jSliderUndoRedo.setValue(worldController.GetUndoRedoSize());
@@ -385,7 +383,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         if(worldController.HasDesease()) {
             DiseaseDTO dis = worldController.GetDiseaseDTO();
             jTextFieldMortalityRate.setText(String.valueOf(dis.getMortalityRateDTO() * 100));
-            jTextFieldReproductionRate.setText(String.valueOf(dis.getInfectionRateDTO() * 100));
+            jTextFieldReproductionRate.setText(String.valueOf(dis.getInfectionRateDTO()/dis.getCureRateDTO()));
             jTextFieldCuredRate.setText(String.valueOf(dis.getCureRateDTO() * 100));
             jTextFieldDiseaseName.setText(String.valueOf(dis.getName()));
 
@@ -405,12 +403,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         DiseaseDTO disease = worldController.getSimulation().GetDiseaseDTO();
 //        DiseaseDTO disease = worldController.GetDiseaseDTO();
         jTextFieldMortalityRate.setText(String.valueOf(disease.getMortalityRateDTO() * 100));
-        jTextFieldReproductionRate.setText(String.valueOf(disease.getInfectionRateDTO() * 100));
+        jTextFieldReproductionRate.setText(String.valueOf(disease.getInfectionRateDTO()/disease.getCureRateDTO()));
         jTextFieldCuredRate.setText(String.valueOf(disease.getCureRateDTO() * 100));
         
-        double reproductionRate = disease.getInfectionRateDTO()/disease.getCureRateDTO();
-        jLabelR.setText(String.valueOf(reproductionRate));
-        jLabelMaxRRate.setText("(Valeur max: " + String.valueOf(reproductionRate) + ")");
         
         UpdateSliderUndoRedo();
         
@@ -556,8 +551,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jTextFieldDiseaseName = new javax.swing.JTextField();
         jButtonSaveNewDisease = new javax.swing.JButton();
         jButtonDeleteDisease = new javax.swing.JButton();
-        jLabelReproductionRate = new javax.swing.JLabel();
-        jLabelR = new javax.swing.JLabel();
         jPanelNumberOfZeroPatients = new javax.swing.JPanel();
         jLabelTitleNumberOfZeroPatients = new javax.swing.JLabel();
         jTextFieldNumberOfZeroPatients = new javax.swing.JTextField();
@@ -678,7 +671,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jPanelBlank.setLayout(jPanelBlankLayout);
         jPanelBlankLayout.setHorizontalGroup(
             jPanelBlankLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 368, Short.MAX_VALUE)
+            .addGap(0, 373, Short.MAX_VALUE)
         );
         jPanelBlankLayout.setVerticalGroup(
             jPanelBlankLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1003,7 +996,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         .addComponent(jTextFieldLinkTransRate))
                     .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanelLinkLayout.setVerticalGroup(
             jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1075,11 +1068,11 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addComponent(jToggleBtnModifyCountry, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
                     .addComponent(jToggleBtnAddLink, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonResetZoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
             .addGroup(jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelConceptionLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jPanelConceptionOptions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelConceptionOptions, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         jPanelConceptionLayout.setVerticalGroup(
@@ -1091,10 +1084,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addComponent(jToggleBtnAddLink)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonResetZoom)
-                .addContainerGap(612, Short.MAX_VALUE))
+                .addContainerGap(649, Short.MAX_VALUE))
             .addGroup(jPanelConceptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConceptionLayout.createSequentialGroup()
-                    .addContainerGap(108, Short.MAX_VALUE)
+                    .addContainerGap(129, Short.MAX_VALUE)
                     .addComponent(jPanelConceptionOptions, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
         );
@@ -1162,21 +1155,16 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jLabelTitleMortalityRate.setText("Taux mortalite (%)");
         jPanelMortalityRate.add(jLabelTitleMortalityRate);
 
-        jTextFieldMortalityRate.setText("2");
-        jTextFieldMortalityRate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldMortalityRateActionPerformed(evt);
-            }
-        });
+        jTextFieldMortalityRate.setText("1");
         jPanelMortalityRate.add(jTextFieldMortalityRate);
 
         jPanelReproductionRate.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabelTitleReproductionRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabelTitleReproductionRate.setText("Taux infection (%)");
+        jLabelTitleReproductionRate.setText("Taux de reproduction");
         jPanelReproductionRate.add(jLabelTitleReproductionRate);
 
-        jTextFieldReproductionRate.setText("15");
+        jTextFieldReproductionRate.setText("2");
         jPanelReproductionRate.add(jTextFieldReproductionRate);
 
         jPanelCuredRate.setLayout(new java.awt.GridLayout(1, 0));
@@ -1185,7 +1173,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jLabelTitleCuredRate.setText("Taux guerison (%)");
         jPanelCuredRate.add(jLabelTitleCuredRate);
 
-        jTextFieldCuredRate.setText("4");
+        jTextFieldCuredRate.setText("5");
         jPanelCuredRate.add(jTextFieldCuredRate);
 
         jComboBoxDiseases.addActionListener(new java.awt.event.ActionListener() {
@@ -1216,8 +1204,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 jButtonDeleteDiseaseActionPerformed(evt);
             }
         });
-
-        jLabelReproductionRate.setText("Taux de reproduction (calculé): ");
 
         jPanelNumberOfZeroPatients.setLayout(new java.awt.GridLayout(1, 0));
 
@@ -1262,10 +1248,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             .addGroup(jPanelDeseaseParamsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanelDeseaseParamsLayout.createSequentialGroup()
-                        .addComponent(jLabelReproductionRate, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabelR, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelDeseaseParamsLayout.createSequentialGroup()
                         .addComponent(jButtonSaveNewDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1299,13 +1281,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addComponent(jPanelReproductionRate, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addComponent(jPanelCuredRate, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanelDeseaseParamsLayout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(jLabelReproductionRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabelR, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
+                .addGap(62, 62, 62)
                 .addGroup(jPanelDeseaseParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonDeleteDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonSaveNewDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -2480,7 +2456,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         // TODO add your handling code here
 
         try {
-            double infectionRate = Double.parseDouble(jTextFieldReproductionRate.getText())/100;
+            double infectionRate = Double.parseDouble(jTextFieldReproductionRate.getText()) * Double.parseDouble(jTextFieldCuredRate.getText())/100;
             double mortalityRate = Double.parseDouble(jTextFieldMortalityRate.getText())/100;
             double cureRate = Double.parseDouble(jTextFieldCuredRate.getText())/100;
             boolean found = false;
@@ -2536,10 +2512,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             updateDiseasesUI();
         }
     }//GEN-LAST:event_jComboBoxDiseasesActionPerformed
-
-    private void jTextFieldMortalityRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMortalityRateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldMortalityRateActionPerformed
 
     private void jTextFieldNumberOfZeroPatientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNumberOfZeroPatientsActionPerformed
         // TODO add your handling code here:   
@@ -2760,9 +2732,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JLabel jLabelModCountryPop;
     private javax.swing.JLabel jLabelModifyLinkTrans;
     private javax.swing.JLabel jLabelPopMondial;
-    private javax.swing.JLabel jLabelR;
     private javax.swing.JLabel jLabelRegionLink;
-    private javax.swing.JLabel jLabelReproductionRate;
     private javax.swing.JLabel jLabelSelectionCountryPatientZero;
     private javax.swing.JLabel jLabelThreshold;
     private javax.swing.JLabel jLabelTimeLapse;

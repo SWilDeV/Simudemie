@@ -36,10 +36,8 @@ public class SimulationStats {
             int dead = worldPop.getDeadPopulation();
             int infected = worldPop.getInfectedPopulation();
             
-            int uninfected;
-            if (worldPop.getTotalPopulation() > 0) {
-                uninfected = worldPop.getTotalPopulation() - dead - infected;
-            } else {
+            int uninfected = worldPop.getTotalPopulation() - dead - infected;
+            if (uninfected < 0) {
                 uninfected = 0;
             }
             
@@ -75,11 +73,10 @@ public class SimulationStats {
                     dead = population.getDeadPopulation();
                     infected = population.getInfectedPopulation();
                     
-                    if (population.getTotalPopulation() > 0) {
-                            uninfected = population.getTotalPopulation() - dead - infected;
-                        } else {
-                            uninfected = 0;
-                        }
+                    uninfected = population.getTotalPopulation() - dead - infected;
+                    if (uninfected < 0) {
+                        uninfected = 0;
+                    }
                     
                     deathNum.add(elapsedDay, dead);
                     infectedNum.add(elapsedDay, infected);
@@ -116,9 +113,8 @@ public class SimulationStats {
                         dead = population.getDeadPopulation();
                         infected = population.getInfectedPopulation();
                         
-                        if (population.getTotalPopulation() > 0) {
-                            uninfected = population.getTotalPopulation() - dead - infected;
-                        } else {
+                        uninfected = population.getTotalPopulation() - dead - infected;
+                        if (uninfected < 0) {
                             uninfected = 0;
                         }
                         
