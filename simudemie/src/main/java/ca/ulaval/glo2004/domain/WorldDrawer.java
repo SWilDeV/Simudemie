@@ -173,11 +173,11 @@ public class WorldDrawer implements java.io.Serializable {
             String totPop = Integer.toString(country.getPopulationDTO().getTotalPopulationDTO());
             g2d.drawString(totPop, (int)center.getX(), (int)center.getY());
             
-            if(true) {
-                g2d.setColor(Color.red);
-                poly = CreatePolygon(country.Shape.GetBoundingBox());
-                g2d.drawPolygon(poly);
-            }
+//            if(true) {
+//                g2d.setColor(Color.red);
+//                poly = CreatePolygon(country.Shape.GetBoundingBox());
+//                g2d.drawPolygon(poly);
+//            }
         }
     }
     
