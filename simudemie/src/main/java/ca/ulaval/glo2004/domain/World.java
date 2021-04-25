@@ -26,6 +26,7 @@ public class World implements Serializable, Cloneable {
     private List<CloseLink> closedLinks = new ArrayList<>();
     private List<Country> countryList = new ArrayList<>();
     private Population worldPopulation = new Population();
+    private double borderTransmission;
     private static final long serialVersionUID = 1L; 
     
     public World() {
@@ -167,6 +168,7 @@ public class World implements Serializable, Cloneable {
     }
     
     public void setLinksTransmissionRate(double borderTransmissionRate, double waterTransmissionRate,double airTransmissionRate) {
+        borderTransmission = borderTransmissionRate;
         for (Link link : linkList) {
             if (link.GetLinkType() == LinkType.TERRESTRE) {
                 link.setTransmissionRate(borderTransmissionRate);
@@ -306,8 +308,9 @@ public class World implements Serializable, Cloneable {
         for(Country c: countryList) {
             if(c != country) {
                 if(Utility.AsCommonLandBorder(c, country) && !ExistLink(c, country, LinkType.TERRESTRE)) {
-                    Addlink(c.GetId(), country.GetId(), LinkType.TERRESTRE, 0);
+                    Addlink(c.GetId(), country.GetId(), LinkType.TERRESTRE, borderTransmission);
                     //Addlink(c.getRegion0().GetId(), country.getRegion0().GetId(), LinkType.TERRESTRE);
+                    
                 }
             }
         }
