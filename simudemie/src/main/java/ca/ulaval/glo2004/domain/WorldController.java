@@ -522,6 +522,11 @@ public class WorldController implements java.io.Serializable {
         return stats.getWorldStats();
     }
     
+    public XYSeriesCollection getRegionStats(UUID id) {
+        SimulationStats stats = new SimulationStats(simulation);
+        return stats.getRegionStats(id);
+    }
+    
     public void AddUndoRedo() {
         try {
         simulation.AddUndoRedoWorld(world);

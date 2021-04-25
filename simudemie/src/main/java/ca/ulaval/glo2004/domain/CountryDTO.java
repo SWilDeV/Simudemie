@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 public class CountryDTO implements Serializable {
     public List<HealthMesureDTO> Mesures;
-    public List<RegionDTO> Regions;
+    public List<RegionDTO> Regions = new ArrayList<>();
     public PopulationDTO populationDTO;
     public GeometricForm Shape;
     public String Name;

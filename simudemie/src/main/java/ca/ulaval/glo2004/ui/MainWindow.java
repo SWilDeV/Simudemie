@@ -356,6 +356,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         }
     }
     
+    private void updateComboBoxRegionUI() {
+        jComboBoxRegionsStats.removeAllItems();
+        for (RegionDTO region : countrySelected.Regions){
+            jComboBoxRegionsStats.addItem(region.Name);
+        }
+    }
+    
     private void updateDiseasesUI(){
         jTextFieldMortalityRate.setText("");
         jTextFieldReproductionRate.setText("");
@@ -568,6 +575,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jPanelStatistics = new javax.swing.JPanel();
         jButtonCreateGraphic = new javax.swing.JButton();
         jButtonStatsCountry = new javax.swing.JButton();
+        jComboBoxRegionsStats = new javax.swing.JComboBox<>();
+        jButtonStatsRegion = new javax.swing.JButton();
         jPanelHealthMesures = new javax.swing.JPanel();
         jLabelMesureName = new javax.swing.JLabel();
         jTextFieldMesureName = new javax.swing.JTextField();
@@ -1427,14 +1436,25 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
+        jComboBoxRegionsStats.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Veuillez sélectionner une région" }));
+
+        jButtonStatsRegion.setText("Obtenir statistiques pour cette région");
+        jButtonStatsRegion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonStatsRegionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelStatisticsLayout = new javax.swing.GroupLayout(jPanelStatistics);
         jPanelStatistics.setLayout(jPanelStatisticsLayout);
         jPanelStatisticsLayout.setHorizontalGroup(
             jPanelStatisticsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelStatisticsLayout.createSequentialGroup()
                 .addGroup(jPanelStatisticsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonCreateGraphic, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
-                    .addComponent(jButtonStatsCountry, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonCreateGraphic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonStatsCountry, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonStatsRegion, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
+                    .addComponent(jComboBoxRegionsStats, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelStatisticsLayout.setVerticalGroup(
@@ -1444,7 +1464,11 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addComponent(jButtonCreateGraphic)
                 .addGap(53, 53, 53)
                 .addComponent(jButtonStatsCountry)
-                .addContainerGap(375, Short.MAX_VALUE))
+                .addGap(41, 41, 41)
+                .addComponent(jComboBoxRegionsStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonStatsRegion)
+                .addContainerGap(272, Short.MAX_VALUE))
         );
 
         jTabbedPaneSimulationOptions.addTab("Statistiques", jPanelStatistics);
@@ -1904,8 +1928,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             CountryDTO select = Utility.SelectCountry(worldController.GetCountries(), mousePoint);
             if(select != null) {
                 SetSelectedCountry(select);
+                updateComboBoxRegionUI();
             }
-            
             buttonGroupConception.clearSelection();
             mode = Mode.Idle;
         }
@@ -2614,6 +2638,23 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         frame.setSize(450, 350);
     }//GEN-LAST:event_jButtonCreateGraphicActionPerformed
 
+    private void jButtonStatsRegionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStatsRegionActionPerformed
+        
+        int index = jComboBoxRegionsStats.getSelectedIndex();
+        RegionDTO region = countrySelected.Regions.get(index);
+        
+        String name = countrySelected.Name;
+        XYSeriesCollection dataset = worldController.getRegionStats(region.Id);
+
+        JFreeChart chart = ChartFactory.createXYLineChart("Statistiques pour " + region.Name + " de " + countrySelected.Name, "jours", "nombre", dataset);
+        chart.setBackgroundPaint(Color.GRAY);
+        chart.getTitle().setPaint(Color.YELLOW);
+
+        ChartFrame frame = new ChartFrame("Statistiques pour " + region.Name, chart);
+        frame.setVisible(true);
+        frame.setSize(450, 350);
+    }//GEN-LAST:event_jButtonStatsRegionActionPerformed
+
 
     public void Draw(Graphics2D g2d){
         worldController.Draw(g2d, mousePoints); 
@@ -2692,10 +2733,12 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JButton jButtonSaveNewDisease;
     private javax.swing.JButton jButtonScreenShotWorld;
     private javax.swing.JButton jButtonStatsCountry;
+    private javax.swing.JButton jButtonStatsRegion;
     private javax.swing.JCheckBox jCheckBoxActiveMesure;
     private javax.swing.JComboBox<String> jComboBoxAddLink;
     private javax.swing.JComboBox<String> jComboBoxCountryPatientZero;
     private javax.swing.JComboBox<String> jComboBoxDiseases;
+    private javax.swing.JComboBox<String> jComboBoxRegionsStats;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
