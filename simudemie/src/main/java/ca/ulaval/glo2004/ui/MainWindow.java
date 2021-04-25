@@ -2549,7 +2549,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private void jButtonApplyPatientZeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyPatientZeroActionPerformed
         // TODO add your handling code here:
         try{
-            int nbOfPatient = (int)Double.parseDouble(jTextFieldReproductionRate.getText());
+            int nbOfPatient = (int)Double.parseDouble(jTextFieldNumberOfZeroPatients.getText());
             if(nbOfPatient > 0) {
                 worldController.setNbOfPatientZero(nbOfPatient);
             }  
