@@ -115,8 +115,11 @@ public class DrawingPanel extends JPanel  {
     public void SaveScreenShot(File file){
         BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
         paint(img.getGraphics());
+        //File outputfile = new File("saved.png");
         try{
-            ImageIO.write(img, "png", file);
+            String path = file.getAbsolutePath() + ".png";
+            File f = new File(path);
+            ImageIO.write(img, "png", f);
 	} 
         catch (IOException e) {
             e.printStackTrace();
