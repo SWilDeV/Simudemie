@@ -329,39 +329,6 @@ public class Country implements Serializable, Cloneable  {
         return regions;
     }
     
-    public Region getRegion0(){
-        return regions.get(0);
-    }
-
-    
-//    public void propagateBetweenRegions(){
-//       //List<Region> regions = country.GetRegions();
-//
-//       for(RegionLink link:regionLinks){
-//           //updateRegionsWithLinks(FindRegionByUUID(link.GetRegion1Id()), FindRegionByUUID(link.GetRegion2Id()));
-//           Region region1 = FindRegionByUUID(link.GetRegion1Id());
-//           Region region2 = FindRegionByUUID(link.GetRegion2Id());
-//       }
-//
-//
-//
-//       int infectedToPropagateBetweenRegions = calculateInfected(country);
-//       Random rand = new Random();
-//       int index = rand.nextInt(regions.size());
-//       int counter = 0;
-//       for(Region region:regions){
-//           if(counter == index){
-//               Population pop = region.getPopulation();
-//               int infected = pop.getInfectedPopulation();
-//               infected += infectedToPropagateBetweenRegions;
-//               pop.setInfectedPopulation(infected);
-//               country.setPopulationToRegion(pop, region.GetId());
-//           }
-//       counter +=1;
-//       }
-//       return country;
-//   }
-    
     public void UpdateRegion(RegionDTO region) {
         Region r = FindRegionByUUID(region.Id);
         if(r != null) {
@@ -387,6 +354,14 @@ public class Country implements Serializable, Cloneable  {
         Region r = FindRegionByUUID(regionId);
         if(r != null) {
             regions.remove(r);
+            double sommePourcentage = 0;
+            for(Region reg : regions){
+                sommePourcentage+= reg.getPercentagePop();
+            }
+            Region lastResgionOfList = regions.get(regions.size()-1);
+            double newLastPourcentage = lastResgionOfList.getPercentagePop() + (1 - sommePourcentage);
+            lastResgionOfList.SetPercentage(population.getTotalPopulation(), newLastPourcentage);
+            System.out.println(r.getPercentagePop());
         }
     }
     
