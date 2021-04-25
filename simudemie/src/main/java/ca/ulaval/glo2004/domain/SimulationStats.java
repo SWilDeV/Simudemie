@@ -35,8 +35,13 @@ public class SimulationStats {
             int elapsedDay = undoRedo.getElapsedDay();
             int dead = worldPop.getDeadPopulation();
             int infected = worldPop.getInfectedPopulation();
-            int uninfected = worldPop.getTotalPopulation() - dead - infected;
-            System.out.println(elapsedDay + " " + worldPop.getTotalPopulation());
+            
+            int uninfected;
+            if (worldPop.getTotalPopulation() > 0) {
+                uninfected = worldPop.getTotalPopulation() - dead - infected;
+            } else {
+                uninfected = 0;
+            }
             
             deathNum.add(elapsedDay, dead);
             infectedNum.add(elapsedDay, infected);
@@ -69,7 +74,12 @@ public class SimulationStats {
                     Population population = country.getPopulation();
                     dead = population.getDeadPopulation();
                     infected = population.getInfectedPopulation();
-                    uninfected = population.getTotalPopulation() - dead - infected;
+                    
+                    if (population.getTotalPopulation() > 0) {
+                            uninfected = population.getTotalPopulation() - dead - infected;
+                        } else {
+                            uninfected = 0;
+                        }
                     
                     deathNum.add(elapsedDay, dead);
                     infectedNum.add(elapsedDay, infected);
@@ -105,8 +115,13 @@ public class SimulationStats {
                         Population population = country.getPopulation();
                         dead = population.getDeadPopulation();
                         infected = population.getInfectedPopulation();
-                        uninfected = population.getTotalPopulation() - dead - infected;
-                    
+                        
+                        if (population.getTotalPopulation() > 0) {
+                            uninfected = population.getTotalPopulation() - dead - infected;
+                        } else {
+                            uninfected = 0;
+                        }
+                        
                         deathNum.add(elapsedDay, dead);
                         infectedNum.add(elapsedDay, infected);
                         uninfectedNum.add(elapsedDay, uninfected);

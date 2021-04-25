@@ -91,7 +91,14 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         deathsNum.add(day, deads);
         infectedNum.add(day, infected);
-        int nonInfected = PopTot - deads - infected;
+        
+        int nonInfected;
+        if (PopTot > 0) {
+            nonInfected = PopTot - deads - infected;
+        } else {
+            nonInfected = 0;
+        }
+        
         nonInfectedNum.add(day, nonInfected);
         
         jSliderUndoRedo.setValue(worldController.GetUndoRedoSize());
@@ -698,7 +705,12 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
-        jTextFieldCountryPop.setText("10000");
+        jTextFieldCountryPop.setText("10000000");
+        jTextFieldCountryPop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldCountryPopActionPerformed(evt);
+            }
+        });
         jTextFieldCountryPop.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextFieldCountryPopKeyPressed(evt);
@@ -923,13 +935,19 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jLabelRegionLink.setText("Régional (%)");
 
-        jTextFieldRegionLinkTrans.setText("0.0");
+        jTextFieldRegionLinkTrans.setText("8.0");
+        jTextFieldRegionLinkTrans.setToolTipText("");
 
-        jTextFieldPortTransRate.setText("0.0");
+        jTextFieldPortTransRate.setText("1.0");
 
-        jTextFieldBorderTransRate.setText("0.0");
+        jTextFieldBorderTransRate.setText("2.0");
+        jTextFieldBorderTransRate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldBorderTransRateActionPerformed(evt);
+            }
+        });
 
-        jTextFieldAirportTransRate.setText("0.0");
+        jTextFieldAirportTransRate.setText("3.0");
 
         jTextFieldLinkTransRate.setText("0.0");
         jTextFieldLinkTransRate.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -959,7 +977,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addGroup(jPanelLinkLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jButtonApplyAllLinksTravelRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabelRegionLink, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelLinkLayout.createSequentialGroup()
+                        .addComponent(jLabelRegionLink, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextFieldRegionLinkTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelLinkLayout.createSequentialGroup()
                         .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -969,7 +990,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextFieldAirportTransRate, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                            .addComponent(jTextFieldBorderTransRate)))
+                            .addComponent(jTextFieldBorderTransRate)
+                            .addComponent(jTextFieldPortTransRate, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addComponent(jSeparator7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelLinkLayout.createSequentialGroup()
                         .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -980,11 +1002,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         .addGap(18, 18, 18)
                         .addComponent(jTextFieldLinkTransRate))
                     .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelLinkLayout.createSequentialGroup()
-                        .addGap(254, 254, 254)
-                        .addGroup(jPanelLinkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldRegionLinkTrans, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                            .addComponent(jTextFieldPortTransRate)))
                     .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
@@ -1036,7 +1053,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addComponent(jScrollPaneLinks, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonDeleteLink)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         jPanelConceptionOptions.add(jPanelLink, "card5");
@@ -2618,6 +2635,14 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         frame.setVisible(true);
         frame.setSize(450, 350);
     }//GEN-LAST:event_jButtonStatsRegionActionPerformed
+
+    private void jTextFieldBorderTransRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBorderTransRateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldBorderTransRateActionPerformed
+
+    private void jTextFieldCountryPopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCountryPopActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldCountryPopActionPerformed
 
 
     public void Draw(Graphics2D g2d){

@@ -438,9 +438,10 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldCountryPop">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="10000"/>
+                        <Property name="text" type="java.lang.String" value="10000000"/>
                       </Properties>
                       <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldCountryPopActionPerformed"/>
                         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldCountryPopKeyPressed"/>
                       </Events>
                     </Component>
@@ -615,7 +616,11 @@
                                       <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                                       <Component id="jButtonApplyAllLinksTravelRate" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="jLabelRegionLink" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabelRegionLink" min="-2" pref="105" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="jTextFieldRegionLinkTrans" min="-2" pref="80" max="-2" attributes="0"/>
+                                  </Group>
                                   <Component id="jSeparator4" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
@@ -627,6 +632,7 @@
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="jTextFieldAirportTransRate" pref="80" max="32767" attributes="0"/>
                                           <Component id="jTextFieldBorderTransRate" max="32767" attributes="0"/>
+                                          <Component id="jTextFieldPortTransRate" alignment="1" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Component id="jSeparator7" alignment="1" min="-2" pref="334" max="-2" attributes="0"/>
@@ -642,13 +648,6 @@
                                       <Component id="jTextFieldLinkTransRate" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="jSeparator5" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace min="254" pref="254" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jTextFieldRegionLinkTrans" pref="80" max="32767" attributes="0"/>
-                                          <Component id="jTextFieldPortTransRate" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
                                   <Component id="jLabel16" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace pref="22" max="32767" attributes="0"/>
@@ -709,7 +708,7 @@
                               <Component id="jScrollPaneLinks" min="-2" pref="106" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButtonDeleteLink" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="21" max="32767" attributes="0"/>
+                              <EmptySpace pref="28" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -822,22 +821,26 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldRegionLinkTrans">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="0.0"/>
+                        <Property name="text" type="java.lang.String" value="8.0"/>
+                        <Property name="toolTipText" type="java.lang.String" value=""/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldPortTransRate">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="0.0"/>
+                        <Property name="text" type="java.lang.String" value="1.0"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldBorderTransRate">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="0.0"/>
+                        <Property name="text" type="java.lang.String" value="2.0"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldBorderTransRateActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldAirportTransRate">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="0.0"/>
+                        <Property name="text" type="java.lang.String" value="3.0"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldLinkTransRate">
