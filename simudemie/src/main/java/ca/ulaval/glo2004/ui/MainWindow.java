@@ -19,6 +19,7 @@ import ca.ulaval.glo2004.domain.RegionDTO;
 import ca.ulaval.glo2004.domain.Utility;
 import ca.ulaval.glo2004.domain.WorldController;
 import ca.ulaval.glo2004.domain.WorldObserver;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -34,11 +35,13 @@ import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -576,6 +579,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jButtonStatsCountry = new javax.swing.JButton();
         jComboBoxRegionsStats = new javax.swing.JComboBox<>();
         jButtonStatsRegion = new javax.swing.JButton();
+        jPanelStatsPic = new javax.swing.JPanel();
         jPanelHealthMesures = new javax.swing.JPanel();
         jLabelMesureName = new javax.swing.JLabel();
         jTextFieldMesureName = new javax.swing.JTextField();
@@ -1427,6 +1431,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             }
         });
 
+        jPanelStatsPic.setLayout(new java.awt.BorderLayout());
+
         javax.swing.GroupLayout jPanelStatisticsLayout = new javax.swing.GroupLayout(jPanelStatistics);
         jPanelStatistics.setLayout(jPanelStatisticsLayout);
         jPanelStatisticsLayout.setHorizontalGroup(
@@ -1436,7 +1442,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addComponent(jButtonCreateGraphic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonStatsCountry, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonStatsRegion, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
-                    .addComponent(jComboBoxRegionsStats, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jComboBoxRegionsStats, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanelStatisticsLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanelStatsPic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelStatisticsLayout.setVerticalGroup(
@@ -1444,13 +1453,15 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             .addGroup(jPanelStatisticsLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jButtonCreateGraphic)
-                .addGap(53, 53, 53)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonStatsCountry)
-                .addGap(41, 41, 41)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jComboBoxRegionsStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonStatsRegion)
-                .addContainerGap(272, Short.MAX_VALUE))
+                .addGap(70, 70, 70)
+                .addComponent(jPanelStatsPic, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         jTabbedPaneSimulationOptions.addTab("Statistiques", jPanelStatistics);
@@ -2563,17 +2574,28 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }//GEN-LAST:event_jButtonModifyCloseLinkActionPerformed
 
     private void jButtonStatsCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStatsCountryActionPerformed
-        UUID id = countrySelected.Id;
-        String name = countrySelected.Name;
-        XYSeriesCollection dataset = worldController.getCountryStats(id);
+        
+        if (countrySelected != null) {
+            UUID id = countrySelected.Id;
+        
+        
+            String name = countrySelected.Name;
+            XYSeriesCollection dataset = worldController.getCountryStats(id);
 
-        JFreeChart chart = ChartFactory.createXYLineChart("Statistiques pour " + name, "jours", "nombre", dataset);
-        chart.setBackgroundPaint(Color.GRAY);
-        chart.getTitle().setPaint(Color.YELLOW);
-
-        ChartFrame frame = new ChartFrame("Statistiques pour " + name, chart);
-        frame.setVisible(true);
-        frame.setSize(450, 350);
+            JFreeChart chart = ChartFactory.createXYLineChart("Statistiques pour " + name, "jours", "nombre", dataset);
+            chart.setBackgroundPaint(Color.GRAY);
+            chart.getTitle().setPaint(Color.YELLOW);
+        
+            ChartPanel CP = new ChartPanel(chart);
+            CP.setDomainZoomable(true);
+            jPanelStatsPic.removeAll();
+            jPanelStatsPic.add(CP, BorderLayout.CENTER);
+            jPanelStatsPic.validate();
+        }
+        
+        //ChartFrame frame = new ChartFrame("Statistiques pour " + name, chart);
+        //frame.setVisible(true);
+        //frame.setSize(450, 350);
     }//GEN-LAST:event_jButtonStatsCountryActionPerformed
 
     private void jButtonCreateGraphicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateGraphicActionPerformed
@@ -2586,26 +2608,40 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         JFreeChart chart = ChartFactory.createXYLineChart("Statistiques de la pandémie", "jours", "nombre", dataset);
         chart.setBackgroundPaint(Color.GRAY);
         chart.getTitle().setPaint(Color.YELLOW);
-        ChartFrame frame = new ChartFrame("Statistiques de la pandémie", chart);
-        frame.setVisible(true);
-        frame.setSize(450, 350);
+        
+        ChartPanel CP = new ChartPanel(chart);
+        CP.setDomainZoomable(true);
+        jPanelStatsPic.removeAll();
+        jPanelStatsPic.add(CP, BorderLayout.CENTER);
+        jPanelStatsPic.validate();
+        //ChartFrame frame = new ChartFrame("Statistiques de la pandémie", chart);
+        //frame.setVisible(true);
+        //frame.setSize(450, 350);
     }//GEN-LAST:event_jButtonCreateGraphicActionPerformed
 
     private void jButtonStatsRegionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStatsRegionActionPerformed
         
-        int index = jComboBoxRegionsStats.getSelectedIndex();
-        RegionDTO region = countrySelected.Regions.get(index);
+        if (countrySelected != null) {
+            int index = jComboBoxRegionsStats.getSelectedIndex();
+            RegionDTO region = countrySelected.Regions.get(index);
         
-        String name = countrySelected.Name;
-        XYSeriesCollection dataset = worldController.getRegionStats(region.Id);
+            String name = countrySelected.Name;
+            XYSeriesCollection dataset = worldController.getRegionStats(region.Id);
 
-        JFreeChart chart = ChartFactory.createXYLineChart("Statistiques pour " + region.Name + " de " + countrySelected.Name, "jours", "nombre", dataset);
-        chart.setBackgroundPaint(Color.GRAY);
-        chart.getTitle().setPaint(Color.YELLOW);
-
-        ChartFrame frame = new ChartFrame("Statistiques pour " + region.Name, chart);
-        frame.setVisible(true);
-        frame.setSize(450, 350);
+            JFreeChart chart = ChartFactory.createXYLineChart("Statistiques pour " + region.Name + " de " + countrySelected.Name, "jours", "nombre", dataset);
+            chart.setBackgroundPaint(Color.GRAY);
+            chart.getTitle().setPaint(Color.YELLOW);
+        
+            ChartPanel CP = new ChartPanel(chart);
+            CP.setDomainZoomable(true);
+            jPanelStatsPic.removeAll();
+            jPanelStatsPic.add(CP, BorderLayout.CENTER);
+            jPanelStatsPic.validate();
+        }
+        
+        //ChartFrame frame = new ChartFrame("Statistiques pour " + region.Name, chart);
+        //frame.setVisible(true);
+        //frame.setSize(450, 350);
     }//GEN-LAST:event_jButtonStatsRegionActionPerformed
 
     private void jTextFieldBorderTransRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBorderTransRateActionPerformed
@@ -2782,6 +2818,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JPanel jPanelReproductionRate;
     private javax.swing.JPanel jPanelSimulation;
     private javax.swing.JPanel jPanelStatistics;
+    private javax.swing.JPanel jPanelStatsPic;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPaneClosedLinks;
     private javax.swing.JScrollPane jScrollPaneLinks;
