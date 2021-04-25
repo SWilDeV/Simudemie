@@ -91,7 +91,14 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         deathsNum.add(day, deads);
         infectedNum.add(day, infected);
-        int nonInfected = PopTot - deads - infected;
+        
+        int nonInfected;
+        if (PopTot > 0) {
+            nonInfected = PopTot - deads - infected;
+        } else {
+            nonInfected = 0;
+        }
+        
         nonInfectedNum.add(day, nonInfected);
         
         jSliderUndoRedo.setValue(worldController.GetUndoRedoSize());
