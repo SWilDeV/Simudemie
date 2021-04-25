@@ -142,16 +142,23 @@ public class World implements Serializable, Cloneable {
         }
     }
     
+    public CloseLink FindCloseLinkByUUID (UUID id) {
+        try {
+            return closedLinks.stream().filter(cl -> cl.getConcernedLink().equals(id)).findAny().get();
+        } catch(NoSuchElementException e) {
+            return null;
+        }
+    }
+    
     public void addCloseLink(UUID linkId, double adhesionRate, double threshold) {
         CloseLink closelink = new CloseLink(adhesionRate, linkId, threshold);
         closedLinks.add(closelink);
     }
     
     public void removeCloseLink(UUID linkId) {
-        for (CloseLink closedLink: closedLinks) {
-            if (linkId == closedLink.getConcernedLink()) {
-                closedLinks.remove(closedLink);
-            }
+        CloseLink closedLink = FindCloseLinkByUUID(linkId);
+        if(closedLink != null) {
+            closedLinks.remove(closedLink);
         }
     }
     

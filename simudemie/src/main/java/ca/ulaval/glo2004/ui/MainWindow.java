@@ -2421,14 +2421,15 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }//GEN-LAST:event_jButtonAddCloseLinkActionPerformed
 
     private void jButtonDeleteCloseLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteCloseLinkActionPerformed
-        //à débugger
-        //int index = jListClosedLinks.getSelectedIndex();
-        //if(index != -1) {
-           // UUID closeLinkId = worldController.getClosedLinks().get(index).ConcernedLink;
-           // worldController.removeCloseLink(closeLinkId);   
-        //}
+        
+        int index = jListClosedLinks.getSelectedIndex();
+        if(index != -1) {
+            UUID closeLinkId = worldController.getClosedLinks().get(index).ConcernedLink;
+            worldController.removeCloseLink(closeLinkId);
+            
+        }
        
-        //UpdateJListClosedLinks();
+        UpdateJListClosedLinks();
         
     }//GEN-LAST:event_jButtonDeleteCloseLinkActionPerformed
 

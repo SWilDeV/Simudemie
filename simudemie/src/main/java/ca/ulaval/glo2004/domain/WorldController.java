@@ -434,8 +434,8 @@ public class WorldController implements java.io.Serializable {
         }
     }
     
-    public void removeCloseLink(UUID linkId) {
-        world.removeCloseLink(linkId);
+    public void removeCloseLink(UUID CloseLinkId) {
+        world.removeCloseLink(CloseLinkId);
     }
     
     //public void updateCloseLink(UUID linkId) {
