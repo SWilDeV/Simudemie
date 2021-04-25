@@ -15,7 +15,7 @@ import java.util.UUID;
 public class RegionLink implements Serializable, Cloneable {
    private UUID region1Id;
    private UUID region2Id;
-   private double transmissionRate;
+   private double transmissionRate = 0.08;
    private boolean isOpen;
    private UUID id;
    
