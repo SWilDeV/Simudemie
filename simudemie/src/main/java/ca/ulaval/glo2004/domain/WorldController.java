@@ -578,6 +578,8 @@ public class WorldController implements java.io.Serializable {
         simulation.SetElapsedDay(ur.ElapsedDay);
         NotifyOnSimulationUndoRedo(type);
     }
-    
-    
+
+    public void DrawSelectedRegion(Graphics2D g2d, List<Point> points) {
+        worldDrawer.DrawSelectedRegion(g2d, points);
+    }
 }

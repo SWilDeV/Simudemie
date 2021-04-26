@@ -350,14 +350,15 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jButtonModifyRegion" max="32767" attributes="0"/>
-                                          <Component id="jButtonAddRegion" max="32767" attributes="0"/>
-                                      </Group>
+                                      <Component id="jLabelTitleCreationEdtionPays" max="32767" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Component id="jLabelTitleCreationEdtionPays" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Component id="jToggleButtonChangeRegionBounds" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jButtonModifyRegion" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jButtonAddRegion" alignment="0" max="32767" attributes="0"/>
+                                      </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -385,7 +386,7 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButtonDeleteCountry" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="148" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="94" max="-2" attributes="0"/>
                               <Component id="jLabelTitleEditionRegion" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
@@ -403,7 +404,9 @@
                               <Component id="jButtonAddRegion" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                               <Component id="jButtonModifyRegion" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jToggleButtonChangeRegionBounds" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jPanelRegionOptions" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -586,6 +589,14 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Creation/Edition des pays"/>
                       </Properties>
+                    </Component>
+                    <Component class="javax.swing.JToggleButton" name="jToggleButtonChangeRegionBounds">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Redimensionner la region"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButtonChangeRegionBoundsActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
