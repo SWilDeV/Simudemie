@@ -24,7 +24,7 @@ import  mathematical_model.Calculation;
 public class Simulation implements Serializable {
     private Calculation calculation = new Calculation();
     private List<Disease> diseaseList = new ArrayList<>();
-    private final Disease defaultDisease = new Disease("ebola",0.01, 0.10, 0.20);
+    private final Disease defaultDisease = new Disease("ebola",0.01, 0.10, 0.02);
     
     private Disease currentDisease;
     private int currentDiseaseIndex = 0;
@@ -292,12 +292,10 @@ public class Simulation implements Serializable {
                 if (percentInfected >= mesure.getThreshold() && mesure.getActive()) {
                     
                     double reproductionRate = infectionRate/curedRate;
-                    double newReproductionRate = reproductionRate - mesure.getEffectReproductionRate();
-                    curedRate = (infectionRate/newReproductionRate) * (1 - mesure.getAdhesionRate());  //mise à jour du cure rate en tenant compte de l'adhésion
+                    double newReproductionRate = reproductionRate - mesure.getEffectReproductionRate()* (mesure.getAdhesionRate());
+                    curedRate = (infectionRate/newReproductionRate) ; 
                     
-                    infectionRate = infectionRate * (1 - mesure.getEffectTransmissionRate()); //diminution du taux de transmission 
-                    infectionRate = infectionRate * (1 - mesure.getAdhesionRate()); //prise en compte de l'adhésion
-                    
+                    infectionRate = infectionRate * (1 - mesure.getEffectTransmissionRate()*(mesure.getAdhesionRate())); 
                     
                 }
             }
