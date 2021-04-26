@@ -16,6 +16,7 @@ import ca.ulaval.glo2004.domain.NotAllPopulationAssign;
 import ca.ulaval.glo2004.domain.Population;
 import ca.ulaval.glo2004.domain.Disease;
 import ca.ulaval.glo2004.domain.RegionDTO;
+import ca.ulaval.glo2004.domain.UndoRedo.UndoRedoType;
 import ca.ulaval.glo2004.domain.Utility;
 import ca.ulaval.glo2004.domain.WorldController;
 import ca.ulaval.glo2004.domain.WorldObserver;
@@ -24,6 +25,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -34,8 +37,8 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -43,7 +46,6 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 /**
@@ -62,16 +64,16 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     
     public DiseaseDTO diseaseSelected = null;
     public enum Mode {Idle, AddCountry, AddCountryIrregular, ModifyCountry, AddLink, ModifyLink, Select, AddRegion};
+    public enum ChartMode { World, Country, Region };
     public Mode mode = Mode.Idle;
+    public ChartMode chartMode = ChartMode.World;
     private CountryDTO onHoverCountry = null; //Je sais que c'est pas bien, mais pour test, on va faire ca.
     private Point onHoverMousePosition = new Point(); //Je sais que c'est pas bien, mais pour test, on va faire ca.
     private final JFileChooser fileChooser = new JFileChooser();
     private final JFileChooser imageChooser = new JFileChooser();
-    public XYSeries deathsNum = new XYSeries("Morts");
-    public XYSeries infectedNum = new XYSeries("Infectés");
-    public XYSeries nonInfectedNum = new XYSeries("Non Infectés");
+    
     public XYSeriesCollection currentCollection;
-    public String statName;
+    public static ChartFrame externalChartFrame;
  
     /**
      * Creates new form MainWindow
@@ -86,25 +88,92 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         FileFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
         imageChooser.setFileFilter(imageFilter);
         worldController.Subscribe(this);
+        
+        InitChart();
+        
         updateDiseasesUI();
-        //updateCountryListUI();
+    }
+    
+    private void InitChart() {
+        chart = ChartFactory.createXYLineChart("Statistiques de la simulation", "jours", "nombre", new XYSeriesCollection());
+
+        chart.setBackgroundPaint(Color.GRAY);
+        chart.getTitle().setPaint(Color.YELLOW);
+
+        ChartPanel CP = new ChartPanel(chart);
+        CP.setDomainZoomable(true);
+        jPanelStatsPic.removeAll();
+        jPanelStatsPic.add(CP, BorderLayout.CENTER);
+        jPanelStatsPic.validate();
+    }
+    
+    private void UpdateWorldStatsChart() {
+        currentCollection = worldController.getWorldStats();
+        
+        chart.getXYPlot().setDataset(currentCollection);
+        chart.setTitle("Statistiques de l'epidemie");
+        
+        if(externalChartFrame != null){
+            externalChartFrame.getChartPanel().getChart().getXYPlot().setDataset(currentCollection);
+            externalChartFrame.getChartPanel().getChart().setTitle("Statistiques de l'epidemie");
+        }
+    }
+    
+    private void UpdateCountryStatsChart(UUID countryId) {
+        currentCollection = worldController.getCountryStats(countryId);
+        String title = "Statistiques du pays " + worldController.GetCountryDTO(countryId).Name;
+        
+        chart.getXYPlot().setDataset(currentCollection);
+        chart.setTitle(title);
+        
+        if(externalChartFrame != null){
+            externalChartFrame.getChartPanel().getChart().getXYPlot().setDataset(currentCollection);
+            externalChartFrame.getChartPanel().getChart().setTitle(title);
+        }
+    }
+        
+    private void UpdateRegionStatsChart(UUID countryId, UUID regionId) {
+        currentCollection = worldController.getRegionStats(countryId, regionId);
+        CountryDTO c = worldController.GetCountryDTO(countryId);
+        RegionDTO r = c.GetRegionDTO(regionId);
+        
+        String title = "Statistiques de la region " + r.Name + " du pays " + c.Name;
+        chart.getXYPlot().setDataset(currentCollection);
+        chart.setTitle(title);
+        
+        if(externalChartFrame != null){
+            externalChartFrame.getChartPanel().getChart().getXYPlot().setDataset(currentCollection);
+            externalChartFrame.getChartPanel().getChart().setTitle(title);
+        }
+    }
+    
+    private void UpdateChart() {
+        switch(chartMode) {
+            case World:
+                UpdateWorldStatsChart();
+                break;
+                
+            case Country:
+                UpdateCountryStatsChart(countrySelected.Id);
+                break;
+                
+            case Region:
+                int index = jComboBoxRegionsStats.getSelectedIndex();
+                RegionDTO region = countrySelected.Regions.get(index);
+                UpdateRegionStatsChart(countrySelected.Id, region.Id);
+                break;
+        }
+        
+        jPanelStatsPic.repaint();
     }
     
     @Override
     public void OnSimulationTick(int day, int deads, int infected, int PopTot) {
-        System.err.println("Jour:" + day);
-
-        deathsNum.add(day, deads);
-        infectedNum.add(day, infected);
-        
-        int nonInfected = PopTot - deads - infected;
-        if (nonInfected < 0) {
-            nonInfected = 0;
-        } 
-       
-        nonInfectedNum.add(day, nonInfected);
-        
+        System.out.println("Jour:" + day);             
         jSliderUndoRedo.setValue(worldController.GetUndoRedoSize());
+        
+        UpdateChart();
+        
         UpdateSimulationUI();
     }
     
@@ -225,8 +294,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     
     @Override
     public void OnSimulationReset() {
-        UpdateSimulationUI();
+        chartMode = ChartMode.World;
+        UpdateWorldStatsChart();
         UpdateSliderUndoRedo();
+        UpdateSimulationUI();
         jSliderUndoRedo.setEnabled(true);
     }
     
@@ -236,10 +307,12 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }
     
     @Override
-    public void OnSimulationUndoRedo() {
-        UpdateSimulationUI();
+    public void OnSimulationUndoRedo(UndoRedoType type) {        
         jSliderUndoRedo.setEnabled(true);
+        UpdateSimulationUI();
         UpdateSliderUndoRedo();
+        
+        UpdateChart();
         
         if(countrySelected != null) {
             UpdateJRegionList(countrySelected.Id);
@@ -2596,80 +2669,21 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }//GEN-LAST:event_jButtonModifyCloseLinkActionPerformed
 
     private void jButtonStatsCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStatsCountryActionPerformed
-        
-        if (countrySelected != null) {
-            UUID id = countrySelected.Id;
-        
-        
-            String name = countrySelected.Name;
-            XYSeriesCollection dataset = worldController.getCountryStats(id);
-            if (currentCollection != null) {
-                currentCollection.removeAllSeries();
-            }
-            currentCollection = dataset;
-            statName = name;
-
-            JFreeChart chart = ChartFactory.createXYLineChart("Statistiques - " + name, "jours", "nombre", dataset);
-            chart.setBackgroundPaint(Color.GRAY);
-            chart.getTitle().setPaint(Color.YELLOW);
-        
-            ChartPanel CP = new ChartPanel(chart);
-            CP.setDomainZoomable(true);
-            jPanelStatsPic.removeAll();
-            jPanelStatsPic.add(CP, BorderLayout.CENTER);
-            jPanelStatsPic.validate();
+        if (countrySelected != null) { 
+            chartMode = ChartMode.Country;
+            UpdateChart();
         }
-        
-        //ChartFrame frame = new ChartFrame("Statistiques pour " + name, chart);
-        //frame.setVisible(true);
-        //frame.setSize(450, 350);
     }//GEN-LAST:event_jButtonStatsCountryActionPerformed
 
     private void jButtonCreateGraphicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateGraphicActionPerformed
-        //XYSeriesCollection dataset = worldController.getWorldStats();
-        XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(deathsNum);
-        dataset.addSeries(infectedNum);
-        dataset.addSeries(nonInfectedNum);
-        if (currentCollection != null) {
-            currentCollection.removeAllSeries();
-        }
-        currentCollection = dataset;
-        statName = "Monde";
-
-        JFreeChart chart = ChartFactory.createXYLineChart("Statistiques - Monde", "jours", "nombre", dataset);
-        chart.setBackgroundPaint(Color.GRAY);
-        chart.getTitle().setPaint(Color.YELLOW);
-        
-        ChartPanel CP = new ChartPanel(chart);
-        CP.setDomainZoomable(true);
-        jPanelStatsPic.removeAll();
-        jPanelStatsPic.add(CP, BorderLayout.CENTER);
-        jPanelStatsPic.validate();
+        chartMode = ChartMode.World;
+        UpdateChart();
     }//GEN-LAST:event_jButtonCreateGraphicActionPerformed
 
     private void jButtonStatsRegionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStatsRegionActionPerformed
-        
         if (countrySelected != null) {
-            int index = jComboBoxRegionsStats.getSelectedIndex();
-            RegionDTO region = countrySelected.Regions.get(index);
-        
-            XYSeriesCollection dataset = worldController.getRegionStats(region.Id);
-            if (currentCollection != null) {
-                currentCollection.removeAllSeries();
-            }
-            currentCollection = dataset;
-            statName = region.Name;
-
-            JFreeChart chart = ChartFactory.createXYLineChart("Statistiques - " + region.Name, "jours", "nombre", dataset);
-            chart.setBackgroundPaint(Color.GRAY);
-            chart.getTitle().setPaint(Color.YELLOW);
-        
-            ChartPanel CP = new ChartPanel(chart);
-            CP.setDomainZoomable(true);
-            jPanelStatsPic.removeAll();
-            jPanelStatsPic.add(CP, BorderLayout.CENTER);
-            jPanelStatsPic.validate();
+            chartMode = ChartMode.Region;
+            UpdateChart();
         }
     }//GEN-LAST:event_jButtonStatsRegionActionPerformed
 
@@ -2682,13 +2696,22 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }//GEN-LAST:event_jTextFieldCountryPopActionPerformed
 
     private void jButtonOtherWindowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOtherWindowActionPerformed
-        JFreeChart chart = ChartFactory.createXYLineChart("Statistiques - " + statName, "jours", "nombre", currentCollection);
-        chart.setBackgroundPaint(Color.GRAY);
-        chart.getTitle().setPaint(Color.YELLOW);
-        
-        ChartFrame frame = new ChartFrame("Statistiques de la pandémie", chart);
-        frame.setVisible(true);
-        frame.setSize(450, 350);
+        if(externalChartFrame == null) {
+            JFreeChart externalChart = ChartFactory.createXYLineChart("Statistiques - " + "statName", "jours", "nombre", currentCollection);
+            chart.setBackgroundPaint(Color.GRAY);
+            chart.getTitle().setPaint(Color.YELLOW);
+
+            externalChartFrame = new ChartFrame("Statistiques de la pandémie", externalChart);
+            externalChartFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            externalChartFrame.setVisible(true);
+            externalChartFrame.setSize(450, 350);
+            
+            externalChartFrame.addWindowListener(new WindowAdapter(){
+                public void windowClosing(WindowEvent e){
+                    externalChartFrame = null;
+                }
+            });
+        }
     }//GEN-LAST:event_jButtonOtherWindowActionPerformed
 
 

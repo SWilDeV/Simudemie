@@ -6,6 +6,7 @@
 package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.Link.LinkType;
+import ca.ulaval.glo2004.domain.UndoRedo.UndoRedoType;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.io.File;
@@ -18,6 +19,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -36,17 +39,33 @@ public class WorldController implements java.io.Serializable {
     public WorldController() throws CloneNotSupportedException {
         worldDrawer = new WorldDrawer(this);
         world = new World(this);
-        simulation = new Simulation(this);
-        
+        simulation = new Simulation(this);        
         AddUndoRedo();
     }
     
+    public UndoRedo GetSpecificuUndoRedo(int position) {
+        try {
+            return new UndoRedo(simulation.SpecificRedo(position));
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(WorldController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
+    
+    public int GetUndoRedoIndex(UndoRedo ur) {
+        return simulation.GetUndoRedoIndex(ur);
+    }
+    
+    public int GetDefaultStateIndex() {
+        return simulation.GetUndoRedoIndex(simulation.GetDefaultState());
+    }
     
     public int GetElapsedDay() {
         return simulation.GetElapsedDay();
     }
     
-    public int GetUndoRedoSize() { //TODO: Peut etre changer le nom ? Cela fait reference au nombre de UNDO REDO fait.
+    public int GetUndoRedoSize() {
         return simulation.GetUndoRedoSize();
     }
     
@@ -236,9 +255,9 @@ public class WorldController implements java.io.Serializable {
     }
     
     //Simulation
-    public void NotifyOnSimulationUndoRedo() {
+    public void NotifyOnSimulationUndoRedo(UndoRedoType type) {
         for(WorldObserver ob: observers) {
-            ob.OnSimulationUndoRedo();
+            ob.OnSimulationUndoRedo(type);
         }
     }
     
@@ -468,7 +487,7 @@ public class WorldController implements java.io.Serializable {
     
     public void resetSimulation() {
         UndoRedo ur = simulation.GetDefaultState();
-        if(ur != null) ApplyUndoRedo(simulation.GetDefaultState());
+        if(ur != null) ApplyUndoRedo(simulation.GetDefaultState(), UndoRedoType.REDO);
         simulation.Reset();
         NotifyOnSimulationReset();
     }
@@ -511,25 +530,21 @@ public class WorldController implements java.io.Serializable {
         simulation.Reset();
     }
     
-    public XYSeriesCollection getCountryStats(UUID id) {
-        SimulationStats stats = new SimulationStats(simulation);
-        
-        return stats.getCountryStats(id);
+    public XYSeriesCollection getCountryStats(UUID id) {        
+        return SimulationStats.GetCountryStats(id, simulation.GetUndoRedoHistoryClone(), simulation.GetUndoRedoPosition());
     }
     
     public XYSeriesCollection getWorldStats() {
-        SimulationStats stats = new SimulationStats(simulation);
-        return stats.getWorldStats();
+        return SimulationStats.GetWorldStats(simulation.GetUndoRedoHistoryClone(), simulation.GetUndoRedoPosition());
     }
     
-    public XYSeriesCollection getRegionStats(UUID id) {
-        SimulationStats stats = new SimulationStats(simulation);
-        return stats.getRegionStats(id);
+    public XYSeriesCollection getRegionStats(UUID countryId, UUID regionId) {
+        return SimulationStats.GetRegionStats(countryId, regionId, simulation.GetUndoRedoHistoryClone(), simulation.GetUndoRedoPosition());
     }
     
     public void AddUndoRedo() {
         try {
-        simulation.AddUndoRedoWorld(world);
+            simulation.AddUndoRedoWorld(world);
         } catch (CloneNotSupportedException e) {
             System.out.println("ca.ulaval.glo2004.domain.WorldController.AddUndoRedo()");
         }
@@ -538,27 +553,30 @@ public class WorldController implements java.io.Serializable {
     public void Undo() {
         simulation.Pause();
         UndoRedo ur = simulation.Undo();
-        if(ur != null) ApplyUndoRedo(ur);
+        if(ur != null) ApplyUndoRedo(ur, UndoRedoType.UNDO);
     }
     
     public void UndoRedoAt(int position) {
-        simulation.Pause();    
+        simulation.Pause();
+        UndoRedoType urType = UndoRedoType.UNDO;
+        if(position > simulation.GetUndoRedoPosition()) urType = UndoRedoType.REDO;
+        
         UndoRedo ur = simulation.SpecificRedo(position);
-        if(ur != null) ApplyUndoRedo(ur);
+        if(ur != null) ApplyUndoRedo(ur, urType);
     }
     
     public void Redo() {
         simulation.Pause();
         UndoRedo ur = simulation.Redo();
-        if(ur != null) ApplyUndoRedo(ur);
+        if(ur != null) ApplyUndoRedo(ur, UndoRedoType.REDO);
     }
     
-    private void ApplyUndoRedo(UndoRedo ur) {
+    private void ApplyUndoRedo(UndoRedo ur, UndoRedoType type) {
         world.LoadWorld(ur.World);
         simulation.SetDiseases(ur.Diseases);
         simulation.setcurrentDisease(ur.CurrentDiseaseIndex);
         simulation.SetElapsedDay(ur.ElapsedDay);
-        NotifyOnSimulationUndoRedo();
+        NotifyOnSimulationUndoRedo(type);
     }
     
     
