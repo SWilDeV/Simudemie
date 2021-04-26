@@ -46,6 +46,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeriesCollection;
 
 /**
@@ -96,7 +97,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     
     private void InitChart() {
         chart = ChartFactory.createXYLineChart("Statistiques de la simulation", "jours", "nombre", new XYSeriesCollection());
-
+        
         chart.setBackgroundPaint(Color.GRAY);
         chart.getTitle().setPaint(Color.YELLOW);
 
@@ -116,6 +117,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         if(externalChartFrame != null){
             externalChartFrame.getChartPanel().getChart().getXYPlot().setDataset(currentCollection);
             externalChartFrame.getChartPanel().getChart().setTitle("Statistiques de l'epidemie");
+            
         }
     }
     

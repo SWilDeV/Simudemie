@@ -40,7 +40,7 @@ public class Country implements Serializable, Cloneable  {
         shape = form;
         name = countryName;
         population = new Population(countryPop);
-        regions.add(new Region(new IrregularForm(form.GetPoints()),"region1",countryPop,1));
+        //regions.add(new Region(new IrregularForm(form.GetPoints()),"region1",countryPop,1));
     }
     
     public void AddMesure(HealthMesure mesure) {
