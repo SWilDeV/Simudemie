@@ -24,7 +24,7 @@ import  mathematical_model.Calculation;
 public class Simulation implements Serializable {
     private Calculation calculation = new Calculation();
     private List<Disease> diseaseList = new ArrayList<>();
-    private final Disease defaultDisease = new Disease("ebola",0.01, 0.10, 0.20);
+    private final Disease defaultDisease = new Disease("ebola",0.01, 0.10, 0.02);
     
     private Disease currentDisease;
     private int currentDiseaseIndex = 0;
