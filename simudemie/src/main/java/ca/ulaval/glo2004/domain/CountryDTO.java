@@ -46,6 +46,10 @@ public class CountryDTO implements Serializable {
         IsSelected = country.IsSelected();
     }
     
+    public RegionDTO GetRegionDTO(UUID id) {
+        return Regions.stream().filter(r -> r.Id.equals(id)).findFirst().get();     
+    }
+    
     public PopulationDTO getPopulationDTO(){
         return populationDTO;
     }

@@ -64,6 +64,14 @@ public class Simulation implements Serializable {
         return currentDiseaseIndex != -1;
     }
     
+    public int GetUndoRedoPosition() {
+        return undoRedoIndex;
+    }
+    
+    public int GetUndoRedoIndex(UndoRedo ur) {
+        return undoRedoHistory.indexOf(ur);
+    }
+    
     public void SetDefaultState(UndoRedo ur) {
         defaultState = ur;
     }
@@ -85,10 +93,6 @@ public class Simulation implements Serializable {
     
     public void SetElapsedDay(int day) {
         elapsedDay = day;
-    }
-    
-    public int GetUndoRedoPosition() {
-        return undoRedoIndex;
     }
     
     public int GetUndoRedoSize() {
@@ -405,8 +409,21 @@ public class Simulation implements Serializable {
         undoRedoIndex++;
     }
     
-    public ArrayList GetUndoRedoHistory() {
+    public List<UndoRedo> GetUndoRedoHistory() {
         return undoRedoHistory;
+    }
+    
+    public List<UndoRedo> GetUndoRedoHistoryClone() {
+        List<UndoRedo> urs = new ArrayList<>();
+        for(UndoRedo r: undoRedoHistory) {
+            try {
+                urs.add(new UndoRedo(r));
+            } catch (CloneNotSupportedException ex) {
+                Logger.getLogger(Simulation.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        return urs;
     }
     
     public UndoRedo CreateUndoRedo(World world) throws CloneNotSupportedException {

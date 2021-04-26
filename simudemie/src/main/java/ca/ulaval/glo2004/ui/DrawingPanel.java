@@ -47,7 +47,7 @@ public class DrawingPanel extends JPanel  {
         setVisible(true);
         initialDimension = new Dimension(mainWindow.getWidth(),mainWindow.getHeight());
         setPreferredSize(initialDimension);
-        setBackground(new Color(0, 172, 230));
+        setBackground(new Color(0, 103, 190));
     }
     
     @Override

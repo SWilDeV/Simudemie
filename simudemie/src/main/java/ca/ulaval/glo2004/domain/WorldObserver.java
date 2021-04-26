@@ -5,6 +5,8 @@
  */
 package ca.ulaval.glo2004.domain;
 
+import ca.ulaval.glo2004.domain.UndoRedo.UndoRedoType;
+
 /**
  *
  * @author Abergel Clement
@@ -13,7 +15,7 @@ public interface WorldObserver {
     public void OnSimulationTick(int day, int deads,int infected, int PopTot);
     public void OnSimulationStarted();
     public void OnSimulationStopped();
-    public void OnSimulationUndoRedo();
+    public void OnSimulationUndoRedo(UndoRedoType type);
     public void OnSimulationReset();
     
     public void OnLinkCreated();

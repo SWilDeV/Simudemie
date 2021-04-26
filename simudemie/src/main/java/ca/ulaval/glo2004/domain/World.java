@@ -5,6 +5,7 @@
  */
 package ca.ulaval.glo2004.domain;
 import ca.ulaval.glo2004.domain.Link.LinkType;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -62,12 +63,6 @@ public class World implements Serializable, Cloneable {
          worldController.NotifyCountryCreated(new CountryDTO(country));
          UpdateLandBorder(country.GetId());
     }
-    
-//    public void addCountryIrregular(Country country){
-//         countryList.add(country);
-//         worldController.NotifyCountryCreated(new CountryDTO(country));
-//         UpdateLandBorder(country.GetId());
-//    }
 
     public void addLink(Link link) {
         linkList.add(link);

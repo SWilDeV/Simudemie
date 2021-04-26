@@ -227,5 +227,9 @@ public class WorldDrawer implements java.io.Serializable {
         
         g2d.setStroke(new BasicStroke(1));
     }
+
+    void DrawSelectedRegion(Graphics2D g2d, List<Point> points) {
+        drawMousePoints(g2d, points);
+    }
 }
     

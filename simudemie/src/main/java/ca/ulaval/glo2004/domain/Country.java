@@ -39,8 +39,8 @@ public class Country implements Serializable, Cloneable  {
         id = UUID.randomUUID();
         shape = form;
         name = countryName;
-        
         population = new Population(countryPop);
+        //regions.add(new Region(new IrregularForm(form.GetPoints()),"region1",countryPop,1));
     }
     
     public void AddMesure(HealthMesure mesure) {
@@ -99,33 +99,33 @@ public class Country implements Serializable, Cloneable  {
     }
     
     public Color getColor() {
-        double p = 1.0;
-        double p_dead;
-        if(population.getTotalPopulation() > 0) {
-            if(population.getInfectedPopulation() > 0) {
-                p = (population.getInfectedPopulation() ) / (double)population.getTotalPopulation() ;
-                if(p > 1) {
-                    p = 1;
-                }
-                if(population.getDeadPopulation() > 0){
-                    p_dead = (population.getInfectedPopulation() ) / (double)(population.getTotalPopulation() + population.getDeadPopulation());
-                }
-                else {
-                    p_dead = 0.0;
-                } 
-            } else {
-                p = 0.0;
-            }
-        }
-        
-        if(population.getTotalPopulation() == 0){
-            return new Color(100,0,0);
-        }
-        else{
-            return Utility.GetColorGradient(p);
-        
-        }
-        
+//        double p = 1.0;
+//        double p_dead;
+//        if(population.getTotalPopulation() > 0) {
+//            if(population.getInfectedPopulation() > 0) {
+//                p = (population.getInfectedPopulation() ) / (double)population.getTotalPopulation() ;
+//                if(p > 1) {
+//                    p = 1;
+//                }
+//                if(population.getDeadPopulation() > 0){
+//                    p_dead = (population.getInfectedPopulation() ) / (double)(population.getTotalPopulation() + population.getDeadPopulation());
+//                }
+//                else {
+//                    p_dead = 0.0;
+//                } 
+//            } else {
+//                p = 0.0;
+//            }
+//        }
+//        
+//        if(population.getTotalPopulation() == 0){
+//            return new Color(100,0,0);
+//        }
+//        else{
+//            return Utility.GetColorGradient(p);
+//        
+//        }
+        return new Color(218, 227, 127);
         
         //return Utility.GetColorGradientSrcDest(variance_rouge_vert, Color.black, p);    // marche mais cest pas beau
         //return variance_rouge_vert;
