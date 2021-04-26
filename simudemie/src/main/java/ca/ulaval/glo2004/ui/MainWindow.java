@@ -6,7 +6,6 @@
 package ca.ulaval.glo2004.ui;
 
 import ca.ulaval.glo2004.domain.CloseLinkDTO;
-import ca.ulaval.glo2004.domain.Country;
 import ca.ulaval.glo2004.domain.CountryDTO;
 import ca.ulaval.glo2004.domain.DiseaseDTO;
 import ca.ulaval.glo2004.domain.HealthMesureDTO;
@@ -17,7 +16,6 @@ import ca.ulaval.glo2004.domain.NotAllPopulationAssign;
 import ca.ulaval.glo2004.domain.Population;
 import ca.ulaval.glo2004.domain.Disease;
 import ca.ulaval.glo2004.domain.RegionDTO;
-import ca.ulaval.glo2004.domain.UndoRedo;
 import ca.ulaval.glo2004.domain.UndoRedo.UndoRedoType;
 import ca.ulaval.glo2004.domain.Utility;
 import ca.ulaval.glo2004.domain.WorldController;
@@ -27,6 +25,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -37,8 +37,8 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -46,7 +46,6 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 /**
@@ -73,9 +72,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private final JFileChooser fileChooser = new JFileChooser();
     private final JFileChooser imageChooser = new JFileChooser();
     
-//    public XYSeries deathsNum = new XYSeries("Morts");
-//    public XYSeries infectedNum = new XYSeries("Infectés");
-//    public XYSeries nonInfectedNum = new XYSeries("Non Infectés");
+    public XYSeriesCollection currentCollection;
+    public static ChartFrame externalChartFrame;
  
     /**
      * Creates new form MainWindow
@@ -110,20 +108,43 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     }
     
     private void UpdateWorldStatsChart() {
-        chart.getXYPlot().setDataset(worldController.getWorldStats());
+        currentCollection = worldController.getWorldStats();
+        
+        chart.getXYPlot().setDataset(currentCollection);
         chart.setTitle("Statistiques de l'epidemie");
+        
+        if(externalChartFrame != null){
+            externalChartFrame.getChartPanel().getChart().getXYPlot().setDataset(currentCollection);
+            externalChartFrame.getChartPanel().getChart().setTitle("Statistiques de l'epidemie");
+        }
     }
     
     private void UpdateCountryStatsChart(UUID countryId) {
-        chart.getXYPlot().setDataset(worldController.getCountryStats(countryId));
-        chart.setTitle("Statistiques du pays " + worldController.GetCountryDTO(countryId).Name);
+        currentCollection = worldController.getCountryStats(countryId);
+        String title = "Statistiques du pays " + worldController.GetCountryDTO(countryId).Name;
+        
+        chart.getXYPlot().setDataset(currentCollection);
+        chart.setTitle(title);
+        
+        if(externalChartFrame != null){
+            externalChartFrame.getChartPanel().getChart().getXYPlot().setDataset(currentCollection);
+            externalChartFrame.getChartPanel().getChart().setTitle(title);
+        }
     }
         
     private void UpdateRegionStatsChart(UUID countryId, UUID regionId) {
-        chart.getXYPlot().setDataset(worldController.getRegionStats(countryId, regionId));
+        currentCollection = worldController.getRegionStats(countryId, regionId);
         CountryDTO c = worldController.GetCountryDTO(countryId);
         RegionDTO r = c.GetRegionDTO(regionId);
-        chart.setTitle("Statistiques de la region " + r.Name + " du pays " + c.Name);
+        
+        String title = "Statistiques de la region " + r.Name + " du pays " + c.Name;
+        chart.getXYPlot().setDataset(currentCollection);
+        chart.setTitle(title);
+        
+        if(externalChartFrame != null){
+            externalChartFrame.getChartPanel().getChart().getXYPlot().setDataset(currentCollection);
+            externalChartFrame.getChartPanel().getChart().setTitle(title);
+        }
     }
     
     private void UpdateChart() {
@@ -634,6 +655,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jComboBoxRegionsStats = new javax.swing.JComboBox<>();
         jButtonStatsRegion = new javax.swing.JButton();
         jPanelStatsPic = new javax.swing.JPanel();
+        jButtonOtherWindow = new javax.swing.JButton();
         jPanelHealthMesures = new javax.swing.JPanel();
         jLabelMesureName = new javax.swing.JLabel();
         jTextFieldMesureName = new javax.swing.JTextField();
@@ -1487,6 +1509,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jPanelStatsPic.setLayout(new java.awt.BorderLayout());
 
+        jButtonOtherWindow.setText("Ouvrir dans une autre fenêtre");
+        jButtonOtherWindow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOtherWindowActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelStatisticsLayout = new javax.swing.GroupLayout(jPanelStatistics);
         jPanelStatistics.setLayout(jPanelStatisticsLayout);
         jPanelStatisticsLayout.setHorizontalGroup(
@@ -1501,6 +1530,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         .addContainerGap()
                         .addComponent(jPanelStatsPic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanelStatisticsLayout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addComponent(jButtonOtherWindow, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelStatisticsLayout.setVerticalGroup(
             jPanelStatisticsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1513,8 +1546,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addComponent(jComboBoxRegionsStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonStatsRegion)
-                .addGap(70, 70, 70)
+                .addGap(18, 18, 18)
                 .addComponent(jPanelStatsPic, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                .addGap(23, 23, 23)
+                .addComponent(jButtonOtherWindow)
                 .addContainerGap())
         );
 
@@ -2660,6 +2695,25 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldCountryPopActionPerformed
 
+    private void jButtonOtherWindowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOtherWindowActionPerformed
+        if(externalChartFrame == null) {
+            JFreeChart externalChart = ChartFactory.createXYLineChart("Statistiques - " + "statName", "jours", "nombre", currentCollection);
+            chart.setBackgroundPaint(Color.GRAY);
+            chart.getTitle().setPaint(Color.YELLOW);
+
+            externalChartFrame = new ChartFrame("Statistiques de la pandémie", externalChart);
+            externalChartFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            externalChartFrame.setVisible(true);
+            externalChartFrame.setSize(450, 350);
+            
+            externalChartFrame.addWindowListener(new WindowAdapter(){
+                public void windowClosing(WindowEvent e){
+                    externalChartFrame = null;
+                }
+            });
+        }
+    }//GEN-LAST:event_jButtonOtherWindowActionPerformed
+
 
     public void Draw(Graphics2D g2d){
         worldController.Draw(g2d, mousePoints); 
@@ -2732,6 +2786,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JButton jButtonForward;
     private javax.swing.JButton jButtonModifyCloseLink;
     private javax.swing.JButton jButtonModifyRegion;
+    private javax.swing.JButton jButtonOtherWindow;
     private javax.swing.JButton jButtonRemoveRegion;
     private javax.swing.JButton jButtonResetZoom;
     private javax.swing.JButton jButtonSaveNewDisease;
