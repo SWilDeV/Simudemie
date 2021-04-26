@@ -40,6 +40,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JSlider;
+import javax.swing.JToggleButton;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jfree.chart.ChartFactory;
@@ -63,17 +64,19 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     public int countrySelectedPointIndex = -1;
     
     public DiseaseDTO diseaseSelected = null;
-    public enum Mode {Idle, AddCountry, AddCountryIrregular, ModifyCountry, AddLink, ModifyLink, Select, AddRegion};
+    public enum Mode {Idle, AddCountry, AddCountryIrregular, ModifyCountry, AddLink, ModifyLink, Select, AddRegion, ModifyRegionBounds};
     public enum ChartMode { World, Country, Region };
     public Mode mode = Mode.Idle;
     public ChartMode chartMode = ChartMode.World;
-    private CountryDTO onHoverCountry = null; //Je sais que c'est pas bien, mais pour test, on va faire ca.
-    private Point onHoverMousePosition = new Point(); //Je sais que c'est pas bien, mais pour test, on va faire ca.
+    private CountryDTO onHoverCountry = null;
+    private Point onHoverMousePosition = new Point();
     private final JFileChooser fileChooser = new JFileChooser();
     private final JFileChooser imageChooser = new JFileChooser();
     
     public XYSeriesCollection currentCollection;
     public static ChartFrame externalChartFrame;
+    
+    private RegionDTO selectedRegion = null;
  
     /**
      * Creates new form MainWindow
@@ -173,7 +176,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jSliderUndoRedo.setValue(worldController.GetUndoRedoSize());
         
         UpdateChart();
-        
         UpdateSimulationUI();
     }
     
@@ -571,6 +573,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jLabelTitleEditionRegion = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
         jLabelTitleCreationEdtionPays = new javax.swing.JLabel();
+        jToggleButtonChangeRegionBounds = new javax.swing.JToggleButton();
         jPanelLink = new javax.swing.JPanel();
         jComboBoxAddLink = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
@@ -875,6 +878,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jLabelTitleCreationEdtionPays.setText("Creation/Edition des pays");
 
+        jToggleButtonChangeRegionBounds.setText("Redimensionner la region");
+        jToggleButtonChangeRegionBounds.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonChangeRegionBoundsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelCountryLayout = new javax.swing.GroupLayout(jPanelCountry);
         jPanelCountry.setLayout(jPanelCountryLayout);
         jPanelCountryLayout.setHorizontalGroup(
@@ -918,12 +928,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         .addComponent(jSeparator6)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCountryLayout.createSequentialGroup()
-                        .addGroup(jPanelCountryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonModifyRegion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonAddRegion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabelTitleCreationEdtionPays, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCountryLayout.createSequentialGroup()
-                        .addComponent(jLabelTitleCreationEdtionPays, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanelCountryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jToggleButtonChangeRegionBounds, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonModifyRegion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonAddRegion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         jPanelCountryLayout.setVerticalGroup(
@@ -945,7 +956,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                     .addComponent(jButtonCreateIrregularCountry))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonDeleteCountry)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
+                .addGap(94, 94, 94)
                 .addComponent(jLabelTitleEditionRegion)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -961,7 +972,9 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addComponent(jButtonAddRegion)
                 .addGap(1, 1, 1)
                 .addComponent(jButtonModifyRegion)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jToggleButtonChangeRegionBounds)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelRegionOptions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -1968,12 +1981,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private void jMenuItemNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNewActionPerformed
         try {
             int input = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment lancer un nouveau projet? Toutes les modifications non enregistrées seront perdu");
-        // 0=yes, 1=no, 2=cancel
-        if (input == 0){
-             worldController.newProjet();
-        }
-            
-           
+            if (input == 0) worldController.newProjet();        
         } catch (CloneNotSupportedException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -2191,6 +2199,30 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 worldController.UpdateCountry(countrySelected);
                 drawingPanel.revalidate();
                 drawingPanel.repaint();
+            }
+        } else if(mode == Mode.ModifyRegionBounds) {
+            if(countrySelected != null) {
+                int index = jListRegionsList.getSelectedIndex();
+                if(index != -1) {
+                    selectedRegion = worldController.GetCountryDTO(countrySelected.Id).Regions.get(index);
+                    for(int i = 0; i < selectedRegion.Shape.GetPoints().size(); i++) {
+                        if(Utility.Distance(evt.getPoint(), selectedRegion.Shape.GetPoint(i)) < 10) {
+                            selectedRegion.Shape.SetPointPosition(i, evt.getPoint());
+                            for(int j = 0; j < countrySelected.Regions.size(); j++) {
+                                if(countrySelected.Regions.get(j).Id == selectedRegion.Id) {
+                                    countrySelected.Regions.set(j, selectedRegion);
+                                    break;
+                                }
+                            }
+                            worldController.UpdateCountry(countrySelected);
+                            break;
+                        }
+                    }
+                    
+                    drawingPanel.revalidate();
+                    drawingPanel.repaint();
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                }
             }
         }
     }//GEN-LAST:event_jPanelDrawMouseDragged
@@ -2707,6 +2739,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             externalChartFrame.setSize(450, 350);
             
             externalChartFrame.addWindowListener(new WindowAdapter(){
+                @Override
                 public void windowClosing(WindowEvent e){
                     externalChartFrame = null;
                 }
@@ -2714,11 +2747,32 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         }
     }//GEN-LAST:event_jButtonOtherWindowActionPerformed
 
+    private void jToggleButtonChangeRegionBoundsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonChangeRegionBoundsActionPerformed
+        JToggleButton tbtn = (JToggleButton) evt.getSource();
+        if(tbtn.isSelected()) { 
+            int index = jListRegionsList.getSelectedIndex();
+            if(index != -1) {
+                selectedRegion = worldController.GetCountryDTO(countrySelected.Id).Regions.get(index);
+            }
+            
+            mode = mode.ModifyRegionBounds;
+        } else {
+            mode = mode.Idle;
+            selectedRegion = null;
+            worldController.AddUndoRedo();
+        }
+        
+        drawingPanel.repaint();
+    }//GEN-LAST:event_jToggleButtonChangeRegionBoundsActionPerformed
+
 
     public void Draw(Graphics2D g2d){
         worldController.Draw(g2d, mousePoints); 
         if(onHoverCountry != null) {
             worldController.DrawCountryInfo(g2d, onHoverMousePosition, onHoverCountry);
+        }
+        if(selectedRegion != null) {
+            worldController.DrawSelectedRegion(g2d, selectedRegion.Shape.GetPoints());
         }
     }
     
@@ -2922,5 +2976,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JTextField jTextFieldThreshold;
     private javax.swing.JToggleButton jToggleBtnAddLink;
     private javax.swing.JToggleButton jToggleBtnModifyCountry;
+    private javax.swing.JToggleButton jToggleButtonChangeRegionBounds;
     // End of variables declaration//GEN-END:variables
 }
