@@ -292,10 +292,10 @@ public class Simulation implements Serializable {
                 if (percentInfected >= mesure.getThreshold() && mesure.getActive()) {
                     
                     double reproductionRate = infectionRate/curedRate;
-                    double newReproductionRate = reproductionRate - mesure.getEffectReproductionRate()* (1 - mesure.getAdhesionRate());
+                    double newReproductionRate = reproductionRate - mesure.getEffectReproductionRate()* (mesure.getAdhesionRate());
                     curedRate = (infectionRate/newReproductionRate) ; 
                     
-                    infectionRate = infectionRate * (1 - mesure.getEffectTransmissionRate()*(1 - mesure.getAdhesionRate())); 
+                    infectionRate = infectionRate * (1 - mesure.getEffectTransmissionRate()*(mesure.getAdhesionRate())); 
                     
                 }
             }
