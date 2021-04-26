@@ -39,8 +39,8 @@ public class Country implements Serializable, Cloneable  {
         id = UUID.randomUUID();
         shape = form;
         name = countryName;
-        
         population = new Population(countryPop);
+        regions.add(new Region(new IrregularForm(form.GetPoints()),"region1",countryPop,1));
     }
     
     public void AddMesure(HealthMesure mesure) {

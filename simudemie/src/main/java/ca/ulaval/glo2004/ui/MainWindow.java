@@ -1879,8 +1879,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private void jMenuItemNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNewActionPerformed
         try {
             int input = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment lancer un nouveau projet? Toutes les modifications non enregistrées seront perdu");
-        // 0=yes, 1=no, 2=cancel
-        if (input == 0){
+            // 0=yes, 1=no, 2=cancel
+            if (input == 0){
              worldController.newProjet();
         }
             
