@@ -70,6 +70,8 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     public XYSeries deathsNum = new XYSeries("Morts");
     public XYSeries infectedNum = new XYSeries("Infectés");
     public XYSeries nonInfectedNum = new XYSeries("Non Infectés");
+    public XYSeriesCollection currentCollection;
+    public String statName;
  
     /**
      * Creates new form MainWindow
@@ -580,6 +582,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jComboBoxRegionsStats = new javax.swing.JComboBox<>();
         jButtonStatsRegion = new javax.swing.JButton();
         jPanelStatsPic = new javax.swing.JPanel();
+        jButtonOtherWindow = new javax.swing.JButton();
         jPanelHealthMesures = new javax.swing.JPanel();
         jLabelMesureName = new javax.swing.JLabel();
         jTextFieldMesureName = new javax.swing.JTextField();
@@ -1433,6 +1436,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
 
         jPanelStatsPic.setLayout(new java.awt.BorderLayout());
 
+        jButtonOtherWindow.setText("Ouvrir dans une autre fenêtre");
+        jButtonOtherWindow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOtherWindowActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelStatisticsLayout = new javax.swing.GroupLayout(jPanelStatistics);
         jPanelStatistics.setLayout(jPanelStatisticsLayout);
         jPanelStatisticsLayout.setHorizontalGroup(
@@ -1447,6 +1457,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                         .addContainerGap()
                         .addComponent(jPanelStatsPic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanelStatisticsLayout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addComponent(jButtonOtherWindow, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelStatisticsLayout.setVerticalGroup(
             jPanelStatisticsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1459,8 +1473,10 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
                 .addComponent(jComboBoxRegionsStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonStatsRegion)
-                .addGap(70, 70, 70)
+                .addGap(18, 18, 18)
                 .addComponent(jPanelStatsPic, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                .addGap(23, 23, 23)
+                .addComponent(jButtonOtherWindow)
                 .addContainerGap())
         );
 
@@ -2587,8 +2603,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         
             String name = countrySelected.Name;
             XYSeriesCollection dataset = worldController.getCountryStats(id);
+            if (currentCollection != null) {
+                currentCollection.removeAllSeries();
+            }
+            currentCollection = dataset;
+            statName = name;
 
-            JFreeChart chart = ChartFactory.createXYLineChart("Statistiques pour " + name, "jours", "nombre", dataset);
+            JFreeChart chart = ChartFactory.createXYLineChart("Statistiques - " + name, "jours", "nombre", dataset);
             chart.setBackgroundPaint(Color.GRAY);
             chart.getTitle().setPaint(Color.YELLOW);
         
@@ -2610,8 +2631,13 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         dataset.addSeries(deathsNum);
         dataset.addSeries(infectedNum);
         dataset.addSeries(nonInfectedNum);
+        if (currentCollection != null) {
+            currentCollection.removeAllSeries();
+        }
+        currentCollection = dataset;
+        statName = "Monde";
 
-        JFreeChart chart = ChartFactory.createXYLineChart("Statistiques de la pandémie", "jours", "nombre", dataset);
+        JFreeChart chart = ChartFactory.createXYLineChart("Statistiques - Monde", "jours", "nombre", dataset);
         chart.setBackgroundPaint(Color.GRAY);
         chart.getTitle().setPaint(Color.YELLOW);
         
@@ -2620,9 +2646,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
         jPanelStatsPic.removeAll();
         jPanelStatsPic.add(CP, BorderLayout.CENTER);
         jPanelStatsPic.validate();
-        //ChartFrame frame = new ChartFrame("Statistiques de la pandémie", chart);
-        //frame.setVisible(true);
-        //frame.setSize(450, 350);
     }//GEN-LAST:event_jButtonCreateGraphicActionPerformed
 
     private void jButtonStatsRegionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStatsRegionActionPerformed
@@ -2631,10 +2654,14 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             int index = jComboBoxRegionsStats.getSelectedIndex();
             RegionDTO region = countrySelected.Regions.get(index);
         
-            String name = countrySelected.Name;
             XYSeriesCollection dataset = worldController.getRegionStats(region.Id);
+            if (currentCollection != null) {
+                currentCollection.removeAllSeries();
+            }
+            currentCollection = dataset;
+            statName = region.Name;
 
-            JFreeChart chart = ChartFactory.createXYLineChart("Statistiques pour " + region.Name + " de " + countrySelected.Name, "jours", "nombre", dataset);
+            JFreeChart chart = ChartFactory.createXYLineChart("Statistiques - " + region.Name, "jours", "nombre", dataset);
             chart.setBackgroundPaint(Color.GRAY);
             chart.getTitle().setPaint(Color.YELLOW);
         
@@ -2644,10 +2671,6 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
             jPanelStatsPic.add(CP, BorderLayout.CENTER);
             jPanelStatsPic.validate();
         }
-        
-        //ChartFrame frame = new ChartFrame("Statistiques pour " + region.Name, chart);
-        //frame.setVisible(true);
-        //frame.setSize(450, 350);
     }//GEN-LAST:event_jButtonStatsRegionActionPerformed
 
     private void jTextFieldBorderTransRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBorderTransRateActionPerformed
@@ -2657,6 +2680,16 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private void jTextFieldCountryPopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCountryPopActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldCountryPopActionPerformed
+
+    private void jButtonOtherWindowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOtherWindowActionPerformed
+        JFreeChart chart = ChartFactory.createXYLineChart("Statistiques - " + statName, "jours", "nombre", currentCollection);
+        chart.setBackgroundPaint(Color.GRAY);
+        chart.getTitle().setPaint(Color.YELLOW);
+        
+        ChartFrame frame = new ChartFrame("Statistiques de la pandémie", chart);
+        frame.setVisible(true);
+        frame.setSize(450, 350);
+    }//GEN-LAST:event_jButtonOtherWindowActionPerformed
 
 
     public void Draw(Graphics2D g2d){
@@ -2730,6 +2763,7 @@ public class MainWindow extends javax.swing.JFrame implements WorldObserver {
     private javax.swing.JButton jButtonForward;
     private javax.swing.JButton jButtonModifyCloseLink;
     private javax.swing.JButton jButtonModifyRegion;
+    private javax.swing.JButton jButtonOtherWindow;
     private javax.swing.JButton jButtonRemoveRegion;
     private javax.swing.JButton jButtonResetZoom;
     private javax.swing.JButton jButtonSaveNewDisease;
