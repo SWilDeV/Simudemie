@@ -15,6 +15,8 @@ import java.util.logging.Logger;
  * @author Abergel Clement
  */
 public class UndoRedo {
+    public enum UndoRedoType { UNDO, REDO };
+    
     public final World World;
     public final List<Disease> Diseases;
     public final int ElapsedDay;
